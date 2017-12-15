@@ -1,0 +1,13 @@
+.footer {
+    height: 91px;
+    background: white;
+    font-size: 12px;
+    color: #999999;
+    text-align: center;
+    line-height: 20px;
+    .container {
+        transform: translateY(30px);
+        .top {}
+        .bottom {}
+    }
+}
