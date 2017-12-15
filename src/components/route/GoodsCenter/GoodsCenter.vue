@@ -4,11 +4,10 @@
       <el-tree 
         :data="treeData" 
         :props="defaultProps" 
-        node-key="id"
-        :default-expanded-keys="[1]"
-        highlight-current = true
-        @node-click="handleNodeClick"
-      >
+        node-key="id" 
+        :default-expanded-keys="[1]" 
+        :highlight-current="true" 
+        @node-click="handleNodeClick">
       </el-tree>
     </div>
     <div class="goodsItems">
@@ -27,42 +26,42 @@ export default {
       treeData: [
         {
           label: "青花郎系列",
-          id:1,
+          id: 1,
           children: [
-            { label: '15年',id:2 },
-            { label: '20年',id:3 }
+            { label: '15年', id: 2 },
+            { label: '20年', id: 3 }
           ]
         },
         {
           label: "老郎酒系列",
-          id:4,
+          id: 4,
           children: [
-            { label: '2-1',id:5 },
-            { label: '2-2',id:6 }
+            { label: '2-1', id: 5 },
+            { label: '2-2', id: 6 }
           ]
         },
         {
           label: "新郎酒系列",
-          id:11,
+          id: 11,
           children: [
-            { label: '3-1',id:7 },
-            { label: '3-2',id:8 }
+            { label: '3-1', id: 7 },
+            { label: '3-2', id: 8 }
           ]
         },
         {
           label: "小郎酒系列",
-          id:9,
+          id: 9,
           children: [
-            { label: '4-1',id:10 },
-            { label: '4-2',id:11 }
+            { label: '4-1', id: 10 },
+            { label: '4-2', id: 11 }
           ]
         },
         {
           label: "郎牌特曲系列",
-          id:12,
+          id: 12,
           children: [
-            { label: '5-1',id:13 },
-            { label: '5-2',id:14 }
+            { label: '5-1', id: 13 },
+            { label: '5-2', id: 14 }
           ]
         }
       ],
