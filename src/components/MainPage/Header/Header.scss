@@ -72,6 +72,11 @@
                     text-align: center;
                     border-radius: 2px;
                     margin-right: 20px;
+                    cursor: pointer;
+                    box-sizing: border-box;
+                    &:hover {
+                        border: 1px solid #E7442E;
+                    }
                     .car {
                         width: 20px;
                         height: 20px;
@@ -129,5 +134,5 @@
 
 .navItemSelected {
     color: #E7442E !important;
-    border-bottom: 1px solid #E7442E;
+    border-bottom: 2px solid #E7442E;
 }

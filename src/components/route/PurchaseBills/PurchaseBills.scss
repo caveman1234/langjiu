@@ -1,0 +1,171 @@
+.PurchaseBills {
+    background: white;
+    padding: 63px 100px 97px 100px;
+    .header {
+        height: 35px;
+        border-bottom: 2px solid #E7442E;
+        position: relative;
+        .button {
+            position: absolute;
+            height: 100%;
+            width: 120px;
+            background: #E7442E;
+            color: white;
+            font-size: 16px;
+            text-align: center;
+            line-height: 35px;
+            border-top-right-radius: 4px;
+            border-top-left-radius: 4px;
+        }
+    }
+    .tableHeader {
+        display: flex;
+        height: 50px;
+        line-height: 50px;
+        border-left: 1px solid #e6e6e6;
+        border-right: 1px solid #e6e6e6;
+        border-bottom: 1px solid #e6e6e6;
+        font-size: 12px;
+        color: #666666;
+        padding: 0 10px;
+        .tableCheckbox {
+            flex: 0 0 76px;
+            .el-checkbox__label {
+                font-size: 12px;
+                color: #666;
+            }
+        }
+        .goodsInfo {
+            flex: 0 0 287px;
+        }
+        .standard {
+            flex: 0 0 186px;
+        }
+        .price {
+            flex: 0 0 164px;
+        }
+        .amount {
+            flex: 0 0 152px;
+        }
+        .totalPrice {
+            flex: 0 0 146px;
+        }
+    }
+    .tableBody {
+        margin-top: 20px;
+        .tableBodyContent {
+            display: flex;
+            height: 102px;
+            border-left: 1px solid #e6e6e6;
+            border-top: 1px solid #e6e6e6;
+            border-right: 1px solid #e6e6e6;
+            font-size: 12px;
+            padding: 0 10px;
+            &:last-child {
+                border-bottom: 1px solid #e6e6e6;
+            }
+            .tableCheckbox {
+                flex: 0 0 76px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+            .goodsInfo {
+                flex: 0 0 287px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                .content {
+                    display: flex;
+                    .goodsImg {
+                        flex: 0 0 62px;
+                        height: 62px;
+                        border: 1px solid #e6e6e6;
+                        background-repeat: no-repeat;
+                        background-size: cover;
+                    }
+                    .goodsDesc {
+                        flex: 1;
+                        box-sizing: border-box;
+                        padding: 0 20px 0 10px;
+                        font-size: 12px;
+                        color: #333333;
+                        line-height: 18px;
+                    }
+                }
+            }
+            .standard {
+                flex: 0 0 186px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                .content {
+                    font-size: 12px;
+                    color: #666;
+                    line-height: 30px;
+                }
+            }
+            .price {
+                flex: 0 0 164px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                .content {
+                    font-size: 12px;
+                    color: #666;
+                    line-height: 30px;
+                }
+            }
+            .amount {
+                flex: 0 0 152px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                .content {}
+            }
+            .totalPrice {
+                flex: 0 0 146px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                .content {
+                    font-size: 14px;
+                    color: #DC0000;
+                }
+            }
+        }
+    }
+    .tableFooter {
+        height: 60px;
+        border: 1px solid #e6e6e6;
+        padding-left: 10px;
+        margin-top: 35px;
+        .totalCount {
+            line-height: 60px;
+            font-size: 18px;
+            color: #666666;
+            font-weight: bold;
+        }
+        .totalAmount {
+            line-height: 60px;
+            .text {
+                font-size: 12px;
+                color: #999;
+            }
+            .num {
+                font-size: 17px;
+                font-weight: bold;
+                color: #E7442E;
+            }
+        }
+        .submitbutton {
+            line-height: 60px;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+            color: white;
+            font-size: 18px;
+            background: #DC0000;
+        }
+    }
+}

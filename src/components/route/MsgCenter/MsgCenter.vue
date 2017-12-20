@@ -1,14 +1,23 @@
 <template>
-  <div class="MsgCenter">
-      <h2>MsgCenter</h2>
-  </div>
+    <div class="MsgCenter">
+        <MsgItem></MsgItem>
+        <MsgItem></MsgItem>
+        <MsgItem></MsgItem>
+        <MsgItem></MsgItem>
+    </div>
 </template>
 <script>
+import MsgItem from './MsgItem/MsgItem';
 export default {
-  name:'MsgCenter',
-  data(){
-      return {}
-  }
+    name: 'MsgCenter',
+    components: { MsgItem },
+    data() {
+        return {}
+    },
+    mounted() {
+        this.$store.dispatch('goodsCenter/fetchPurchaseCountAsync');
+        this.$store.commit('changeCurrentNav', { hash: '/MsgCenter' });
+    }
 }
 </script>
 <style lang="scss" scoped>

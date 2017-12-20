@@ -1,0 +1,59 @@
+{
+    "result": 1,
+    "msg": "msg",
+    "data": [{
+            "goodsImg": "src/assets/goodsItem.png",
+            "goodsDetail": "1郎酒 红花郎（10）陈酿 53度整箱装 白酒 558m l*6瓶（箱内有礼)",
+            "volume": 500,
+            "strength": 53,
+            "price": 1000,
+            "amount": 1,
+            "totalAmount": 1000,
+            "isSelected": false,
+            "id": 1
+        }, {
+            "goodsImg": "src/assets/goodsItem.png",
+            "goodsDetail": "2郎酒 红花郎（10）陈酿 53度整箱装 白酒 558m l*6瓶（箱内有礼)",
+            "volume": 500,
+            "strength": 53,
+            "price": 1000,
+            "amount": 1,
+            "totalAmount": 1000,
+            "isSelected": false,
+            "id": 2
+        },
+        {
+            "goodsImg": "src/assets/goodsItem.png",
+            "goodsDetail": "3郎酒 红花郎（10）陈酿 53度整箱装 白酒 558m l*6瓶（箱内有礼)",
+            "volume": 500,
+            "strength": 53,
+            "price": 1000,
+            "amount": 1,
+            "totalAmount": 1000,
+            "isSelected": false,
+            "id": 3
+        },
+        {
+            "goodsImg": "src/assets/goodsItem.png",
+            "goodsDetail": "4郎酒 红花郎（10）陈酿 53度整箱装 白酒 558m l*6瓶（箱内有礼)",
+            "volume": 500,
+            "strength": 53,
+            "price": 1000,
+            "amount": 1,
+            "totalAmount": 1000,
+            "isSelected": false,
+            "id": 4
+        },
+        {
+            "goodsImg": "src/assets/goodsItem.png",
+            "goodsDetail": "5郎酒 红花郎（10）陈酿 53度整箱装 白酒 558m l*6瓶（箱内有礼)",
+            "volume": 500,
+            "strength": 53,
+            "price": 1000,
+            "amount": 1,
+            "totalAmount": 1000,
+            "isSelected": false,
+            "id": 5
+        }
+    ]
+}

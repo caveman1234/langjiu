@@ -1,0 +1,19 @@
+.MsgItem {
+    padding-top: 30px;
+    padding-bottom: 30px;
+    border-bottom: 1px dashed #e6e6e6;
+    .msgTitle {
+        font-size: 18px;
+        font-weight: bold;
+    }
+    .msgDate {
+        font-size: 12px;
+        color: #999999;
+        line-height: 35px;
+    }
+    .msgBrief {
+        font-size: 14px;
+        color: #666666;
+        line-height: 25px;
+    }
+}

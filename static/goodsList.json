@@ -1,0 +1,68 @@
+{
+    "result": 1,
+    "msg": "----message---",
+    "data": [{
+            "imgUrl": "src/assets/goodsItem.png",
+            "brief": "郎酒红花郎10 53度酱香500度酱香500度酱香500度酱香500",
+            "price": 1668,
+            "count": 1980,
+            "hasPurchase": false,
+            "id": "12345id1",
+            "isGoodsPage": true
+        },
+        {
+            "imgUrl": "src/assets/goodsItem.png",
+            "brief": "郎酒红花郎10 53度酱香500度酱香500度酱香500度酱香500",
+            "price": 1669,
+            "count": 1981,
+            "hasPurchase": true,
+            "id": "12345id2",
+            "isGoodsPage": true
+        },
+        {
+            "imgUrl": "src/assets/goodsItem.png",
+            "brief": "郎酒红花郎10 53度酱香500度酱香500度酱香500度酱香500",
+            "price": 1670,
+            "count": 1982,
+            "hasPurchase": true,
+            "id": "12345id3",
+            "isGoodsPage": true
+        },
+        {
+            "imgUrl": "src/assets/goodsItem.png",
+            "brief": "郎酒红花郎10 53度酱香500度酱香500度酱香500度酱香500",
+            "price": 1672,
+            "count": 1983,
+            "hasPurchase": false,
+            "id": "12345id4",
+            "isGoodsPage": true
+        },
+        {
+            "imgUrl": "src/assets/goodsItem.png",
+            "brief": "郎酒红花郎10 53度酱香500度酱香500度酱香500度酱香500",
+            "price": 1673,
+            "count": 1984,
+            "hasPurchase": false,
+            "id": "12345id5",
+            "isGoodsPage": true
+        },
+        {
+            "imgUrl": "src/assets/goodsItem.png",
+            "brief": "郎酒红花郎10 53度酱香500度酱香500度酱香500度酱香500",
+            "price": 1674,
+            "count": 1984,
+            "hasPurchase": false,
+            "id": "12345id6",
+            "isGoodsPage": true
+        },
+        {
+            "imgUrl": "src/assets/goodsItem.png",
+            "brief": "郎酒红花郎10 53度酱香500度酱香500度酱香500度酱香500",
+            "price": 1675,
+            "count": 1984,
+            "hasPurchase": false,
+            "id": "12345id7",
+            "isGoodsPage": true
+        }
+    ]
+}

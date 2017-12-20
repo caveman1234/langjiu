@@ -9,11 +9,23 @@
 </template>
 
 <script>
+import { Loading } from 'element-ui';
 import Vheader from "@/components/MainPage/Header/Header.vue";
 import Vfooter from "@/components/MainPage/Footer/Footer.vue";
 export default {
   components: { Vheader, Vfooter },
-  name: 'app'
+  name: 'app',
+  data() {
+    return {
+
+    }
+  },
+  methods:{
+
+  },
+  mounted() {
+    
+  }
 }
 </script>
 
@@ -21,6 +33,7 @@ export default {
 /* 全局css */
 
 @import './css/style.scss';
+
 
 
 /* App样式 */

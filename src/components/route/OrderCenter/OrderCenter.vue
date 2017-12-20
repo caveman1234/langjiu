@@ -1,17 +1,57 @@
 <template>
-  <div class="OrderCenter">
-      <h2>OrderCenter</h2>
-  </div>
+    <div class="OrderCenter">
+        <div class="leftList">
+            <el-tabs @tab-click="tabClick" tab-position="left">
+                <el-tab-pane label="我的订单列表"></el-tab-pane>
+                <el-tab-pane label="发货申请列表"></el-tab-pane>
+                <el-tab-pane label="退货申请列表"></el-tab-pane>
+            </el-tabs>
+        </div>
+        <div class="orderContainer">
+            <router-view></router-view>
+            
+
+        </div>
+    </div>
 </template>
 <script>
 export default {
-  name:'OrderCenter',
-  data(){
-      return {}
-  }
+    name: 'OrderCenter',
+    data() {
+        return {
+            
+        }
+    },
+    methods: {
+        tabClick(tab) {
+            let index = tab.index;
+            switch (index) {
+                case '0':
+                    this.$router.push({ path: '/MyOrderList' });
+                    break;
+                case '1':
+                    this.$router.push({ path: '/DeliverList' });
+                    break;
+                case '2':
+                    this.$router.push({ path: '/ReturnList' });
+                    break;
+            }
+        },
+        clearSearchData() {
+            this.orderCode = '';
+            this.orderStatus = '0';
+            this.orderDateRange = '';
+        },
+        searchData() { }
+    },
+    mounted() {
+        this.$store.dispatch('goodsCenter/fetchPurchaseCountAsync');
+        this.$store.commit('changeCurrentNav', { hash: '/OrderCenter' });
+        this.$router.push({name:'TotalOrder'});
+    }
 }
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
 @import "./OrderCenter.scss";
 </style>
 
