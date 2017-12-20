@@ -9,7 +9,6 @@
         </div>
         <div class="orderContainer">
             <router-view></router-view>
-            
 
         </div>
     </div>
@@ -19,7 +18,7 @@ export default {
     name: 'OrderCenter',
     data() {
         return {
-            
+
         }
     },
     methods: {
@@ -47,7 +46,7 @@ export default {
     mounted() {
         this.$store.dispatch('goodsCenter/fetchPurchaseCountAsync');
         this.$store.commit('changeCurrentNav', { hash: '/OrderCenter' });
-        this.$router.push({name:'TotalOrder'});
+
     }
 }
 </script>

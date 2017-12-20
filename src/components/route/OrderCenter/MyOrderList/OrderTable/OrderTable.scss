@@ -1,0 +1,159 @@
+$borderColor: #E6E6E6;
+$redColor: #E7442E;
+$color333: #333;
+$color666: #666;
+$bgColor: #F5F5F5;
+.OrderTable {
+    .goodsTable {
+        margin-top: 20px;
+        .tableHeader {
+            display: flex;
+            align-items: center;
+            height: 30px;
+            font-size: $color333;
+            font-size: 12px;
+            font-weight: bold;
+            background: $bgColor;
+            margin-top: 20px;
+            color: $color333;
+            .goodsDetail {
+                flex: 0 0 330px;
+                padding-left: 10px;
+                box-sizing: border-box;
+            }
+            .goodsStands {
+                flex: 1;
+            }
+            .goodsPrice {
+                flex: 1;
+            }
+            .goodsNum {
+                flex: 1;
+            }
+            .goodsMoney {
+                flex: 1;
+            }
+            .goodsStatus {
+                flex: 1;
+            }
+            .handle {
+                flex: 1;
+            }
+        }
+        .orderTableContainer {
+            .tableTitle {
+                height: 30px;
+                line-height: 30px;
+                background: $bgColor;
+                padding-left: 10px;
+                font-size: 12px;
+                color: $color333;
+                margin-top: 20px;
+                .tableBodyTitleName {}
+                .tableBodyTitleContent {}
+                .orderType {
+                    color: $redColor;
+                }
+                .opacity0 {
+                    opacity: 0;
+                }
+            }
+            .tableBody {
+                .tableRow {
+                    height: 104px;
+                    box-sizing: border-box;
+                    display: flex;
+                    font-size: 12px;
+                    color: $color333;
+                    align-items: center;
+                    border-left: 1px solid $borderColor;
+                    border-right: 1px solid $borderColor;
+                    .goodsDetail {
+                        flex: 0 0 330px;
+                        padding-left: 10px;
+                        border-bottom: 1px solid $borderColor;
+                        height: 100%;
+                        box-sizing: border-box;
+                        display: flex;
+                        align-items: center;
+                        .goodsImg {
+                            background-size: cover;
+                            width: 62px;
+                            height: 62px;
+                            border: 1px solid $borderColor;
+                            flex: 0 0 62px;
+                        }
+                        .goodsDesc {
+                            flex: 1;
+                            padding: 0 30px 0 10px;
+                        }
+                    }
+                    .goodsStands {
+                        flex: 1;
+                        border-bottom: 1px solid $borderColor;
+                        height: 100%;
+                        box-sizing: border-box;
+                        display: flex;
+                        justify-content: center;
+                        flex-direction: column;
+                    }
+                    .goodsPrice {
+                        flex: 1;
+                        border-bottom: 1px solid $borderColor;
+                        height: 100%;
+                        box-sizing: border-box;
+                        display: flex;
+                        justify-content: center;
+                        flex-direction: column;
+                    }
+                    .goodsNum {
+                        flex: 1;
+                        border-bottom: 1px solid $borderColor;
+                        height: 100%;
+                        box-sizing: border-box;
+                        display: flex;
+                        justify-content: center;
+                        flex-direction: column;
+                    }
+                    .goodsMoney {
+                        flex: 0 0 100px;
+                        border-bottom: 1px solid $borderColor;
+                        height: 100%;
+                        box-sizing: border-box;
+                        display: flex;
+                        justify-content: center;
+                        flex-direction: column;
+                        padding-left: 5px;
+                        color: $redColor;
+                    }
+                    .goodsStatus {
+                        flex: 0 0 100px;
+                        border-bottom: 1px solid $borderColor;
+                        height: 100%;
+                        box-sizing: border-box;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        padding-left: 5px;
+                        color: $redColor;
+                    }
+                    .handle {
+                        flex: 0 0 100px;
+                        border-bottom: 1px solid $borderColor;
+                        height: 100%;
+                        box-sizing: border-box;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                    }
+                    .tableNoneBorder {
+                        border: 1px solid white;
+                    }
+                    .tableBorderRight {
+                        border-right: 1px solid $borderColor;
+                    }
+                }
+            }
+        }
+    }
+}

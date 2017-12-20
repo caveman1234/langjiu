@@ -4,8 +4,6 @@
             <el-tabs @tab-click="tabClick" tab-position="top">
                 <el-tab-pane label="全部订单"></el-tab-pane>
                 <el-tab-pane label="暂存订单"></el-tab-pane>
-                <el-tab-pane label="状态一"></el-tab-pane>
-                <el-tab-pane label="状态二"></el-tab-pane>
             </el-tabs>
         </div>
         <div class="searchBox">

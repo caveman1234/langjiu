@@ -1,8 +1,9 @@
 .MyOrderList {
     flex: 0 0 985px;
     background: white;
-    height: 800px;
+    min-height: 400px;
     padding: 10px 27px 27px 27px;
+    box-sizing: border-box;
     .topList {
         .el-tabs--top {
             position: relative;

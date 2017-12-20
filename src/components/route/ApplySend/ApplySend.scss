@@ -1,0 +1,140 @@
+$borderColor: #E6E6E6;
+$redColor: #E7442E;
+$color333: #333;
+$color666: #666;
+$color999: #999;
+$bgColor: #F5F5F5;
+.ApplySend {
+    .ApplySendTitle {
+        padding: 15px 30px;
+        height: 140px;
+        font-size: 12px;
+        background: white;
+        line-height: 35px;
+        .sendTitleTitle {
+            font-size: 14px;
+            color: $color333;
+            font-weight: bold;
+        }
+        .name {
+            color: $color999;
+        }
+        .desc {
+            color: $color333;
+        }
+    }
+    .ApplySendBody {
+        height: 400px;
+        background: white;
+        margin-top: 20px;
+        padding: 15px 30px;
+        .title {
+            font-size: 14px;
+            color: $color333;
+            font-weight: bold;
+            line-height: 30px;
+        }
+        .tableContainer {
+            .theader {
+                display: flex;
+                height: 30px;
+                line-height: 30px;
+                background: $bgColor;
+                color: $color333;
+                font-weight: bold;
+                font-size: 12px;
+                .goodsInfo {
+                    flex: 0 0 400px;
+                    padding-left: 10px;
+                    box-sizing: border-box;
+                }
+                .orderTotalNum {
+                    flex: 1;
+                }
+                .diliverNum {
+                    flex: 1;
+                }
+                .restDiliverNum {
+                    flex: 1;
+                }
+                .standard {
+                    flex: 1;
+                }
+                .applyNum {
+                    flex: 1;
+                }
+                .applySendNum {
+                    flex: 1;
+                }
+            }
+            .tbody {
+                .bodyItem {
+                    display: flex;
+                    font-size: 12px;
+                    height: 100px;
+                    border-left: 1px solid $borderColor;
+                    border-right: 1px solid $borderColor;
+                    border-bottom: 1px solid $borderColor;
+                    align-items: center;
+                    .goodsInfo {
+                        flex: 0 0 400px;
+                        box-sizing: border-box;
+                        padding-left: 10px;
+                        display: flex;
+                        .goodsImg {
+                            flex: 0 0 62px;
+                            width: 62px;
+                            height: 62px;
+                            border: 1px solid $borderColor;
+                            background-repeat: no-repeat;
+                            background-size: cover;
+                        }
+                        .goodsDesc {
+                            flex: 1;
+                            padding: 0 40px 0 20px;
+                        }
+                    }
+                    .orderTotalNum {
+                        flex: 0 0 123px;
+                    }
+                    .diliverNum {
+                        flex: 0 0 123px;
+                    }
+                    .restDiliverNum {
+                        flex: 0 0 123px;
+                    }
+                    .standard {
+                        flex: 0 0 123px;
+                    }
+                    .applyNum {
+                        flex: 0 0 123px;
+                    }
+                    .applySendNum {
+                        flex: 0 0 123px;
+                        color: $redColor;
+                        padding-left: 15px;
+                    }
+                }
+            }
+        }
+    }
+    .ApplySendFooter {
+        height: 60px;
+        line-height: 60px;
+        background: white;
+        margin-top: 20px;
+        .footerLeft {
+            opacity: 0;
+        }
+        .price {
+            color: $redColor;
+            .name {
+                font-size: 12px;
+            }
+            .money {
+                font-size: 18px;
+            }
+        }
+        .submitBtn {}
+    }
+}

@@ -7,6 +7,7 @@ import AccountCenter from '@/components/route/AccountCenter/AccountCenter'
 import MsgCenter from '@/components/route/MsgCenter/MsgCenter'
 import PurchaseBills from '@/components/route/PurchaseBills/PurchaseBills'
 import GenerateBills from '@/components/route/GenerateBills/GenerateBills'
+import ApplySend from '@/components/route/ApplySend/ApplySend'
 import OrderCenter from '@/components/route/OrderCenter/OrderCenter'
 /* 订单 */
 import DeliverList from '@/components/route/OrderCenter/DeliverList/DeliverList'
@@ -41,7 +42,8 @@ export default new Router({
             name: 'OrderCenter',
             children: [{
                     path: '',
-                    component: MyOrderList
+                    // component: MyOrderList
+                    redirect: '/MyOrderList'
                 },
                 {
                     path: '/DeliverList',
@@ -59,7 +61,8 @@ export default new Router({
                     name: 'MyOrderList',
                     children: [{
                             path: '',
-                            component: TotalOrder
+                            // component: TotalOrder
+                            redirect: '/TotalOrder'
                         },
                         {
                             path: '/TotalOrder',
@@ -95,6 +98,11 @@ export default new Router({
             path: '/GenerateBills',
             name: 'GenerateBills',
             component: GenerateBills
+        },
+        {
+            path: '/ApplySend',
+            name: 'ApplySend',
+            component: ApplySend
         }
     ]
 })

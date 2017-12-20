@@ -1,0 +1,100 @@
+$borderColor: #E6E6E6;
+$redColor: #E7442E;
+$color333: #333;
+$color666: #666;
+$bgColor: #F5F5F5;
+.ReturnDeliverTable {
+    margin-top: 20px;
+    .tableHeader {
+        display: flex;
+        height: 30px;
+        line-height: 30px;
+        background: $bgColor;
+        color: $color666;
+        font-size: 12px;
+        box-sizing: border-box;
+        font-weight: bold;
+        .goodsInfo {
+            flex: 0 0 412px;
+            box-sizing: border-box;
+            padding-left: 10px;
+        }
+        .standard {
+            flex: 1;
+            box-sizing: border-box;
+        }
+        .applyNum {
+            flex: 1;
+            box-sizing: border-box;
+        }
+        .money {
+            flex: 1;
+            box-sizing: border-box;
+        }
+        .status {
+            flex: 1;
+            box-sizing: border-box;
+        }
+    }
+    .tableBodyContainer {
+        .tableTitle {
+            font-size: 12px;
+            color: $color666;
+            line-height: 30px;
+            height: 30px;
+            background: $bgColor;
+            margin-top: 20px;
+            box-sizing: border-box;
+            padding-left: 10px;
+            border-left: 1px solid $borderColor;
+            border-right: 1px solid $borderColor;
+            .name {}
+            .content {}
+        }
+        .tableBody {
+            display: flex;
+            align-items: center;
+            height: 90px;
+            border-left: 1px solid $borderColor;
+            border-right: 1px solid $borderColor;
+            border-bottom: 1px solid $borderColor;
+            font-size: 12px;
+            .goodsInfo {
+                flex: 0 0 412px;
+                box-sizing: border-box;
+                padding-left: 10px;
+                display: flex;
+                .goodsImg {
+                    flex: 0 0 62px;
+                    width: 62px;
+                    height: 62px;
+                    background-repeat: no-repeat;
+                    background-size: cover;
+                    border: 1px solid $borderColor;
+                }
+                .goodsDesc {
+                    padding: 0 60px 0 10px;
+                    color: $color333;
+                }
+            }
+            .standard {
+                flex: 1;
+                color: $color666;
+                .volume {}
+                .strength {}
+            }
+            .applyNum {
+                flex: 1;
+                color: $color666;
+            }
+            .money {
+                flex: 1;
+                color: $redColor;
+            }
+            .status {
+                flex: 1;
+                color: $color666;
+            }
+        }
+    }
+}

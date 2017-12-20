@@ -67,6 +67,7 @@ export default {
         }),
         headerClick(index) {
             this.changeCurrentNav({ index });
+            
         },
         search() {
             console.log(this.searchInfo.trim());

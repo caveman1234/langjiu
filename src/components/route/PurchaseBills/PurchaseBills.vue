@@ -48,7 +48,7 @@
         <div class="tableFooter">
             <el-row>
                 <el-col :span="12">
-                    <el-button @click="delSelected" size="small" type="success" style="margin-top:15px;">删除选中商品</el-button>
+                    <el-button @click="delSelected" type="primary" size="small" style="margin-top:15px;">删除选中商品</el-button>
                 </el-col>
                 <el-col :span="12">
                     <el-row>

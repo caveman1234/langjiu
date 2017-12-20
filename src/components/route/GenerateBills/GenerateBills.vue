@@ -12,7 +12,7 @@
                 <div class="noticeContent">
                     <el-row :gutter="10">
                         <el-col :span="2">
-                            <div class="noticeName">发货类型:</div>
+                            <div class="noticeName">订单类型:</div>
                         </el-col>
                         <el-col :span="5">
                             <el-select size="mini" v-model="carriageMethod" placeholder="请选择" style="width:100%;">
@@ -145,9 +145,10 @@
                 <el-col :span="17"><div class="calcLeft">1</div></el-col>
                 <el-col :span="7">
                     <div class="calcRight">
-                        <el-col :span="10">
+                        <el-col :span="24">
                             <div class="calcRightName">
                                 <el-button size="mini">在线支付</el-button>
+                                <el-button size="mini">暂存</el-button>
                             </div>
                         </el-col>
                     </div>

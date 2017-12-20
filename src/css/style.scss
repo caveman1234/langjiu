@@ -1,8 +1,54 @@
+$borderColor:#DBDBDB;
+$fillColor:#F3F3F3;
+$color333:#333333;
+$redColor: #E7442E;
 * {
     margin: 0;
     padding: 0;
 }
 
-.div {
-    color: red !important;
+
+/* button 样式 */
+
+.el-button--primary {
+    color: $color333;
+    background-color: $fillColor;
+    border-color: $borderColor;
+}
+
+.el-button--primary.is-active,
+.el-button--primary:active {
+    background: $fillColor;
+    border-color: $borderColor;
+    color: $color333;
+}
+
+.el-button--primary:focus,
+.el-button--primary:hover {
+    background: $fillColor;
+    border-color: $borderColor;
+    color: $color333;
+}
+
+
+/* red button */
+
+.redBtn {
+    color: $redColor;
+    background-color: $redColor;
+    border-color: $borderColor;
+}
+
+.redBtn.is-active,
+.redBtn:active {
+    background: $redColor;
+    border-color: $borderColor;
+    color: $color333;
+}
+
+.redBtn:focus,
+.redBtn:hover {
+    background: $redColor;
+    border-color: $borderColor;
+    color: white;
 }
