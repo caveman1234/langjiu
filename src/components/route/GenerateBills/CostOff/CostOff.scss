@@ -1,0 +1,29 @@
+@import 'src/css/colors.scss';
+.CostOff {
+    .CostOffTitle {
+        display: flex;
+        box-sizing: border-box;
+        justify-content: space-between;
+        .title {}
+        .search {}
+    }
+    .dialogContainer {
+        padding: 10px 10px 0 10px;
+        .el-table {
+            margin-top: 10px;
+        }
+    }
+    .dialog-footer {
+        padding-right: 30px;
+    }
+    .el-dialog__body {
+        padding: 0;
+    }
+    .el-dialog__header {
+        background: $bgColor;
+    }
+    .el-icon-close {
+        font-size: 23px;
+        font-weight: bold;
+    }
+}

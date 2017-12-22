@@ -21,80 +21,77 @@
                             </el-select>
                         </el-col>
                         <el-col :span="2">
-                            <div class="noticeName">期望到货日期：</div>
-                        </el-col>
-                        <el-col :span="5">
-                            <el-date-picker size="mini" v-model="arriveDate" type="date" placeholder="选择日期" style="width:100%;">
-                            </el-date-picker>
-                        </el-col>
-                        <el-col :span="2">
                             <div class="noticeName">通知发货：</div>
                         </el-col>
                         <el-col :span="5">
                             <el-radio-group v-model="isNotice">
                                 <el-radio :label="1">是</el-radio>
-                                <el-radio :label="2">否</el-radio>
+                                <el-radio :label="0">否</el-radio>
                             </el-radio-group>
                         </el-col>
+                        <el-col :span="2">
+                            <div class="noticeName">期望到货日期：</div>
+                        </el-col>
+                        <el-col :span="5">
+                            <el-date-picker :disabled="isNotice===1" size="mini" v-model="arriveDate" type="date" placeholder="选择日期" style="width:100%;">
+                            </el-date-picker>
+                        </el-col>
+                        
                     </el-row>
                 </div>
             </div>
         </div>
         <div class="goodsInfo">
-            <div class="goodsTitle">商品信息</div>
+            <AddNewGoods @receiveData="receiveData"></AddNewGoods>
             <div class="goodsContent">
-                <div class="tableTitle">
-                    <div class="info">商品信息</div>
-                    <div class="price">单价</div>
-                    <div class="amount">箱数</div>
-                    <div class="bottle">瓶数</div>
-                    <div class="commonMoney">共建基金</div>
-                    <div class="money">金额</div>
-                    <div class="handle">操作</div>
-                </div>
-                <div class="tableBody">
-                    <div v-for="(item,index) in goodsData" :key="index" class="tableRow">
-                        <div class="info">
-                            <div :style='{"backgroundImage":`url(${item.goodsImg})`}' class="goodsImg"></div>
-                            <div class="goodsDesc">{{item.goodsDetail}}</div>
-                        </div>
-                        <div class="price">{{item.price}}/瓶</div>
-                        <div class="amount">{{item.amount}}箱</div>
-                        <div class="bottle">{{item.bottle}}瓶</div>
-                        <div class="commonMoney">¥{{item.commonMoney}}</div>
-                        <div class="money">¥{{item.money}}</div>
-                        <div @click="handleClick(item)" class="handle">
-                            <i class="el-icon-delete"></i>
-                        </div>
-                    </div>
-                </div>
+                <el-table :data="goodsData" style="width: 100%">
+                    <el-table-column prop="" label="商品详情" width="400">
+                        <template slot-scope="scope">
+                            <div class="detailContainer">
+                                <div :style='{"backgroundImage":`url(${scope.row.goodsImg})`}' class="goodsImg"></div>
+                                <div class="desc">{{scope.row.brief}}</div>
+                            </div>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="price" label="单价">
+                        <template slot-scope="scope">
+                            <div class="price">
+                                <div>价格：¥{{scope.row.price}}</div>
+                                <div>共建：¥{{scope.row.commonBuild}}</div>
+                            </div>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="boxCount" label="箱数">
+                        <template slot-scope="scope">
+                            <el-input-number v-model="scope.row.boxCount" :min="1" size="mini"></el-input-number>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="bottolCount" label="瓶数"></el-table-column>
+                    <el-table-column prop="costOffMoney" label="费用折扣金额"></el-table-column>
+                    <el-table-column prop="" label="操作">
+                        <template slot-scope="scope">
+                            <div class="handle">
+                                <i @click="delOneItem(scope.row)" class="el-icon-delete"></i>
+                            </div>
+                        </template>
+                    </el-table-column>
+                </el-table>
             </div>
             <div class="goodsFooter"></div>
         </div>
         <div class="offMoney">
-            <div class="offTitle">费用折扣</div>
-            <div class="offContent">
-                <el-row :gutter="10">
-                    <el-col :span="3">
-                        <div class="name">输入费用折扣：</div>
-                    </el-col>
-                    <el-col :span="5">
-                        <el-input placeholder="输入金额≤5000" size="mini"></el-input>
-                    </el-col>
-                    <el-col :span="3">
-                        <div class="name">查看明细</div>
-                    </el-col>
-                </el-row>
-            </div>
+            <CostOff :goodsData="goodsData" @CostOffEvent="CostOffEvent"></CostOff>
         </div>
         <div class="calcMoney">
             <div class="calcTitle">费用结算</div>
             <el-row>
-                <el-col :span="17"><div class="calcLeft">1</div></el-col>
+                <el-col :span="17">
+                    <div class="calcLeft">1</div>
+                </el-col>
                 <el-col :span="7">
                     <div class="calcRight">
                         <el-col :span="10">
-                            <div class="calcRightName">总 金 额：</div>
+                            <div class="calcRightName">订单总金额：</div>
                         </el-col>
                         <el-col :span="14">
                             <div class="calcRightMoney">¥1000000.00</div>
@@ -103,11 +100,13 @@
                 </el-col>
             </el-row>
             <el-row>
-                <el-col :span="17"><div class="calcLeft">1</div></el-col>
+                <el-col :span="17">
+                    <div class="calcLeft">1</div>
+                </el-col>
                 <el-col :span="7">
                     <div class="calcRight">
                         <el-col :span="10">
-                            <div class="calcRightName">折扣金额：</div>
+                            <div class="calcRightName">费用抵扣金额：</div>
                         </el-col>
                         <el-col :span="14">
                             <div class="calcRightMoney">-¥1000000.00</div>
@@ -116,11 +115,28 @@
                 </el-col>
             </el-row>
             <el-row>
-                <el-col :span="17"><div class="calcLeft">1</div></el-col>
+                <el-col :span="17">
+                    <div class="calcLeft">1</div>
+                </el-col>
                 <el-col :span="7">
                     <div class="calcRight">
                         <el-col :span="10">
-                            <div class="calcRightName">账户余额：</div>
+                            <div class="calcRightName">订单支付金额：</div>
+                        </el-col>
+                        <el-col :span="14">
+                            <div class="calcRightMoney">¥900000.00</div>
+                        </el-col>
+                    </div>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="17">
+                    <div class="calcLeft">1</div>
+                </el-col>
+                <el-col :span="7">
+                    <div class="calcRight">
+                        <el-col :span="10">
+                            <div class="calcRightName">其中共建基金：</div>
                         </el-col>
                         <el-col :span="14">
                             <div class="calcRightMoney">¥900000.00</div>
@@ -129,7 +145,9 @@
                 </el-col>
             </el-row>
             <el-row class="realTotal">
-                <el-col :span="17"><div class="calcLeft">1</div></el-col>
+                <el-col :span="17">
+                    <div class="calcLeft">1</div>
+                </el-col>
                 <el-col :span="7">
                     <div class="calcRight ">
                         <el-col :span="10">
@@ -142,13 +160,15 @@
                 </el-col>
             </el-row>
             <el-row class="charge">
-                <el-col :span="17"><div class="calcLeft">1</div></el-col>
+                <el-col :span="17">
+                    <div class="calcLeft">1</div>
+                </el-col>
                 <el-col :span="7">
                     <div class="calcRight">
                         <el-col :span="24">
                             <div class="calcRightName">
-                                <el-button size="mini">在线支付</el-button>
-                                <el-button size="mini">暂存</el-button>
+                                <el-button @click="payOnline" size="mini">在线支付</el-button>
+                                <el-button @click="saveTemporary" size="mini">暂存</el-button>
                             </div>
                         </el-col>
                     </div>
@@ -159,6 +179,8 @@
 </template>
 <script>
 import DeliveryInfo from './DeliveryInfo/DeliveryInfo.vue';
+import AddNewGoods from './AddNewGoods/AddNewGoods';
+import CostOff from './CostOff/CostOff';
 let carriageMethodCombo = [{ label: '选项一', value: 1 }, { label: '选项二', value: 2 }, { label: '选项三', value: 3 }]
 let infoData = [
     {
@@ -226,7 +248,7 @@ let goodsData = [
 ]
 export default {
     name: 'GenerateBills',
-    components: { DeliveryInfo },
+    components: { DeliveryInfo, AddNewGoods,CostOff },
     data() {
         return {
             isNotice: 1,/* 发货通知 */
@@ -235,8 +257,8 @@ export default {
             address: '',
             remark: '',
             carriageMethodCombo: carriageMethodCombo,
-            infoData: infoData,
-            goodsData: goodsData
+            infoData: infoData,/* 地址信息 */
+            goodsData: []/* 表格数据 */
         }
     },
     methods: {
@@ -251,12 +273,35 @@ export default {
                 return obj;
             });
         },
-        handleClick({ id }) {
+        delOneItem({ id }) {
             let index = this.goodsData.findIndex(v => v.id === id);
             this.goodsData.splice(index, 1);
+        },
+        receiveData(data) {/* 接收搜索数据 */
+            data.forEach(obj => {
+                this.goodsData = this.goodsData || [];
+                let id = obj.id;
+                let hasExistObj = this.goodsData.find(v => v.id === id);
+                if (hasExistObj) {
+                    hasExistObj.boxCount = hasExistObj.boxCount + obj.boxCount
+                } else {
+                    this.goodsData.push(obj);
+                }
+            });
+        },
+        CostOffEvent(data){/* 使用折扣金额 */
+            console.log(data);
+        },
+        payOnline(){/* 在线支付 */
+
+        },
+        saveTemporary(){/* 暂存 */
+
         }
     },
-    mounted(){
+    mounted() {
+        this.goodsData = this.$route.params.selectedData;
+        console.log(this.goodsData);
     }
 }
 </script>

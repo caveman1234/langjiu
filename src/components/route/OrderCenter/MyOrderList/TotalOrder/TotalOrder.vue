@@ -27,7 +27,19 @@ let orderData = [
                 price: 1000,
                 num: 5,
                 money: 4000,
-                orderStatus: '已审核'
+                orderStatus: '已审核',
+                "imgUrl": "src/assets/goodsItem.png",
+                "brief": "郎酒红花郎10 53度酱香500度酱香500度酱香500度酱香500",
+                "price": 1668,
+                "count": 1980,
+                "hasPurchase": false,
+                "id": "12345id1",
+                "boxCount": 10,
+                "bottolCount": 20,
+                "costOffMoney": 1000,
+                "commonBuild": 2000,
+                "volume": 500,
+                "strength": 53
             },
             {
                 goodsImg: "src/assets/goodsItem.png",
@@ -36,7 +48,19 @@ let orderData = [
                 price: 1000,
                 num: 5,
                 money: 4000,
-                orderStatus: '暂存'
+                orderStatus: '暂存',
+                "imgUrl": "src/assets/goodsItem.png",
+                "brief": "郎酒红花郎10 53度酱香500度酱香500度酱香500度酱香500",
+                "price": 1668,
+                "count": 1980,
+                "hasPurchase": false,
+                "id": "12345id1",
+                "boxCount": 10,
+                "bottolCount": 20,
+                "costOffMoney": 1000,
+                "commonBuild": 2000,
+                "volume": 500,
+                "strength": 53
             }
         ]
     },
@@ -58,7 +82,19 @@ let orderData = [
                 price: 1000,
                 num: 5,
                 money: 4000,
-                orderStatus: '审批通过'
+                orderStatus: '审批通过',
+                "imgUrl": "src/assets/goodsItem.png",
+                "brief": "郎酒红花郎10 53度酱香500度酱香500度酱香500度酱香500",
+                "price": 1668,
+                "count": 1980,
+                "hasPurchase": false,
+                "id": "12345id1",
+                "boxCount": 10,
+                "bottolCount": 20,
+                "costOffMoney": 1000,
+                "commonBuild": 2000,
+                "volume": 500,
+                "strength": 53
             },
             {
                 goodsImg: "src/assets/goodsItem.png",
@@ -67,7 +103,19 @@ let orderData = [
                 price: 1000,
                 num: 5,
                 money: 4000,
-                orderStatus: '审批通过'
+                orderStatus: '审批通过',
+                "imgUrl": "src/assets/goodsItem.png",
+                "brief": "郎酒红花郎10 53度酱香500度酱香500度酱香500度酱香500",
+                "price": 1668,
+                "count": 1980,
+                "hasPurchase": false,
+                "id": "12345id1",
+                "boxCount": 10,
+                "bottolCount": 20,
+                "costOffMoney": 1000,
+                "commonBuild": 2000,
+                "volume": 500,
+                "strength": 53
             }
         ]
     },
@@ -89,7 +137,19 @@ let orderData = [
                 price: 1000,
                 num: 5,
                 money: 4000,
-                orderStatus: '暂存'
+                orderStatus: '暂存',
+                "imgUrl": "src/assets/goodsItem.png",
+                "brief": "郎酒红花郎10 53度酱香500度酱香500度酱香500度酱香500",
+                "price": 1668,
+                "count": 1980,
+                "hasPurchase": false,
+                "id": "12345id1",
+                "boxCount": 10,
+                "bottolCount": 20,
+                "costOffMoney": 1000,
+                "commonBuild": 2000,
+                "volume": 500,
+                "strength": 53
             },
             {
                 goodsImg: "src/assets/goodsItem.png",
@@ -98,7 +158,19 @@ let orderData = [
                 price: 1000,
                 num: 5,
                 money: 4000,
-                orderStatus: '暂存'
+                orderStatus: '暂存',
+                "imgUrl": "src/assets/goodsItem.png",
+                "brief": "郎酒红花郎10 53度酱香500度酱香500度酱香500度酱香500",
+                "price": 1668,
+                "count": 1980,
+                "hasPurchase": false,
+                "id": "12345id1",
+                "boxCount": 10,
+                "bottolCount": 20,
+                "costOffMoney": 1000,
+                "commonBuild": 2000,
+                "volume": 500,
+                "strength": 53
             }
         ]
     },
@@ -120,7 +192,19 @@ let orderData = [
                 price: 1000,
                 num: 5,
                 money: 4000,
-                orderStatus: '审批通过'
+                orderStatus: '审批通过',
+                "imgUrl": "src/assets/goodsItem.png",
+                "brief": "郎酒红花郎10 53度酱香500度酱香500度酱香500度酱香500",
+                "price": 1668,
+                "count": 1980,
+                "hasPurchase": false,
+                "id": "12345id1",
+                "boxCount": 10,
+                "bottolCount": 20,
+                "costOffMoney": 1000,
+                "commonBuild": 2000,
+                "volume": 500,
+                "strength": 53
             },
             {
                 goodsImg: "src/assets/goodsItem.png",
@@ -129,7 +213,19 @@ let orderData = [
                 price: 1000,
                 num: 5,
                 money: 4000,
-                orderStatus: '审批通过'
+                orderStatus: '审批通过',
+                "imgUrl": "src/assets/goodsItem.png",
+                "brief": "郎酒红花郎10 53度酱香500度酱香500度酱香500度酱香500",
+                "price": 1668,
+                "count": 1980,
+                "hasPurchase": false,
+                "id": "12345id1",
+                "boxCount": 10,
+                "bottolCount": 20,
+                "costOffMoney": 1000,
+                "commonBuild": 2000,
+                "volume": 500,
+                "strength": 53
             }
         ]
     },
@@ -151,7 +247,19 @@ let orderData = [
                 price: 1000,
                 num: 5,
                 money: 4000,
-                orderStatus: '审批通过'
+                orderStatus: '审批通过',
+                "imgUrl": "src/assets/goodsItem.png",
+                "brief": "郎酒红花郎10 53度酱香500度酱香500度酱香500度酱香500",
+                "price": 1668,
+                "count": 1980,
+                "hasPurchase": false,
+                "id": "12345id1",
+                "boxCount": 10,
+                "bottolCount": 20,
+                "costOffMoney": 1000,
+                "commonBuild": 2000,
+                "volume": 500,
+                "strength": 53
             },
             {
                 goodsImg: "src/assets/goodsItem.png",
@@ -160,7 +268,19 @@ let orderData = [
                 price: 1000,
                 num: 5,
                 money: 4000,
-                orderStatus: '审批通过'
+                orderStatus: '审批通过',
+                "imgUrl": "src/assets/goodsItem.png",
+                "brief": "郎酒红花郎10 53度酱香500度酱香500度酱香500度酱香500",
+                "price": 1668,
+                "count": 1980,
+                "hasPurchase": false,
+                "id": "12345id1",
+                "boxCount": 10,
+                "bottolCount": 20,
+                "costOffMoney": 1000,
+                "commonBuild": 2000,
+                "volume": 500,
+                "strength": 53
             }
         ]
     }

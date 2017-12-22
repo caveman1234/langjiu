@@ -44,7 +44,6 @@ export default {
         searchData() { }
     },
     mounted() {
-        this.$store.dispatch('goodsCenter/fetchPurchaseCountAsync');
         this.$store.commit('changeCurrentNav', { hash: '/OrderCenter' });
 
     }

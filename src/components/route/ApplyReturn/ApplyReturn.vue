@@ -1,6 +1,6 @@
 <template>
-    <div class="ApplySend">
-        <div class="ApplySendTitle">
+    <div class="ApplyReturn">
+        <div class="ApplyReturnTitle">
             <el-row>
                 <div class="sendTitleTitle">收件人信息</div>
             </el-row>
@@ -33,8 +33,9 @@
                     <div class="desc">{{infoData.address}}</div>
                 </el-col>
             </el-row>
+
         </div>
-        <div class="ApplySendBody">
+        <div class="ApplyReturnTable">
             <el-table :data="infoData.goodsList" style="width: 100%">
                 <el-table-column prop="" label="商品详情" width="400">
                     <template slot-scope="scope">
@@ -51,12 +52,12 @@
                     </template>
                 </el-table-column>
                 <el-table-column prop="orderTotalNum" label="订单数量"></el-table-column>
-                <el-table-column prop="diliverNum" label="已发货数量"></el-table-column>
-                <el-table-column prop="applyNum" label="可发货数量"></el-table-column>
-                <el-table-column prop="applySendNum" label="申请发货金额"></el-table-column>
+                <el-table-column prop="diliverNum" label="已退货数量"></el-table-column>
+                <el-table-column prop="applyNum" label="可退货数量"></el-table-column>
+                <el-table-column prop="applySendNum" label="申请退货金额"></el-table-column>
             </el-table>
         </div>
-        <div class="ApplySendFooter">
+        <div class="ApplyReturnFooter">
             <el-row>
                 <el-col :span="16">
                     <div class="footerLeft">1</div>
@@ -69,7 +70,7 @@
                 </el-col>
                 <el-col :span="4">
                     <div class="submitBtn">
-                        <el-button size="mini" type="primary">提交发货申请</el-button>
+                        <el-button size="mini" type="primary">提交退货申请</el-button>
                     </div>
                 </el-col>
             </el-row>
@@ -94,7 +95,7 @@ let infoData = {
             strength: 50,
             applyNum: 101,
             applySendNum: 201.00,
-            price:10,
+            price: 10,
         },
         {
             goodsImg: "src/assets/goodsItem.png",
@@ -106,7 +107,7 @@ let infoData = {
             strength: 50,
             applyNum: 101,
             applySendNum: 201.00,
-            price:11,
+            price: 11,
         },
         {
             goodsImg: "src/assets/goodsItem.png",
@@ -118,12 +119,12 @@ let infoData = {
             strength: 50,
             applyNum: 101,
             applySendNum: 201.00,
-            price:11,
+            price: 12,
         }
     ]
 };
 export default {
-    name: 'ApplySend',
+    name: 'ApplyReturn',
     props: {
         infoData: {
             default() {
@@ -143,6 +144,5 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-@import './ApplySend.scss';
+@import './ApplyReturn.scss';
 </style>
-

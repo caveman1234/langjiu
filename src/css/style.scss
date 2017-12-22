@@ -5,30 +5,11 @@ $redColor: #E7442E;
 * {
     margin: 0;
     padding: 0;
+    font-size: 12px;
 }
 
 
 /* button 样式 */
-
-.el-button--primary {
-    color: $color333;
-    background-color: $fillColor;
-    border-color: $borderColor;
-}
-
-.el-button--primary.is-active,
-.el-button--primary:active {
-    background: $fillColor;
-    border-color: $borderColor;
-    color: $color333;
-}
-
-.el-button--primary:focus,
-.el-button--primary:hover {
-    background: $fillColor;
-    border-color: $borderColor;
-    color: $color333;
-}
 
 
 /* red button */

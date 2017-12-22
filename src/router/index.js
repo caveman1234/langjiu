@@ -8,6 +8,8 @@ import MsgCenter from '@/components/route/MsgCenter/MsgCenter'
 import PurchaseBills from '@/components/route/PurchaseBills/PurchaseBills'
 import GenerateBills from '@/components/route/GenerateBills/GenerateBills'
 import ApplySend from '@/components/route/ApplySend/ApplySend'
+import ApplyReturn from '@/components/route/ApplyReturn/ApplyReturn'
+
 import OrderCenter from '@/components/route/OrderCenter/OrderCenter'
 /* 订单 */
 import DeliverList from '@/components/route/OrderCenter/DeliverList/DeliverList'
@@ -103,6 +105,11 @@ export default new Router({
             path: '/ApplySend',
             name: 'ApplySend',
             component: ApplySend
+        },
+        {
+            path: '/ApplyReturn',
+            name: 'ApplyReturn',
+            component: ApplyReturn
         }
     ]
 })

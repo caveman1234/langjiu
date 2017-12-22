@@ -112,7 +112,6 @@ export default {
         }
     },
     mounted() {
-        this.$store.dispatch('goodsCenter/fetchPurchaseCountAsync');
         this.$store.dispatch('orderCenter/fetchPurchaseBillsDataAsync');
     }
 }

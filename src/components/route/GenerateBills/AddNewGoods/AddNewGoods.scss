@@ -1,0 +1,27 @@
+@import 'src/css/colors.scss';
+.AddNewGoods {
+    .AddNewGoodsTitle {
+        display: flex;
+        box-sizing: border-box;
+        padding-right: 50px;
+        justify-content: space-between;
+        .title {}
+        .search {}
+    }
+    .dialogContainer {
+        padding: 0 10px;
+    }
+    .dialog-footer {
+        padding-right: 30px;
+    }
+    .el-dialog__body {
+        padding: 0;
+    }
+    .el-dialog__header {
+        background: $bgColor;
+    }
+    .el-icon-close {
+        font-size: 23px;
+        font-weight: bold;
+    }
+}

@@ -1,16 +1,21 @@
 <template>
-  <div class="MainPage">
-      <h2>MainPage</h2>
-      <div class="div1">div111-mainpage</div>
-      
-  </div>
+    <div class="MainPage">
+        <Vheader></Vheader>
+        <div class="routeContainer">
+            <router-view/>
+        </div>
+        <Vfooter></Vfooter>
+    </div>
 </template>
 <script>
+import Vheader from "@/components/MainPage/Header/Header.vue";
+import Vfooter from "@/components/MainPage/Footer/Footer.vue";
 export default {
-  name:'MainPage',
-  data(){
-      return {}
-  }
+    name: 'MainPage',
+    components: { Vheader, Vfooter },
+    data() {
+        return {}
+    }
 }
 </script>
 <style lang="scss" scoped>

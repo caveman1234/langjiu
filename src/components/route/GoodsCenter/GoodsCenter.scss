@@ -1,15 +1,33 @@
+@import 'src/css/colors.scss';
 .GoodsCenter {
     display: flex;
     .treeList {
         flex: 0 0 200px;
         background: white;
-        box-sizing: border-box;
-        // padding-top: 15px;
-        .el-tree {
-            padding-left: 10px;
-        }
-        .el-tree-node__content {
-            margin-top: 10px;
+        min-height: 800px;
+        .el-tabs--left {
+            position: relative;
+            min-height: 100%;
+            .el-tabs__header {
+                position: absolute;
+                right: -9px;
+                .el-tabs__item {
+                    padding-right: 35px;
+                    font-weight: 400;
+                    color: $color333;
+                    &:hover {
+                        color: $redColor;
+                    }
+                }
+                .is-active {
+                    color: $redColor;
+                    font-size: 14px;
+                    font-weight: 400;
+                }
+                .el-tabs__active-bar {
+                    background-color: $redColor;
+                }
+            }
         }
     }
     .goodsItems {
@@ -21,6 +39,33 @@
         flex-wrap: wrap;
         padding-bottom: 80px;
         .items {}
+    }
+    .goBuyGoods {
+        position: fixed;
+        top: 50%;
+        right: 5px;
+        width: 70px;
+        height: 25px;
+        line-height: 25px;
+        text-align: center;
+        color: white;
+        font-size: 12px;
+        background: $redColor;
+        cursor: pointer;
+        border: 1px solid;
+        user-select: none;
+        border-radius: 3px;
+        i {
+            position: absolute;
+            left: -10px;
+            top: -20px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: $redColor;
+            line-height: 20px;
+            color: white;
+        }
     }
 }
 

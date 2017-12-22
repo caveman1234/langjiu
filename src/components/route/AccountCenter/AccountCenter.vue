@@ -5,7 +5,7 @@
                 <el-tab-pane label="我的资产"></el-tab-pane>
                 <el-tab-pane label="未发货金额"></el-tab-pane>
                 <el-tab-pane label="融资信息"></el-tab-pane>
-                <el-tab-pane label="收款信息"></el-tab-pane>
+                <el-tab-pane label="付款信息"></el-tab-pane>
             </el-tabs>
         </div>
         <div class="AccountContainer">
@@ -68,7 +68,6 @@ export default {
         }
     },
     mounted(){
-        this.$store.dispatch('goodsCenter/fetchPurchaseCountAsync');
         this.$store.commit('changeCurrentNav', { hash: '/AccountCenter' });
     }
 }

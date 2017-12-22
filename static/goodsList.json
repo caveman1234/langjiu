@@ -8,25 +8,40 @@
             "count": 1980,
             "hasPurchase": false,
             "id": "12345id1",
-            "isGoodsPage": true
+            "boxCount": 10,
+            "bottolCount": 20,
+            "costOffMoney": 1000,
+            "commonBuild": 2000,
+            "volume": 500,
+            "strength": 53
         },
         {
             "imgUrl": "src/assets/goodsItem.png",
             "brief": "郎酒红花郎10 53度酱香500度酱香500度酱香500度酱香500",
             "price": 1669,
             "count": 1981,
-            "hasPurchase": true,
+            "hasPurchase": false,
             "id": "12345id2",
-            "isGoodsPage": true
+            "boxCount": 10,
+            "bottolCount": 20,
+            "costOffMoney": 1000,
+            "commonBuild": 2000,
+            "volume": 500,
+            "strength": 53
         },
         {
             "imgUrl": "src/assets/goodsItem.png",
             "brief": "郎酒红花郎10 53度酱香500度酱香500度酱香500度酱香500",
             "price": 1670,
             "count": 1982,
-            "hasPurchase": true,
+            "hasPurchase": false,
             "id": "12345id3",
-            "isGoodsPage": true
+            "boxCount": 10,
+            "bottolCount": 20,
+            "costOffMoney": 1000,
+            "commonBuild": 2000,
+            "volume": 500,
+            "strength": 53
         },
         {
             "imgUrl": "src/assets/goodsItem.png",
@@ -35,7 +50,12 @@
             "count": 1983,
             "hasPurchase": false,
             "id": "12345id4",
-            "isGoodsPage": true
+            "boxCount": 10,
+            "bottolCount": 20,
+            "costOffMoney": 1000,
+            "commonBuild": 2000,
+            "volume": 500,
+            "strength": 53
         },
         {
             "imgUrl": "src/assets/goodsItem.png",
@@ -44,7 +64,10 @@
             "count": 1984,
             "hasPurchase": false,
             "id": "12345id5",
-            "isGoodsPage": true
+            "boxCount": 10,
+            "bottolCount": 20,
+            "costOffMoney": 1000,
+            "commonBuild": 2000
         },
         {
             "imgUrl": "src/assets/goodsItem.png",
@@ -53,7 +76,12 @@
             "count": 1984,
             "hasPurchase": false,
             "id": "12345id6",
-            "isGoodsPage": true
+            "boxCount": 10,
+            "bottolCount": 20,
+            "costOffMoney": 1000,
+            "commonBuild": 2000,
+            "volume": 500,
+            "strength": 53
         },
         {
             "imgUrl": "src/assets/goodsItem.png",
@@ -62,7 +90,12 @@
             "count": 1984,
             "hasPurchase": false,
             "id": "12345id7",
-            "isGoodsPage": true
+            "boxCount": 10,
+            "bottolCount": 20,
+            "costOffMoney": 1000,
+            "commonBuild": 2000,
+            "volume": 500,
+            "strength": 53
         }
     ]
 }

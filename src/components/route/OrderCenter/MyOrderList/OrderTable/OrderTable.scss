@@ -1,8 +1,4 @@
-$borderColor: #E6E6E6;
-$redColor: #E7442E;
-$color333: #333;
-$color666: #666;
-$bgColor: #F5F5F5;
+@import 'src/css/colors.scss';
 .OrderTable {
     .goodsTable {
         margin-top: 20px;

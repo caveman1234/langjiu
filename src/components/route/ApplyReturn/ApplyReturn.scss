@@ -1,6 +1,6 @@
 @import 'src/css/colors.scss';
-.ApplySend {
-    .ApplySendTitle {
+.ApplyReturn {
+    .ApplyReturnTitle {
         padding: 15px 30px;
         height: 140px;
         font-size: 12px;
@@ -18,7 +18,7 @@
             color: $color333;
         }
     }
-    .ApplySendBody {
+    .ApplyReturnTable {
         padding: 15px 30px;
         background: white;
         margin-top: 20px;
@@ -38,7 +38,7 @@
             }
         }
     }
-    .ApplySendFooter {
+    .ApplyReturnFooter {
         height: 60px;
         line-height: 60px;
         background: white;
