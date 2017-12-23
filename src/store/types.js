@@ -1,4 +1,9 @@
 /* ********************-goodsCenter.module-********************* */
+export const setCustomerId = 'setCustomerId'; /* root-设置经销商ID */
+export const prodGroupId = 'prodGroupId'; /* 舍当前选中品类 */
+
+
+
 export const addPurchaseCount = 'addPurchaseCount'; /* root-增加进货单数量 */
 export const changeCurrentNav = 'changeCurrentNav'; /* root-改变当前导航样式 */
 export const addGoodsData = 'addGoodsData'; /* 添加购物车数据 */

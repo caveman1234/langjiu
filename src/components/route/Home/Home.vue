@@ -49,7 +49,6 @@
     </div>
 </template>
 <script>
-import { mapState, mapActions } from 'Vuex';
 let msgArr = [
     '新华社为郎酒打CALL 八方八方八方',
     '郎牌特曲广告全新升级 扎根扎根扎根',
@@ -67,13 +66,10 @@ export default {
     },
 
     methods: {
-        ...mapActions({
-            fetchPurchaseCountAsync: 'goodsCenter/fetchPurchaseCountAsync'
-        }),
+       
         handleClick() { }
     },
     mounted(){
-        this.fetchPurchaseCountAsync();
         this.$store.commit('changeCurrentNav', { hash: '/Home' });
     }
 }

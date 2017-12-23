@@ -19,7 +19,12 @@ let mutations = {
                 v.hasSelected = false;
             }
         });
-
+    },
+    [types.setCustomerId](store, customerId) {
+        store.customerId = customerId
+    },
+    [types.prodGroupId](store, prodGroupId) {
+        store.prodGroupId = prodGroupId;
     }
 };
 export default mutations;

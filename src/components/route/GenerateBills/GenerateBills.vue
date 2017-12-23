@@ -36,7 +36,7 @@
                             <el-date-picker :disabled="isNotice===1" size="mini" v-model="arriveDate" type="date" placeholder="选择日期" style="width:100%;">
                             </el-date-picker>
                         </el-col>
-                        
+
                     </el-row>
                 </div>
             </div>
@@ -48,25 +48,29 @@
                     <el-table-column prop="" label="商品详情" width="400">
                         <template slot-scope="scope">
                             <div class="detailContainer">
-                                <div :style='{"backgroundImage":`url(${scope.row.goodsImg})`}' class="goodsImg"></div>
-                                <div class="desc">{{scope.row.brief}}</div>
+                                <div :style='{"backgroundImage":`url(${scope.row.imageUrl})`}' class="goodsImg"></div>
+                                <div class="desc">{{scope.row.productDesc}}</div>
                             </div>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="price" label="单价">
+                    <el-table-column prop="basicPrice" label="单价">
                         <template slot-scope="scope">
                             <div class="price">
-                                <div>价格：¥{{scope.row.price}}</div>
-                                <div>共建：¥{{scope.row.commonBuild}}</div>
+                                <div>价格：¥{{scope.row.basicPrice || '暂无价格'}}</div>
+                                <div>共建：¥{{scope.row.fundPrice || 0}}</div>
                             </div>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="boxCount" label="箱数">
+                    <el-table-column prop="baleQuantity" label="箱数">
                         <template slot-scope="scope">
-                            <el-input-number v-model="scope.row.boxCount" :min="1" size="mini"></el-input-number>
+                            <el-input-number @change="baleQuantityChange(scope.row)" v-model="scope.row.baleQuantity" :min="1" size="mini"></el-input-number>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="bottolCount" label="瓶数"></el-table-column>
+                    <el-table-column prop="baseQuantity" label="瓶数">
+                        <template slot-scope="scope">
+                            <div>{{scope.row.baseQuantity}} </div>
+                        </template>
+                    </el-table-column>
                     <el-table-column prop="costOffMoney" label="费用折扣金额"></el-table-column>
                     <el-table-column prop="" label="操作">
                         <template slot-scope="scope">
@@ -80,7 +84,7 @@
             <div class="goodsFooter"></div>
         </div>
         <div class="offMoney">
-            <CostOff :goodsData="goodsData" @CostOffEvent="CostOffEvent"></CostOff>
+            <CostOff :goodsData="goodsData" :totalMoney="totalMoney" @CostOffEvent="CostOffEvent"></CostOff>
         </div>
         <div class="calcMoney">
             <div class="calcTitle">费用结算</div>
@@ -181,74 +185,11 @@
 import DeliveryInfo from './DeliveryInfo/DeliveryInfo.vue';
 import AddNewGoods from './AddNewGoods/AddNewGoods';
 import CostOff from './CostOff/CostOff';
-let carriageMethodCombo = [{ label: '选项一', value: 1 }, { label: '选项二', value: 2 }, { label: '选项三', value: 3 }]
-let infoData = [
-    {
-        userName: '张三1',
-        userPhone: '1366666666',
-        userAddress: '四川省成都市高新区天府大道南一段189号麓湖生态城',
-        id: '1',
-        isSelected: true
-    },
-    {
-        userName: '张三2',
-        userPhone: '1366666666',
-        userAddress: '四川省成都市高新区天府大道南一段189号麓湖生态城',
-        id: '2',
-        isSelected: false
-    },
-    {
-        userName: '张三3',
-        userPhone: '1366666666',
-        userAddress: '四川省成都市高新区天府大道南一段189号麓湖生态城',
-        id: '3',
-        isSelected: false
-    }
-];
-let goodsData = [
-    {
-        "goodsImg": "src/assets/goodsItem.png",
-        "goodsDetail": "1郎酒 红花郎（10）陈酿 53度整箱装 白酒 558m l*6瓶（箱内有礼)",
-        "volume": 500,
-        "strength": 53,
-        "productCode": "langjiu098765",
-        "price": 1000,
-        "amount": 1,
-        "bottle": 10,
-        "commonMoney": 1000,
-        "money": 111,
-        "id": 1
-    },
-    {
-        "goodsImg": "src/assets/goodsItem.png",
-        "goodsDetail": "2郎酒 红花郎（10）陈酿 53度整箱装 白酒 558m l*6瓶（箱内有礼)",
-        "volume": 500,
-        "strength": 53,
-        "productCode": "langjiu098765",
-        "price": 1000,
-        "amount": 1,
-        "bottle": 10,
-        "commonMoney": 1000,
-        "money": 111,
-        "id": 2
-    },
-    {
-        "goodsImg": "src/assets/goodsItem.png",
-        "goodsDetail": "3郎酒 红花郎（10）陈酿 53度整箱装 白酒 558m l*6瓶（箱内有礼)",
-        "volume": 500,
-        "strength": 53,
-        "productCode": "langjiu098765",
-        "price": 1000,
-        "amount": 1,
-        "bottle": 10,
-        "commonMoney": 1000,
-        "money": 222,
-        "id": 3
-    }
-]
+
+
 export default {
     name: 'GenerateBills',
-    components: { DeliveryInfo, AddNewGoods,CostOff },
+    components: { DeliveryInfo, AddNewGoods, CostOff },
     data() {
         return {
             isNotice: 1,/* 发货通知 */
@@ -256,8 +197,8 @@ export default {
             arriveDate: '',/* 期望到货日期 */
             address: '',
             remark: '',
-            carriageMethodCombo: carriageMethodCombo,
-            infoData: infoData,/* 地址信息 */
+            carriageMethodCombo: [],/* 订单类型 */
+            infoData: [],/* 地址信息 */
             goodsData: []/* 表格数据 */
         }
     },
@@ -278,30 +219,100 @@ export default {
             this.goodsData.splice(index, 1);
         },
         receiveData(data) {/* 接收搜索数据 */
-            data.forEach(obj => {
-                this.goodsData = this.goodsData || [];
-                let id = obj.id;
-                let hasExistObj = this.goodsData.find(v => v.id === id);
-                if (hasExistObj) {
-                    hasExistObj.boxCount = hasExistObj.boxCount + obj.boxCount
-                } else {
-                    this.goodsData.push(obj);
-                }
-            });
+            let allProductId = this.goodsData.map(v => v.productId);
+            let willAppendData = data.filter(v => !allProductId.includes(v.productId));
+            this.goodsData = this.goodsData.concat(willAppendData);
         },
-        CostOffEvent(data){/* 使用折扣金额 */
+        CostOffEvent(data) {/* 使用折扣金额 */
             console.log(data);
         },
-        payOnline(){/* 在线支付 */
+        payOnline() {/* 在线支付 */
 
         },
-        saveTemporary(){/* 暂存 */
-
+        saveTemporary() {/* 暂存 */
+            this.verification();
+        },
+        /* 获取收货地址 */
+        fetchAddress() {
+            let _this = this;
+            let paramsWrap = {
+                params: {
+                    customerId: this.$store.state.customerId
+                }
+            }
+            _this.$http.get('/ocm-web//api/base/customer/get-addr-List', paramsWrap)
+                .then(res => {
+                    let infoData = res.data.map((v, i) => {
+                        let obj = {
+                            userName: v.firstReceiver,
+                            userPhone: v.firstReceiverPhone,
+                            userAddress: v.addressDetail,
+                            id: v.id,
+                        }
+                        if (i == 0) {
+                            obj.isSelected = true;
+                        } else {
+                            obj.isSelected = false;
+                        }
+                        return obj;
+                    });
+                    _this.infoData = infoData;
+                })
+        },
+        /* 获取订单类型  */
+        fetchOrderType() {
+            let _this = this;
+            let paramsWrap = {
+                params: {
+                    customerId: this.$store.state.customerId
+                }
+            };
+            _this.$http.get('/ocm-web//api/b2b/po-types/get-common-add', paramsWrap)
+                .then(res => {
+                    let carriageMethodCombo = res.data.map(v => ({ label: v.name, value: v.id }));
+                    this.carriageMethodCombo = carriageMethodCombo;
+                })
+        },
+        baleQuantityChange(row) {
+            this.$nextTick(() => {
+                row.baseQuantity = (row.baleQuantity) * row.packageNum;
+            });
+        },
+        /* 验证 */
+        verification() {
+            this.$Notification1({
+                type: 'error',
+                title: '不能为空'
+            });
+        }
+    },
+    computed: {
+        totalMoney() {
+            let total = 0;
+            this.goodsData.forEach(v => {
+                total = total + (v.baseQuantity * (v.basicPrice || 0))
+            });
+            return total;
         }
     },
     mounted() {
-        this.goodsData = this.$route.params.selectedData;
-        console.log(this.goodsData);
+        this.goodsData = this.$route.params.selectedData.map(v => {
+            //baleQuantity 箱数
+            //costOffMoney 费用折扣金额
+            //baseQuantity 瓶数
+            return Object.assign(
+                {},
+                v,
+                {
+                    costOffMoney: 0,
+                    baleQuantity: 1,
+                    baseQuantity: v.packageNum
+                }
+            );
+        });
+        console.log('GenerateBills------', this.goodsData);
+        this.fetchAddress();/* 获取收货地址 */
+        this.fetchOrderType();/* 获取订单类型 */
     }
 }
 </script>

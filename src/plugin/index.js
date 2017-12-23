@@ -10,9 +10,19 @@ function install(Vue) {
     /* *****************************-prototype-****************************** */
     Vue.prototype.util = util;
     Vue.prototype.interfaceAddress = interfaceAddress;
-    axios.defaults.baseURL = 'http://localhost:8080';
+    // axios.defaults.baseURL = 'http://localhost:8080';
     Vue.prototype.$http = axios;
     Vue.prototype.$loading = Loading;
+    Vue.prototype.$Notification = Notification;
+    Vue.prototype.$Notification1 = function({ message, type, title }) {
+        Notification({
+            type: type,
+            title: title,
+            message: message,
+            offset: 90,
+            duration: 3000
+        });
+    };
     /* *****************************-mixins-********************************** */
     Vue.mixin(mixins);
 
@@ -48,10 +58,10 @@ function install(Vue) {
     /* response */
     axios.interceptors.response.use(function(response) {
         loadingInstance1.close();
-        if (response.data.result !== 1) {
+        if (response.headers["x-ocm-code"] != '1') {
             Notification.error({
-                title: '请求错误',
-                message: response.data.msg,
+                title: decodeURI(response.headers["x-ocm-message"]),
+                // message: decodeURI(response.headers["x-ocm-message"]),
                 offset: 90,
                 duration: 3000
             });

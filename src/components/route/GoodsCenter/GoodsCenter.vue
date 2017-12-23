@@ -1,8 +1,8 @@
 <template>
     <div class="GoodsCenter">
         <div class="treeList">
-            <el-tabs tab-position="left">
-                <el-tab-pane v-for="(item,index) in leftItems" :key="index" :label="item"></el-tab-pane>
+            <el-tabs @tab-click="tabClick" tab-position="left">
+                <el-tab-pane v-for="(item,index) in leftItems" :key="index" :label="item.name"></el-tab-pane>
             </el-tabs>
         </div>
         <div class="goodsItems">
@@ -24,16 +24,32 @@ export default {
     components: { GoodsItem },
     data() {
         return {
-            leftItems: leftItems,
-            goodsData: []
+            leftItems: leftItems,/* 左边列表 */
+            goodsData: []/* 商品列表 */
         }
     },
     computed: {
 
     },
     methods: {
-        itemClick({ id }) {
-            let currentObj = this.goodsData.find(v => v.id == id);
+        tabClick(item) {
+            /* 设置产品线 */
+            this.$store.commit('prodGroupId', this.leftItems[item.index].prodGroupId);
+            let selectedObj = this.leftItems.find(v => v.name == item.label)
+            let paramsWrap = {
+                params: {
+                    prodGroupId: selectedObj.prodGroupId,
+                    customerId: this.$store.state.customerId
+                }
+            }
+            this.$http.get('/ocm-web/api/base/prod/search-for-purchase-order', paramsWrap)
+                .then(res => {
+                    let goodsData = res.data.map(v => Object.assign({}, v, { hasPurchase: false }));
+                    this.goodsData = goodsData;
+                });
+        },
+        itemClick({ productId }) {
+            let currentObj = this.goodsData.find(v => v.productId == productId);
             currentObj.hasPurchase = !currentObj.hasPurchase;
         },
         goBuyGoods() {
@@ -45,11 +61,34 @@ export default {
     },
     mounted() {
         let _this = this;
+        /* 导航 */
         _this.$store.commit('changeCurrentNav', { hash: '/GoodsCenter' });
-        _this.$http.get('static/goodsList.json')
+
+        let params = {
+            params: {
+                customerId: this.$store.state.customerId
+            }
+        };
+
+        /* 请求左边列表 */
+        _this.$http.get('/ocm-web/api/base/prodline/get-mgr-list', params)
             .then(res => {
-                let data = res.data.data;
-                _this.goodsData = data;
+                let leftItems = res.data.map(v => ({ name: v.name, prodGroupId: v.id }));
+                _this.leftItems = leftItems;
+                /* 请求第一列商品类表 */
+                let paramsWrap = {
+                    params: {
+                        prodGroupId: _this.leftItems[0].prodGroupId,
+                        customerId: _this.$store.state.customerId
+                    }
+                }
+                _this.$http.get('/ocm-web/api/base/prod/search-for-purchase-order', paramsWrap)
+                    .then(res => {
+                        let goodsData = res.data.map(v => Object.assign({}, v, { hasPurchase: false }));
+                        _this.goodsData = goodsData;
+                        /* 设置产品线 */
+                        _this.$store.commit('prodGroupId', _this.leftItems[0].prodGroupId);
+                    });
             });
     },
     computed: {

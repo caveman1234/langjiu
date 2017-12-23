@@ -1,10 +1,6 @@
 <template>
   <div id="app">
-    <Vheader></Vheader>
-    <div class="routeContainer">
-      <router-view/>
-    </div>
-    <Vfooter></Vfooter>
+    <router-view></router-view>
   </div>
 </template>
 
@@ -12,8 +8,9 @@
 import { Loading } from 'element-ui';
 import Vheader from "@/components/MainPage/Header/Header.vue";
 import Vfooter from "@/components/MainPage/Footer/Footer.vue";
+import MainPage from "@/components/MainPage/MainPage.vue";
 export default {
-  components: { Vheader, Vfooter },
+  components: { Vheader, Vfooter,MainPage },
   name: 'app',
   data() {
     return {

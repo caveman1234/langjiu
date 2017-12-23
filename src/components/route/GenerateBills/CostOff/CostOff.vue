@@ -8,10 +8,10 @@
             <div class="dialogContainer">
                 <el-row>
                     <el-col :span="3">订单总金额：</el-col>
-                    <el-col :span="3">10000</el-col>
+                    <el-col :span="3">{{totalMoney}}</el-col>
                     <el-col :span="4">使用折扣金额：</el-col>
                     <el-col :span="6">
-                        <el-input v-model="useOffMoney" size="mini" placeholder="请输入折扣金额"></el-input>
+                        <el-input v-model="useOffMoney" size="mini" :placeholder="maxMoney"></el-input>
                     </el-col>
                 </el-row>
                 <el-table :data="searchData" show-summary sum-text="合计" border style="width: 100%">
@@ -46,14 +46,14 @@ let searchData = [
     }
 ];
 export default {
-    name: 'AddNewGoods',
-    props:["goodsData"],
+    name: 'CostOff',
+    props: ["goodsData", "totalMoney"],
     data() {
         return {
             searchUrl: '',
             dialogVisible: false,
             searchData: searchData,/* 选中的数据 */
-            useOffMoney:'',/* 使用折扣金额 */
+            useOffMoney: '',/* 使用折扣金额 */
         }
     },
     methods: {
@@ -87,10 +87,27 @@ export default {
                     let data = res.data.data;
                     _this.searchData = data;
                 });
+        },
+        fetchUseOffMoney() {
+            let paramsWrap = {
+                params: {
+                    customerId: this.$store.state.customerId
+                }
+            };
+            this.$http.get('/ocm-web/api/base/customer/getMaxLimit', paramsWrap)
+                .then(res => {
+                    debugger
+                    this.useOffMoney = res;
+                });
+        }
+    },
+    computed: {
+        maxMoney() {
+            return `最大值不能超过${this.totalMoney}`
         }
     },
     mounted() {
-        
+        this.fetchUseOffMoney()
     }
 }
 </script>

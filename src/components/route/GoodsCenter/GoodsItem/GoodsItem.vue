@@ -1,14 +1,14 @@
 <template>
     <div @click="itemClick" class="GoodsItem" @mouseover="mouseOver" @mouseout="mouseOut">
         <div class="imgContainer">
-            <img :src="birefData.imgUrl" alt="">
+            <img :src="birefData.imageUrl || 'http://192.168.100.58/g1/M00/00/02/wKhkOlo41fWAZEQFAAYTfUDG0co166.PNG'" alt="">
         </div>
         <div class="textContent">
-            <div class="price">¥{{birefData.price}}</div>
-            <div class="textDetail">{{birefData.brief}}</div>
+            <div class="price">¥{{birefData.basicPrice||'暂无价格'}}</div>
+            <div class="textDetail">{{birefData.productDesc}}</div>
             <div class="store">
-                <span>库存:</span>
-                <span>{{birefData.count}}瓶</span>
+                <!-- <span>库存:</span>
+                <span>{{birefData.count}}瓶</span> -->
             </div>
             <div v-if="birefData.hasPurchase" class="selectedIcon">
                 <i class="icon iconfont icon-selectcheckboxpre"></i>
@@ -52,6 +52,8 @@ export default {
         itemClick(){
             this.$emit('itemClick',this.birefData);
         }
+    },
+    mounted(){
     }
 }
 </script>

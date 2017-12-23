@@ -13,20 +13,20 @@
             <div class="dialogContainer">
                 <el-table @selection-change="selectChange" :data="searchData" ref="multipleTable" height="400" style="width: 100%">
                     <el-table-column type="selection" width="55"></el-table-column>
-                    <el-table-column prop="brief" label="产品名称"></el-table-column>
+                    <el-table-column prop="productDesc" label="产品名称"></el-table-column>
                     <el-table-column prop="" label="规格">
                         <template slot-scope="scope">
                             <div class="standard">
-                                <div>容量：{{scope.row.volume}}ml</div>
-                                <div>度数：{{scope.row.strength}}度</div>
+                                <div>容量：{{scope.row.standard}}ml</div>
+                                <div>度数：{{scope.row.productModel}}度</div>
                             </div>
                         </template>
                     </el-table-column>
                     <el-table-column prop="" label="价格">
                         <template slot-scope="scope">
                             <div class="standard">
-                                <div>价格：{{scope.row.price}}</div>
-                                <div>共建：{{scope.row.commonBuild}}</div>
+                                <div>价格：{{scope.row.basicPrice||'暂无价格'}}</div>
+                                <div>共建：{{scope.row.fundPrice || 0}}</div>
                             </div>
                         </template>
                     </el-table-column>
@@ -44,8 +44,8 @@ export default {
     name: 'AddNewGoods',
     props: {
         searchUrl: {
-            default(){
-                return "static/goodsList.json"
+            default() {
+                return "/ocm-web/api/base/prod/search-for-purchase-order"
             }
         }
     },
@@ -68,8 +68,14 @@ export default {
             this.$refs.multipleTable.clearSelection();
             this.searchName = '';
         },
-        handleOpen(){
-            this.searchGoodsInfo();
+        handleOpen() {
+            let paramsWrap = {
+                params: {
+                    customerId: this.$store.state.customerId,
+                    prodGroupId: this.$store.state.prodGroupId
+                }
+            };
+            this.searchGoodsInfo(paramsWrap);
         },
         cancel() {
             this.dialogVisible = false;
@@ -79,26 +85,31 @@ export default {
             this.dialogVisible = false;
         },
         search() {
-            let params = {
-                productName: this.searchName
+            let paramsWrap = {
+                params: {
+                    customerId: this.$store.state.customerId,
+                    prodGroupId: this.$store.state.prodGroupId,
+                    content: this.searchName
+                }
             };
-            this.searchGoodsInfo(params);
+            this.searchGoodsInfo(paramsWrap);
         },
         selectChange(selectedArr) {
             this.selectedData = selectedArr;
         },
-        searchGoodsInfo(params) {/* 异步获取数据 */
+        searchGoodsInfo(params) {/* 异步获取表格数据 */
             let _this = this;
             let url = this.searchUrl;
             _this.$http.get(url, params)
                 .then(res => {
-                    let data = res.data.data;
+                    let data = res.data;
                     _this.searchData = data;
+                    console.log('addnewtable----', data);
                 });
         }
     },
     mounted() {
-        
+
     }
 }
 </script>

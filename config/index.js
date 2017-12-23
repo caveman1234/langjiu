@@ -11,11 +11,11 @@ module.exports = {
         assetsSubDirectory: 'static',
         assetsPublicPath: '/',
         proxyTable: {
-            '/langjiu': {
-                target: 'http://localhost:8080',
+            '/ocm-web': {
+                target: 'http://192.168.100.58',
                 changeOrigin: true,
                 pathRewrite: {
-                    '^/langjiu': '/langjiu'
+                    '^/ocm-web': '/ocm-web'
                 }
             }
         },
