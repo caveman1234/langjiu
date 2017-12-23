@@ -11,13 +11,17 @@
                     <el-col :span="3">{{totalMoney}}</el-col>
                     <el-col :span="4">使用折扣金额：</el-col>
                     <el-col :span="6">
-                        <el-input v-model="useOffMoney" size="mini" :placeholder="maxMoney"></el-input>
+                        <el-input @input="useOffMoneyChange" v-model="useOffMoney" size="mini" :placeholder="maxMoney"></el-input>
                     </el-col>
                 </el-row>
                 <el-table :data="searchData" show-summary sum-text="合计" border style="width: 100%">
-                    <el-table-column prop="moneyType" label="费用类型"></el-table-column>
-                    <el-table-column prop="useableMoney" label="可用余额"></el-table-column>
-                    <el-table-column prop="currentMoney" label="本次使用金额"></el-table-column>
+                    <el-table-column prop="ctype" label="费用类型"></el-table-column>
+                    <el-table-column prop="reserve" label="可用余额"></el-table-column>
+                    <el-table-column prop="currentMoney" label="本次使用金额">
+                        <template slot-scope="scope">
+                            <div>{{scope.row.currentMoney || 0}} </div>
+                        </template>
+                    </el-table-column>
                 </el-table>
             </div>
             <span slot="footer" class="dialog-footer">
@@ -30,19 +34,19 @@
 <script>
 let searchData = [
     {
-        moneyType: 'E类',
-        useableMoney: 2000,
-        currentMoney: 1000,
+        ctype: 'E',
+        reserve: 1000,
+        currentMoney: 0
     },
     {
-        moneyType: 'Q类',
-        useableMoney: 3000,
-        currentMoney: 2000,
+        ctype: 'Q',
+        reserve: 1000,
+        currentMoney: 0
     },
     {
-        moneyType: 'F类',
-        useableMoney: 4000,
-        currentMoney: 3000,
+        ctype: 'F',
+        reserve: 1000,
+        currentMoney: 0
     }
 ];
 export default {
@@ -54,40 +58,51 @@ export default {
             dialogVisible: false,
             searchData: searchData,/* 选中的数据 */
             useOffMoney: '',/* 使用折扣金额 */
+            ratio: 0
         }
     },
     methods: {
         add() {
             this.dialogVisible = true;
         },
-        handleClose(done) {/* 关闭弹窗 */
+        /* 关闭弹窗 */
+        handleClose(done) {
             this.searchData = [];
+            this.useOffMoney = ''
+                ;
         },
-        handleOpen() {/* 打开弹窗 */
-            // this.searchTable();
-            console.log(this.goodsData)
+        /* 打开弹窗 */
+        handleOpen() {
+            this.fetchMoneyType();
+            this.fetchMoneyType();
         },
         cancel() {
             this.dialogVisible = false;
         },
+        /* 确认 */
         confirm() {
             let _this = this;
-            _this.dialogVisible = false;
-            let eventPayload = {
-
-            };
-            _this.$emit('CostOffEvent', eventPayload);
-        },
-
-        searchTable() {/* 异步获取数据 */
-            let _this = this;
-            let url = this.searchUrl;
-            _this.$http.get(url, )
-                .then(res => {
-                    let data = res.data.data;
-                    _this.searchData = data;
+            this.fetchCalcMoney()
+                .then(calcMoney => {
+                    _this.dialogVisible = false;
+                    _this.$emit('CostOffEvent', calcMoney);
                 });
         },
+        useOffMoneyChange(value) {
+            debugger
+            let useOffMoney = value ? parseFloat(value).toFixed(2) : 0;
+            this.searchData.forEach(v => {
+                if (useOffMoney > v.reserve || useOffMoney == v.reserve) {
+                    v.currentMoney = parseFloat(v.reserve).toFixed(2);
+                    useOffMoney = useOffMoney - v.reserve;
+                } else if (useOffMoney < v.reserve) {
+                    v.currentMoney = parseFloat(useOffMoney).toFixed(2);
+                    useOffMoney = 0;
+                }
+            });
+            debugger
+        },
+        /* 获取折扣金额 */
         fetchUseOffMoney() {
             let paramsWrap = {
                 params: {
@@ -96,18 +111,51 @@ export default {
             };
             this.$http.get('/ocm-web/api/base/customer/getMaxLimit', paramsWrap)
                 .then(res => {
-                    debugger
-                    this.useOffMoney = res;
+                    this.ratio = res.data;
                 });
+        },
+        /* 获取价格类型列表 */
+        fetchMoneyType() {
+            let paramsWrap = {
+                params: {
+                    customerId: this.$store.state.customerId,
+                    productGroupId: this.$store.state.prodGroupId
+                }
+            };
+            this.$http.get('/ocm-web/api/b2b/query-balance/getChargeReserve', paramsWrap)
+                .then(res => {
+                    this.searchData = res.data;
+                });
+        },
+        /* 获取计算费用 */
+        fetchCalcMoney() {
+            let itemList = this.goodsData.map(v => {
+                return {
+                    productId: v.productId,
+                    baseQuantity: v.baseQuantity,
+                    basePrice: v.basicPrice,
+                    fundPrice: v.fundPrice
+                }
+            });
+            let paramsWrap = {
+                saleChannelCode: '00',
+                distributorId: this.$store.state.customerId,
+                productGroupId: this.$store.state.prodGroupId,
+                totalFee: this.useOffMoney,
+                itemList: itemList
+            };
+            return this.$http.post('/ocm-web/api/b2b/purchase-orders/calculateFee', paramsWrap)
+                .then(res => res.data.itemList[0]);
         }
     },
     computed: {
         maxMoney() {
-            return `最大值不能超过${this.totalMoney}`
+            return `最大值不能超过${this.totalMoney * this.ratio}`
         }
     },
     mounted() {
         this.fetchUseOffMoney()
+        this.fetchMoneyType();
     }
 }
 </script>

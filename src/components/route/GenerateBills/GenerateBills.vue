@@ -158,7 +158,7 @@
                             <div class="calcRightName">实付总额：</div>
                         </el-col>
                         <el-col :span="14">
-                            <div class="calcRightMoney calcRightMoneyTotal">¥1000000.00</div>
+                            <div class="calcRightMoney calcRightMoneyTotal">¥{{calcMoney.realAmount}}</div>
                         </el-col>
                     </div>
                 </el-col>
@@ -199,7 +199,15 @@ export default {
             remark: '',
             carriageMethodCombo: [],/* 订单类型 */
             infoData: [],/* 地址信息 */
-            goodsData: []/* 表格数据 */
+            goodsData: [],/* 表格数据 */
+            calcMoney: {
+                dealAmount: '',//净货款
+                discountAmount: '',//抵扣货款
+                fundAmount: '',//毛共建基金金额
+                fundFee: '',//共建基金_费用
+                fundCash: '',//共建基金_现金
+                realAmount: ''//需支付金额（共建基金+净货款）
+            }
         }
     },
     methods: {
@@ -214,22 +222,26 @@ export default {
                 return obj;
             });
         },
-        delOneItem({ id }) {
-            let index = this.goodsData.findIndex(v => v.id === id);
+        delOneItem({ productId }) {
+            let index = this.goodsData.findIndex(v => v.productId === productId);
             this.goodsData.splice(index, 1);
         },
-        receiveData(data) {/* 接收搜索数据 */
+        /* 接收搜索数据 */
+        receiveData(data) {
             let allProductId = this.goodsData.map(v => v.productId);
             let willAppendData = data.filter(v => !allProductId.includes(v.productId));
             this.goodsData = this.goodsData.concat(willAppendData);
         },
-        CostOffEvent(data) {/* 使用折扣金额 */
-            console.log(data);
+        /* 使用折扣金额 */
+        CostOffEvent(calcMoney) {
+            this.calcMoney = calcMoney;
         },
-        payOnline() {/* 在线支付 */
+        /* 在线支付 */
+        payOnline() {
 
         },
-        saveTemporary() {/* 暂存 */
+        /* 暂存 */
+        saveTemporary() {
             this.verification();
         },
         /* 获取收货地址 */
@@ -290,7 +302,8 @@ export default {
         totalMoney() {
             let total = 0;
             this.goodsData.forEach(v => {
-                total = total + (v.baseQuantity * (v.basicPrice || 0))
+                //总价 + 总共建基金
+                total = total + (v.baseQuantity * (v.basicPrice || 0) + (v.baseQuantity * (v.fundPrice || 0)))
             });
             return total;
         }

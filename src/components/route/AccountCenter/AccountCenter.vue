@@ -2,6 +2,8 @@
     <div class="AccountCenter">
         <div class="leftList">
             <el-tabs @tab-click="tabClick" tab-position="left">
+                <el-tab-pane label="民生银行账户管理"></el-tab-pane>
+                <el-tab-pane label="在线充值"></el-tab-pane>
                 <el-tab-pane label="我的资产"></el-tab-pane>
                 <el-tab-pane label="未发货金额"></el-tab-pane>
                 <el-tab-pane label="融资信息"></el-tab-pane>
