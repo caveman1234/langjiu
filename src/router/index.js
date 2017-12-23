@@ -6,7 +6,7 @@ import GoodsCenter from '@/components/route/GoodsCenter/GoodsCenter'
 import AccountCenter from '@/components/route/AccountCenter/AccountCenter'
 import MsgCenter from '@/components/route/MsgCenter/MsgCenter'
 import PurchaseBills from '@/components/route/PurchaseBills/PurchaseBills'
-import GenerateBills from '@/components/route/GenerateBills/GenerateBills'
+import GenerateBills from '@/components/route/GenerateBills/GenerateBills.vue'
 import ApplySend from '@/components/route/ApplySend/ApplySend'
 import ApplyReturn from '@/components/route/ApplyReturn/ApplyReturn'
 

@@ -12,8 +12,8 @@ module.exports = {
         assetsPublicPath: '/',
         proxyTable: {
             '/ocm-web': {
-                // target: 'http://192.168.100.58',
-                target: 'http://10.18.0.210:8080',
+                target: 'http://192.168.100.58',
+                // target: 'http://10.18.0.210:8080',
                 changeOrigin: true,
                 pathRewrite: {
                     '^/ocm-web': '/ocm-web'

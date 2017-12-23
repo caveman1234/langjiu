@@ -84,7 +84,14 @@ export default {
                 }
                 _this.$http.get('/ocm-web/api/base/prod/search-for-purchase-order', paramsWrap)
                     .then(res => {
-                        let goodsData = res.data.map(v => Object.assign({}, v, { hasPurchase: false }));
+                        let goodsData = res.data.map(v => {
+                            return Object.assign(
+                                {},
+                                v,
+                                {
+                                    hasPurchase: false,
+                                })
+                        });
                         _this.goodsData = goodsData;
                         /* 设置产品线 */
                         _this.$store.commit('prodGroupId', _this.leftItems[0].prodGroupId);

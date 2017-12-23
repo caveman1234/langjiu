@@ -1,13 +1,13 @@
 <template>
     <div @click="itemClick" class="GoodsItem" @mouseover="mouseOver" @mouseout="mouseOut">
-        <div :style='{"backgroundImage":`url(${birefData.imageUrl || "http://192.168.100.58/g1/M00/00/02/wKhkOlo41fWAZEQFAAYTfUDG0co166.PNG"})`}' class="imgContainer">
+        <div :style='{"backgroundImage":`url(${birefData.imageUrl || "src/assets/defaultimg.png"})`}' class="imgContainer">
         </div>
         <div class="textContent">
             <div class="price">¥{{birefData.basicPrice||'暂无价格'}}</div>
             <div class="textDetail">{{birefData.productDesc}}</div>
             <div class="store">
                 <!-- <span>库存:</span>
-                <span>{{birefData.count}}瓶</span> -->
+                        <span>{{birefData.count}}瓶</span> -->
             </div>
             <div v-if="birefData.hasPurchase" class="selectedIcon">
                 <i class="icon iconfont icon-selectcheckboxpre"></i>
@@ -48,18 +48,19 @@ export default {
         mouseOut() {
             this.hoverClass = 'divMouseOut';
         },
-        itemClick(){
-            if(this.birefData.basicPrice){
-                this.$emit('itemClick',this.birefData);
-            }else{
+        itemClick() {
+            if (this.birefData.basicPrice) {
+                this.$emit('itemClick', this.birefData);
+            } else {
                 this.$Notification1({
-                    type:'warning',
-                    title:'暂无价格，不能购买'
+                    type: 'warning',
+                    title: '暂无价格，不能购买'
                 });
             }
         }
     },
-    mounted(){
+    mounted() {
+        
     }
 }
 </script>

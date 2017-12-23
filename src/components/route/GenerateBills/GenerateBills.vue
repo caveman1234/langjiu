@@ -98,7 +98,7 @@
                             <div class="calcRightName">订单总金额：</div>
                         </el-col>
                         <el-col :span="14">
-                            <div class="calcRightMoney">¥1000000.00</div>
+                            <div class="calcRightMoney">¥{{totalMoney}}</div>
                         </el-col>
                     </div>
                 </el-col>
@@ -113,7 +113,7 @@
                             <div class="calcRightName">费用抵扣金额：</div>
                         </el-col>
                         <el-col :span="14">
-                            <div class="calcRightMoney">-¥1000000.00</div>
+                            <div class="calcRightMoney">¥{{useOffMoney}}</div>
                         </el-col>
                     </div>
                 </el-col>
@@ -128,22 +128,8 @@
                             <div class="calcRightName">订单支付金额：</div>
                         </el-col>
                         <el-col :span="14">
-                            <div class="calcRightMoney">¥900000.00</div>
-                        </el-col>
-                    </div>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="17">
-                    <div class="calcLeft">1</div>
-                </el-col>
-                <el-col :span="7">
-                    <div class="calcRight">
-                        <el-col :span="10">
-                            <div class="calcRightName">其中共建基金：</div>
-                        </el-col>
-                        <el-col :span="14">
-                            <div class="calcRightMoney">¥900000.00</div>
+                            <span class="calcRightMoney">¥{{realAmount}}</span>
+                            <span>(其中共建基金:¥{{fundCash}})</span>
                         </el-col>
                     </div>
                 </el-col>
@@ -158,7 +144,7 @@
                             <div class="calcRightName">实付总额：</div>
                         </el-col>
                         <el-col :span="14">
-                            <div class="calcRightMoney calcRightMoneyTotal">¥{{calcMoney.realAmount}}</div>
+                            <div class="calcRightMoney calcRightMoneyTotal">¥{{realAmount}}</div>
                         </el-col>
                     </div>
                 </el-col>
@@ -171,8 +157,9 @@
                     <div class="calcRight">
                         <el-col :span="24">
                             <div class="calcRightName">
-                                <el-button @click="payOnline" size="mini">在线支付</el-button>
-                                <el-button @click="saveTemporary" size="mini">暂存</el-button>
+                                <el-button @click="edit" size="mini" type="primary">修改</el-button>
+                                <el-button @click="submit" size="mini" type="primary">提交</el-button>
+                                <el-button @click="payOnline" size="mini" type="primary">在线支付</el-button>
                             </div>
                         </el-col>
                     </div>
@@ -182,152 +169,8 @@
     </div>
 </template>
 <script>
-import DeliveryInfo from './DeliveryInfo/DeliveryInfo.vue';
-import AddNewGoods from './AddNewGoods/AddNewGoods';
-import CostOff from './CostOff/CostOff';
-
-
-export default {
-    name: 'GenerateBills',
-    components: { DeliveryInfo, AddNewGoods, CostOff },
-    data() {
-        return {
-            isNotice: 1,/* 发货通知 */
-            carriageMethod: '',/* 运输方式 */
-            arriveDate: '',/* 期望到货日期 */
-            address: '',
-            remark: '',
-            carriageMethodCombo: [],/* 订单类型 */
-            infoData: [],/* 地址信息 */
-            goodsData: [],/* 表格数据 */
-            calcMoney: {
-                dealAmount: '',//净货款
-                discountAmount: '',//抵扣货款
-                fundAmount: '',//毛共建基金金额
-                fundFee: '',//共建基金_费用
-                fundCash: '',//共建基金_现金
-                realAmount: ''//需支付金额（共建基金+净货款）
-            }
-        }
-    },
-    methods: {
-        addressClick(item) {
-            let index = this.infoData.findIndex(v => v == item);
-            this.infoData.forEach((obj, i) => {
-                if (index == i) {
-                    obj.isSelected = true;
-                } else {
-                    obj.isSelected = false;
-                }
-                return obj;
-            });
-        },
-        delOneItem({ productId }) {
-            let index = this.goodsData.findIndex(v => v.productId === productId);
-            this.goodsData.splice(index, 1);
-        },
-        /* 接收搜索数据 */
-        receiveData(data) {
-            let allProductId = this.goodsData.map(v => v.productId);
-            let willAppendData = data.filter(v => !allProductId.includes(v.productId));
-            this.goodsData = this.goodsData.concat(willAppendData);
-        },
-        /* 使用折扣金额 */
-        CostOffEvent(calcMoney) {
-            this.calcMoney = calcMoney;
-        },
-        /* 在线支付 */
-        payOnline() {
-
-        },
-        /* 暂存 */
-        saveTemporary() {
-            this.verification();
-        },
-        /* 获取收货地址 */
-        fetchAddress() {
-            let _this = this;
-            let paramsWrap = {
-                params: {
-                    customerId: this.$store.state.customerId
-                }
-            }
-            _this.$http.get('/ocm-web//api/base/customer/get-addr-List', paramsWrap)
-                .then(res => {
-                    let infoData = res.data.map((v, i) => {
-                        let obj = {
-                            userName: v.firstReceiver,
-                            userPhone: v.firstReceiverPhone,
-                            userAddress: v.addressDetail,
-                            id: v.id,
-                        }
-                        if (i == 0) {
-                            obj.isSelected = true;
-                        } else {
-                            obj.isSelected = false;
-                        }
-                        return obj;
-                    });
-                    _this.infoData = infoData;
-                })
-        },
-        /* 获取订单类型  */
-        fetchOrderType() {
-            let _this = this;
-            let paramsWrap = {
-                params: {
-                    customerId: this.$store.state.customerId
-                }
-            };
-            _this.$http.get('/ocm-web//api/b2b/po-types/get-common-add', paramsWrap)
-                .then(res => {
-                    let carriageMethodCombo = res.data.map(v => ({ label: v.name, value: v.id }));
-                    this.carriageMethodCombo = carriageMethodCombo;
-                })
-        },
-        baleQuantityChange(row) {
-            this.$nextTick(() => {
-                row.baseQuantity = (row.baleQuantity) * row.packageNum;
-            });
-        },
-        /* 验证 */
-        verification() {
-            this.$Notification1({
-                type: 'error',
-                title: '不能为空'
-            });
-        }
-    },
-    computed: {
-        totalMoney() {
-            let total = 0;
-            this.goodsData.forEach(v => {
-                //总价 + 总共建基金
-                total = total + (v.baseQuantity * (v.basicPrice || 0) + (v.baseQuantity * (v.fundPrice || 0)))
-            });
-            return total;
-        }
-    },
-    mounted() {
-        this.goodsData = this.$route.params.selectedData.map(v => {
-            //baleQuantity 箱数
-            //costOffMoney 费用折扣金额
-            //baseQuantity 瓶数
-            return Object.assign(
-                {},
-                v,
-                {
-                    costOffMoney: 0,
-                    baleQuantity: 1,
-                    baseQuantity: v.packageNum
-                }
-            );
-        });
-        console.log('GenerateBills------', this.goodsData);
-        this.fetchAddress();/* 获取收货地址 */
-        this.fetchOrderType();/* 获取订单类型 */
-    }
-}
+import GenerateBills from './GenerateBills.js';
+export default GenerateBills;
 </script>
 <style lang="scss">
 @import './GenerateBills.scss';

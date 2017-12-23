@@ -103,7 +103,7 @@ export default {
             _this.$http.get(url, params)
                 .then(res => {
                     let data = res.data;
-                    _this.searchData = data.map(v => {
+                    let searchData = data.map(v => {
                         //baleQuantity 箱数
                         //costOffMoney 费用折扣金额
                         //baseQuantity 瓶数
@@ -116,7 +116,8 @@ export default {
                                 baseQuantity: v.packageNum
                             }
                         );
-                    });
+                    }).filter(v => v.basicPrice);
+                    _this.searchData = searchData;
                 });
         }
     },

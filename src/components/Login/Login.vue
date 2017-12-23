@@ -23,7 +23,6 @@ export default {
     name: 'Login',
     data() {
         let userNameV = (rule, value, callback) => {
-            console.log(_this);
             if (!value) {
                 return callback(new Error('用户名不能为空'));
             } else {

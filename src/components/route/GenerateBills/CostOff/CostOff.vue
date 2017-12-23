@@ -68,8 +68,7 @@ export default {
         /* 关闭弹窗 */
         handleClose(done) {
             this.searchData = [];
-            this.useOffMoney = ''
-                ;
+            this.useOffMoney = '' ;
         },
         /* 打开弹窗 */
         handleOpen() {
@@ -85,11 +84,10 @@ export default {
             this.fetchCalcMoney()
                 .then(calcMoney => {
                     _this.dialogVisible = false;
-                    _this.$emit('CostOffEvent', calcMoney);
+                    _this.$emit('CostOffEvent', calcMoney,this.useOffMoney,this.searchData);
                 });
         },
         useOffMoneyChange(value) {
-            debugger
             let useOffMoney = value ? parseFloat(value).toFixed(2) : 0;
             this.searchData.forEach(v => {
                 if (useOffMoney > v.reserve || useOffMoney == v.reserve) {
@@ -100,7 +98,6 @@ export default {
                     useOffMoney = 0;
                 }
             });
-            debugger
         },
         /* 获取折扣金额 */
         fetchUseOffMoney() {
@@ -124,7 +121,9 @@ export default {
             };
             this.$http.get('/ocm-web/api/b2b/query-balance/getChargeReserve', paramsWrap)
                 .then(res => {
-                    this.searchData = res.data;
+                    this.searchData = res.data.map(v => {
+                        return Object.assign({}, v, { currentMoney: 0 });
+                    });
                 });
         },
         /* 获取计算费用 */
@@ -145,7 +144,7 @@ export default {
                 itemList: itemList
             };
             return this.$http.post('/ocm-web/api/b2b/purchase-orders/calculateFee', paramsWrap)
-                .then(res => res.data.itemList[0]);
+                .then(res => res.data.itemList);
         }
     },
     computed: {
