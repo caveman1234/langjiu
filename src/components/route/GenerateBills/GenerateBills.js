@@ -24,7 +24,7 @@ export default {
             //折扣金额
             useOffMoney: 0,
             /* 订单支付金额 */
-            // realAmount: 0,
+            realAmount: 0,
             /* 其中共建基金 */
             fundCash: 0,
             /* 使用费用表格 */
@@ -57,7 +57,6 @@ export default {
         },
         /* 使用折扣金额 */
         CostOffEvent(calcMoney, useOffMoney, calcDataTable) {
-            debugger
             let _this = this;
             /* 写入共建基金 */
             calcMoney.forEach(v => {
@@ -136,8 +135,6 @@ export default {
                 }
             });
 
-
-            debugger
             let receiveAddressId = _this.infoData.find(v => v.isSelected).id;
             let params = {
                 saleChannelCode: '00',
@@ -152,10 +149,12 @@ export default {
                 fFeeUsedAmount: calcDataTable[2],
                 purchaseOrderItems: purchaseOrderItems
             }
-            debugger
             _this.$http.post('/ocm-web//api/b2b/purchase-orders/submit', params)
                 .then(res => {
-                    debugger
+                    console.log(res, '---res---');
+                    if (res.headers["x-ocm-code"] == '1') {
+                        _this.$router.push({ name: 'TotalOrder' });
+                    }
                 });
         },
         /* 获取收货地址 */
@@ -226,13 +225,6 @@ export default {
         orderPayMoney() {
             return this.totalMoney - this.useOffMoney;
         },
-        /* 订单支付金额 */
-        realAmount: {
-            get() {},
-            set(value) {
-                return value;
-            }
-        }
     },
     mounted() {
         this.goodsData = this.$route.params.selectedData.map(v => {
