@@ -2,29 +2,32 @@
     <div class="TotalOrder">
         <SearchComp @searchData="searchData"></SearchComp>
         <!-- <OrderTable :orderData="orderData"></OrderTable> -->
-        <OrderTable :orderData="orderData"></OrderTable>
+        <OrderTable1 :orderData="orderData"></OrderTable1>
     </div>
 </template>
 <script>
 import SearchComp from '../SearchComp/SearchComp';
 import OrderTable from '../OrderTable/OrderTable';
+import OrderTable1 from '../OrderTable1/OrderTable1';
 let orderData = [
     {
         totalTakeMoney: 2000,/* 累计提货金额 */
         totalFillMoney: 1000,/* 累计填仓金额 */
-        orderType: "融资订单",
-        orderDate: "订单时间",
-        orderCode: "langjiu12344321",
-        orderStatus: "已审核",
+        poTypeName: "融资订单",
+        orderDate: 1496678400000,
+        poTypeCode: "1234",
+        billStatusName: "已审核",
         waitNotice: "是",/* 待提货通知 */
         totalApplyNum: 10,/* 累计申请发货数量 */
         orderNum: 20,/* 订单数量 */
-        goodsList: [
+        totalAmount:1000,
+        purchaseOrderItems: [
             {
-                goodsImg: "src/assets/goodsItem.png",
-                orderDesc: "2郎酒 红花郎（10）陈酿 53度整箱装 白酒 558m l*6瓶（箱内有礼)",
-                volume: 500,
-                price: 1000,
+                // imageUrl: "src/assets/goodsItem.png",
+                productDesc: "1郎酒 红花郎（10）陈酿 53度整箱装 白酒 558m l*6瓶（箱内有礼)",
+                standard: 500,
+                "productModel": 53,
+                basePrice: 1000,
                 num: 5,
                 money: 4000,
                 orderStatus: '已审核',
@@ -39,16 +42,17 @@ let orderData = [
                 "costOffMoney": 1000,
                 "commonBuild": 2000,
                 "volume": 500,
-                "strength": 53
+                
             },
             {
-                goodsImg: "src/assets/goodsItem.png",
-                orderDesc: "2郎酒 红花郎（10）陈酿 53度整箱装 白酒 558m l*6瓶（箱内有礼)",
-                volume: 500,
-                price: 1000,
+                imageUrl: "src/assets/goodsItem.png",
+                productDesc: "2郎酒 红花郎（10）陈酿 53度整箱装 白酒 558m l*6瓶（箱内有礼)",
+                standard: 500,
+                "productModel": 53,
+                basePrice: 1000,
                 num: 5,
                 money: 4000,
-                orderStatus: '暂存',
+                orderStatus: '已审核',
                 "imgUrl": "src/assets/goodsItem.png",
                 "brief": "郎酒红花郎10 53度酱香500度酱香500度酱香500度酱香500",
                 "price": 1668,
@@ -60,29 +64,30 @@ let orderData = [
                 "costOffMoney": 1000,
                 "commonBuild": 2000,
                 "volume": 500,
-                "strength": 53
             }
         ]
     },
     {
-        totalTakeMoney: 2000,/* 累计提货金额  还款*/
-        totalFillMoney: 1000,/* 累计填仓金额  订单*/
-        orderType: "融资订单",
-        orderDate: "订单时间",
-        orderCode: "langjiu12345678",
-        orderStatus: "审批通过",
+        totalTakeMoney: 2000,/* 累计提货金额 */
+        totalFillMoney: 1000,/* 累计填仓金额 */
+        poTypeName: "融资订单",
+        orderDate: 1514097811000,
+        poTypeCode: "1235",
+        billStatusName: "已审核",
         waitNotice: "是",/* 待提货通知 */
         totalApplyNum: 10,/* 累计申请发货数量 */
         orderNum: 20,/* 订单数量 */
-        goodsList: [
+        totalAmount:1000,
+        purchaseOrderItems: [
             {
-                goodsImg: "src/assets/goodsItem.png",
-                orderDesc: "2郎酒 红花郎（10）陈酿 53度整箱装 白酒 558m l*6瓶（箱内有礼)",
-                volume: 500,
-                price: 1000,
+                imageUrl: "src/assets/goodsItem.png",
+                productDesc: "3郎酒 红花郎（10）陈酿 53度整箱装 白酒 558m l*6瓶（箱内有礼)",
+                standard: 500,
+                "productModel": 53,
+                basePrice: 1000,
                 num: 5,
                 money: 4000,
-                orderStatus: '审批通过',
+                orderStatus: '已审核',
                 "imgUrl": "src/assets/goodsItem.png",
                 "brief": "郎酒红花郎10 53度酱香500度酱香500度酱香500度酱香500",
                 "price": 1668,
@@ -94,16 +99,17 @@ let orderData = [
                 "costOffMoney": 1000,
                 "commonBuild": 2000,
                 "volume": 500,
-                "strength": 53
+                
             },
             {
-                goodsImg: "src/assets/goodsItem.png",
-                orderDesc: "2郎酒 红花郎（10）陈酿 53度整箱装 白酒 558m l*6瓶（箱内有礼)",
-                volume: 500,
-                price: 1000,
+                imageUrl: "src/assets/goodsItem.png",
+                productDesc: "4郎酒 红花郎（10）陈酿 53度整箱装 白酒 558m l*6瓶（箱内有礼)",
+                standard: 500,
+                "productModel": 53,
+                basePrice: 1000,
                 num: 5,
                 money: 4000,
-                orderStatus: '审批通过',
+                orderStatus: '已审核',
                 "imgUrl": "src/assets/goodsItem.png",
                 "brief": "郎酒红花郎10 53度酱香500度酱香500度酱香500度酱香500",
                 "price": 1668,
@@ -115,179 +121,13 @@ let orderData = [
                 "costOffMoney": 1000,
                 "commonBuild": 2000,
                 "volume": 500,
-                "strength": 53
-            }
-        ]
-    },
-    {
-        totalTakeMoney: 2000,/* 累计提货金额  还款*/
-        totalFillMoney: 1000,/* 累计填仓金额  订单*/
-        orderType: "填仓订单",
-        orderDate: "订单时间",
-        orderCode: "langjiu12345678",
-        orderStatus: "暂存",
-        waitNotice: "是",/* 待提货通知 */
-        totalApplyNum: 10,/* 累计申请发货数量 */
-        orderNum: 20,/* 订单数量 */
-        goodsList: [
-            {
-                goodsImg: "src/assets/goodsItem.png",
-                orderDesc: "2郎酒 红花郎（10）陈酿 53度整箱装 白酒 558m l*6瓶（箱内有礼)",
-                volume: 500,
-                price: 1000,
-                num: 5,
-                money: 4000,
-                orderStatus: '暂存',
-                "imgUrl": "src/assets/goodsItem.png",
-                "brief": "郎酒红花郎10 53度酱香500度酱香500度酱香500度酱香500",
-                "price": 1668,
-                "count": 1980,
-                "hasPurchase": false,
-                "id": "12345id1",
-                "boxCount": 10,
-                "bottolCount": 20,
-                "costOffMoney": 1000,
-                "commonBuild": 2000,
-                "volume": 500,
-                "strength": 53
-            },
-            {
-                goodsImg: "src/assets/goodsItem.png",
-                orderDesc: "2郎酒 红花郎（10）陈酿 53度整箱装 白酒 558m l*6瓶（箱内有礼)",
-                volume: 500,
-                price: 1000,
-                num: 5,
-                money: 4000,
-                orderStatus: '暂存',
-                "imgUrl": "src/assets/goodsItem.png",
-                "brief": "郎酒红花郎10 53度酱香500度酱香500度酱香500度酱香500",
-                "price": 1668,
-                "count": 1980,
-                "hasPurchase": false,
-                "id": "12345id1",
-                "boxCount": 10,
-                "bottolCount": 20,
-                "costOffMoney": 1000,
-                "commonBuild": 2000,
-                "volume": 500,
-                "strength": 53
-            }
-        ]
-    },
-    {
-        totalTakeMoney: 2000,/* 累计提货金额  还款*/
-        totalFillMoney: 1000,/* 累计填仓金额  订单*/
-        orderType: "填仓订单",
-        orderDate: "订单时间",
-        orderCode: "langjiu12345678",
-        orderStatus: "审批通过",
-        waitNotice: "是",/* 待提货通知 */
-        totalApplyNum: 10,/* 累计申请发货数量 */
-        orderNum: 20,/* 订单数量 */
-        goodsList: [
-            {
-                goodsImg: "src/assets/goodsItem.png",
-                orderDesc: "2郎酒 红花郎（10）陈酿 53度整箱装 白酒 558m l*6瓶（箱内有礼)",
-                volume: 500,
-                price: 1000,
-                num: 5,
-                money: 4000,
-                orderStatus: '审批通过',
-                "imgUrl": "src/assets/goodsItem.png",
-                "brief": "郎酒红花郎10 53度酱香500度酱香500度酱香500度酱香500",
-                "price": 1668,
-                "count": 1980,
-                "hasPurchase": false,
-                "id": "12345id1",
-                "boxCount": 10,
-                "bottolCount": 20,
-                "costOffMoney": 1000,
-                "commonBuild": 2000,
-                "volume": 500,
-                "strength": 53
-            },
-            {
-                goodsImg: "src/assets/goodsItem.png",
-                orderDesc: "2郎酒 红花郎（10）陈酿 53度整箱装 白酒 558m l*6瓶（箱内有礼)",
-                volume: 500,
-                price: 1000,
-                num: 5,
-                money: 4000,
-                orderStatus: '审批通过',
-                "imgUrl": "src/assets/goodsItem.png",
-                "brief": "郎酒红花郎10 53度酱香500度酱香500度酱香500度酱香500",
-                "price": 1668,
-                "count": 1980,
-                "hasPurchase": false,
-                "id": "12345id1",
-                "boxCount": 10,
-                "bottolCount": 20,
-                "costOffMoney": 1000,
-                "commonBuild": 2000,
-                "volume": 500,
-                "strength": 53
-            }
-        ]
-    },
-    {
-        totalTakeMoney: 2000,/* 累计提货金额  还款*/
-        totalFillMoney: 1000,/* 累计填仓金额  订单*/
-        orderType: "填仓订单",
-        orderDate: "订单时间",
-        orderCode: "langjiu12345678",
-        orderStatus: "审批通过",
-        waitNotice: "是",/* 待提货通知 */
-        totalApplyNum: 30,/* 累计申请发货数量 */
-        orderNum: 20,/* 订单数量 */
-        goodsList: [
-            {
-                goodsImg: "src/assets/goodsItem.png",
-                orderDesc: "2郎酒 红花郎（10）陈酿 53度整箱装 白酒 558m l*6瓶（箱内有礼)",
-                volume: 500,
-                price: 1000,
-                num: 5,
-                money: 4000,
-                orderStatus: '审批通过',
-                "imgUrl": "src/assets/goodsItem.png",
-                "brief": "郎酒红花郎10 53度酱香500度酱香500度酱香500度酱香500",
-                "price": 1668,
-                "count": 1980,
-                "hasPurchase": false,
-                "id": "12345id1",
-                "boxCount": 10,
-                "bottolCount": 20,
-                "costOffMoney": 1000,
-                "commonBuild": 2000,
-                "volume": 500,
-                "strength": 53
-            },
-            {
-                goodsImg: "src/assets/goodsItem.png",
-                orderDesc: "2郎酒 红花郎（10）陈酿 53度整箱装 白酒 558m l*6瓶（箱内有礼)",
-                volume: 500,
-                price: 1000,
-                num: 5,
-                money: 4000,
-                orderStatus: '审批通过',
-                "imgUrl": "src/assets/goodsItem.png",
-                "brief": "郎酒红花郎10 53度酱香500度酱香500度酱香500度酱香500",
-                "price": 1668,
-                "count": 1980,
-                "hasPurchase": false,
-                "id": "12345id1",
-                "boxCount": 10,
-                "bottolCount": 20,
-                "costOffMoney": 1000,
-                "commonBuild": 2000,
-                "volume": 500,
-                "strength": 53
             }
         ]
     }
 ];
 export default {
     name: 'TotalOrder',
-    components: { SearchComp ,OrderTable},
+    components: { SearchComp, OrderTable,OrderTable1 },
     data() {
         return {
             orderData: orderData
@@ -297,6 +137,18 @@ export default {
         searchData(data) {
             this.orderData = data;
         }
+    },
+    mounted() {
+        let _this = this;
+        let params = {
+            "distributorIds": this.$store.state.customerId,
+            "poTypeBusinessType": "01,03,04"
+        };
+        _this.$http.post('/ocm-web/api/b2b/purchase-orders/search-all-orders', params)
+            .then(res => {
+                let data = res.data.content;
+                _this.orderData = data;
+            });
     }
 }
 </script>

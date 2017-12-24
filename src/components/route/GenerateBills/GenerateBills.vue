@@ -8,35 +8,33 @@
                 </div>
             </div>
             <div class="notice">
-                <div class="noticeTitle">收货通知</div>
+                <div class="noticeTitle">订单</div>
                 <div class="noticeContent">
                     <el-row :gutter="10">
                         <el-col :span="2">
                             <div class="noticeName">订单类型:</div>
                         </el-col>
                         <el-col :span="5">
-                            <el-select size="mini" v-model="carriageMethod" placeholder="请选择" style="width:100%;">
+                            <el-select @change="noticeChange" size="mini" v-model="carriageMethod" placeholder="请选择" style="width:100%;">
                                 <el-option v-for="item in carriageMethodCombo" :key="item.value" :label="item.label" :value="item.value">
                                 </el-option>
                             </el-select>
                         </el-col>
                         <el-col :span="2">
-                            <div class="noticeName">通知发货：</div>
+                            <div class="noticeName">发货要求：</div>
                         </el-col>
                         <el-col :span="5">
-                            <el-radio-group v-model="isNotice">
-                                <el-radio :label="1">是</el-radio>
-                                <el-radio :label="0">否</el-radio>
+                            <el-radio-group v-model="isNotice" :disabled="isNoticeDisable">
+                                <el-radio :label="0">立即发货</el-radio>
+                                <el-radio :label="1">待通知发货</el-radio>
                             </el-radio-group>
                         </el-col>
-                        <el-col :span="2">
-                            <div class="noticeName">期望到货日期：</div>
+                    </el-row>
+                    <el-row>
+                        <el-col :span="2" style="text-align:right;line-height:30px;">备注：</el-col>
+                        <el-col :span="22" style="margin-top:10px;">
+                            <el-input size="mini"></el-input>
                         </el-col>
-                        <el-col :span="5">
-                            <el-date-picker :disabled="isNotice===1" size="mini" v-model="arriveDate" type="date" placeholder="选择日期" style="width:100%;">
-                            </el-date-picker>
-                        </el-col>
-
                     </el-row>
                 </div>
             </div>

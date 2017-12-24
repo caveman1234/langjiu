@@ -22,7 +22,7 @@
                                 </el-col>
                                 <el-col :span="16">
                                     <div class="tableBodyTitleContent orderType">
-                                        {{item0.orderType}}
+                                        {{item0.poTypeName}}
                                     </div>
                                 </el-col>
                             </el-row>
@@ -53,7 +53,7 @@
                                 </el-col>
                                 <el-col :span="16">
                                     <div class="tableBodyTitleContent">
-                                        {{item0.orderCode}}
+                                        {{item0.poTypeCode}}
                                     </div>
                                 </el-col>
                             </el-row>
@@ -62,42 +62,42 @@
                     </el-row>
                 </div>
                 <div class="tableBody">
-                    <div v-for="(item,index) in item0.goodsList" :key="index" class="tableRow">
+                    <div v-for="(item,index) in item0.purchaseOrderItems" :key="index" class="tableRow">
                         <div class="goodsDetail">
-                            <div :style="{'backgroundImage':`url(${item.goodsImg})`}" class="goodsImg"></div>
-                            <div class="goodsDesc">{{item.orderDesc}}</div>
+                            <div :style="{'backgroundImage':`url(${item.imageUrl})`}" class="goodsImg"></div>
+                            <div class="goodsDesc">{{item.productDesc}}</div>
                         </div>
                         <div class="goodsStands">
-                            <div>容量：{{item.volume}}ml</div>
-                            <div>度数：{{item.strength}}度</div>
+                            <div>容量：{{item.standard}}ml</div>
+                            <div>度数：{{item.productModel}}度</div>
                         </div>
-                        <div class="goodsPrice">{{item.price}}</div>
+                        <div class="goodsPrice">{{item.basePrice}}</div>
                         <div class="goodsNum tableBorderRight">{{item.num}}</div>
-                        <div :class="[index!=(item0.goodsList.length-1)&& (item0.goodsList.length) !=1? 'tableNoneBorder' : '']" class="goodsMoney tableBorderRight">
-                            <template v-if="index == 0">¥{{item.money}}</template>
+                        <div :class="[index!=(item0.purchaseOrderItems.length-1)&& (item0.purchaseOrderItems.length) !=1? 'tableNoneBorder' : '']" class="goodsMoney tableBorderRight">
+                            <template v-if="index == 0">¥{{item0.totalAmount}}</template>
                         </div>
-                        <div :class="[index!=(item0.goodsList.length-1)&& (item0.goodsList.length) !=1 ? 'tableNoneBorder' : '']" class="goodsStatus tableBorderRight">
-                            <template v-if="index == 0">{{item.orderStatus}}</template>
+                        <div :class="[index!=(item0.purchaseOrderItems.length-1)&& (item0.purchaseOrderItems.length) !=1 ? 'tableNoneBorder' : '']" class="goodsStatus tableBorderRight">
+                            <template v-if="index == 0">{{item0.billStatusName}}</template>
                         </div>
-                        <div :class="[index!=(item0.goodsList.length-1)&& (item0.goodsList.length) !=1 ? 'tableNoneBorder' : '']" class="handle">
+                        <div :class="[index!=(item0.purchaseOrderItems.length-1)&& (item0.purchaseOrderItems.length) !=1 ? 'tableNoneBorder' : '']" class="handle">
                             <template v-if="index == 0">
-                                <template v-if="item0.orderType == '融资订单'">
-                                    <template v-if="item0.orderStatus == '已审核'">
-                                        <el-button @click="goFinancing(item0.goodsList)" type="primary" size="mini">去融资</el-button>
+                                <template v-if="item0.poTypeBusinessType == '03'">
+                                    <template v-if="item0.billStatusCode == '08'">
+                                        <el-button @click="goFinancing(item0.purchaseOrderItems)" type="primary" size="mini">去融资</el-button>
                                     </template>
-                                    <template v-if="item0.orderStatus == '审批通过' && item0.totalTakeMoney > item0.totalFillMoney">
-                                        <el-button @click="goFillStore(item0.goodsList)" type="primary" size="mini">去填仓</el-button>
+                                    <template v-if="item0.billStatusCode == '03' && item0.totalTakeMoney > item0.totalFillMoney">
+                                        <el-button @click="goFillStore(item0.purchaseOrderItems)" type="primary" size="mini">去填仓</el-button>
                                     </template>
                                 </template>
-                                <template v-if="item0.orderType == '填仓订单' || item0.orderType == '普通订单'">
-                                    <template v-if="item0.orderStatus == '暂存'">
-                                        <el-button @click="goPay(item0.goodsList)" type="primary" size="mini">去支付</el-button>
+                                <template v-if="item0.poTypeBusinessType == '04' || item0.poTypeBusinessType == '01'">
+                                    <template v-if="item0.billStatusCode == '01'">
+                                        <el-button @click="goPay(item0.purchaseOrderItems)" type="primary" size="mini">去支付</el-button>
                                     </template>
-                                    <template v-if="item0.orderStatus == '审批通过' && item0.waitNotice=='是' && item0.totalApplyNum < item0.orderNum">
-                                        <el-button @click="applySend(item0.goodsList)" type="primary" size="mini">申请发货</el-button>
+                                    <template v-if="item0.billStatusCode == '03' && item0.isNoticeSend==1 && item0.applyedQuantity < item0.orderNum">
+                                        <el-button @click="applySend(item0.purchaseOrderItems)" type="primary" size="mini">申请发货</el-button>
                                     </template>
-                                    <template v-if="item0.orderStatus == '审批通过' && item0.waitNotice=='是' && item0.totalApplyNum > item0.orderNum">
-                                        <el-button @click="applyReturn(item0.goodsList)" type="primary" size="mini">申请退换货</el-button>
+                                    <template v-if="item0.billStatusCode == '03' && item0.isNoticeSend==1 && item0.applyedQuantity > item0.orderNum">
+                                        <el-button @click="applyReturn(item0.purchaseOrderItems)" type="primary" size="mini">申请退换货</el-button>
                                     </template>
                                 </template>
 
@@ -111,7 +111,26 @@
     </div>
 </template>
 <script>
-
+    //-----------------------------------------billStatusCode订单状态
+	// Uncommitted("01", "未提交", "整单状态"),
+	// Committed("02", "已提交", "整单状态"),
+	// Approved("03", "已审核", "整单状态"),
+	// Disapproved("04", "审核不通过", "整单状态"),
+	// Finished("05", "已完成", "整单状态"),
+	// RowUncommitted("06", "未提交", "行状态"),
+	// RowCommitted("07", "已提交", "行状态"),
+	// RowApproved("08", "已审核", "行状态"),
+	// RowDisapproved("09", "审核不通过", "行状态"),
+	// RowArranged("10", "已安排", "行状态"),
+    // RowClosed("11", "已关闭", "行状态");
+    //--------------------------------------poTypeBusinessType单据类型
+    // Common("01", "普通采购订单", null),
+	// RuturnChange("02", "退换货订单", null),
+	// Financing("03", "融资订单", null),
+	// Repaid("04", "填仓订单", null),
+    // SendApply("05", "发货申请订单", null);
+    //---------------------------------isNoticeSend
+    //是  1 ， 否   0
 let orderData = [
     {
         totalTakeMoney: 2000,/* 累计提货金额 */
@@ -123,7 +142,7 @@ let orderData = [
         waitNotice: "是",/* 待提货通知 */
         totalApplyNum: 10,/* 累计申请发货数量 */
         orderNum: 20,/* 订单数量 */
-        goodsList: [
+        purchaseOrderItems: [
             {
                 goodsImg: "src/assets/goodsItem.png",
                 orderDesc: "2郎酒 红花郎（10）陈酿 53度整箱装 白酒 558m l*6瓶（箱内有礼)",
@@ -178,7 +197,7 @@ let orderData = [
         waitNotice: "是",/* 待提货通知 */
         totalApplyNum: 10,/* 累计申请发货数量 */
         orderNum: 20,/* 订单数量 */
-        goodsList: [
+        purchaseOrderItems: [
             {
                 goodsImg: "src/assets/goodsItem.png",
                 orderDesc: "2郎酒 红花郎（10）陈酿 53度整箱装 白酒 558m l*6瓶（箱内有礼)",
@@ -233,7 +252,7 @@ let orderData = [
         waitNotice: "是",/* 待提货通知 */
         totalApplyNum: 10,/* 累计申请发货数量 */
         orderNum: 20,/* 订单数量 */
-        goodsList: [
+        purchaseOrderItems: [
             {
                 goodsImg: "src/assets/goodsItem.png",
                 orderDesc: "2郎酒 红花郎（10）陈酿 53度整箱装 白酒 558m l*6瓶（箱内有礼)",
@@ -288,7 +307,7 @@ let orderData = [
         waitNotice: "是",/* 待提货通知 */
         totalApplyNum: 10,/* 累计申请发货数量 */
         orderNum: 20,/* 订单数量 */
-        goodsList: [
+        purchaseOrderItems: [
             {
                 goodsImg: "src/assets/goodsItem.png",
                 orderDesc: "2郎酒 红花郎（10）陈酿 53度整箱装 白酒 558m l*6瓶（箱内有礼)",
@@ -343,7 +362,7 @@ let orderData = [
         waitNotice: "是",/* 待提货通知 */
         totalApplyNum: 30,/* 累计申请发货数量 */
         orderNum: 20,/* 订单数量 */
-        goodsList: [
+        purchaseOrderItems: [
             {
                 goodsImg: "src/assets/goodsItem.png",
                 orderDesc: "2郎酒 红花郎（10）陈酿 53度整箱装 白酒 558m l*6瓶（箱内有礼)",

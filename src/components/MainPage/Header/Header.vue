@@ -1,23 +1,23 @@
 <template>
     <div class="Header">
-        <div class="headerTop">
-            <div class="content clearfix">
-                <div class="left">
-                    <span class="login">请登陆</span>
-                    <span class="phone">产品热线：028-88888888</span>
-                </div>
-                <div class="right">
-                    <a>收藏夹</a>|
-                    <a>帮助</a>|
-                    <a>注销</a>
-                    <a>经销商助手</a>
-                </div>
+        <!-- <div class="headerTop">
+                    <div class="content clearfix">
+                        <div class="left">
+                            <span class="login">请登陆</span>
+                            <span class="phone">产品热线：028-88888888</span>
+                        </div>
+                        <div class="right">
+                            <a>收藏夹</a>|
+                            <a>帮助</a>|
+                            <a>注销</a>
+                            <a>经销商助手</a>
+                        </div>
 
-            </div>
-        </div>
+                    </div>
+                </div> -->
         <div class="headerBottom">
             <div class="content clearfix">
-                <div class="logo"><img src="src/assets/logo.png" alt=""></div>
+                <div class="logo"><img :src="logoImg" alt=""></div>
                 <div class="nav">
                     <ul>
                         <template v-for="(item,index) in navList">
@@ -36,8 +36,8 @@
                             <span class="text">进货单</span>
                         </el-badge>
                         <!-- <span class="text">进货单
-                                            <i>{{purchaseCount}}</i>
-                                        </span> -->
+                                                    <i>{{purchaseCount}}</i>
+                                                </span> -->
                     </div>
                     <div class="searchSection">
                         <div class="searchInp">
@@ -59,6 +59,7 @@ export default {
     data() {
         return {
             searchInfo: "",
+            logoImg: require('../../../assets/logo.png')
         }
     },
     methods: {
@@ -67,14 +68,14 @@ export default {
         }),
         headerClick(index) {
             this.changeCurrentNav({ index });
-            
+
         },
         search() {
             console.log(this.searchInfo.trim());
         },
         routeToPurchaseBills() {
             this.$router.push({ name: 'PurchaseBills', params: {} });
-            this.$store.commit('changeCurrentNav',{hash:''})
+            this.$store.commit('changeCurrentNav', { hash: '' })
         }
 
     },

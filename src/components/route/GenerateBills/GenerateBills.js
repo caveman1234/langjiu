@@ -10,7 +10,7 @@ export default {
             /* 发货通知 */
             isNotice: 1,
             /* 运输方式 */
-            carriageMethod: '',
+            carriageMethod: "eabb592b-b2f5-4f59-9d35-b78afd8d1d10",
             /* 期望到货日期 */
             arriveDate: '',
             address: '',
@@ -31,6 +31,8 @@ export default {
             calcDataTable: [],
             /* 费用计算后返回值 */
             calcMoney: {},
+            /* 是否通知发货 disable */
+            isNoticeDisable: false
         }
     },
     methods: {
@@ -151,7 +153,6 @@ export default {
             }
             _this.$http.post('/ocm-web//api/b2b/purchase-orders/submit', params)
                 .then(res => {
-                    console.log(res, '---res---');
                     if (res.headers["x-ocm-code"] == '1') {
                         _this.$router.push({ name: 'TotalOrder' });
                     }
@@ -203,12 +204,14 @@ export default {
                 row.baseQuantity = (row.baleQuantity) * row.packageNum;
             });
         },
-        /* 验证 */
-        verification() {
-            this.$Notification1({
-                type: 'error',
-                title: '不能为空'
-            });
+        noticeChange(value) {
+            let obj = this.carriageMethodCombo.find(v => v.value == value);
+            if (obj.label == "融资受控订单") {
+                this.isNoticeDisable = true;
+                this.isNotice = 1;
+            } else {
+                this.isNoticeDisable = false;
+            }
         }
     },
     computed: {

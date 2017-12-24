@@ -7,6 +7,7 @@ import AccountCenter from '@/components/route/AccountCenter/AccountCenter'
 import MsgCenter from '@/components/route/MsgCenter/MsgCenter'
 import PurchaseBills from '@/components/route/PurchaseBills/PurchaseBills'
 import GenerateBills from '@/components/route/GenerateBills/GenerateBills.vue'
+import GenerateBillsEdit from '@/components/route/GenerateBills/GenerateBillsEdit/GenerateBillsEdit.vue'
 import ApplySend from '@/components/route/ApplySend/ApplySend'
 import ApplyReturn from '@/components/route/ApplyReturn/ApplyReturn'
 
@@ -198,6 +199,11 @@ export default new Router({
                     path: '/GenerateBills',
                     name: 'GenerateBills',
                     component: GenerateBills
+                },
+                {
+                    path: '/GenerateBillsEdit',
+                    name: 'GenerateBillsEdit',
+                    component: GenerateBillsEdit
                 },
                 {
                     path: '/ApplySend',

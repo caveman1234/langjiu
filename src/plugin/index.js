@@ -5,6 +5,7 @@ import util from './util.js';
 import mixins from './mixins.js';
 
 function install(Vue) {
+    window.log = window.console.log;
     /* *****************************-static-********************************* */
     Vue.config.productionTip = false;
     /* *****************************-prototype-****************************** */
@@ -14,7 +15,7 @@ function install(Vue) {
     Vue.prototype.$http = axios;
     Vue.prototype.$loading = Loading;
     Vue.prototype.$Notification = Notification;
-    Vue.prototype.$Notification1 = function({ message, type, title }) {
+    Vue.prototype.$Notify = function({ message, type, title }) {
         Notification({
             type: type,
             title: title,
@@ -29,12 +30,26 @@ function install(Vue) {
 
 
     /* *****************************-directive-******************************* */
-    Vue.directive('demo', {
-        bind: function(el, binding, vnode) {
+    Vue.directive('red', {
+        inserted(el, binding, vnode) {
             let context = vnode.context;
             // context.myFun('al');
+            el.style.color = '#E7442E';
         }
-    })
+    });
+    /* 格式化日期 */
+    Vue.filter('formatDate', function(value) {
+        if (!value) return '';
+        let date = new Date(value);
+        let year = date.getFullYear();
+        let month = (date.getMonth() + 1) < 10 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1);
+        let day = (date.getDate() + 1) < 10 ? '0' + (date.getDate() + 1) : (date.getDate() + 1);
+        let formatDate = [year, month, day];
+        return formatDate.join('-');
+    });
+    Vue.filter('formatPrice', function(value) {
+        return `¥${value}`
+    });
 
     /* *****************************-axios-*********************************** */
     /* request */

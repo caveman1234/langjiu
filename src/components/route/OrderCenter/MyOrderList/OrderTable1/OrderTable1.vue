@@ -1,15 +1,22 @@
 <template>
-    <div class="ReturnDeliverTable">
+    <div class="OrderTable1">
         <template v-for="(item,index) in orderData">
             <div class="orderWrap" :key="index">
                 <div class="orderHeader">
                     <el-row>
                         <el-col :span="2">订单类型:</el-col>
                         <el-col v-red :span="2">{{item.poTypeName}}</el-col>
+                        <el-col :span="2">订单金额:</el-col>
+                        <el-col v-red :span="2">{{item.totalAmount | formatPrice}}</el-col>
                         <el-col :span="2">订单时间:</el-col>
                         <el-col :span="2">{{item.orderDate|formatDate}}</el-col>
                         <el-col :span="2">订单编号:</el-col>
                         <el-col :span="2">{{item.poTypeCode}}</el-col>
+                        <el-col :span="2">订单状态:</el-col>
+                        <el-col v-red :span="2">{{item.billStatusName}}</el-col>
+                        <el-col :span="2">
+                            <el-button @click="financing(item)" size="mini" type="primary">去融资</el-button>
+                        </el-col>
                     </el-row>
                 </div>
                 <el-table :data="item.purchaseOrderItems" border style="width: 100%">
@@ -29,13 +36,8 @@
                             </div>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="applyNum" label="数量"></el-table-column>
-                    <el-table-column prop="money" label="金额">
-                        <template slot-scope="scope">
-                            <div v-red>{{scope.row.money}}</div>
-                        </template>
-                    </el-table-column>
-                    <el-table-column prop="orderStatus" label="状态"></el-table-column>
+                    <el-table-column prop="basePrice" label="单价"> </el-table-column>
+                    <el-table-column prop="boxCount" label="数量"> </el-table-column>
                 </el-table>
             </div>
         </template>
@@ -43,7 +45,7 @@
 </template>
 <script>
 export default {
-    name: 'ReturnDeliverTable',
+    name: 'OrderTable1',
     props: {
         orderData: {
             default() {
@@ -53,14 +55,23 @@ export default {
     },
     data() {
         return {
-            defaultImg:require('../../../../assets/defaultimg.png'),
+            defaultImg: require('../../../../../assets/defaultimg.png')
+        }
+    },
+    methods: {
+        /* 去融资 */
+        financing(data){
+            var params = {
+                selectedData: data
+            };
+            this.$router.push({ name: 'GenerateBills', params });
         }
     },
     mounted() {
-        console.log(this.orderData);
+        
     }
 }
 </script>
 <style lang="scss">
-@import './ReturnDeliverTable.scss';
+@import './OrderTable1.scss';
 </style>

@@ -48,14 +48,19 @@ export default {
                     this.goodsData = goodsData;
                 });
         },
-        itemClick({ productId }) {
-            let currentObj = this.goodsData.find(v => v.productId == productId);
+        itemClick({ id }) {
+            let currentObj = this.goodsData.find(v => v.id == id);
             currentObj.hasPurchase = !currentObj.hasPurchase;
         },
+        // itemClick({ productId }) {
+        //     let currentObj = this.goodsData.find(v => v.productId == productId);
+        //     currentObj.hasPurchase = !currentObj.hasPurchase;
+        // },
         goBuyGoods() {
             let selectedData = this.goodsData.filter(v => v.hasPurchase);
             if (this.selectedCount > 0) {
-                this.$router.push({ name: 'GenerateBills', params: { selectedData } });
+                // this.$router.push({ name: 'GenerateBills', params: { selectedData } });
+                this.$router.push({ name: 'GenerateBillsEdit', params: { selectedData } });
             }
         }
     },
@@ -63,6 +68,12 @@ export default {
         let _this = this;
         /* 导航 */
         _this.$store.commit('changeCurrentNav', { hash: '/GoodsCenter' });
+
+        this.$http.get('static/goodsList.json')
+            .then(res=>{
+                this.goodsData = res.data.data;
+            })
+
 
         let params = {
             params: {

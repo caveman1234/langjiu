@@ -1,45 +1,77 @@
 <template>
     <div class="ReturnList">
         <SearchComp @searchData="searchData" :searchUrl="searchUrl"></SearchComp>
-        <ReturnDeliverTable :tableData="tableData"></ReturnDeliverTable>
+        <ReturnDeliverTable :orderData="orderData"></ReturnDeliverTable>
     </div>
 </template>
 <script>
 import SearchComp from '../MyOrderList/SearchComp/SearchComp.vue';
 import ReturnDeliverTable from '../ReturnDeliverTable/ReturnDeliverTable';
-let tableData = [
+let orderData = [
     {
-        orderDate: '2017-01-01',
-        orderCode: 'langjiu12345678',
-        orderList: [
+        orderDate: 1496678400000,
+        poTypeCode: 'langjiu123',
+        billStatusName: "已审核",
+        totalAmount:1000,
+        purchaseOrderItems: [
             {
-                imgUrl: "src/assets/goodsItem.png",
-                brief: "1郎酒红花郎10 53度酱香500度酱香500度酱香500度酱香500",
-                "volume": 500,
-                "strength": 53,
+                imageUrl: "src/assets/goodsItem.png",
+                productDesc: "5郎酒红花郎10 53度酱香500度酱香500度酱香500度酱香500",
+                "standard": 500,
+                "productModel": 53,
                 applyNum: 20,
                 money: 4000.00,
-                orderStatus: "待退货"
+                orderStatus: "待退货",
+                basePrice:120
             },
             {
-                imgUrl: "src/assets/goodsItem.png",
-                brief: "2郎酒红花郎10 53度酱香500度酱香500度酱香500度酱香500",
-                "volume": 500,
-                "strength": 53,
+                // imageUrl: "src/assets/goodsItem.png",
+                productDesc: "6郎酒红花郎10 53度酱香500度酱香500度酱香500度酱香500",
+                "standard": 500,
+                "productModel": 53,
                 applyNum: 20,
                 money: 4000.00,
-                orderStatus: "待退货"
+                orderStatus: "待退货",
+                basePrice:120
             }
         ]
     },
-   
+    {
+        orderDate: 1496678400000,
+        poTypeCode: 'langjiu124',
+        billStatusName: "未审核",
+        totalAmount:1000,
+        purchaseOrderItems: [
+            {
+                imageUrl: "src/assets/goodsItem.png",
+                productDesc: "7郎酒红花郎10 53度酱香500度酱香500度酱香500度酱香500",
+                "standard": 500,
+                "productModel": 53,
+                applyNum: 20,
+                money: 4000.00,
+                orderStatus: "审批中",
+                basePrice:120
+            },
+            {
+                imageUrl: "src/assets/goodsItem.png",
+                productDesc: "8郎酒红花郎10 53度酱香500度酱香500度酱香500度酱香500",
+                "standard": 500,
+                "productModel": 53,
+                applyNum: 20,
+                money: 4000.00,
+                orderStatus: "待退货",
+                basePrice:120
+            }
+        ]
+    }
+    
 ];
 export default {
     name: 'ReturnList',
     components: { SearchComp, ReturnDeliverTable },
     data() {
         return {
-            tableData:tableData,
+            orderData:orderData,
             searchUrl:'/order/search'
         }
     },
