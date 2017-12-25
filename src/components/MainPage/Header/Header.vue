@@ -1,6 +1,6 @@
 <template>
     <div class="Header">
-        <!-- <div class="headerTop">
+        <div class="headerTop">
                     <div class="content clearfix">
                         <div class="left">
                             <span class="login">请登陆</span>
@@ -14,7 +14,7 @@
                         </div>
 
                     </div>
-                </div> -->
+                </div>
         <div class="headerBottom">
             <div class="content clearfix">
                 <div class="logo"><img :src="logoImg" alt=""></div>

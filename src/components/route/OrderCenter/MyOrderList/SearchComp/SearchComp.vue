@@ -82,9 +82,9 @@ export default {
                 /* 日期范围 */
                 orderDateRange: '',
                 /* 订单类型combo */
-                orderTypeCombo: options,
+                orderTypeCombo: [],
                 /* 订单状态combo */
-                orderStatusCombo: options
+                orderStatusCombo: []
             },
 
         }
@@ -94,15 +94,16 @@ export default {
             let _this = this;
             let startTime = '';
             let endTime = '';
-            if (this.orderDateRange) {
+            if (this.searchCondition.orderDateRange) {
                 startTime = this.searchCondition.orderDateRange[0].getTime();
                 endTime = this.searchCondition.orderDateRange[1].getTime();
             }
             let params = {
                 distributorIds: this.searchParams.distributorIds,
                 poTypeBusinessType: this.searchParams.poTypeBusinessType,
-                startTime: startTime,
-                endTime: endTime,
+                billStatusCode: this.searchParams.billStatusCode,
+                orderDateStart: startTime,
+                orderDateEnd: endTime,
                 orderType: this.searchCondition.orderType,
                 orderStatus: this.searchCondition.orderStatus
             };
@@ -117,10 +118,31 @@ export default {
             this.searchCondition.orderType = '';
             this.searchCondition.orderStatus = '';
             this.searchCondition.orderDateRange = '';
+        },
+        fetchCombos() {
+            let _this = this;
+            let paramsWrap = {
+                params: {
+                    customerId: this.$store.state.customerId,
+                    productGroupId: this.$store.state.prodGroupId
+                }
+            };
+            /* 获取订单类型 */
+            _this.$http.get('/ocm-web/api/b2b/po-types/get-common')
+                .then(res => {
+                    _this.searchCondition.orderTypeCombo = res.data.map(v => ({ label: v.name, value: v.id }));
+                });
+            /* 获取订单状态 */
+            _this.$http.get('/ocm-web/api/b2b/billstatus/getAll')
+                .then(res => {
+                    _this.searchCondition.orderStatusCombo = res.data.map(v => ({ label: v.name, value: v.value }));
+                });
         }
     },
     mounted() {
-
+        /* 获取下拉框 */
+        this.fetchCombos();
+        this.searchData();
     }
 }
 </script>

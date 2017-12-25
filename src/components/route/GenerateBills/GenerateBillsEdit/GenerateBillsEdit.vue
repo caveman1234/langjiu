@@ -170,15 +170,15 @@ export default {
         if (this.$route.params.selectedData) {
             this.goodsData = this.$route.params.selectedData.map(v => {
                 //baleQuantity 箱数
-                //discountAmount 费用折扣金额
                 //baseQuantity 瓶数
                 //packageNum 一包瓶数
                 //paymentTotalMoney 货款金额
-                let megerObj = {
-                    discountAmount: 0,
-                    baleQuantity: 1,
-                    baseQuantity: v.packageNum
-                };
+                let megerObj = {};
+                //箱
+                megerObj.baleQuantity = megerObj.baleQuantity || 1;
+                // 瓶
+                megerObj.baseQuantity = megerObj.baleQuantity * v.packageNum;
+                // 货款金额
                 megerObj.paymentTotalMoney = megerObj.baseQuantity * v.basicPrice;
                 return Object.assign({}, v, megerObj);
             });

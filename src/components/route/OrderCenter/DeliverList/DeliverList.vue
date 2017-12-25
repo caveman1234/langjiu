@@ -1,6 +1,6 @@
 <template>
     <div class="DeliverList">
-        <SearchComp @searchData="searchData" :searchUrl="searchUrl"></SearchComp>
+        <SearchComp @searchData="searchData" :searchParams="searchParams"></SearchComp>
         <ReturnDeliverTable :orderData="orderData"></ReturnDeliverTable>
     </div>
 </template>
@@ -71,12 +71,19 @@ export default {
     components: { SearchComp, ReturnDeliverTable },
     data() {
         return {
-            orderData: orderData,
-            searchUrl:'/order/search'
+            orderData: [],
+            /* 搜索条件 */
+            searchParams: {
+                serverUrl: '/ocm-web/api/b2b/purchase-orders/search-all-orders',
+                poTypeBusinessType: "05",
+                distributorIds: this.$store.state.customerId
+            }
         }
     },
     methods: {
-        searchData(data){}
+        searchData(orderData){
+            this.orderData = orderData;
+        }
     }
 }
 </script>

@@ -1,6 +1,6 @@
 <template>
     <div class="SavedOrder">
-        <SearchComp @searchData="searchData"></SearchComp>
+        <SearchComp @searchData="searchData" :searchParams="searchParams"></SearchComp>
         <OrderTable1 :orderData="orderData"></OrderTable1>
     </div>
 </template>
@@ -18,7 +18,7 @@ let orderData = [
         waitNotice: "是",/* 待提货通知 */
         totalApplyNum: 10,/* 累计申请发货数量 */
         orderNum: 20,/* 订单数量 */
-        totalAmount:1000,
+        totalAmount: 1000,
         purchaseOrderItems: [
             {
                 // imageUrl: "src/assets/goodsItem.png",
@@ -40,7 +40,7 @@ let orderData = [
                 "costOffMoney": 1000,
                 "commonBuild": 2000,
                 "volume": 500,
-                
+
             },
             {
                 imageUrl: "src/assets/goodsItem.png",
@@ -75,7 +75,7 @@ let orderData = [
         waitNotice: "是",/* 待提货通知 */
         totalApplyNum: 10,/* 累计申请发货数量 */
         orderNum: 20,/* 订单数量 */
-        totalAmount:1000,
+        totalAmount: 1000,
         purchaseOrderItems: [
             {
                 imageUrl: "src/assets/goodsItem.png",
@@ -97,7 +97,7 @@ let orderData = [
                 "costOffMoney": 1000,
                 "commonBuild": 2000,
                 "volume": 500,
-                
+
             },
             {
                 imageUrl: "src/assets/goodsItem.png",
@@ -125,14 +125,21 @@ let orderData = [
 ];
 export default {
     name: 'SavedOrder',
-    components: { SearchComp ,OrderTable1},
+    components: { SearchComp, OrderTable1 },
     data() {
         return {
-            orderData: orderData
+            orderData: orderData,
+            /* 搜索条件 */
+            searchParams: {
+                serverUrl: '/ocm-web/api/b2b/purchase-orders/search-all-orders',
+                poTypeBusinessType: "01,03,04",
+                "billStatusCode": "01",
+                distributorIds: this.$store.state.customerId
+            }
         }
     },
-    methods:{
-        searchData(item){}
+    methods: {
+        searchData(item) { }
     }
 }
 </script>

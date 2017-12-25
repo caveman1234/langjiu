@@ -78,6 +78,7 @@ export default {
             };
             this.$router.push({ name: 'GenerateBillsEdit', params });
         },
+        /* table合并列 */
         spanMethod({ row, column, rowIndex, columnIndex }) {
             if (columnIndex == 4) {
                 if (rowIndex == 0) {

@@ -130,7 +130,7 @@ export default {
     components: { SearchComp, OrderTable, OrderTable1 },
     data() {
         return {
-            orderData: orderData,
+            orderData: [],
             /* 搜索条件 */
             searchParams: {
                 serverUrl: '/ocm-web/api/b2b/purchase-orders/search-all-orders',

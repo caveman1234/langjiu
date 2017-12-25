@@ -1,46 +1,9 @@
 <template>
     <div class="AccountMgr">
-        <div class="AccountContainer">
-            <div class="AccountTitle">
-                <div class="userInfo">
-                    <div class="userImg" :style='{"backgroundImage":`url(${userInfoImg})`}'></div>
-                    <div class="userName">张三</div>
-                    <div class="userPhone">13666666666</div>
-                </div>
-                <div class="descriptions">
-                    <div class="descTitle">
-                        <div class="company">花花公子酒业</div>
-                        <div class="companyDetail">
-                            <span class="companyPhone">商家电话：028-88886666</span>
-                            <span class="companyAddress">收货地址：四川省成都市双流区麓湖生态城办公楼一期188号</span>
-                        </div>
-                    </div>
-                    <div class="descBrief">
-                        <div class="descBriefItem">
-                            <div class="amount">10000000.00</div>
-                            <div class="desc">信用余额</div>
-                            <div class="check">查看对账</div>
-                        </div>
-                        <div class="descBriefItem">
-                            <div class="amount">11000000.00</div>
-                            <div class="desc">保证金金额</div>
-                            <div class="check">查看对账</div>
-                        </div>
-                        <div class="descBriefItem">
-                            <div class="amount">12000000.00</div>
-                            <div class="desc">共建基金金额</div>
-                            <div class="check">查看对账</div>
-                        </div>
-                        <div class="descBriefItem">
-                            <div class="amount">13000000.00</div>
-                            <div class="desc">费用余额</div>
-                            <div class="check">查看对账</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="AccountBody">
-                <h1>内容待定</h1>
+        <div class="bankImg" :style='{"backgroundImage":`url(${bankImg})`}'>
+            <div class="bankBtn">
+                <el-button @click="goAssign" size="small" type="primary">去签约</el-button>
+                <el-button @click="goMgr" size="small" type="primary">账户管理</el-button>
             </div>
         </div>
     </div>
@@ -50,13 +13,45 @@ export default {
     name: 'AccountMgr',
     data() {
         return {
-            userInfoImg: 'src/assets/goodsItem.png'
+            bankImg: require('../../../../assets/bank.png')
         }
     },
     methods: {
-        
+        goMgr() {
+            //去管理
+            let _this = this;
+            let params = {
+                customerId: this.$store.state.customerId,
+                "clientType": "0",
+                "clientId": "123",
+                "clientName": "123",
+                "idType": "身份证",
+                "idCode": "111111111111111111"
+            };
+            _this.$http.post('/ocm-web/api/cmbc/param-encrypt', params)
+                .then(res => {
+                    let params = res.data.reduce((acc, v) => {
+                        acc[v.name] = v.value;
+                        return acc;
+                    }, {})
+                    let formData = new FormData();
+                    Object.keys(params).forEach(key => {
+                        formData.append(key, params[key]);
+                    });
+
+
+                    const config = { headers: { 'Content-Type': 'multipart/form-data' } };
+
+                    _this.$http.post('http://111.205.207.144:7003/ecp/htmlMhtInFwd/forward', formData, config)
+
+
+                });
+        },
+        goAssign() {
+            //去签约
+        }
     },
-    mounted(){
+    mounted() {
         // this.$store.commit('changeCurrentNav', { hash: '/AccountMgr' });
     }
 }
