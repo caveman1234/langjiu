@@ -10,7 +10,7 @@
                             <span>{{birefData.count}}瓶</span> -->
             </div>
             <div v-if="birefData.hasPurchase" class="selectedIcon">
-                <i class="icon iconfont icon-selectcheckboxpre"></i>
+                <i class="el-icon-success"></i>
             </div>
         </div>
     </div>
