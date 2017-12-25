@@ -25,7 +25,7 @@
                         <template slot-scope="scope">
                             <div class="price">
                                 <div>价格：¥{{scope.row.basicPrice || '暂无价格'}}</div>
-                                <div>共建：¥{{scope.row.fundPrice || 0}}</div>
+                                <div v-if="false">共建：¥{{scope.row.fundPrice || 0}}</div>
                             </div>
                         </template>
                     </el-table-column>
@@ -39,7 +39,7 @@
                             <div>{{scope.row.baseQuantity}} </div>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="daikuan" label="货款金额"></el-table-column>
+                    <el-table-column prop="paymentTotalMoney" label="货款金额"></el-table-column>
                     <el-table-column prop="handle" label="操作">
                         <template slot-scope="scope">
                             <div class="handle">
@@ -117,7 +117,13 @@ export default {
             this.goodsData = this.goodsData.concat(willAppendData);
         },
         /* 箱数变化 */
-        baleQuantityChange(row) { },
+        baleQuantityChange(row) {
+            this.$nextTick(() => {
+                row.baseQuantity = (row.baleQuantity) * row.packageNum;
+                
+                row.paymentTotalMoney = row.baseQuantity * row.basicPrice;
+            });
+        },
         /* 确定 */
         confirm() {
             if (this.goodsData.length > 0) {
@@ -132,7 +138,7 @@ export default {
             let arr = [];
             columns.forEach((column, i) => {
                 switch (column.property) {
-                    case 'daikuan':
+                    case 'paymentTotalMoney':
                         let totalArr = data.map(v => v[column.property]);
                         let total = totalArr.reduce((acc, a) => (acc + a))
                         arr[i] = `货款总金额:${total}`;
@@ -157,18 +163,7 @@ export default {
         }
     },
     mounted() {
-        // this.goodsData = this.$route.params.selectedData.map(v => {
-        //     //baleQuantity 箱数
-        //     //discountAmount 费用折扣金额
-        //     //baseQuantity 瓶数
-        //     return Object.assign({},
-        //         v, {
-        //             discountAmount: 0,
-        //             baleQuantity: 1,
-        //             baseQuantity: v.packageNum
-        //         }
-        //     );
-        // });
+
     },
     activated() {
         //mounted
@@ -177,11 +172,13 @@ export default {
                 //baleQuantity 箱数
                 //discountAmount 费用折扣金额
                 //baseQuantity 瓶数
+                //packageNum 一包瓶数
                 return Object.assign({},
                     v, {
                         discountAmount: 0,
                         baleQuantity: 1,
-                        baseQuantity: v.packageNum
+                        baseQuantity: v.packageNum,
+                        paymentTotalMoney: (v.packageNum * v.basicPrice),
                     }
                 );
             });

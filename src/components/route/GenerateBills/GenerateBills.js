@@ -32,7 +32,14 @@ export default {
             /* 费用计算后返回值 */
             calcMoney: {},
             /* 是否通知发货 disable */
-            isNoticeDisable: false
+            isNoticeDisable: false,
+            billFooger: {
+                xType: 0, //计提X类共建基金：
+                notXtype: 0, //计提非X类共建基金：
+                deductionMoney: 0, //费用抵扣金额：
+                cashRest: 0, //现金余额：
+                currentPay: 0, //本次应付金额：
+            }
         }
     },
     methods: {
@@ -59,26 +66,23 @@ export default {
         /* 使用折扣金额 */
         CostOffEvent(calcMoney, useOffMoney, calcDataTable) {
             let _this = this;
-            /* 写入共建基金 */
-            calcMoney.forEach(v => {
-                let productId = v.productId;
-                let rowObj = _this.goodsData.find(x => x.productId == productId);
-                rowObj.discountAmount = v.discountAmount;
-            });
-            /* 使用费用表格 */
-            this.calcDataTable = calcDataTable;
-            this.calcMoney = calcMoney;
-            /* 订单支付金额 */
-            let realAmount = 0;
-            /* 其中共建基金 */
-            let fundCash = 0;
-            calcMoney.forEach(v => {
-                realAmount += v.realAmount;
-                fundCash += v.fundCash;
-            });
-            this.realAmount = realAmount;
-            this.fundCash = fundCash;
-            this.useOffMoney = useOffMoney;
+            /* 
+            calcMoney :[]每行的折扣
+            useOffMoney 输入的金额
+            calcDataTable 费用类型表格
+
+            ------billFooger
+            xType 计提X类共建基金：
+            notXtype  计提非X类共建基金：
+            deductionMoney 费用抵扣金额：
+            cashRest  现金余额：
+            */
+
+            /* 写订单footer */
+            _this.billFooger.xType = calcMoney.reduce((acc, v) => (acc + v.fundCash), 0);
+            _this.billFooger.notXtype = calcMoney.reduce((acc, v) => (acc + v.fundFee), 0);
+            _this.billFooger.deductionMoney = calcMoney.reduce((acc, v) => (acc + v.discountAmount), 0);
+            _this.fetchCashRest().then(cashRest => _this.billFooger.cashRest = cashRest);
         },
         /* 在线支付 */
         payOnline() {
@@ -219,13 +223,12 @@ export default {
             }
         },
         getSummaries(params) {
-            debugger
             let _this = this;
             const { columns, data } = params;
             let arr = [];
             columns.forEach((column, i) => {
                 switch (column.property) {
-                    case 'costOffMoney':
+                    case 'paymentTotalMoney':
                         let totalArr = data.map(v => v[column.property]);
                         let total = totalArr.reduce((acc, a) => (acc + a))
                         arr[i] = `货款总金额:${total}`;
@@ -235,6 +238,18 @@ export default {
                 }
             })
             return arr;
+        },
+        /* 获取现金余额 */
+        fetchCashRest() {
+            let _this = this;
+            let paramsWrap = {
+                params: {
+                    customerId: this.$store.state.customerId,
+                    productGroupId: this.$store.state.prodGroupId
+                }
+            };
+            return _this.$http.get('/ocm-web/api/b2b/query-balance/queryCashReserve', paramsWrap)
+                .then(res => res.data[0].reserve);
         }
     },
     computed: {
@@ -243,14 +258,22 @@ export default {
             let _this = this;
             let total = 0;
             _this.goodsData.forEach(v => {
-                //总价 + 总共建基金
-                total = total + (v.baseQuantity * (v.basicPrice || 0) + (v.baseQuantity * (v.fundPrice || 0)))
+                //总价 箱数*单价
+                total = total + (v.baseQuantity * (v.basicPrice || 0))
             });
             return total;
         },
         orderPayMoney() {
             return this.totalMoney - this.useOffMoney;
         },
+        currentPay() {
+            // xType 计提X类共建基金：
+            // notXtype  计提非X类共建基金：
+            // deductionMoney 费用抵扣金额：
+            // cashRest  现金余额：
+
+            return this.totalMoney + this.billFooger.xType + this.billFooger.notXtype - this.billFooger.deductionMoney - this.billFooger.cashRest;
+        }
     },
     mounted() {
         this.goodsData = this.$route.params.selectedData;

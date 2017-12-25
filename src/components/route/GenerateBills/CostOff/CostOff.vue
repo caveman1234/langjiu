@@ -104,7 +104,7 @@ export default {
         /* 打开弹窗 */
         handleOpen() {
             this.fetchMoneyType();
-            this.fetchMoneyType();
+            this.fetchUseOffMoney();
         },
         cancel() {
             this.dialogVisible = false;
@@ -118,7 +118,8 @@ export default {
                     this.fetchCalcMoney()
                         .then(calcMoney => {
                             _this.dialogVisible = false;
-                            _this.$emit('CostOffEvent', calcMoney, this.formData.useOffMoney, this.searchData);
+                            debugger
+                            _this.$emit('CostOffEvent', calcMoney, _this.formData.useOffMoney, _this.searchData);
                         });
                 }
             });
@@ -152,6 +153,7 @@ export default {
             this.$http.get('/ocm-web/api/base/customer/getMaxLimit', paramsWrap)
                 .then(res => {
                     this.ratio = res.data;
+                    this.formData.useOffMoney = this.ratio * this.totalMoney;
                 });
         },
         /* 获取价格类型列表 */

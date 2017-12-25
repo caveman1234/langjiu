@@ -54,7 +54,7 @@
                         <template slot-scope="scope">
                             <div class="price">
                                 <div>价格：¥{{scope.row.basicPrice || '暂无价格'}}</div>
-                                <div>共建：¥{{scope.row.fundPrice || 0}}</div>
+                                <div v-if="false">共建：¥{{scope.row.fundPrice || 0}}</div>
                             </div>
                         </template>
                     </el-table-column>
@@ -64,7 +64,7 @@
                             <div>{{scope.row.baseQuantity}} </div>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="costOffMoney" label="货款金额"></el-table-column>
+                    <el-table-column prop="paymentTotalMoney" label="货款金额"></el-table-column>
                 </el-table>
             </div>
             <div class="goodsFooter"></div>
@@ -73,15 +73,15 @@
             <CostOff :goodsData="goodsData" :totalMoney="totalMoney" @CostOffEvent="CostOffEvent"></CostOff>
         </div>
         <div class="calcMoney">
-            <div class="calcTitle">费用结算</div>
+            <div class="calcTitle">订单结算</div>
             <el-row>
-                <el-col :span="17">
+                <el-col :span="14">
                     <div class="calcLeft">1</div>
                 </el-col>
-                <el-col :span="7">
+                <el-col :span="10">
                     <div class="calcRight">
                         <el-col :span="10">
-                            <div class="calcRightName">订单总金额：</div>
+                            <div class="calcRightName">货款金额：</div>
                         </el-col>
                         <el-col :span="14">
                             <div class="calcRightMoney">¥{{totalMoney}}</div>
@@ -90,47 +90,68 @@
                 </el-col>
             </el-row>
             <el-row>
-                <el-col :span="17">
+                <el-col :span="14">
                     <div class="calcLeft">1</div>
                 </el-col>
-                <el-col :span="7">
+                <el-col :span="10">
                     <div class="calcRight">
                         <el-col :span="10">
-                            <div class="calcRightName">费用抵扣金额：</div>
+                            <div class="calcRightName">计提X类共建基金：</div>
                         </el-col>
                         <el-col :span="14">
-                            <div class="calcRightMoney">¥{{useOffMoney}}</div>
+                            <div class="calcRightMoney">¥{{billFooger.xType}}</div>
                         </el-col>
                     </div>
                 </el-col>
             </el-row>
             <el-row>
-                <el-col :span="17">
+                <el-col :span="14">
                     <div class="calcLeft">1</div>
                 </el-col>
-                <el-col :span="7">
+                <el-col :span="10">
                     <div class="calcRight">
                         <el-col :span="10">
-                            <div class="calcRightName">订单支付金额：</div>
+                            <div class="calcRightName">计提非X类共建基金：</div>
                         </el-col>
                         <el-col :span="14">
-                            <span class="calcRightMoney">¥{{realAmount}}</span>
-                            <span>(其中共建基金:¥{{fundCash}})</span>
+                            <span class="calcRightMoney">¥{{billFooger.notXtype}}</span>
+                        </el-col>
+                    </div>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="14">
+                    <div class="calcLeft">1</div>
+                </el-col>
+                <el-col :span="10">
+                    <div class="calcRight">
+                        <el-col :span="10">
+                            <div class="calcRightName">费用抵扣金额：</div>
+                        </el-col>
+                        <el-col :span="14">
+                            <el-col :span="12">
+                                <span class="calcRightMoney">¥{{billFooger.deductionMoney}}</span>
+                            </el-col>
+                            <el-col :span="12">
+                                <span>现金余额：</span>
+                                <span>¥{{billFooger.cashRest}}</span>
+                            </el-col>
+
                         </el-col>
                     </div>
                 </el-col>
             </el-row>
             <el-row class="realTotal">
-                <el-col :span="17">
+                <el-col :span="14">
                     <div class="calcLeft">1</div>
                 </el-col>
-                <el-col :span="7">
+                <el-col :span="10">
                     <div class="calcRight ">
                         <el-col :span="10">
-                            <div class="calcRightName">实付总额：</div>
+                            <div class="calcRightName">本次应付金额：</div>
                         </el-col>
                         <el-col :span="14">
-                            <div class="calcRightMoney calcRightMoneyTotal">¥{{realAmount}}</div>
+                            <div class="calcRightMoney calcRightMoneyTotal">¥{{currentPay}}</div>
                         </el-col>
                     </div>
                 </el-col>

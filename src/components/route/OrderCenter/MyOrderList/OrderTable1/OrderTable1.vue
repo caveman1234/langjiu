@@ -38,7 +38,7 @@
                     </el-table-column>
                     <el-table-column prop="basePrice" label="单价"> </el-table-column>
                     <el-table-column prop="boxCount" label="数量(箱)"> </el-table-column>
-                    <el-table-column prop="" label="金额">
+                    <!-- <el-table-column prop="" label="金额">
                         <template slot-scope="scope">
                             <div v-red>{{item.totalAmount | formatPrice}}</div>
                         </template>
@@ -49,7 +49,7 @@
                                 <el-button size="mini" type="primary">去融资</el-button>
                             </div>
                         </template>
-                    </el-table-column>
+                    </el-table-column> -->
                 </el-table>
             </div>
         </template>

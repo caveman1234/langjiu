@@ -67,12 +67,6 @@ export default {
         /* 导航 */
         _this.$store.commit('changeCurrentNav', { hash: '/GoodsCenter' });
 
-        this.$http.get('static/goodsList.json')
-            .then(res=>{
-                this.goodsData = res.data.data;
-            })
-
-
         let params = {
             params: {
                 customerId: this.$store.state.customerId
