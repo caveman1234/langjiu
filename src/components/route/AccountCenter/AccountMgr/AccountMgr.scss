@@ -1,1 +1,138 @@
-.AccountMgr {}
+.AccountMgr {
+    box-sizing: border-box;
+    .AccountContainer {
+        flex: 0 0 985px;
+        margin-left: 15px;
+        .AccountTitle {
+            display: flex;
+            background: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            .userInfo {
+                position: relative;
+                flex: 0 0 200px;
+                height: 200px;
+                border-right: 1px dashed #E6E6E6;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+                .userImg {
+                    width: 70px;
+                    height: 70px;
+                    background: #e6e6e6;
+                    border-radius: 50%;
+                    text-align: center;
+                    background-size: cover;
+                    background-repeat: no-repeat;
+                    // background-image: url("../../../assets/goodsItem.png");
+                }
+                .userName {
+                    font-size: 14px;
+                    color: #333333;
+                    font-weight: bold;
+                    line-height: 30px;
+                }
+                .userPhone {
+                    font-size: 14px;
+                    color: #999999;
+                    line-height: 30px;
+                }
+                &:before {
+                    content: '';
+                    position: absolute;
+                    width: 16px;
+                    height: 16px;
+                    border-radius: 50%;
+                    background: #F5F5F5;
+                    right: -8px;
+                    top: -8px;
+                }
+                &:after {
+                    content: '';
+                    position: absolute;
+                    width: 16px;
+                    height: 16px;
+                    border-radius: 50%;
+                    background: #F5F5F5;
+                    right: -8px;
+                    bottom: -8px;
+                }
+            }
+            .descriptions {
+                flex: 1;
+                .descTitle {
+                    padding-left: 15px;
+                    display: flex;
+                    height: 75px;
+                    flex-direction: column;
+                    justify-content: center;
+                    .company {
+                        font-size: 18px;
+                        color: #333333;
+                        line-height: 40px;
+                    }
+                    .companyDetail {
+                        font-size: 12px;
+                        color: #999999;
+                        .companyPhone {
+                            border-right: 1px solid #E6E6E6;
+                            width: 178px;
+                            display: inline-block;
+                            margin-right: 20px;
+                        }
+                        .companyAddress {}
+                    }
+                }
+                .descBrief {
+                    display: flex;
+                    .descBriefItem {
+                        flex: 1;
+                        text-align: center;
+                        height: 125px;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        position: relative;
+                        .amount {
+                            font-size: 18px;
+                            color: #333333;
+                            line-height: 30px;
+                        }
+                        .desc {
+                            font-size: 12px;
+                            color: #999999;
+                            line-height: 25px;
+                        }
+                        .check {
+                            font-size: 12px;
+                            color: blue;
+                            cursor: pointer;
+                            line-height: 25px;
+                        }
+                        &:not(:last-child):after {
+                            content: '';
+                            position: absolute;
+                            width: 1px;
+                            height: 50px;
+                            background: #E6E6E6;
+                            top: 39px;
+                            right: 1px;
+                        }
+                    }
+                }
+            }
+        }
+        .AccountBody {
+            height: 508px;
+            margin-top: 15px;
+            background: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #E6E6E6;
+            font-size: 40px;
+        }
+    }
+}

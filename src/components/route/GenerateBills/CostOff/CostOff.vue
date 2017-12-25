@@ -7,12 +7,19 @@
             </div>
             <div class="dialogContainer">
                 <el-row>
-                    <el-col :span="3">订单总金额：</el-col>
-                    <el-col :span="3">{{totalMoney}}</el-col>
-                    <el-col :span="4">使用折扣金额：</el-col>
-                    <el-col :span="6">
-                        <el-input @input="useOffMoneyChange" v-model="useOffMoney" size="mini" :placeholder="maxMoney"></el-input>
-                    </el-col>
+                    <el-form :model="formData" ref="form1" :rules="rules1" show-message status-icon label-width="100px">
+                        <el-col :span="6">
+                            <el-form-item label="订单总金额：" label-width="100px">
+                                <div>{{totalMoney}}</div>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="10">
+                            <el-form-item label="使用折扣金额：" prop="useOffMoney" style="font-size:12px;">
+                                <el-input @input="useOffMoneyChange" :placeholder="maxMoney" v-model="formData.useOffMoney" size="mini"></el-input>
+                            </el-form-item>
+                            <!-- <el-input @input="useOffMoneyChange" v-model="formData.useOffMoney" size="mini" :placeholder="maxMoney"></el-input> -->
+                        </el-col>
+                    </el-form>
                 </el-row>
                 <el-table :data="searchData" show-summary sum-text="合计" border style="width: 100%">
                     <el-table-column prop="ctype" label="费用类型"></el-table-column>
@@ -53,22 +60,46 @@ export default {
     name: 'CostOff',
     props: ["goodsData", "totalMoney"],
     data() {
+        let _this = this;
+        let useOffMoneyCheck = function(rule, value, callback) {
+
+            let validateValue = Number(value);
+            let isNotNum = Number.isNaN(validateValue);
+            if (isNotNum) {
+                callback(new Error('必须输入数字'));
+            }
+            let maxDiscont = _this.totalMoney * _this.ratio;
+            if (validateValue > maxDiscont) {
+                callback(new Error(`金额必须小于${maxDiscont}`));
+            }
+            callback();
+        };
         return {
-            searchUrl: '',
             dialogVisible: false,
             searchData: searchData,/* 选中的数据 */
-            useOffMoney: '',/* 使用折扣金额 */
-            ratio: 0
+            ratio: 0,
+            formData: {
+                /* 使用折扣金额 */
+                useOffMoney: 0
+            },
+            rules1: {
+                useOffMoney: [
+                    {
+                        validator: useOffMoneyCheck
+                    }
+                ]
+            }
         }
     },
     methods: {
+        /* 费用抵扣 */
         add() {
             this.dialogVisible = true;
         },
         /* 关闭弹窗 */
         handleClose(done) {
             this.searchData = [];
-            this.useOffMoney = '' ;
+            this.formData.useOffMoney = '';
         },
         /* 打开弹窗 */
         handleOpen() {
@@ -81,23 +112,35 @@ export default {
         /* 确认 */
         confirm() {
             let _this = this;
-            this.fetchCalcMoney()
-                .then(calcMoney => {
-                    _this.dialogVisible = false;
-                    _this.$emit('CostOffEvent', calcMoney,this.useOffMoney,this.searchData);
-                });
-        },
-        useOffMoneyChange(value) {
-            let useOffMoney = value ? parseFloat(value).toFixed(2) : 0;
-            this.searchData.forEach(v => {
-                if (useOffMoney > v.reserve || useOffMoney == v.reserve) {
-                    v.currentMoney = parseFloat(v.reserve).toFixed(2);
-                    useOffMoney = useOffMoney - v.reserve;
-                } else if (useOffMoney < v.reserve) {
-                    v.currentMoney = parseFloat(useOffMoney).toFixed(2);
-                    useOffMoney = 0;
+            /* 验证 */
+            _this.$refs.form1.validate(valide => {
+                if (valide) {
+                    this.fetchCalcMoney()
+                        .then(calcMoney => {
+                            _this.dialogVisible = false;
+                            _this.$emit('CostOffEvent', calcMoney, this.formData.useOffMoney, this.searchData);
+                        });
                 }
             });
+        },
+        useOffMoneyChange(value, oldValue) {
+            let _this = this;
+            /* 验证 */
+            _this.$refs.form1.validate(valide => {
+                if (valide) {
+                    let useOffMoney = value ? parseFloat(value).toFixed(2) : 0;
+                    _this.searchData.forEach(v => {
+                        if (useOffMoney > v.reserve || useOffMoney == v.reserve) {
+                            v.currentMoney = parseFloat(v.reserve).toFixed(2);
+                            useOffMoney = useOffMoney - v.reserve;
+                        } else if (useOffMoney < v.reserve) {
+                            v.currentMoney = parseFloat(useOffMoney).toFixed(2);
+                            useOffMoney = 0;
+                        }
+                    });
+                }
+            });
+
         },
         /* 获取折扣金额 */
         fetchUseOffMoney() {
@@ -140,7 +183,7 @@ export default {
                 saleChannelCode: '00',
                 distributorId: this.$store.state.customerId,
                 productGroupId: this.$store.state.prodGroupId,
-                totalFee: this.useOffMoney,
+                totalFee: this.formData.useOffMoney,
                 itemList: itemList
             };
             return this.$http.post('/ocm-web/api/b2b/purchase-orders/calculateFee', paramsWrap)
@@ -149,12 +192,13 @@ export default {
     },
     computed: {
         maxMoney() {
-            return `最大值不能超过${this.totalMoney * this.ratio}`
+            return `最多可使用${this.totalMoney * this.ratio}元`
         }
     },
     mounted() {
-        this.fetchUseOffMoney()
-        this.fetchMoneyType();
+        // this.fetchUseOffMoney()
+        // this.fetchMoneyType();
+        // this.this.useOffMoney = this.totalMoney * this.ratio;
     }
 }
 </script>

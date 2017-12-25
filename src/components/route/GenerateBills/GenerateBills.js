@@ -48,8 +48,7 @@ export default {
             });
         },
         delOneItem({ productId }) {
-            let index = this.goodsData.findIndex(v => v.productId === productId);
-            this.goodsData.splice(index, 1);
+            this.goodsData = this.goodsData.filter(v => v.productId != productId);
         },
         /* 接收搜索数据 */
         receiveData(data) {
@@ -86,11 +85,17 @@ export default {
 
         },
         /* 修改 */
-        edit() {},
+        edit() {
+            this.$router.push({ name: 'GenerateBillsEdit' });
+        },
         /* 提交 */
         submit() {
-            // this.verification();
             let _this = this;
+            /* 验证 */
+            if (_this.goodsData.length == 0) {
+                _this.$Notify({ title: '商品不能为空', type: 'warning' });
+                return;
+            }
             /* 使用费用表格 */
             let calcDataTable = this.calcDataTable.map(v => v.currentMoney);
             let purchaseOrderItems = this.goodsData.map(v => {
@@ -212,6 +217,24 @@ export default {
             } else {
                 this.isNoticeDisable = false;
             }
+        },
+        getSummaries(params) {
+            debugger
+            let _this = this;
+            const { columns, data } = params;
+            let arr = [];
+            columns.forEach((column, i) => {
+                switch (column.property) {
+                    case 'costOffMoney':
+                        let totalArr = data.map(v => v[column.property]);
+                        let total = totalArr.reduce((acc, a) => (acc + a))
+                        arr[i] = `货款总金额:${total}`;
+                        break;
+                    default:
+                        arr[i] = null;
+                }
+            })
+            return arr;
         }
     },
     computed: {
@@ -230,19 +253,7 @@ export default {
         },
     },
     mounted() {
-        this.goodsData = this.$route.params.selectedData.map(v => {
-            //baleQuantity 箱数
-            //discountAmount 费用折扣金额
-            //baseQuantity 瓶数
-            return Object.assign({},
-                v, {
-                    discountAmount: 0,
-                    baleQuantity: 1,
-                    baseQuantity: v.packageNum
-                }
-            );
-        });
-        console.log('GenerateBills------', this.goodsData);
+        this.goodsData = this.$route.params.selectedData;
         this.fetchAddress(); /* 获取收货地址 */
         this.fetchOrderType(); /* 获取订单类型 */
     }

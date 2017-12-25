@@ -2,7 +2,9 @@
     <div class="MainPage">
         <Vheader></Vheader>
         <div class="routeContainer">
-            <router-view/>
+            <keep-alive :include="['GenerateBillsEdit']">
+                <router-view/>
+            </keep-alive>
         </div>
         <Vfooter></Vfooter>
     </div>

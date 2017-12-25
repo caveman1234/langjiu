@@ -15,13 +15,13 @@ function install(Vue) {
     Vue.prototype.$http = axios;
     Vue.prototype.$loading = Loading;
     Vue.prototype.$Notification = Notification;
-    Vue.prototype.$Notify = function({ message, type, title }) {
+    Vue.prototype.$Notify = function({ message, type, title, offset = 40, duration = 3000 }) {
         Notification({
             type: type,
             title: title,
             message: message,
-            offset: 90,
-            duration: 3000
+            offset: offset,
+            duration: duration
         });
     };
     /* *****************************-mixins-********************************** */

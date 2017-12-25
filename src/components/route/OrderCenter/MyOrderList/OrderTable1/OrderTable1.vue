@@ -15,11 +15,11 @@
                         <el-col :span="2">订单状态:</el-col>
                         <el-col v-red :span="2">{{item.billStatusName}}</el-col>
                         <el-col :span="2">
-                            <el-button @click="financing(item)" size="mini" type="primary">去融资</el-button>
+                            <el-button @click="goFinancing(item)" size="mini" type="primary">去融资</el-button>
                         </el-col>
                     </el-row>
                 </div>
-                <el-table :data="item.purchaseOrderItems" border style="width: 100%">
+                <el-table :data="item.purchaseOrderItems" :span-method="spanMethod" border style="width: 100%">
                     <el-table-column prop="productDesc" label="商品详情" width="300">
                         <template slot-scope="scope">
                             <div class="detailContainer">
@@ -37,7 +37,19 @@
                         </template>
                     </el-table-column>
                     <el-table-column prop="basePrice" label="单价"> </el-table-column>
-                    <el-table-column prop="boxCount" label="数量"> </el-table-column>
+                    <el-table-column prop="boxCount" label="数量(箱)"> </el-table-column>
+                    <el-table-column prop="" label="金额">
+                        <template slot-scope="scope">
+                            <div v-red>{{item.totalAmount | formatPrice}}</div>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="" label="操作">
+                        <template slot-scope="scope">
+                            <div>
+                                <el-button size="mini" type="primary">去融资</el-button>
+                            </div>
+                        </template>
+                    </el-table-column>
                 </el-table>
             </div>
         </template>
@@ -60,15 +72,43 @@ export default {
     },
     methods: {
         /* 去融资 */
-        financing(data){
+        goFinancing(data) {
             var params = {
-                selectedData: data
+                selectedData: data.purchaseOrderItems
             };
-            this.$router.push({ name: 'GenerateBills', params });
+            this.$router.push({ name: 'GenerateBillsEdit', params });
+        },
+        spanMethod({ row, column, rowIndex, columnIndex }) {
+            if (columnIndex == 4) {
+                if (rowIndex == 0) {
+                    return {
+                        rowspan: 1000,
+                        colspan: 1
+                    }
+                } else {
+                    return {
+                        rowSpan: 1,
+                        colspan: 1
+                    }
+                }
+            }
+            if (columnIndex == 5) {
+                if (rowIndex == 0) {
+                    return {
+                        rowspan: 1000,
+                        colspan: 1
+                    }
+                } else {
+                    return {
+                        rowSpan: 1,
+                        colspan: 1
+                    }
+                }
+            }
         }
     },
     mounted() {
-        
+
     }
 }
 </script>

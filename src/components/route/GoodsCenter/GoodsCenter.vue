@@ -48,18 +48,16 @@ export default {
                     this.goodsData = goodsData;
                 });
         },
-        itemClick({ id }) {
-            let currentObj = this.goodsData.find(v => v.id == id);
+        itemClick({ productId }) {
+            let currentObj = this.goodsData.find(v => v.productId == productId);
             currentObj.hasPurchase = !currentObj.hasPurchase;
         },
-        // itemClick({ productId }) {
-        //     let currentObj = this.goodsData.find(v => v.productId == productId);
-        //     currentObj.hasPurchase = !currentObj.hasPurchase;
-        // },
         goBuyGoods() {
             let selectedData = this.goodsData.filter(v => v.hasPurchase);
             if (this.selectedCount > 0) {
+                /* 查看态 */
                 // this.$router.push({ name: 'GenerateBills', params: { selectedData } });
+                /* 编辑态 */
                 this.$router.push({ name: 'GenerateBillsEdit', params: { selectedData } });
             }
         }

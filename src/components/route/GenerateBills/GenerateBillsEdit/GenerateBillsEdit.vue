@@ -8,7 +8,7 @@
                     <el-table-column prop="productDesc" label="商品详情" width="300">
                         <template slot-scope="scope">
                             <div class="detailContainer">
-                                <div :style='{"backgroundImage":`url(${scope.row.imageUrl})`}' class="goodsImg"></div>
+                                <div :style='{"backgroundImage":`url(${scope.row.imageUrl || defaultImg})`}' class="goodsImg"></div>
                                 <div class="desc">{{scope.row.productDesc}}</div>
                             </div>
                         </template>
@@ -39,7 +39,7 @@
                             <div>{{scope.row.baseQuantity}} </div>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="daikuan" label="贷款金额"></el-table-column>
+                    <el-table-column prop="daikuan" label="货款金额"></el-table-column>
                     <el-table-column prop="handle" label="操作">
                         <template slot-scope="scope">
                             <div class="handle">
@@ -50,17 +50,6 @@
                 </el-table>
             </div>
             <div class="goodsFooter"></div>
-        </div>
-        <div class="handle">
-            <div class="handleWrap">
-                <el-row>
-                    <el-col :span="20">
-                        <div class="opacity0">1</div>
-                    </el-col>
-                    <el-col :span="2">总金额：</el-col>
-                    <el-col :span="2">10000</el-col>
-                </el-row>
-            </div>
         </div>
         <div class="handle">
             <div class="handleWrap">
@@ -113,6 +102,7 @@ export default {
         return {
             /* 表格数据 */
             goodsData: goodsData,
+            defaultImg: require('../../../../assets/defaultimg.png')
         }
     },
     methods: {
@@ -131,7 +121,7 @@ export default {
         /* 确定 */
         confirm() {
             if (this.goodsData.length > 0) {
-                this.$router.push({ name: 'GenerateBills', params: this.goodsData });
+                this.$router.push({ name: 'GenerateBills', params: { selectedData: this.goodsData } });
             } else {
                 this.$Notify({ title: '商品不能为空', type: 'warning' });
             }
@@ -145,15 +135,7 @@ export default {
                     case 'daikuan':
                         let totalArr = data.map(v => v[column.property]);
                         let total = totalArr.reduce((acc, a) => (acc + a))
-                        arr[i] = `贷款总金额:${total}`;
-                        break;
-                    case 'basicPrice':
-                        let totalPriceArr = data.map(v => v['basicPrice']);
-                        let totalBuildArr = data.map(v => v['fundPrice']);
-                        let totalPrice = totalPriceArr.reduce((acc, a) => (acc + a));
-                        let totalBuild = totalBuildArr.reduce((acc, a) => (acc + a));
-                        // column.renderCell(_this.$createElement,1111)
-                        arr[i] = `总共建:${totalBuild}`
+                        arr[i] = `货款总金额:${total}`;
                         break;
                     default:
                         arr[i] = null;
@@ -187,6 +169,26 @@ export default {
         //         }
         //     );
         // });
+    },
+    activated() {
+        //mounted
+        if (this.$route.params.selectedData) {
+            this.goodsData = this.$route.params.selectedData.map(v => {
+                //baleQuantity 箱数
+                //discountAmount 费用折扣金额
+                //baseQuantity 瓶数
+                return Object.assign({},
+                    v, {
+                        discountAmount: 0,
+                        baleQuantity: 1,
+                        baseQuantity: v.packageNum
+                    }
+                );
+            });
+        }
+    },
+    deactivated() {
+        //unmounted
     }
 }
 </script>

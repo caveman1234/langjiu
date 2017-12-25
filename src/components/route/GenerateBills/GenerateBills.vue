@@ -20,7 +20,7 @@
                                 </el-option>
                             </el-select>
                         </el-col>
-                        <el-col :span="2">
+                        <el-col :span="2" style="line-height:30px;">
                             <div class="noticeName">发货要求：</div>
                         </el-col>
                         <el-col :span="5">
@@ -30,9 +30,9 @@
                             </el-radio-group>
                         </el-col>
                     </el-row>
-                    <el-row>
+                    <el-row style="margin-top:10px;">
                         <el-col :span="2" style="text-align:right;line-height:30px;">备注：</el-col>
-                        <el-col :span="22" style="margin-top:10px;">
+                        <el-col :span="22">
                             <el-input size="mini"></el-input>
                         </el-col>
                     </el-row>
@@ -40,9 +40,8 @@
             </div>
         </div>
         <div class="goodsInfo">
-            <AddNewGoods @receiveData="receiveData"></AddNewGoods>
             <div class="goodsContent">
-                <el-table :data="goodsData" style="width: 100%">
+                <el-table :data="goodsData" :summary-method="getSummaries" show-summary style="width: 100%">
                     <el-table-column prop="" label="商品详情" width="400">
                         <template slot-scope="scope">
                             <div class="detailContainer">
@@ -59,24 +58,13 @@
                             </div>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="baleQuantity" label="箱数">
-                        <template slot-scope="scope">
-                            <el-input-number @change="baleQuantityChange(scope.row)" v-model="scope.row.baleQuantity" :min="1" size="mini"></el-input-number>
-                        </template>
-                    </el-table-column>
+                    <el-table-column prop="baleQuantity" label="箱数"> </el-table-column>
                     <el-table-column prop="baseQuantity" label="瓶数">
                         <template slot-scope="scope">
                             <div>{{scope.row.baseQuantity}} </div>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="costOffMoney" label="费用折扣金额"></el-table-column>
-                    <el-table-column prop="" label="操作">
-                        <template slot-scope="scope">
-                            <div class="handle">
-                                <i @click="delOneItem(scope.row)" class="el-icon-delete"></i>
-                            </div>
-                        </template>
-                    </el-table-column>
+                    <el-table-column prop="costOffMoney" label="货款金额"></el-table-column>
                 </el-table>
             </div>
             <div class="goodsFooter"></div>

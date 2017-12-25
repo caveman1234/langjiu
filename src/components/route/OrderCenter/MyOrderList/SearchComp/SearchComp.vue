@@ -6,8 +6,8 @@
                     <div class="searchName">订单类型：</div>
                 </el-col>
                 <el-col :span="10">
-                    <el-select size="mini" v-model="orderType" placeholder="请选择" style="width:100%;">
-                        <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+                    <el-select size="mini" v-model="searchCondition.orderType" placeholder="请选择" style="width:100%;">
+                        <el-option v-for="item in searchCondition.orderTypeCombo" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
                     </el-select>
                 </el-col>
@@ -15,8 +15,8 @@
                     <div class="searchName">订单状态：</div>
                 </el-col>
                 <el-col :span="10">
-                    <el-select size="mini" v-model="orderStatus" placeholder="请选择" style="width:100%;">
-                        <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+                    <el-select size="mini" v-model="searchCondition.orderStatus" placeholder="请选择" style="width:100%;">
+                        <el-option v-for="item in searchCondition.orderStatusCombo" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
                     </el-select>
                 </el-col>
@@ -26,7 +26,7 @@
                     <div class="searchName">订单日期：</div>
                 </el-col>
                 <el-col :span="10">
-                    <el-date-picker size="mini" v-model="orderDateRange" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" style="width:100%;">
+                    <el-date-picker size="mini" v-model="searchCondition.orderDateRange" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" style="width:100%;">
                     </el-date-picker>
                 </el-col>
                 <el-col :span="2">
@@ -51,9 +51,9 @@ let orderData = [
         "volume": 500,
         "strength": 53,
         "price": 1000,
-        num:5,
-        money:4000,
-        orderStatus:'暂存'
+        num: 5,
+        money: 4000,
+        orderStatus: '暂存'
     },
     {
         orderType: "融资订单",
@@ -64,44 +64,63 @@ let orderData = [
         "volume": 500,
         "strength": 53,
         "price": 1000,
-        num:5,
-        money:4000,
-        orderStatus:'暂存'
+        num: 5,
+        money: 4000,
+        orderStatus: '暂存'
     }
 ];
 export default {
     name: 'SearchComp',
-    props: ['searchUrl'],
+    props: ['searchParams'],
     data() {
         return {
-            orderType: '',
-            orderStatus: '',
-            orderDateRange: '',
-            options: options
+            searchCondition: {
+                /* 订单类型v-model */
+                orderType: '',
+                /* 订单状态 */
+                orderStatus: '',
+                /* 日期范围 */
+                orderDateRange: '',
+                /* 订单类型combo */
+                orderTypeCombo: options,
+                /* 订单状态combo */
+                orderStatusCombo: options
+            },
+
         }
     },
     methods: {
         searchData() {
+            let _this = this;
             let startTime = '';
             let endTime = '';
             if (this.orderDateRange) {
-                startTime = this.orderDateRange[0].getTime();
-                endTime = this.orderDateRange[1].getTime();
+                startTime = this.searchCondition.orderDateRange[0].getTime();
+                endTime = this.searchCondition.orderDateRange[1].getTime();
             }
             let params = {
-                orderType: this.orderType,
-                orderStatus: this.orderStatus,
+                distributorIds: this.searchParams.distributorIds,
+                poTypeBusinessType: this.searchParams.poTypeBusinessType,
                 startTime: startTime,
-                endTime: endTime
+                endTime: endTime,
+                orderType: this.searchCondition.orderType,
+                orderStatus: this.searchCondition.orderStatus
             };
-            this.$emit('searchData',orderData)
+            _this.$http.post(this.searchParams.serverUrl, params)
+                .then(res => {
+                    let data = res.data.content;
+                    _this.$emit('searchData', data)
+                });
 
         },
         clearSearchData() {
-            this.orderType = '';
-            this.orderStatus = '';
-            this.orderDateRange = '';
+            this.searchCondition.orderType = '';
+            this.searchCondition.orderStatus = '';
+            this.searchCondition.orderDateRange = '';
         }
+    },
+    mounted() {
+
     }
 }
 </script>
