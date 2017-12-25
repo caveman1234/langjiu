@@ -120,7 +120,7 @@ export default {
         baleQuantityChange(row) {
             this.$nextTick(() => {
                 row.baseQuantity = (row.baleQuantity) * row.packageNum;
-                
+
                 row.paymentTotalMoney = row.baseQuantity * row.basicPrice;
             });
         },
@@ -173,14 +173,14 @@ export default {
                 //discountAmount 费用折扣金额
                 //baseQuantity 瓶数
                 //packageNum 一包瓶数
-                return Object.assign({},
-                    v, {
-                        discountAmount: 0,
-                        baleQuantity: 1,
-                        baseQuantity: v.packageNum,
-                        paymentTotalMoney: (v.packageNum * v.basicPrice),
-                    }
-                );
+                //paymentTotalMoney 货款金额
+                let megerObj = {
+                    discountAmount: 0,
+                    baleQuantity: 1,
+                    baseQuantity: v.packageNum
+                };
+                megerObj.paymentTotalMoney = megerObj.baseQuantity * v.basicPrice;
+                return Object.assign({}, v, megerObj);
             });
         }
     },

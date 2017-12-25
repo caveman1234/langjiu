@@ -50,7 +50,7 @@ export default {
             this.hoverClass = 'divMouseOut';
         },
         itemClick() {
-            if (this.birefData.basicPrice || true) {
+            if (this.birefData.basicPrice) {
                 this.$emit('itemClick', this.birefData);
             } else {
                 this.$Notify({
