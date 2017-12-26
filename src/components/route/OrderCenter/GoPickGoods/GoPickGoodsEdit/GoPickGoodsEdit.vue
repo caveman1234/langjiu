@@ -120,7 +120,7 @@ export default {
         /* 确定 */
         confirm() {
             if (this.goodsData.length > 0) {
-                this.$router.push({ name: 'GoPickGoods', params: { selectedData: this.goodsData } });
+                this.$router.push({ name: 'GoPickGoods', params: { selectedData: this.goodsData, billHeader: this.selectedObj } });
             } else {
                 this.$Notify({ title: '商品不能为空', type: 'warning' });
             }

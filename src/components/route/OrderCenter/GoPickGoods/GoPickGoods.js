@@ -4,9 +4,19 @@ import CostOff from '@/components/route/GenerateBills/CostOff/CostOff';
 
 export default {
     name: 'GoPickGoods',
-    components: { DeliveryInfo, AddNewGoods, CostOff },
+    components: {
+        DeliveryInfo,
+        AddNewGoods,
+        CostOff
+    },
     data() {
         return {
+            billHeader: {},
+            addressObj: {
+                firstReceiver: '', //收货人
+                firstReceiverPhone: '', //收货人电话
+                addressDetail: '' //地址
+            },
             /* 发货通知 */
             isNotice: 1,
             /* 运输方式 */
@@ -44,20 +54,6 @@ export default {
         }
     },
     methods: {
-        addressClick(item) {
-            let index = this.infoData.findIndex(v => v == item);
-            this.infoData.forEach((obj, i) => {
-                if (index == i) {
-                    obj.isSelected = true;
-                } else {
-                    obj.isSelected = false;
-                }
-                return obj;
-            });
-        },
-        delOneItem({ productId }) {
-            this.goodsData = this.goodsData.filter(v => v.productId != productId);
-        },
         /* 接收搜索数据 */
         receiveData(data) {
             let allProductId = this.goodsData.map(v => v.productId);
@@ -88,19 +84,33 @@ export default {
 
         /* 修改 */
         edit() {
-            this.$router.push({ name: 'GoPickGoodsEdit' });
+            this.$router.push({
+                name: 'GoPickGoodsEdit'
+            });
         },
         /* 提交 */
         submit() {
             let _this = this;
+            _this.fetchPoTypeId().then(id => {
+                debugger
+                _this.preSubmit(id);
+            })
+
+        },
+        preSubmit(id) {
+            debugger
+            let _this = this;
             /* 验证 */
             if (_this.goodsData.length == 0) {
-                _this.$Notify({ title: '商品不能为空', type: 'warning' });
+                _this.$Notify({
+                    title: '商品不能为空',
+                    type: 'warning'
+                });
                 return;
             }
             /* 使用费用表格 */
-            let calcDataTable = this.calcDataTable.map(v => v.currentMoney);
-            let purchaseOrderItems = this.goodsData.map(v => {
+            let calcDataTable = _this.calcDataTable.map(v => v.currentMoney);
+            let purchaseOrderItems = _this.goodsData.map((v, i) => {
                 return {
                     productId: v.productId,
                     productCode: v.productCode,
@@ -134,11 +144,17 @@ export default {
                     fundFee: this.calcMoney.fundFee,
                     fundCash: this.calcMoney.fundCash,
                     realAmount: this.calcMoney.realAmount,
+                    //融资订单提交 新增字段
+                    srcBillTypeId: this.billHeader.poTypeId,
+                    srcBillId: this.billHeader.id,
+                    srcBillCode: this.billHeader.orderCode,
+
+                    srcBillRowId: v.id,
+                    srcBillRowNum: v.rowNum,
 
                 }
             });
-
-            let receiveAddressId = _this.infoData.find(v => v.isSelected).id;
+            let receiveAddressId = _this.addressObj.receiveAddressId;
             let params = {
                 saleChannelCode: '00',
                 distributorId: _this.$store.state.customerId, //经销商id
@@ -146,16 +162,19 @@ export default {
                 isNoticeSend: this.isNotice, //是否通知
                 sendDate: this.arriveDate && this.arriveDate.getTime(), //期望发货日期
                 remark: '', //备注
-                poTypeId: this.carriageMethod,
+                poTypeId: id,
                 eFeeUsedAmount: calcDataTable[0],
                 qFeeUsedAmount: calcDataTable[1],
                 fFeeUsedAmount: calcDataTable[2],
-                purchaseOrderItems: purchaseOrderItems
-            }
-            _this.$http.post('/ocm-web/api/b2b/purchase-orders/submit', params)
+                purchaseOrderItems: purchaseOrderItems,
+
+            };
+            _this.$http.post('/ocm-web/api/b2b/purchase-orders/repaid-submit', params)
                 .then(res => {
                     if (res.headers["x-ocm-code"] == '1') {
-                        _this.$router.push({ name: 'TotalOrder' });
+                        _this.$router.push({
+                            name: 'TotalOrder'
+                        });
                     }
                 });
         },
@@ -196,8 +215,11 @@ export default {
             };
             _this.$http.get('/ocm-web/api/b2b/po-types/get-repaid', paramsWrap)
                 .then(res => {
-                    debugger
-                    let carriageMethodCombo = res.data.map(v => ({ label: v.name, value: v.id, businessTypeCode: v.businessTypeCode }));
+                    let carriageMethodCombo = res.data.map(v => ({
+                        label: v.name,
+                        value: v.id,
+                        businessTypeCode: v.businessTypeCode
+                    }));
                     this.carriageMethodCombo = carriageMethodCombo;
                     this.carriageMethod = this.carriageMethodCombo.find(v => v.businessTypeCode == '04').value;
                 })
@@ -211,7 +233,10 @@ export default {
         /* 合计 */
         getSummaries(params) {
             let _this = this;
-            const { columns, data } = params;
+            const {
+                columns,
+                data
+            } = params;
             let arr = [];
             columns.forEach((column, i) => {
                 switch (column.property) {
@@ -237,6 +262,13 @@ export default {
             };
             return _this.$http.get('/ocm-web/api/b2b/query-balance/queryCashReserve', paramsWrap)
                 .then(res => res.data[0].reserve);
+        },
+        /* 提交前，获取id */
+        fetchPoTypeId() {
+            let _this = this;
+            return _this.$http.get('/ocm-web/api/b2b/po-types/get-repaid').then(res => {
+                return res.data[0].id
+            })
         }
     },
     computed: {
@@ -266,5 +298,14 @@ export default {
         this.goodsData = this.$route.params.selectedData;
         this.fetchAddress(); /* 获取收货地址 */
         this.fetchOrderType(); /* 获取订单类型 */
+        let billHeader = this.$route.params.billHeader;
+        this.addressObj = {
+            firstReceiver: billHeader.firstReceiver,
+            firstReceiverPhone: billHeader.firstReceiverPhone,
+            addressDetail: billHeader.addressDetail,
+            receiveAddressId: billHeader.receiveAddressId,
+            isSelected: true
+        }
+        this.billHeader = billHeader;
     }
 }

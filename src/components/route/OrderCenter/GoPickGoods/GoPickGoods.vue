@@ -4,7 +4,7 @@
             <div class="accountInfo">
                 <div class="accountTitle">收货人信息</div>
                 <div class="accountContent">
-                    <DeliveryInfo @addressClick="addressClick" v-for="(item,index) in infoData" :key="index" :infoData="item" class="accountItem"></DeliveryInfo>
+                    <DeliveryInfo   :infoData="addressObj" class="accountItem"></DeliveryInfo>
                 </div>
             </div>
             <div class="notice">
