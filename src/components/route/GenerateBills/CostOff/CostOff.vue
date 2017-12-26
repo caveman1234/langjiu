@@ -8,17 +8,32 @@
             <div class="dialogContainer">
                 <el-row>
                     <el-form :model="formData" ref="form1" :rules="rules1" show-message status-icon label-width="100px">
-                        <el-col :span="6">
-                            <el-form-item label="订单总金额：" label-width="100px">
-                                <div>{{totalMoney}}</div>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :span="10">
-                            <el-form-item label="使用折扣金额：" prop="useOffMoney" style="font-size:12px;">
-                                <el-input @input="useOffMoneyChange" :placeholder="maxMoney" v-model="formData.useOffMoney" size="mini"></el-input>
-                            </el-form-item>
-                            <!-- <el-input @input="useOffMoneyChange" v-model="formData.useOffMoney" size="mini" :placeholder="maxMoney"></el-input> -->
-                        </el-col>
+                        <el-row>
+                            <el-col :span="6">
+                                <el-form-item label="订单总金额：" label-width="130px">
+                                    <div>{{totalMoney}}</div>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="10">
+                                <el-form-item label="费用余额：" label-width="130px">
+                                    <div>{{moneyRest}}</div>
+                                </el-form-item>
+                            </el-col>
+                            
+                        </el-row>
+                        <el-row>
+                            <el-col :span="6">
+                                <el-form-item label="本次最大使用金额：" label-width="130px" style="font-size:12px;">
+                                    <div>{{totalMoney*ratio}}</div>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="10">
+                                <el-form-item label="使用折扣金额：" prop="useOffMoney" label-width="130px" style="font-size:12px;">
+                                    <el-input @input="useOffMoneyChange" :placeholder="maxMoney" v-model="formData.useOffMoney" size="mini"></el-input>
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
+
                     </el-form>
                 </el-row>
                 <el-table :data="searchData" show-summary sum-text="合计" border style="width: 100%">
@@ -72,15 +87,18 @@ export default {
             if (validateValue > maxDiscont) {
                 callback(new Error(`金额必须小于${maxDiscont}`));
             }
+            if (validateValue > _this.moneyRest) {
+                callback(new Error(`输入金额必须小于总可用余额${moneyRest}`));
+            }
             callback();
         };
         return {
             dialogVisible: false,
-            searchData: searchData,/* 选中的数据 */
+            searchData: [],/* e q f 费用 */
             ratio: 0,
             formData: {
                 /* 使用折扣金额 */
-                useOffMoney: 0
+                useOffMoney: ''
             },
             rules1: {
                 useOffMoney: [
@@ -150,10 +168,10 @@ export default {
                     customerId: this.$store.state.customerId
                 }
             };
-            this.$http.get('/ocm-web/api/base/customer/getMaxLimit', paramsWrap)
+            return this.$http.get('/ocm-web/api/base/customer/getMaxLimit', paramsWrap)
                 .then(res => {
                     this.ratio = res.data;
-                    this.formData.useOffMoney = this.ratio * this.totalMoney;
+                    // this.formData.useOffMoney = this.ratio * this.totalMoney;
                 });
         },
         /* 获取价格类型列表 */
@@ -164,7 +182,7 @@ export default {
                     productGroupId: this.$store.state.prodGroupId
                 }
             };
-            this.$http.get('/ocm-web/api/b2b/query-balance/getChargeReserve', paramsWrap)
+            return this.$http.get('/ocm-web/api/b2b/query-balance/getChargeReserve', paramsWrap)
                 .then(res => {
                     this.searchData = res.data.map(v => {
                         return Object.assign({}, v, { currentMoney: 0 });
@@ -177,7 +195,7 @@ export default {
                 return {
                     productId: v.productId,
                     baseQuantity: v.baseQuantity,
-                    basePrice: v.basicPrice,
+                    basePrice: v.basicPrice || v.basePrice,
                     fundPrice: v.fundPrice
                 }
             });
@@ -185,7 +203,7 @@ export default {
                 saleChannelCode: '00',
                 distributorId: this.$store.state.customerId,
                 productGroupId: this.$store.state.prodGroupId,
-                totalFee: this.formData.useOffMoney,
+                totalFee: Number(this.formData.useOffMoney),
                 itemList: itemList
             };
             return this.$http.post('/ocm-web/api/b2b/purchase-orders/calculateFee', paramsWrap)
@@ -195,10 +213,13 @@ export default {
     computed: {
         maxMoney() {
             return `最多可使用${this.totalMoney * this.ratio}元`
+        },
+        moneyRest() {
+            return this.searchData.reduce((acc, v) => (acc + v.reserve), 0)
         }
     },
     mounted() {
-        // this.fetchUseOffMoney()
+        // this.fetchUseOffMoney();
         // this.fetchMoneyType();
         // this.this.useOffMoney = this.totalMoney * this.ratio;
     }

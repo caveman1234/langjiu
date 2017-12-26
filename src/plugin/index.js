@@ -12,6 +12,7 @@ function install(Vue) {
     Vue.prototype.util = util;
     Vue.prototype.interfaceAddress = interfaceAddress;
     // axios.defaults.baseURL = 'http://localhost:8080';
+    // axios.defaults.headers.post['Content-Type'] = 'application/json';
     Vue.prototype.$http = axios;
     Vue.prototype.$loading = Loading;
     Vue.prototype.$Notification = Notification;
@@ -43,7 +44,7 @@ function install(Vue) {
         let date = new Date(value);
         let year = date.getFullYear();
         let month = (date.getMonth() + 1) < 10 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1);
-        let day = (date.getDate() + 1) < 10 ? '0' + (date.getDate() + 1) : (date.getDate() + 1);
+        let day = (date.getDate() + 1) < 10 ? '0' + (date.getDate()) : (date.getDate());
         let formatDate = [year, month, day];
         return formatDate.join('-');
     });

@@ -25,6 +25,10 @@ import OrderCenter from '@/components/route/OrderCenter/OrderCenter'
 import DeliverList from '@/components/route/OrderCenter/DeliverList/DeliverList'
 import ReturnList from '@/components/route/OrderCenter/ReturnList/ReturnList'
 import MyOrderList from '@/components/route/OrderCenter/MyOrderList/MyOrderList'
+//去提货 eidt--
+import GoPickGoods from '@/components/route/OrderCenter/GoPickGoods/GoPickGoods.vue'
+import GoPickGoodsEdit from '@/components/route/OrderCenter/GoPickGoods/GoPickGoodsEdit/GoPickGoodsEdit.vue'
+
 /* 我的订单列表路由 */
 import SavedOrder from '@/components/route/OrderCenter/MyOrderList/SavedOrder/SavedOrder'
 import TotalOrder from '@/components/route/OrderCenter/MyOrderList/TotalOrder/TotalOrder'
@@ -165,6 +169,16 @@ export default new Router({
                     path: '/ApplyReturn',
                     name: 'ApplyReturn',
                     component: ApplyReturn
+                },
+                {
+                    path: '/GoPickGoods',
+                    name: 'GoPickGoods',
+                    component: GoPickGoods
+                },
+                {
+                    path: '/GoPickGoodsEdit',
+                    name: 'GoPickGoodsEdit',
+                    component: GoPickGoodsEdit
                 }
             ]
         },

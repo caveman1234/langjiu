@@ -33,7 +33,7 @@
                     <el-button @click="clearSearchData" size="mini" type="primary">清空</el-button>
                 </el-col>
                 <el-col :span="2">
-                    <el-button @click="searchData" size="mini" type="primary">搜索</el-button>
+                    <el-button id="searchBtn" @click="searchData" size="mini" type="primary">搜索</el-button>
                 </el-col>
             </el-row>
         </div>
@@ -104,8 +104,8 @@ export default {
                 billStatusCode: this.searchParams.billStatusCode,
                 orderDateStart: startTime,
                 orderDateEnd: endTime,
-                orderType: this.searchCondition.orderType,
-                orderStatus: this.searchCondition.orderStatus
+                poTypeId: this.searchCondition.orderType,
+                billStatusCode: this.searchCondition.orderStatus
             };
             _this.$http.post(this.searchParams.serverUrl, params)
                 .then(res => {

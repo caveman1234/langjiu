@@ -1,5 +1,5 @@
 <template>
-    <div class="GenerateBills">
+    <div class="GoPickGoods">
         <div class="deliveryInfo">
             <div class="accountInfo">
                 <div class="accountTitle">收货人信息</div>
@@ -15,7 +15,7 @@
                             <div class="noticeName">订单类型:</div>
                         </el-col>
                         <el-col :span="5">
-                            <el-select @change="noticeChange" size="mini" v-model="carriageMethod" placeholder="请选择" style="width:100%;">
+                            <el-select size="mini" v-model="carriageMethod" placeholder="请选择" style="width:100%;">
                                 <el-option v-for="item in carriageMethodCombo" :key="item.value" :label="item.label" :value="item.value">
                                 </el-option>
                             </el-select>
@@ -24,7 +24,7 @@
                             <div class="noticeName">发货要求：</div>
                         </el-col>
                         <el-col :span="5">
-                            <el-radio-group v-model="isNotice" :disabled="isNoticeDisable">
+                            <el-radio-group v-model="isNotice">
                                 <el-radio :label="0">立即发货</el-radio>
                                 <el-radio :label="1">待通知发货</el-radio>
                             </el-radio-group>
@@ -33,7 +33,7 @@
                     <el-row style="margin-top:10px;">
                         <el-col :span="2" style="text-align:right;line-height:30px;">备注：</el-col>
                         <el-col :span="22">
-                            <el-input size="mini"></el-input>
+                            <el-input v-model="remark" size="mini"></el-input>
                         </el-col>
                     </el-row>
                 </div>
@@ -53,7 +53,7 @@
                     <el-table-column prop="basicPrice" label="单价">
                         <template slot-scope="scope">
                             <div class="price">
-                                <div>价格：¥{{scope.row.basicPrice || '暂无价格'}}</div>
+                                <div>价格：¥{{scope.row.basePrice || '暂无价格'}}</div>
                                 <div v-if="false">共建：¥{{scope.row.fundPrice || 0}}</div>
                             </div>
                         </template>
@@ -69,12 +69,12 @@
             </div>
             <div class="goodsFooter"></div>
         </div>
-        <div v-show="financingChecked" class="offMoney">
+        <div class="offMoney">
             <CostOff :goodsData="goodsData" :totalMoney="totalMoney" @CostOffEvent="CostOffEvent"></CostOff>
         </div>
         <div class="calcMoney">
             <div class="calcTitle">订单结算</div>
-            <el-row v-show="financingChecked">
+            <el-row>
                 <el-col :span="14">
                     <div class="calcLeft">1</div>
                 </el-col>
@@ -89,7 +89,7 @@
                     </div>
                 </el-col>
             </el-row>
-            <el-row v-show="financingChecked">
+            <el-row>
                 <el-col :span="14">
                     <div class="calcLeft">1</div>
                 </el-col>
@@ -104,7 +104,7 @@
                     </div>
                 </el-col>
             </el-row>
-            <el-row v-show="financingChecked">
+            <el-row>
                 <el-col :span="14">
                     <div class="calcLeft">1</div>
                 </el-col>
@@ -119,7 +119,7 @@
                     </div>
                 </el-col>
             </el-row>
-            <el-row v-show="financingChecked">
+            <el-row>
                 <el-col :span="14">
                     <div class="calcLeft">1</div>
                 </el-col>
@@ -157,17 +157,15 @@
                 </el-col>
             </el-row>
             <el-row class="charge">
-                <el-col :span="17">
+                <el-col :span="20">
                     <div class="calcLeft">1</div>
                 </el-col>
-                <el-col :span="7">
+                <el-col :span="4">
                     <div class="calcRight">
                         <el-col :span="24">
                             <div class="calcRightName">
                                 <el-button @click="edit" size="mini" type="primary">修改</el-button>
                                 <el-button @click="submit" size="mini" type="primary">提交</el-button>
-                                <el-button v-show="financingChecked" @click="payOnline" size="mini" type="primary">在线支付</el-button>
-                                <el-button v-show="!financingChecked" @click="payOnline" size="mini" type="primary">去融资</el-button>
                             </div>
                         </el-col>
                     </div>
@@ -177,9 +175,9 @@
     </div>
 </template>
 <script>
-import GenerateBills from './GenerateBills.js';
-export default GenerateBills;
+import GoPickGoods from './GoPickGoods.js';
+export default GoPickGoods;
 </script>
 <style lang="scss">
-@import './GenerateBills.scss';
+@import './GoPickGoods.scss';
 </style>

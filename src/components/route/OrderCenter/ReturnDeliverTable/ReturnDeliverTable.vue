@@ -29,13 +29,20 @@
                             </div>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="applyNum" label="数量"></el-table-column>
-                    <el-table-column prop="money" label="金额">
+                    <el-table-column prop="applyNum" label="数量">
                         <template slot-scope="scope">
-                            <div v-red>{{scope.row.money}}</div>
+                            <div>
+                                <div>箱数：{{scope.row.baleQuantity}} 箱</div>
+                                <div>瓶数：{{scope.row.baseQuantity}} 瓶</div>
+                            </div>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="orderStatus" label="状态"></el-table-column>
+                    <el-table-column prop="totalAmount" label="金额">
+                        <template slot-scope="scope">
+                            <div v-red>{{scope.row.totalAmount}}</div>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="billStatusName" label="状态"></el-table-column>
                 </el-table>
             </div>
         </template>
@@ -53,7 +60,7 @@ export default {
     },
     data() {
         return {
-            defaultImg:require('../../../../assets/defaultimg.png'),
+            defaultImg: require('../../../../assets/defaultimg.png'),
         }
     },
     mounted() {

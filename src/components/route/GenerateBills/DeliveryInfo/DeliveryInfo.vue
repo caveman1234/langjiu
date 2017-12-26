@@ -4,8 +4,8 @@
         class="DeliveryInfo" 
         :class="classObject"
     >
-        <div class="infoName">{{infoData.userName}}({{infoData.userPhone}})</div>
-        <div class="infoAddress">{{infoData.userAddress}}</div>
+        <div class="infoName">{{infoData.firstReceiver}}({{infoData.firstReceiverPhone}})</div>
+        <div class="infoAddress">{{infoData.addressDetail}}</div>
     </div>
 </template>
 <script>

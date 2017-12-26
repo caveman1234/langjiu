@@ -1,9 +1,9 @@
-import DeliveryInfo from './DeliveryInfo/DeliveryInfo.vue';
-import AddNewGoods from './AddNewGoods/AddNewGoods';
-import CostOff from './CostOff/CostOff';
+import DeliveryInfo from '@/components/route/GenerateBills/DeliveryInfo/DeliveryInfo.vue';
+import AddNewGoods from '@/components/route/GenerateBills/AddNewGoods/AddNewGoods';
+import CostOff from '@/components/route/GenerateBills/CostOff/CostOff';
 
 export default {
-    name: 'GenerateBills',
+    name: 'GoPickGoods',
     components: { DeliveryInfo, AddNewGoods, CostOff },
     data() {
         return {
@@ -14,6 +14,7 @@ export default {
             /* 期望到货日期 */
             arriveDate: '',
             address: '',
+            /* 备注 */
             remark: '',
             /* 订单类型 */
             carriageMethodCombo: [],
@@ -39,9 +40,7 @@ export default {
                 deductionMoney: 0, //费用抵扣金额：
                 cashRest: 0, //现金余额：
                 currentPay: 0, //本次应付金额：
-            },
-            /* 订单类型，融资订单是否被选中 */
-            financingChecked: true
+            }
         }
     },
     methods: {
@@ -86,13 +85,10 @@ export default {
             _this.billFooger.deductionMoney = calcMoney.reduce((acc, v) => (acc + v.discountAmount), 0);
             _this.fetchCashRest().then(cashRest => _this.billFooger.cashRest = cashRest);
         },
-        /* 在线支付 */
-        payOnline() {
 
-        },
         /* 修改 */
         edit() {
-            this.$router.push({ name: 'GenerateBillsEdit' });
+            this.$router.push({ name: 'GoPickGoodsEdit' });
         },
         /* 提交 */
         submit() {
@@ -130,13 +126,7 @@ export default {
                     basePrice: v.basePrice,
                     fundPrice: v.fundPrice,
                     dealPrice: v.dealPrice,
-                    basePrice: v.basicPrice,
-                    // fundAmount: v.fundAmount,
-                    // realAmount: v.realAmount,
-                    // dealAmount: v.dealAmount,
-                    // discountAmount: v.discountAmount,
-                    // fundFee: v.fundFee,
-                    // fundCash: v.fundCash,
+                    basePrice: v.basePrice,
                     /* 使用费用 */
                     discountAmount: v.discountAmount,
                     dealAmount: this.calcMoney.dealAmount,
@@ -162,7 +152,7 @@ export default {
                 fFeeUsedAmount: calcDataTable[2],
                 purchaseOrderItems: purchaseOrderItems
             }
-            _this.$http.post('/ocm-web//api/b2b/purchase-orders/submit', params)
+            _this.$http.post('/ocm-web/api/b2b/purchase-orders/submit', params)
                 .then(res => {
                     if (res.headers["x-ocm-code"] == '1') {
                         _this.$router.push({ name: 'TotalOrder' });
@@ -204,8 +194,9 @@ export default {
                     customerId: this.$store.state.customerId
                 }
             };
-            _this.$http.get('/ocm-web//api/b2b/po-types/get-common-add', paramsWrap)
+            _this.$http.get('/ocm-web/api/b2b/po-types/get-repaid', paramsWrap)
                 .then(res => {
+                    debugger
                     let carriageMethodCombo = res.data.map(v => ({ label: v.name, value: v.id, businessTypeCode: v.businessTypeCode }));
                     this.carriageMethodCombo = carriageMethodCombo;
                 })
@@ -215,20 +206,7 @@ export default {
                 row.baseQuantity = (row.baleQuantity) * row.packageNum;
             });
         },
-        /* 订单类型改变，事件 */
-        noticeChange(value) {
-            let obj = this.carriageMethodCombo.find(v => v.value == value);
-            if (obj.businessTypeCode == "01") { //融资受控订单 03 销售订单01
-                this.isNoticeDisable = true;
-                this.isNotice = 1;
-                /* 融资订单状态 */
-                this.financingChecked = true;
-            } else {
-                this.isNoticeDisable = false;
-                /* 融资订单状态 */
-                this.financingChecked = false;
-            }
-        },
+
         /* 合计 */
         getSummaries(params) {
             let _this = this;
@@ -267,7 +245,7 @@ export default {
             let total = 0;
             _this.goodsData.forEach(v => {
                 //总价 箱数*单价
-                total = total + (v.baseQuantity * (v.basicPrice || 0))
+                total = total + (v.baseQuantity * (v.basePrice || 0))
             });
             return total;
         },

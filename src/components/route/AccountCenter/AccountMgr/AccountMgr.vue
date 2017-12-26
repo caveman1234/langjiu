@@ -2,10 +2,16 @@
     <div class="AccountMgr">
         <div class="bankImg" :style='{"backgroundImage":`url(${bankImg})`}'>
             <div class="bankBtn">
-                <el-button @click="goAssign" size="small" type="primary">去签约</el-button>
-                <el-button @click="goMgr" size="small" type="primary">账户管理</el-button>
+                <el-button v-show="false" @click="goAssign" size="small" type="primary">去签约</el-button>
+                <el-tooltip effect="light" placement="top">
+                    <div slot="content" v-red>页面会被覆盖，成功后请返回</div>
+                    <el-button @click="goMgr" size="small" type="primary">账户管理</el-button>
+                </el-tooltip>
             </div>
         </div>
+        <form v-show="false" id="bankForm" method="post" action="http://111.205.207.144:7003/ecp/htmlMhtInFwd/forward">
+            <button id="bankFormSubmit" type="submit">提交</button>
+        </form>
     </div>
 </template>
 <script>
@@ -21,30 +27,31 @@ export default {
             //去管理
             let _this = this;
             let params = {
-                customerId: this.$store.state.customerId,
-                "clientType": "0",
-                "clientId": "123",
-                "clientName": "123",
-                "idType": "身份证",
-                "idCode": "111111111111111111"
+                clientId: this.$store.state.customerId
             };
+            debugger
             _this.$http.post('/ocm-web/api/cmbc/param-encrypt', params)
                 .then(res => {
+                    let bankForm = document.querySelector('#bankForm');
+                    let bankFormSubmit = document.querySelector('#bankFormSubmit');
                     let params = res.data.reduce((acc, v) => {
                         acc[v.name] = v.value;
                         return acc;
-                    }, {})
-                    let formData = new FormData();
+                    }, {});
                     Object.keys(params).forEach(key => {
-                        formData.append(key, params[key]);
+                        if (key != 'forwardUrl') {
+                            let input = document.createElement('input');
+                            input.setAttribute('name', key);
+                            input.value = params[key];
+                            bankForm.appendChild(input);
+                        }
                     });
-
-
-                    const config = { headers: { 'Content-Type': 'multipart/form-data' } };
-
-                    _this.$http.post('http://111.205.207.144:7003/ecp/htmlMhtInFwd/forward', formData, config)
-
-
+                    //url  地址
+                    debugger
+                    let forwardUrl = params.forwardUrl;
+                    bankForm.setAttribute('action', forwardUrl);
+                    document.forms.bankForm.submit();
+                    // bankFormSubmit.click();
                 });
         },
         goAssign() {

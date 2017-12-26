@@ -2,7 +2,7 @@
     <div class="MainPage">
         <Vheader></Vheader>
         <div class="routeContainer">
-            <keep-alive :include="['GenerateBillsEdit']">
+            <keep-alive :include="['GenerateBillsEdit','GoPickGoodsEdit']">
                 <router-view/>
             </keep-alive>
         </div>
