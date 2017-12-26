@@ -27,7 +27,7 @@ export default {
             //去管理
             let _this = this;
             let params = {
-                clientId: this.$store.state.customerId
+                clientId:this.$store.state.customerId
             };
             debugger
             _this.$http.post('/ocm-web/api/cmbc/param-encrypt', params)

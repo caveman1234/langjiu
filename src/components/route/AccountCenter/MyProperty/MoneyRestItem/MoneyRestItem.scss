@@ -1,0 +1,42 @@
+@import 'src/css/colors.scss';
+.MoneyRestItem {
+    box-sizing: border-box;
+    padding: 10px;
+    background: white;
+    .itemTitle {
+        font-size: 16px;
+        color: $color333;
+        line-height: 25px;
+    }
+    .itemMoneyContent {
+        .itemMoney {
+            font-size: 22px;
+            line-height: 30px;
+        }
+        .loogDetail {
+            color: $color999;
+            cursor: pointer;
+            user-select: none;
+        }
+    }
+    .itemTab {
+        margin-top: 15px;
+        .tabContainer {
+            line-height: 25px;
+            .totalAmount {
+                .money {
+                    font-size: 20px;
+                }
+            }
+            .moneyType {
+                display: flex;
+                span {
+                    flex: 1;
+                }
+            }
+        }
+    }
+    .itemDetailContent {
+        .tabContainer {}
+    }
+}

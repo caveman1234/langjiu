@@ -2,12 +2,12 @@
     <div class="AccountCenter">
         <div class="leftList">
             <el-tabs @tab-click="tabClick" tab-position="left">
-                <el-tab-pane label="民生银行账户管理"></el-tab-pane>
-                <el-tab-pane label="在线充值"></el-tab-pane>
                 <el-tab-pane label="我的资产"></el-tab-pane>
                 <el-tab-pane label="未发货金额"></el-tab-pane>
                 <el-tab-pane label="融资信息"></el-tab-pane>
+                <el-tab-pane label="在线充值"></el-tab-pane>
                 <el-tab-pane label="付款信息"></el-tab-pane>
+                <el-tab-pane label="民生银行账户管理"></el-tab-pane>
             </el-tabs>
         </div>
         <div class="AccountContainer">
@@ -28,22 +28,22 @@ export default {
             let index = tab.index;
             switch (index) {
                 case '0':
-                    this.$router.push({ name: 'AccountMgr' })
-                    break;
-                case '1':
-                    this.$router.push({ name: 'OnlineRecharge' })
-                    break;
-                case '2':
                     this.$router.push({ name: 'MyProperty' })
                     break;
-                case '3':
+                case '1':
                     this.$router.push({ name: 'NotDeliver' })
                     break;
-                case '4':
+                case '2':
                     this.$router.push({ name: 'FinancingInfo' })
                     break;
-                case '5':
+                case '3':
+                    this.$router.push({ name: 'OnlineRecharge' })
+                    break;
+                case '4':
                     this.$router.push({ name: 'PaymentInfo' })
+                    break;
+                case '5':
+                    this.$router.push({ name: 'AccountMgr' })
                     break;
             }
         }

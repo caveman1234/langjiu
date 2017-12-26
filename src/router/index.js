@@ -36,6 +36,7 @@ import TotalOrder from '@/components/route/OrderCenter/MyOrderList/TotalOrder/To
 
 import MainPage from '@/components/MainPage/MainPage'
 import Login from '@/components/Login/Login'
+import Login1 from '@/components/Login/Login1.vue'
 
 Vue.use(Router)
 
@@ -46,7 +47,7 @@ export default new Router({
             component: MainPage,
             children: [{
                     path: '',
-                    redirect: '/Login'
+                    redirect: '/Login1'
                 },
                 {
                     path: '/Home',
@@ -183,10 +184,10 @@ export default new Router({
             ]
         },
         {
-            path: '/Login',
-            name: 'Login',
-            component: Login
-        },
+            path: '/Login1',
+            name: 'Login1',
+            component: Login1
+        }
 
     ],
     scrollBehavior(to, from, savedPosition) {

@@ -10,7 +10,7 @@ export default {
             /* 发货通知 */
             isNotice: 1,
             /* 运输方式 */
-            carriageMethod: "eabb592b-b2f5-4f59-9d35-b78afd8d1d10",
+            carriageMethod: "",
             /* 期望到货日期 */
             arriveDate: '',
             address: '',
@@ -199,6 +199,7 @@ export default {
                     debugger
                     let carriageMethodCombo = res.data.map(v => ({ label: v.name, value: v.id, businessTypeCode: v.businessTypeCode }));
                     this.carriageMethodCombo = carriageMethodCombo;
+                    this.carriageMethod = this.carriageMethodCombo.find(v => v.businessTypeCode == '04').value;
                 })
         },
         baleQuantityChange(row) {

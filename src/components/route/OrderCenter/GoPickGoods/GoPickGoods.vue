@@ -15,7 +15,7 @@
                             <div class="noticeName">订单类型:</div>
                         </el-col>
                         <el-col :span="5">
-                            <el-select size="mini" v-model="carriageMethod" placeholder="请选择" style="width:100%;">
+                            <el-select size="mini" v-model="carriageMethod" placeholder="请选择" style="width:100%;" disabled>
                                 <el-option v-for="item in carriageMethodCombo" :key="item.value" :label="item.label" :value="item.value">
                                 </el-option>
                             </el-select>

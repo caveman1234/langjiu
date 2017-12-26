@@ -9,7 +9,7 @@
                         <div class="right">
                             <a>收藏夹</a>|
                             <a>帮助</a>|
-                            <a>注销</a>
+                            <a @click="logOut">注销</a>
                             <a>经销商助手</a>
                         </div>
 
@@ -76,6 +76,9 @@ export default {
         routeToPurchaseBills() {
             this.$router.push({ name: 'PurchaseBills', params: {} });
             this.$store.commit('changeCurrentNav', { hash: '' })
+        },
+        logOut(){
+            this.$router.push('Login1');
         }
 
     },
