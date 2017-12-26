@@ -8,7 +8,7 @@
                 </div>
             </div>
             <div class="login-con-box">
-                <div class="login-bg">
+                <div :style='{backgroundImage:`url(${imgUrl})`}' class="login-bg">
                     <div class="logContainer">
                         <div class="loginTitle">欢迎登陆</div>
                         <el-form :model="loginForm" status-icon :rules="rules" ref="ruleForm2" label-width="100px" size="small" style="width:100%;" class="loginForm">
@@ -24,13 +24,12 @@
                             </el-form-item>
                         </el-form>
                     </div>
-
                 </div>
             </div>
             <!-- <div class="login-index-footer">
-    				<p class="font-class"><a href="javascript:;">简体</a><a href="javascript:;" class="two">繁体</a><a href="javascript:;">English</a></p>
-    				<p class="publish-info">版权所有：用友网络科技股份有限公司 Yonyou 2015 &nbsp; &nbsp;  服务电话： 800-400-566</p>
-    			</div> -->
+        				<p class="font-class"><a href="javascript:;">简体</a><a href="javascript:;" class="two">繁体</a><a href="javascript:;">English</a></p>
+        				<p class="publish-info">版权所有：用友网络科技股份有限公司 Yonyou 2015 &nbsp; &nbsp;  服务电话： 800-400-566</p>
+        			</div> -->
         </div>
     </div>
 </template>
@@ -64,7 +63,8 @@ export default {
                 password: [
                     { validator: pawsswordV, message: '密码不能为空' }
                 ]
-            }
+            },
+            imgUrl: require('../../assets/images/login-bg.jpg')
         }
     },
     methods: {

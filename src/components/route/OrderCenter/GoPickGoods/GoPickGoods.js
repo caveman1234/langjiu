@@ -167,24 +167,6 @@ export default {
                 customerManagerId: _this.billHeader.customerManagerId,
                 productGroupId: _this.billHeader.productGroupId,
             };
-            //receiveOrgId   
-            // distributorId   
-            // saleChannelCode：“00”  
-            // saleOrgId 
-            // agencyId 
-            // isNoticeSend  
-            // receiveAddressId  
-            // poTypeId  
-            // remark
-
-
-
-
-            // cityUintId  
-            // customerManagerId  
-
-            // productGroupId   
-            debugger
             _this.$http.post('/ocm-web/api/b2b/purchase-orders/repaid-submit', params)
                 .then(res => {
                     if (res.headers["x-ocm-code"] == '1') {

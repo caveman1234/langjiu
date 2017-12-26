@@ -150,19 +150,25 @@ export default {
 
             let receiveAddressId = _this.infoData.find(v => v.isSelected).id;
             let params = {
-                saleChannelCode: '00',
-                distributorId: _this.$store.state.customerId, //经销商id
-                receiveAddressId: receiveAddressId, //收获地址
-                isNoticeSend: this.isNotice, //是否通知
-                sendDate: this.arriveDate && this.arriveDate.getTime(), //期望发货日期
-                remark: '', //备注
-                poTypeId: this.carriageMethod,
-                eFeeUsedAmount: calcDataTable[0],
-                qFeeUsedAmount: calcDataTable[1],
-                fFeeUsedAmount: calcDataTable[2],
-                purchaseOrderItems: purchaseOrderItems
+                    saleChannelCode: '00',
+                    distributorId: _this.$store.state.customerId, //经销商id
+                    receiveAddressId: receiveAddressId, //收获地址
+                    isNoticeSend: this.isNotice, //是否通知
+                    sendDate: this.arriveDate && this.arriveDate.getTime(), //期望发货日期
+                    remark: '', //备注
+                    poTypeId: this.carriageMethod,
+                    eFeeUsedAmount: calcDataTable[0],
+                    qFeeUsedAmount: calcDataTable[1],
+                    fFeeUsedAmount: calcDataTable[2],
+                    purchaseOrderItems: purchaseOrderItems
+                }
+                //销售订单请求地址
+            let sreverUrl = '/ocm-web/api/b2b/purchase-orders/submit';
+            if (_this.carriageMethod == '03') {
+                //融资订单请求地址
+                sreverUrl = '/ocm-web/api/b2b/purchase-orders/financing-submit';
             }
-            _this.$http.post('/ocm-web//api/b2b/purchase-orders/submit', params)
+            _this.$http.post(sreverUrl, params)
                 .then(res => {
                     if (res.headers["x-ocm-code"] == '1') {
                         _this.$router.push({ name: 'TotalOrder' });
