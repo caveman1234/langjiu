@@ -107,7 +107,7 @@ export default new Router({
                     component: AccountCenter,
                     children: [{
                             path: '',
-                            redirect: '/AccountMgr'
+                            redirect: '/MyProperty'
                         },
                         {
                             path: '/AccountMgr',

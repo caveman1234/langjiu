@@ -73,7 +73,8 @@ export default {
         return {
             /* 表格数据 */
             goodsData: [],
-            defaultImg: require('../../../../../assets/defaultimg.png')
+            defaultImg: require('../../../../../assets/defaultimg.png'),
+            selectedObj: {},//去提货 route传递参数
         }
     },
     methods: {
@@ -84,6 +85,29 @@ export default {
         receiveData(data) {
             let allProductId = this.goodsData.map(v => v.productId);
             let willAppendData = data.filter(v => !allProductId.includes(v.productId));
+
+
+
+            willAppendData = willAppendData.map(v => {
+                //baleQuantity 箱数
+                //baseQuantity 瓶数
+                //packageNum 一包瓶数
+                //paymentTotalMoney 货款金额
+                let megerObj = {};
+                //箱
+                megerObj.baleQuantity = v.baleQuantity || 1;
+                // 瓶
+                megerObj.baseQuantity = megerObj.baleQuantity * v.packageNum;
+                // 货款金额
+                megerObj.paymentTotalMoney = megerObj.baseQuantity * v.basicPrice;
+                return Object.assign({}, v, megerObj);
+            });
+
+
+
+
+
+
             this.goodsData = this.goodsData.concat(willAppendData);
         },
         /* 箱数变化 */
@@ -109,7 +133,7 @@ export default {
                 switch (column.property) {
                     case 'paymentTotalMoney':
                         let totalArr = data.map(v => v[column.property]);
-                        let total = totalArr.reduce((acc, a) => (acc + a),0)
+                        let total = totalArr.reduce((acc, a) => (acc + a), 0)
                         arr[i] = `货款总金额:${total}`;
                         break;
                     default:
@@ -136,16 +160,18 @@ export default {
     },
     activated() {
         //mounted
-        debugger
         if (this.$route.params.selectedData) {
-            this.goodsData = this.$route.params.selectedData.map(v => {
+            this.selectedObj = this.$route.params.selectedData;
+            //设置产品线
+            this.$store.commit('prodGroupId', this.selectedObj.productGroupId);
+            this.goodsData = this.$route.params.selectedData.purchaseOrderItems.map(v => {
                 //baleQuantity 箱数
                 //baseQuantity 瓶数
                 //packageNum 一包瓶数
                 //paymentTotalMoney 货款金额
                 let megerObj = {};
                 //箱
-                megerObj.baleQuantity = megerObj.baleQuantity || 1;
+                megerObj.baleQuantity = v.baleQuantity || 1;
                 // 瓶
                 megerObj.baseQuantity = megerObj.baleQuantity * v.packageNum;
                 // 货款金额

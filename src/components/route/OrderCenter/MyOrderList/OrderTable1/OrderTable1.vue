@@ -14,7 +14,7 @@
                         <el-col :span="3">{{item.orderCode}}</el-col>
                         <el-col :span="2">订单状态:</el-col>
                         <el-col v-red :span="2">{{item.billStatusName}}</el-col>
-                        <el-col :span="4">
+                        <el-col :span="2">
                             <el-button v-if="item.poTypeBusinessType =='03' && item.billStatusCode == '03' && item.totalRepaidAmount < item.totalRepayAmount" @click="goPickGoods(item)" size="mini" type="primary">去提货</el-button>
                         </el-col>
                     </el-row>
@@ -115,7 +115,7 @@ export default {
         /* 去提货 */
         goPickGoods(data) {
             let _this = this;
-            _this.$router.push({ name: 'GoPickGoodsEdit', params: { selectedData: data.purchaseOrderItems } });
+            _this.$router.push({ name: 'GoPickGoodsEdit', params: { selectedData: data } });
         },
         /* table合并列 */
         spanMethod({ row, column, rowIndex, columnIndex }) {

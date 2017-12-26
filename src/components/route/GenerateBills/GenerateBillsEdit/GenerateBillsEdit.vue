@@ -175,7 +175,7 @@ export default {
                 //paymentTotalMoney 货款金额
                 let megerObj = {};
                 //箱
-                megerObj.baleQuantity = megerObj.baleQuantity || 1;
+                megerObj.baleQuantity = v.baleQuantity || 1;
                 // 瓶
                 megerObj.baseQuantity = megerObj.baleQuantity * v.packageNum;
                 // 货款金额
