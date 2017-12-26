@@ -37,21 +37,21 @@
         </div>
         <div class="ApplyReturnTable">
             <el-table :data="infoData.goodsList" style="width: 100%">
-                <el-table-column prop="" label="商品详情" width="400">
+                <el-table-column prop="productDesc" label="商品详情" width="400">
                     <template slot-scope="scope">
                         <div class="detailContainer">
-                            <div :style='{"backgroundImage":`url(${scope.row.goodsImg})`}' class="goodsImg"></div>
-                            <div class="desc">{{scope.row.brief}}</div>
+                            <div :style='{"backgroundImage":`url(${scope.row.imageUrl})`}' class="goodsImg"></div>
+                            <div class="desc">{{scope.row.productDesc}}</div>
                         </div>
                     </template>
                 </el-table-column>
                 <el-table-column prop="volume" label="规格">
                     <template slot-scope="scope">
-                        <p>容量: {{ scope.row.volume }}ml</p>
-                        <p>度数: {{ scope.row.strength }}度</p>
+                        <p>容量: {{ scope.row.standard }}ml</p>
+                        <p>度数: {{ scope.row.productModel }}度</p>
                     </template>
                 </el-table-column>
-                <el-table-column prop="orderTotalNum" label="订单数量"></el-table-column>
+                <el-table-column prop="baleQuantity" label="订单数量"></el-table-column>
                 <el-table-column prop="diliverNum" label="已退货数量"></el-table-column>
                 <el-table-column prop="applyNum" label="可退货数量"></el-table-column>
                 <el-table-column prop="applySendNum" label="申请退货金额"></el-table-column>

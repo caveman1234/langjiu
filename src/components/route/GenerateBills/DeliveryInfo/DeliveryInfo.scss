@@ -3,48 +3,25 @@ $redColor: #E7442E;
 $color333: #333;
 $color666: #666;
 .DeliveryInfo {
-    width: 220px;
-    height: 107px;
+    margin-top: 10px;
     box-sizing: border-box;
-    border-radius: 3px;
     position: relative;
     cursor: pointer;
-    &:before {
+    width: 100%;
+    line-height: 30px;
+    border-radius: 5px;
+    padding-left: 10px;
+    border: 2px solid $borderColor;
+    .el-icon-check {
         position: absolute;
-        right: 0px;
-        bottom: -1px;
-        font-size: 20px;
+        font-weight: bold;
+        font-size: 32px;
+        right: 15px;
+        top: 0px;
         color: $redColor;
-    }
-    .infoName {
-        padding: 10px;
-        font-size: 12px;
-        color: $color666;
-        line-height: 20px;
-        border-top-left-radius: 3px;
-        border-top-right-radius: 3px;
-        border: 2px solid $borderColor;
-    }
-    .infoAddress {
-        padding: 10px;
-        font-size: 12px;
-        color: $color666;
-        line-height: 20px;
-        border-left: 2px solid $borderColor;
-        border-right: 2px solid $borderColor;
-        border-bottom: 2px solid $borderColor;
-        border-bottom-left-radius: 3px;
-        border-bottom-right-radius: 3px;
     }
 }
 
 .DeliveryInfoSelected {
-    .infoName {
-        border: 2px solid $redColor;
-    }
-    .infoAddress {
-        border-left: 2px solid $redColor;
-        border-right: 2px solid $redColor;
-        border-bottom: 2px solid $redColor;
-    }
+    border: 2px solid $redColor;
 }

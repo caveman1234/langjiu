@@ -1,13 +1,13 @@
 <template>
     <div class="AccountCenter">
         <div class="leftList">
-            <el-tabs @tab-click="tabClick" tab-position="left">
-                <el-tab-pane label="我的资产"></el-tab-pane>
-                <el-tab-pane label="未发货金额"></el-tab-pane>
-                <el-tab-pane label="融资信息"></el-tab-pane>
-                <el-tab-pane label="在线充值"></el-tab-pane>
-                <el-tab-pane label="付款信息"></el-tab-pane>
-                <el-tab-pane label="民生银行账户管理"></el-tab-pane>
+            <el-tabs v-model="tabModel" @tab-click="tabClick" tab-position="left">
+                <el-tab-pane label="我的资产" name='one'></el-tab-pane>
+                <el-tab-pane label="未发货金额" name='tow'></el-tab-pane>
+                <el-tab-pane label="融资信息" name='three'></el-tab-pane>
+                <el-tab-pane label="在线充值" name='fore'></el-tab-pane>
+                <el-tab-pane label="付款信息" name='five'></el-tab-pane>
+                <el-tab-pane label="民生银行账户管理" name='six'></el-tab-pane>
             </el-tabs>
         </div>
         <div class="AccountContainer">
@@ -20,7 +20,8 @@ export default {
     name: 'AccountCenter',
     data() {
         return {
-            userInfoImg: 'src/assets/goodsItem.png'
+            userInfoImg: 'src/assets/goodsItem.png',
+            tabModel:'one'
         }
     },
     methods: {

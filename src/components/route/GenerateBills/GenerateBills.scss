@@ -5,9 +5,9 @@ $color666: #666;
 $bgColor: #F5F5F5;
 .GenerateBills {
     .deliveryInfo {
-        height: 286px;
+        // height: 286px;
         background: white;
-        padding: 20px;
+        padding: 5px 20px 20px 20px;
         .accountInfo {
             .accountTitle {
                 font-size: 14px;
@@ -24,7 +24,7 @@ $bgColor: #F5F5F5;
             }
         }
         .notice {
-            margin-top: 40px;
+            margin-top: 10px;
             .noticeTitle {
                 font-size: 14px;
                 color: $color333;
@@ -37,6 +37,10 @@ $bgColor: #F5F5F5;
                     color: $color666;
                     text-align: right;
                     line-height: 26px;
+                }
+                .el-radio__label {
+                    font-weight: 400;
+                    font-size: 12px;
                 }
             }
         }

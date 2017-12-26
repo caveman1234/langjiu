@@ -19,7 +19,7 @@
                                     <div>{{moneyRest}}</div>
                                 </el-form-item>
                             </el-col>
-                            
+
                         </el-row>
                         <el-row>
                             <el-col :span="6">
@@ -27,7 +27,7 @@
                                     <div>{{totalMoney*ratio}}</div>
                                 </el-form-item>
                             </el-col>
-                            <el-col :span="10">
+                            <el-col :span="14">
                                 <el-form-item label="使用折扣金额：" prop="useOffMoney" label-width="130px" style="font-size:12px;">
                                     <el-input @input="useOffMoneyChange" :placeholder="maxMoney" v-model="formData.useOffMoney" size="mini"></el-input>
                                 </el-form-item>
@@ -88,7 +88,7 @@ export default {
                 callback(new Error(`金额必须小于${maxDiscont}`));
             }
             if (validateValue > _this.moneyRest) {
-                callback(new Error(`输入金额必须小于总可用余额${moneyRest}`));
+                callback(new Error(`输入金额必须小于总可用余额${_this.moneyRest}`));
             }
             callback();
         };
@@ -142,6 +142,7 @@ export default {
                 }
             });
         },
+        /* 输入框改变事件 */
         useOffMoneyChange(value, oldValue) {
             let _this = this;
             /* 验证 */
@@ -150,8 +151,13 @@ export default {
                     let useOffMoney = value ? parseFloat(value).toFixed(2) : 0;
                     _this.searchData.forEach(v => {
                         if (useOffMoney > v.reserve || useOffMoney == v.reserve) {
-                            v.currentMoney = parseFloat(v.reserve).toFixed(2);
-                            useOffMoney = useOffMoney - v.reserve;
+                            if (v.reserve < 0) {
+                                v.currentMoney = 0.00;
+                            } else {
+                                v.currentMoney = parseFloat(v.reserve).toFixed(2);
+                                useOffMoney = useOffMoney - v.reserve;
+                            }
+
                         } else if (useOffMoney < v.reserve) {
                             v.currentMoney = parseFloat(useOffMoney).toFixed(2);
                             useOffMoney = 0;
@@ -215,7 +221,7 @@ export default {
             return `最多可使用${this.totalMoney * this.ratio}元`
         },
         moneyRest() {
-            return this.searchData.reduce((acc, v) => (acc + v.reserve), 0)
+            return this.searchData.reduce((acc, v) => (acc + v.reserve), 0).toFixed(2)
         }
     },
     mounted() {

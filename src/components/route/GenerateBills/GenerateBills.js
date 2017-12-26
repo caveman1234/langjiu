@@ -32,7 +32,7 @@ export default {
             /* 费用计算后返回值 */
             calcMoney: {},
             /* 是否通知发货 disable */
-            isNoticeDisable: true,
+            isNoticeDisable: false,
             billFooger: {
                 xType: 0, //计提X类共建基金：
                 notXtype: 0, //计提非X类共建基金：
@@ -81,9 +81,9 @@ export default {
             */
 
             /* 写订单footer */
-            _this.billFooger.xType = calcMoney.reduce((acc, v) => (acc + v.fundCash), 0);
-            _this.billFooger.notXtype = calcMoney.reduce((acc, v) => (acc + v.fundFee), 0);
-            _this.billFooger.deductionMoney = calcMoney.reduce((acc, v) => (acc + v.discountAmount), 0);
+            _this.billFooger.xType = calcMoney.reduce((acc, v) => (acc + v.fundCash), 0).toFixed(2);
+            _this.billFooger.notXtype = calcMoney.reduce((acc, v) => (acc + v.fundFee), 0).toFixed(2);
+            _this.billFooger.deductionMoney = calcMoney.reduce((acc, v) => (acc + v.discountAmount), 0).toFixed(2);
             _this.fetchCashRest().then(cashRest => _this.billFooger.cashRest = cashRest);
         },
         /* 在线支付 */
@@ -97,7 +97,12 @@ export default {
         /* 提交 */
         submit() {
             let _this = this;
-            /* 验证 */
+            /* 验证收获地址为空 */
+            if (_this.infoData.length == 0) {
+                _this.$Notify({ title: '收货地址不能为空', type: 'warning' });
+                return;
+            }
+            /* 验证 商品为空 */
             if (_this.goodsData.length == 0) {
                 _this.$Notify({ title: '商品不能为空', type: 'warning' });
                 return;
@@ -225,12 +230,13 @@ export default {
         noticeChange(value) {
             let obj = this.carriageMethodCombo.find(v => v.value == value);
             if (obj.businessTypeCode == "01") { //融资受控订单 03 销售订单01
-                this.isNoticeDisable = true;
+                this.isNoticeDisable = false;
                 this.isNotice = 1;
                 /* 融资订单状态 */
                 this.financingChecked = true;
             } else {
-                this.isNoticeDisable = false;
+                this.isNoticeDisable = true;
+                this.isNotice = 1;
                 /* 融资订单状态 */
                 this.financingChecked = false;
             }
@@ -275,7 +281,7 @@ export default {
                 //总价 箱数*单价
                 total = total + (v.baseQuantity * (v.basicPrice || 0))
             });
-            return total;
+            return total.toFixed(2);
         },
         orderPayMoney() {
             return this.totalMoney - this.useOffMoney;
@@ -285,8 +291,8 @@ export default {
             // notXtype  计提非X类共建基金：
             // deductionMoney 费用抵扣金额：
             // cashRest  现金余额：
-
-            return this.totalMoney + this.billFooger.xType + this.billFooger.notXtype - this.billFooger.deductionMoney - this.billFooger.cashRest;
+            let currentPay = Number(this.totalMoney) + Number(this.billFooger.xType) + Number(this.billFooger.notXtype) - Number(this.billFooger.deductionMoney) - Number(this.billFooger.cashRest);
+            return currentPay.toFixed(2);
         }
     },
     mounted() {

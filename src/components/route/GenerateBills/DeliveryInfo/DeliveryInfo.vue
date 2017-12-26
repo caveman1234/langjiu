@@ -4,8 +4,14 @@
         class="DeliveryInfo" 
         :class="classObject"
     >
-        <div class="infoName">{{infoData.firstReceiver}}({{infoData.firstReceiverPhone}})</div>
-        <div class="infoAddress">{{infoData.addressDetail}}</div>
+        <!-- <div class="infoName">{{infoData.firstReceiver}}({{infoData.firstReceiverPhone}})</div>
+        <div class="infoAddress">{{infoData.addressDetail}}</div> -->
+        <el-row>
+            <el-col :span="10">收货人地址：{{infoData.addressDetail}}</el-col>
+            <el-col :span="7">收货人姓名：{{infoData.firstReceiver}}</el-col>
+            <el-col :span="7">收货人电话：{{infoData.firstReceiverPhone}}</el-col>
+        </el-row>
+        <i v-show="infoData.isSelected" class="el-icon-check"></i>
     </div>
 </template>
 <script>
@@ -26,9 +32,7 @@ export default {
         classObject(){
             return {
                 DeliveryInfoSelected: this.infoData.isSelected,
-                icon: this.infoData.isSelected,
-                iconfont: this.infoData.isSelected,
-                'icon-selected': this.infoData.isSelected
+                // 'el-icon-check': this.infoData.isSelected
             }
         }
     }

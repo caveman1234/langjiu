@@ -5,6 +5,14 @@
         flex: 0 0 200px;
         background: white;
         min-height: 800px;
+        .treeTitle {
+            text-align: right;
+            color: $color333;
+            padding-right: 30px;
+            font-size: 18px;
+            line-height: 40px;
+            // border-bottom: 1px dashed $borderColor;
+        }
         .el-tabs--left {
             position: relative;
             min-height: 100%;

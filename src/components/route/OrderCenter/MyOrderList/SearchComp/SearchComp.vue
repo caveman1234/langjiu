@@ -107,6 +107,7 @@ export default {
                 poTypeId: this.searchCondition.orderType,
                 billStatusCode: this.searchCondition.orderStatus
             };
+            let loadingInstance1 = _this.$loading.service({ fullscreen: true });
             _this.$http.post(this.searchParams.serverUrl, params)
                 .then(res => {
                     let data = res.data.content;

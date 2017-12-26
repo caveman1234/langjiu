@@ -1,6 +1,7 @@
 <template>
     <div class="GoodsCenter">
         <div class="treeList">
+            <div class="treeTitle">商品分类</div>
             <el-tabs @tab-click="tabClick" tab-position="left">
                 <el-tab-pane v-for="(item,index) in leftItems" :key="index" :label="item.name"></el-tab-pane>
             </el-tabs>
