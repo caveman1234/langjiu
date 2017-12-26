@@ -91,15 +91,6 @@ export default {
         /* 提交 */
         submit() {
             let _this = this;
-            _this.fetchPoTypeId().then(id => {
-                debugger
-                _this.preSubmit(id);
-            })
-
-        },
-        preSubmit(id) {
-            debugger
-            let _this = this;
             /* 验证 */
             if (_this.goodsData.length == 0) {
                 _this.$Notify({
@@ -144,7 +135,7 @@ export default {
                     fundFee: this.calcMoney.fundFee,
                     fundCash: this.calcMoney.fundCash,
                     realAmount: this.calcMoney.realAmount,
-                    //融资订单提交 新增字段
+                    //新增字段
                     srcBillTypeId: this.billHeader.poTypeId,
                     srcBillId: this.billHeader.id,
                     srcBillCode: this.billHeader.orderCode,
@@ -156,19 +147,44 @@ export default {
             });
             let receiveAddressId = _this.addressObj.receiveAddressId;
             let params = {
-                saleChannelCode: '00',
+
                 distributorId: _this.$store.state.customerId, //经销商id
                 receiveAddressId: receiveAddressId, //收获地址
-                isNoticeSend: this.isNotice, //是否通知
-                sendDate: this.arriveDate && this.arriveDate.getTime(), //期望发货日期
-                remark: '', //备注
-                poTypeId: id,
+                isNoticeSend: _this.isNotice, //是否通知
+                sendDate: _this.arriveDate && _this.arriveDate.getTime(), //期望发货日期
+                remark: _this.remark, //备注
+                poTypeId: _this.carriageMethod, //订单类型
                 eFeeUsedAmount: calcDataTable[0],
                 qFeeUsedAmount: calcDataTable[1],
                 fFeeUsedAmount: calcDataTable[2],
                 purchaseOrderItems: purchaseOrderItems,
-
+                //新增字段 _this.billHeader
+                saleChannelCode: _this.billHeader.saleChannelCode,
+                receiveOrgId: _this.billHeader.receiveOrgId,
+                saleOrgId: _this.billHeader.saleOrgId,
+                agencyId: _this.billHeader.agencyId,
+                cityUintId: _this.billHeader.cityUintId,
+                customerManagerId: _this.billHeader.customerManagerId,
+                productGroupId: _this.billHeader.productGroupId,
             };
+            //receiveOrgId   
+            // distributorId   
+            // saleChannelCode：“00”  
+            // saleOrgId 
+            // agencyId 
+            // isNoticeSend  
+            // receiveAddressId  
+            // poTypeId  
+            // remark
+
+
+
+
+            // cityUintId  
+            // customerManagerId  
+
+            // productGroupId   
+            debugger
             _this.$http.post('/ocm-web/api/b2b/purchase-orders/repaid-submit', params)
                 .then(res => {
                     if (res.headers["x-ocm-code"] == '1') {
