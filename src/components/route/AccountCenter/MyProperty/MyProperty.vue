@@ -125,7 +125,7 @@ export default {
         promiseRestDetail() {
             let _this = this;
             this.currentShow = promiseRest;
-            let { url, paramsWrap } = _this.paramsInfo.cashRestInfo;
+            let { url, paramsWrap } = _this.paramsInfo.promiseRestInfo;
             _this.$http.get(url, paramsWrap)
                 .then(res => {
                     _this.tableDataArr = res;
