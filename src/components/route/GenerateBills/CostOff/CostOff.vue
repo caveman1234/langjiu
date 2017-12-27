@@ -9,7 +9,7 @@
                 <el-row>
                     <el-form :model="formData" ref="form1" :rules="rules1" show-message status-icon label-width="100px">
                         <el-row>
-                            <el-col :span="6">
+                            <el-col :span="8">
                                 <el-form-item label="订单总金额：" label-width="130px">
                                     <div>{{totalMoney}}</div>
                                 </el-form-item>
@@ -22,14 +22,14 @@
 
                         </el-row>
                         <el-row>
-                            <el-col :span="6">
+                            <el-col :span="8">
                                 <el-form-item label="本次最大使用金额：" label-width="130px" style="font-size:12px;">
-                                    <div>{{totalMoney*ratio}}</div>
+                                    <div>{{(totalMoney*ratio).toFixed(2)}}</div>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="14">
-                                <el-form-item label="使用折扣金额：" prop="useOffMoney" label-width="130px" style="font-size:12px;">
-                                    <el-input @input="useOffMoneyChange" :placeholder="maxMoney" v-model="formData.useOffMoney" size="mini"></el-input>
+                                <el-form-item label="本次使用金额：" prop="useOffMoney" label-width="130px" style="font-size:12px;">
+                                    <el-input @input="useOffMoneyChange" :placeholder="moneyRest" v-model="formData.useOffMoney" size="mini"></el-input>
                                 </el-form-item>
                             </el-col>
                         </el-row>
@@ -136,7 +136,6 @@ export default {
                     this.fetchCalcMoney()
                         .then(calcMoney => {
                             _this.dialogVisible = false;
-                            debugger
                             _this.$emit('CostOffEvent', calcMoney, _this.formData.useOffMoney, _this.searchData);
                         });
                 }

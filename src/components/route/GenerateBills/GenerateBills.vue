@@ -70,103 +70,115 @@
             <div class="goodsFooter"></div>
         </div>
         <div v-show="financingChecked" class="offMoney">
-            <CostOff :goodsData="goodsData" :totalMoney="totalMoney" @CostOffEvent="CostOffEvent"></CostOff>
+            <el-row>
+                <el-col :span="22">
+                    <div class="opacity">1</div>
+                </el-col>
+                <el-col :span="2">
+                    <CostOff :goodsData="goodsData" :totalMoney="totalMoney" @CostOffEvent="CostOffEvent"></CostOff>
+                </el-col>
+            </el-row>
         </div>
         <div class="calcMoney">
             <div class="calcTitle">订单结算</div>
             <el-row v-show="financingChecked">
-                <el-col :span="14">
+                <el-col :span="5">
                     <div class="calcLeft">1</div>
                 </el-col>
-                <el-col :span="10">
+                <el-col :span="19">
                     <div class="calcRight">
-                        <el-col :span="10">
-                            <div class="calcRightName">货款金额：</div>
+                        <el-col :span="7">
+                            <div class="calcRightName">货款总金额：</div>
                         </el-col>
-                        <el-col :span="14">
-                            <div class="calcRightMoney">¥{{totalMoney}}</div>
-                        </el-col>
-                    </div>
-                </el-col>
-            </el-row>
-            <el-row v-show="financingChecked">
-                <el-col :span="14">
-                    <div class="calcLeft">1</div>
-                </el-col>
-                <el-col :span="10">
-                    <div class="calcRight">
-                        <el-col :span="10">
-                            <div class="calcRightName">计提X类共建基金：</div>
-                        </el-col>
-                        <el-col :span="14">
-                            <div class="calcRightMoney">¥{{billFooger.xType}}</div>
-                        </el-col>
-                    </div>
-                </el-col>
-            </el-row>
-            <el-row v-show="financingChecked">
-                <el-col :span="14">
-                    <div class="calcLeft">1</div>
-                </el-col>
-                <el-col :span="10">
-                    <div class="calcRight">
-                        <el-col :span="10">
-                            <div class="calcRightName">计提非X类共建基金：</div>
-                        </el-col>
-                        <el-col :span="14">
-                            <span class="calcRightMoney">¥{{billFooger.notXtype}}</span>
-                        </el-col>
-                    </div>
-                </el-col>
-            </el-row>
-            <el-row v-show="financingChecked">
-                <el-col :span="14">
-                    <div class="calcLeft">1</div>
-                </el-col>
-                <el-col :span="10">
-                    <div class="calcRight">
-                        <el-col :span="10">
-                            <div class="calcRightName">费用抵扣金额：</div>
-                        </el-col>
-                        <el-col :span="14">
-                            <el-col :span="12">
-                                <span class="calcRightMoney">¥{{billFooger.deductionMoney}}</span>
+                        <el-col :span="17">
+                            <el-col :span="5">
+                                <div class="calcRightMoney">¥{{totalMoney}}</div>
                             </el-col>
-                            <el-col :span="12">
-                                <span>现金余额：</span>
-                                <span>¥{{billFooger.cashRest}}</span>
+                        </el-col>
+                    </div>
+                </el-col>
+            </el-row>
+            <el-row v-show="financingChecked" v-if="(Number(billFooger.xType) + Number(billFooger.notXtype)).toFixed(2)">
+                <el-col :span="5">
+                    <div class="calcLeft">1</div>
+                </el-col>
+                <el-col :span="19">
+                    <div class="calcRight">
+                        <el-col :span="7">
+                            <div class="calcRightName">计提共建基金总额：</div>
+                        </el-col>
+                        <el-col :span="17">
+                            <el-col :span="5">
+                                <div class="calcRightMoney">¥{{(Number(billFooger.xType) + Number(billFooger.notXtype)).toFixed(2)}}</div>
+                            </el-col>
+                        </el-col>
+                    </div>
+                </el-col>
+            </el-row>
+            <el-row v-show="financingChecked">
+                <el-col :span="5">
+                    <div class="calcLeft">1</div>
+                </el-col>
+                <el-col :span="19">
+                    <div class="calcRight">
+                        <el-col :span="7">
+                            <div class="calcRightName">费用抵扣总额：</div>
+                        </el-col>
+                        <el-col :span="17">
+                            <el-col :span="5">
+                                <span class="calcRightMoney">¥{{useOffMoney}}</span>
+                            </el-col>
+                            <el-col :span="19" v-if="parseInt(billFooger.deductionMoney) && parseInt(billFooger.notXtype)">
+                                <el-col :span="8">
+                                    <span class="gray">其中：抵扣货款¥{{billFooger.deductionMoney}}</span>
+                                </el-col>
+                                <el-col :span="8">
+                                    <span class="gray">
+                                        计提非X类共建基金 ¥{{billFooger.notXtype}}
+                                    </span>
+                                </el-col>
+                            </el-col>
+                        </el-col>
+                    </div>
+                </el-col>
+            </el-row>
+            <el-row class="realTotal">
+                <el-col :span="5">
+                    <div class="calcLeft">1</div>
+                </el-col>
+                <el-col :span="19">
+                    <div class="calcRight ">
+                        <el-col :span="7">
+                            <div class="calcRightName">本次应付金额：</div>
+                        </el-col>
+                        <el-col :span="17" v-if="parseInt(billFooger.dealAmount)&&parseInt(billFooger.xType)">
+                            <el-col :span="5">
+                                <span class="calcRightMoney calcRightMoneyTotal">¥{{currentPay}}</span>
+                            </el-col>
+                            <el-col :span="19">
+                                <el-col :span="8">
+                                    <span class="gray">其中：货款 ¥{{billFooger.dealAmount}}</span>
+                                </el-col>
+                                <el-col :span="8">
+                                    <span class="gray">计提X类共建基金 ¥{{billFooger.xType}}</span>
+                                </el-col>
                             </el-col>
 
                         </el-col>
                     </div>
                 </el-col>
             </el-row>
-            <el-row class="realTotal">
-                <el-col :span="14">
-                    <div class="calcLeft">1</div>
-                </el-col>
-                <el-col :span="10">
-                    <div class="calcRight ">
-                        <el-col :span="10">
-                            <div class="calcRightName">本次应付金额：</div>
-                        </el-col>
-                        <el-col :span="14">
-                            <div class="calcRightMoney calcRightMoneyTotal">¥{{currentPay}}</div>
-                        </el-col>
-                    </div>
-                </el-col>
-            </el-row>
             <el-row class="charge">
-                <el-col :span="17">
+                <el-col :span="20">
                     <div class="calcLeft">1</div>
                 </el-col>
-                <el-col :span="7">
+                <el-col :span="4">
                     <div class="calcRight">
                         <el-col :span="24">
                             <div class="calcRightName">
                                 <el-button @click="edit" size="mini" type="primary">修改</el-button>
                                 <el-button @click="submit" size="mini" type="primary">提交</el-button>
-                                <el-button v-show="financingChecked" @click="payOnline" size="mini" type="primary">在线支付</el-button>
+                                <!-- <el-button v-show="financingChecked" @click="payOnline" size="mini" type="primary">在线支付</el-button> -->
                                 <el-button v-show="!financingChecked" @click="payOnline" size="mini" type="primary">去融资</el-button>
                             </div>
                         </el-col>

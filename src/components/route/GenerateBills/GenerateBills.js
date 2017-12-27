@@ -39,6 +39,7 @@ export default {
                 deductionMoney: 0, //费用抵扣金额：
                 cashRest: 0, //现金余额：
                 currentPay: 0, //本次应付金额：
+                dealAmount: 0, //货款金额
             },
             /* 订单类型，融资订单是否被选中 */
             financingChecked: true
@@ -76,11 +77,13 @@ export default {
             ------billFooger
             xType 计提X类共建基金：
             notXtype  计提非X类共建基金：
-            deductionMoney 费用抵扣金额：
+            deductionMoney 抵扣货款金额：
             cashRest  现金余额：
             */
+            this.useOffMoney = useOffMoney;
 
             /* 写订单footer */
+            _this.billFooger.dealAmount = calcMoney.reduce((acc, v) => (acc + v.dealAmount), 0).toFixed(2);
             _this.billFooger.xType = calcMoney.reduce((acc, v) => (acc + v.fundCash), 0).toFixed(2);
             _this.billFooger.notXtype = calcMoney.reduce((acc, v) => (acc + v.fundFee), 0).toFixed(2);
             _this.billFooger.deductionMoney = calcMoney.reduce((acc, v) => (acc + v.discountAmount), 0).toFixed(2);
@@ -152,6 +155,7 @@ export default {
 
                 }
             });
+            debugger
 
             let receiveAddressId = _this.infoData.find(v => v.isSelected).id;
             let params = {
@@ -250,7 +254,7 @@ export default {
                 switch (column.property) {
                     case 'paymentTotalMoney':
                         let totalArr = data.map(v => v[column.property]);
-                        let total = totalArr.reduce((acc, a) => (acc + a))
+                        let total = totalArr.reduce((acc, a) => (acc + a), 0)
                         arr[i] = `货款总金额:${total}`;
                         break;
                     default:
@@ -290,7 +294,7 @@ export default {
             // notXtype  计提非X类共建基金：
             // deductionMoney 费用抵扣金额：
             // cashRest  现金余额：
-            let currentPay = Number(this.totalMoney) + Number(this.billFooger.xType) + Number(this.billFooger.notXtype) - Number(this.billFooger.deductionMoney) - Number(this.billFooger.cashRest);
+            let currentPay = Number(this.totalMoney) + Number(this.billFooger.xType) + Number(this.billFooger.notXtype) - Number(this.useOffMoney);
             return currentPay.toFixed(2);
         }
     },

@@ -77,6 +77,8 @@ export default {
         },
         logOut() {
             this.$router.push('Login1');
+            //清空ID
+            this.$store.commit('setCustomerId', '');
         }
 
     },
