@@ -1,16 +1,38 @@
 .AccountMgr {
     box-sizing: border-box;
-    .bankImg {
+    min-height: 800px;
+    background: white;
+    .imgContainer {
         height: 400px;
-        background-repeat: no-repeat;
-        background-size: cover;
+        background: white;
         position: relative;
-        .bankBtn {
+        .titleImg {
+            display: flex;
+            justify-content: space-between;
+            box-sizing: border-box;
+            padding: 20px;
+            .bank {
+                width: 130px;
+                height: 130px;
+                background-repeat: no-repeat;
+                background-size: contain;
+            }
+            .lang {
+                width: 150px;
+                height: 150px;
+                background-repeat: no-repeat;
+                background-size: contain;
+            }
+        }
+        .text {
+            text-align: center;
+            font-size: 25px;
+            font-weight: bold;
+        }
+        .btn {
             position: absolute;
-            width: 180px;
-            height: 30px;
-            bottom: 24px;
-            right: 84px;
+            right: 30px;
+            bottom: 20px;
         }
     }
 }

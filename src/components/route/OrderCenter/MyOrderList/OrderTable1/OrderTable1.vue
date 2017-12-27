@@ -6,12 +6,12 @@
                     <el-row>
                         <el-col :span="2">订单类型:</el-col>
                         <el-col v-red :span="2">{{item.poTypeName}}</el-col>
-                        <el-col :span="2">订单金额:</el-col>
-                        <el-col v-red :span="2">{{item.totalAmount | formatPrice}}</el-col>
-                        <el-col :span="2">订单时间:</el-col>
+                        <el-col :span="2">订单日期:</el-col>
                         <el-col :span="2">{{item.orderDate|formatDate}}</el-col>
                         <el-col :span="2">订单编号:</el-col>
                         <el-col :span="3">{{item.orderCode}}</el-col>
+                        <el-col :span="2">订单金额:</el-col>
+                        <el-col v-red :span="2">{{item.totalAmount | formatPrice}}</el-col>
                         <el-col :span="2">订单状态:</el-col>
                         <el-col v-red :span="2">{{item.billStatusName}}</el-col>
                         <el-col :span="2">

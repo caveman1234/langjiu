@@ -136,7 +136,7 @@ export default {
                     fundCash: this.calcMoney.fundCash,
                     realAmount: this.calcMoney.realAmount,
                     //新增字段
-                    srcBillTypeId: this.billHeader.poTypeId,
+                    srcBillType: this.billHeader.poTypeCode,
                     srcBillId: this.billHeader.id,
                     srcBillCode: this.billHeader.orderCode,
 

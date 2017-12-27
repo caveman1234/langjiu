@@ -160,7 +160,7 @@ export default {
                     receiveAddressId: receiveAddressId, //收获地址
                     isNoticeSend: this.isNotice, //是否通知
                     sendDate: this.arriveDate && this.arriveDate.getTime(), //期望发货日期
-                    remark: '', //备注
+                    remark: _this.remark, //备注
                     poTypeId: this.carriageMethod,
                     eFeeUsedAmount: calcDataTable[0],
                     qFeeUsedAmount: calcDataTable[1],
@@ -264,11 +264,10 @@ export default {
             let _this = this;
             let paramsWrap = {
                 params: {
-                    customerId: this.$store.state.customerId,
-                    productGroupId: this.$store.state.prodGroupId
+                    customerId: this.$store.state.customerId
                 }
-            };
-            return _this.$http.get('/ocm-web/api/b2b/query-balance/queryCashReserve', paramsWrap)
+            }; ///api/b2b/query-balance/getCashReserve
+            return _this.$http.get('/ocm-web/api/b2b/query-balance/getCashReserve', paramsWrap)
                 .then(res => res.data[0].reserve);
         }
     },

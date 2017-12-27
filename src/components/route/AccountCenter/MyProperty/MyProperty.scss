@@ -1,1 +1,32 @@
-.MyProperty {}
+@import 'src/css/colors.scss';
+.MyProperty {
+    background: white;
+    min-height: 800px;
+    padding: 10px;
+    box-sizing: border-box;
+    display: flex;
+    .MyPropertyLeft {
+        flex: 0 0 450px;
+        border-right: 1px solid $borderColor;
+        .MypropertyLeftItem {
+            line-height: 60px;
+            cursor: pointer;
+            border-bottom: 1px dashed $borderColor;
+            .text {
+                text-align: right;
+            }
+            .money {
+                font-size: 20px;
+                padding-left: 10px;
+                color: $redColor;
+            }
+            .lookDetail {
+                text-align: right;
+                padding-right: 10px;
+            }
+        }
+    }
+    .MyPropertyRight {
+        flex: 1;
+    }
+}

@@ -33,7 +33,7 @@
                     <el-row style="margin-top:10px;">
                         <el-col :span="2" style="text-align:right;line-height:30px;">备注：</el-col>
                         <el-col :span="22">
-                            <el-input size="mini"></el-input>
+                            <el-input v-model="remark" size="mini"></el-input>
                         </el-col>
                     </el-row>
                 </div>

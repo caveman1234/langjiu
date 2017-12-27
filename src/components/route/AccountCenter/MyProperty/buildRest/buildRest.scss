@@ -1,0 +1,10 @@
+@import 'src/css/colors.scss';
+.buildRest {
+    box-sizing: border-box;
+    padding: 0 10px;
+    .title {
+        text-align: center;
+        line-height: 30px;
+        font-size: 20px;
+    }
+}
