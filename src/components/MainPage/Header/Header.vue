@@ -1,20 +1,17 @@
 <template>
     <div class="Header">
         <div class="headerTop">
-                    <div class="content clearfix">
-                        <div class="left">
-                            <span class="login">请登陆</span>
-                            <span class="phone">产品热线：028-88888888</span>
-                        </div>
-                        <div class="right">
-                            <a>收藏夹</a>|
-                            <a>帮助</a>|
-                            <a @click="logOut">注销</a>
-                            <a>经销商助手</a>
-                        </div>
+            <div class="content clearfix">
+                <div class="left">
 
-                    </div>
                 </div>
+                <div class="right">
+                    <span>欢迎:{{userloginName}}</span>
+                    <a @click="logOut">注销</a>
+                </div>
+
+            </div>
+        </div>
         <div class="headerBottom">
             <div class="content clearfix">
                 <div class="logo"><img :src="logoImg" alt=""></div>
@@ -36,8 +33,8 @@
                             <span class="text">进货单</span>
                         </el-badge>
                         <!-- <span class="text">进货单
-                                                    <i>{{purchaseCount}}</i>
-                                                </span> -->
+                                                        <i>{{purchaseCount}}</i>
+                                                    </span> -->
                     </div>
                     <div class="searchSection">
                         <div class="searchInp">
@@ -59,7 +56,8 @@ export default {
     data() {
         return {
             searchInfo: "",
-            logoImg: require('../../../assets/logo.png')
+            logoImg: require('../../../assets/logo.png'),
+            userloginName: ''
         }
     },
     methods: {
@@ -77,7 +75,7 @@ export default {
             this.$router.push({ name: 'PurchaseBills', params: {} });
             this.$store.commit('changeCurrentNav', { hash: '' })
         },
-        logOut(){
+        logOut() {
             this.$router.push('Login1');
         }
 
@@ -92,6 +90,9 @@ export default {
             }
         })
     },
+    mounted() {
+        this.userloginName = this.$store.state.userloginName;
+    }
 
 }
 </script>

@@ -25,6 +25,9 @@ let mutations = {
     },
     [types.prodGroupId](store, prodGroupId) {
         store.prodGroupId = prodGroupId;
+    },
+    [types.userloginName](store, userloginName) {
+        store.userloginName = userloginName;
     }
 };
 export default mutations;

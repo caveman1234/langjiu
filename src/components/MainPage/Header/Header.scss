@@ -21,10 +21,14 @@
             }
             .right {
                 float: right;
+                color: white;
                 a {
-                    color: #999999;
+                    color: white;
                     padding: 0 5px;
                     cursor: pointer;
+                }
+                span {
+                    margin-right: 15px;
                 }
             }
         }

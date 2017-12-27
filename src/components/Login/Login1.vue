@@ -78,6 +78,7 @@ export default {
                         data: _this.loginForm
                     }).then(res => {
                         if (res.headers["x-ocm-code"] == '1') {
+                            _this.$store.commit('userloginName', res.data.userloginName);
                             _this.$store.commit('setCustomerId', res.data.customerId);
                             _this.$router.push({ name: 'Home' });
                             _this.$Notification.success({

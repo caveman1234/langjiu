@@ -11,8 +11,8 @@
                     </el-col>
                     <el-col :span="7">
                         <!-- <div class="lookDetail">查看明细
-                                            <i class="el-icon-d-arrow-right"></i>
-                                        </div> -->
+                                                <i class="el-icon-d-arrow-right"></i>
+                                            </div> -->
                     </el-col>
                 </el-row>
             </div>
@@ -86,7 +86,7 @@ export default {
             paramsInfo: {
                 /* 现金余额 */
                 cashRestInfo: {
-                    url: '/ocm-web/api/b2b/query-balance/queryFundReserve',
+                    url: '/ocm-web/api/b2b/query-balance/queryCashReserve',
                     paramsWrap: {
                         params: {
                             customerId: this.$store.state.customerId
@@ -95,7 +95,7 @@ export default {
                 },
                 //费用
                 costRestInfo: {
-                    url: '',
+                    url: '/ocm-web/api/b2b/query-balance/queryChargeReserve',
                     paramsWrap: {
                         params: {
                             customerId: this.$store.state.customerId
@@ -104,7 +104,7 @@ export default {
                 },
                 //保证金
                 promiseRestInfo: {
-                    url: '',
+                    url: '/ocm-web/api/b2b/query-balance/queryDepositReserve',
                     paramsWrap: {
                         params: {
                             customerId: this.$store.state.customerId
@@ -113,7 +113,7 @@ export default {
                 },
                 //共建基金
                 buildRestInfo: {
-                    url: '',
+                    url: '/ocm-web/api/b2b/query-balance/queryFundReserve',
                     paramsWrap: {
                         params: {
                             customerId: this.$store.state.customerId
@@ -131,7 +131,7 @@ export default {
             let { url, paramsWrap } = _this.paramsInfo.cashRestInfo;
             _this.$http.get(url, paramsWrap)
                 .then(res => {
-                    
+                    _this.totalCash = res.data;
                 });
         },
         /* 费用余额明细 */
@@ -141,7 +141,10 @@ export default {
             let { url, paramsWrap } = _this.paramsInfo.costRestInfo;
             _this.$http.get(url, paramsWrap)
                 .then(res => {
-                    _this.tableDataArr = res;
+                    _this.totalCost = res.data.reduce((acc, v) => {
+                        return acc + (v.eReserve || 0) + (v.qReserve || 0) + (v.fReserve || 0)
+                    }, 0)
+                    _this.tableDataArr = res.data;
                 });
 
         },
@@ -152,7 +155,10 @@ export default {
             let { url, paramsWrap } = _this.paramsInfo.promiseRestInfo;
             _this.$http.get(url, paramsWrap)
                 .then(res => {
-                    _this.tableDataArr = res;
+                    _this.totalPromiseRest = res.data.reduce((acc, v) => {
+                        return acc + (v.deposit || 0);
+                    }, 0)
+                    _this.tableDataArr = res.data;
                 });
         },
         /* 共建基金余额明细 */
@@ -162,13 +168,22 @@ export default {
             let { url, paramsWrap } = _this.paramsInfo.buildRestInfo;
             _this.$http.get(url, paramsWrap)
                 .then(res => {
-                    _this.tableDataArr = res;
+                    _this.totalBuildRest = res.data.reduce((acc, v) => {
+                        return acc + (v.reserve || 0);
+                    }, 0)
+                    _this.tableDataArr = res.data;
                 });
         },
 
 
 
 
+    },
+    mounted() {
+        this.costOffDetail();
+        this.promiseRestDetail();
+        this.buildRestDetail();
+        this.cashRestDetail();
     }
 }
 </script>
