@@ -7,12 +7,12 @@
                         <div class="text">现金余额:</div>
                     </el-col>
                     <el-col :span="12">
-                        <div class="money">¥10000000.00</div>
+                        <div class="money">¥{{totalCash}}</div>
                     </el-col>
                     <el-col :span="7">
                         <!-- <div class="lookDetail">查看明细
-                                    <i class="el-icon-d-arrow-right"></i>
-                                </div> -->
+                                            <i class="el-icon-d-arrow-right"></i>
+                                        </div> -->
                     </el-col>
                 </el-row>
             </div>
@@ -22,7 +22,7 @@
                         <div class="text">费用余额:</div>
                     </el-col>
                     <el-col :span="12">
-                        <div class="money">¥10000000.00</div>
+                        <div class="money">¥{{totalCost}}</div>
                     </el-col>
                     <el-col :span="7">
                         <div class="lookDetail">查看明细
@@ -37,7 +37,7 @@
                         <div class="text">共建基金余额:</div>
                     </el-col>
                     <el-col :span="12">
-                        <div class="money">¥10000000.00</div>
+                        <div class="money">¥{{totalBuildRest}}</div>
                     </el-col>
                     <el-col :span="7">
                         <div class="lookDetail">查看明细
@@ -52,7 +52,7 @@
                         <div class="text">保证金余额:</div>
                     </el-col>
                     <el-col :span="12">
-                        <div class="money">¥10000000.00</div>
+                        <div class="money">¥{{totalPromiseRest}}</div>
                     </el-col>
                     <el-col :span="7">
                         <div class="lookDetail">查看明细
@@ -77,29 +77,47 @@ export default {
     components: { costOff, promiseRest, buildRest },
     data() {
         return {
+            totalCash: 0,//总现金
+            totalCost: 0,//总费用
+            totalPromiseRest: 0,//总保证金
+            totalBuildRest: 0,//总共建基金
             currentShow: '',//费用(costOff)|保证金(promiseRest)|共建基金(buildRest)
             tableDataArr: [],
             paramsInfo: {
-                
+                /* 现金余额 */
+                cashRestInfo: {
+                    url: '/ocm-web/api/b2b/query-balance/queryFundReserve',
+                    paramsWrap: {
+                        params: {
+                            customerId: this.$store.state.customerId
+                        }
+                    }
+                },
                 //费用
                 costRestInfo: {
                     url: '',
                     paramsWrap: {
-                        params: {}
+                        params: {
+                            customerId: this.$store.state.customerId
+                        }
                     }
                 },
                 //保证金
                 promiseRestInfo: {
                     url: '',
                     paramsWrap: {
-                        params: {}
+                        params: {
+                            customerId: this.$store.state.customerId
+                        }
                     }
                 },
                 //共建基金
                 buildRestInfo: {
                     url: '',
                     paramsWrap: {
-                        params: {}
+                        params: {
+                            customerId: this.$store.state.customerId
+                        }
                     }
                 },
             }
@@ -108,7 +126,13 @@ export default {
     methods: {
         /* 现金余额明细 */
         cashRestDetail() {
+            let _this = this;
             this.currentShow = '';
+            let { url, paramsWrap } = _this.paramsInfo.cashRestInfo;
+            _this.$http.get(url, paramsWrap)
+                .then(res => {
+                    
+                });
         },
         /* 费用余额明细 */
         costOffDetail() {
@@ -141,6 +165,10 @@ export default {
                     _this.tableDataArr = res;
                 });
         },
+
+
+
+
     }
 }
 </script>

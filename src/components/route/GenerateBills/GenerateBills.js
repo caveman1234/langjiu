@@ -268,7 +268,7 @@ export default {
                 }
             }; ///api/b2b/query-balance/getCashReserve
             return _this.$http.get('/ocm-web/api/b2b/query-balance/getCashReserve', paramsWrap)
-                .then(res => res.data[0].reserve);
+                .then(res => res.data);
         }
     },
     computed: {

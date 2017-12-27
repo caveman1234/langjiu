@@ -258,8 +258,8 @@ export default {
                     productGroupId: this.$store.state.prodGroupId
                 }
             };
-            return _this.$http.get('/ocm-web/api/b2b/query-balance/queryCashReserve', paramsWrap)
-                .then(res => res.data[0].reserve);
+            return _this.$http.get('/ocm-web/api/b2b/query-balance/getCashReserve', paramsWrap)
+                .then(res => res.data);
         },
         /* 提交前，获取id */
         fetchPoTypeId() {
