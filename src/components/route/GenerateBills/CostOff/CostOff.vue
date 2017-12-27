@@ -29,7 +29,7 @@
                             </el-col>
                             <el-col :span="14">
                                 <el-form-item label="本次使用金额：" prop="useOffMoney" label-width="130px" style="font-size:12px;">
-                                    <el-input @input="useOffMoneyChange" :placeholder="moneyRest" v-model="formData.useOffMoney" size="mini"></el-input>
+                                    <el-input @input="useOffMoneyChange" :placeholder="placeholderMax" v-model="formData.useOffMoney" size="mini"></el-input>
                                 </el-form-item>
                             </el-col>
                         </el-row>
@@ -221,6 +221,14 @@ export default {
         },
         moneyRest() {
             return this.searchData.reduce((acc, v) => (acc + v.reserve), 0).toFixed(2)
+        },
+        placeholderMax(){
+            let maxUsed = Number(this.totalMoney*this.ratio).toFixed(2);
+            if(this.moneyRest>maxUsed){
+                return maxUsed
+            }else{
+                return this.moneyRest;
+            }
         }
     },
     mounted() {

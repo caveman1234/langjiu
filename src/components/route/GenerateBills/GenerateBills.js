@@ -69,6 +69,7 @@ export default {
         /* 使用折扣金额 */
         CostOffEvent(calcMoney, useOffMoney, calcDataTable) {
             let _this = this;
+            _this.calcMoney = calcMoney;
             /* 
             calcMoney :[]每行的折扣
             useOffMoney 输入的金额
@@ -113,6 +114,16 @@ export default {
             /* 使用费用表格 */
             let calcDataTable = this.calcDataTable.map(v => v.currentMoney);
             let purchaseOrderItems = this.goodsData.map(v => {
+                let discountAmount = '';
+                let dealAmount = '';
+                let fundAmount = '';
+                let fundFee = '';
+                let fundCash = '';
+                let realAmount = '';
+                if (Array.isArray(this.calcMoney)) {
+                    let currentObj = this.calcMoney.find(aObj => aObj.productId == v.productId);
+                    let { discountAmount, dealAmount, fundAmount, fundFee, fundCash, realAmount } = currentObj;
+                }
                 return {
                     productId: v.productId,
                     productCode: v.productCode,
@@ -146,32 +157,35 @@ export default {
                     // fundFee: v.fundFee,
                     // fundCash: v.fundCash,
                     /* 使用费用 */
-                    discountAmount: v.discountAmount,
-                    dealAmount: this.calcMoney.dealAmount,
-                    fundAmount: this.calcMoney.fundAmount,
-                    fundFee: this.calcMoney.fundFee,
-                    fundCash: this.calcMoney.fundCash,
-                    realAmount: this.calcMoney.realAmount,
-
+                    discountAmount: discountAmount,
+                    dealAmount: dealAmount,
+                    fundAmount: fundAmount,
+                    fundFee: fundFee,
+                    fundCash: fundCash,
+                    realAmount: realAmount,
                 }
+
+
+
             });
-            debugger
 
             let receiveAddressId = _this.infoData.find(v => v.isSelected).id;
             let params = {
-                    saleChannelCode: '00',
-                    distributorId: _this.$store.state.customerId, //经销商id
-                    receiveAddressId: receiveAddressId, //收获地址
-                    isNoticeSend: this.isNotice, //是否通知
-                    sendDate: this.arriveDate && this.arriveDate.getTime(), //期望发货日期
-                    remark: _this.remark, //备注
-                    poTypeId: this.carriageMethod,
-                    eFeeUsedAmount: calcDataTable[0],
-                    qFeeUsedAmount: calcDataTable[1],
-                    fFeeUsedAmount: calcDataTable[2],
-                    purchaseOrderItems: purchaseOrderItems
-                }
-                //销售订单请求地址
+                saleChannelCode: '00',
+                distributorId: _this.$store.state.customerId, //经销商id
+                receiveAddressId: receiveAddressId, //收获地址
+                isNoticeSend: this.isNotice, //是否通知
+                sendDate: this.arriveDate && this.arriveDate.getTime(), //期望发货日期
+                remark: _this.remark, //备注
+                poTypeId: this.carriageMethod,
+                eFeeUsedAmount: calcDataTable[0],
+                qFeeUsedAmount: calcDataTable[1],
+                fFeeUsedAmount: calcDataTable[2],
+                purchaseOrderItems: purchaseOrderItems
+            };
+            debugger
+
+            //销售订单请求地址
             let sreverUrl = '/ocm-web/api/b2b/purchase-orders/submit';
             if (_this.carriageMethod == '03') {
                 //融资订单请求地址
