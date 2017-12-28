@@ -33,8 +33,9 @@ export default {
                 clientId: this.$store.state.customerId
             };
             debugger
-            _this.$http.post('/ocm-web/api/cmbc/param-encrypt', params)
+            _this.$http.post('/ocm-web/api/cmbc/queryCustomerInfo', params)
                 .then(res => {
+                    debugger
                     let bankForm = document.querySelector('#bankForm');
                     let bankFormSubmit = document.querySelector('#bankFormSubmit');
                     let params = res.data.reduce((acc, v) => {

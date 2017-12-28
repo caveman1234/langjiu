@@ -2,8 +2,7 @@
     <div class="Home">
         <div class="bannerContainer">
             <div class="imgContainer">
-
-                <el-carousel :interval="3000" arrow="always" height="500px">
+                <el-carousel :interval="5000" arrow="always" height="500px">
                     <el-carousel-item v-for="item in imageArr" :key="item">
                         <img :src="item" alt="">
                     </el-carousel-item>

@@ -46,6 +46,9 @@ import MainPage from '@/components/MainPage/MainPage'
 import Login from '@/components/Login/Login'
 import Login1 from '@/components/Login/Login1.vue'
 
+/* 合同中心 */
+import ContractCenter from '@/components/route/ContractCenter/ContractCenter'
+
 Vue.use(Router)
 
 export default new Router({
@@ -223,6 +226,11 @@ export default new Router({
                     path: '/GoPickGoodsEdit',
                     name: 'GoPickGoodsEdit',
                     component: GoPickGoodsEdit
+                },
+                {
+                    path: '/ContractCenter',
+                    name: 'ContractCenter',
+                    component: ContractCenter
                 }
             ]
         },

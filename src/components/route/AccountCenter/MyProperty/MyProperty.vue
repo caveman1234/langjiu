@@ -11,8 +11,8 @@
                     </el-col>
                     <el-col :span="7">
                         <!-- <div class="lookDetail">查看明细
-                                                                                <i class="el-icon-d-arrow-right"></i>
-                                                                            </div> -->
+                                                                                    <i class="el-icon-d-arrow-right"></i>
+                                                                                </div> -->
                     </el-col>
                 </el-row>
             </div>
@@ -61,7 +61,7 @@
                     </el-col>
                 </el-row>
             </div>
-            <div class="notDeliver MypropertyLeftItem">
+            <div @click="notDeliverDetail" class="notDeliver MypropertyLeftItem">
                 <el-row>
                     <el-col :span="5">
                         <div class="text">未发货金额:</div>
@@ -144,30 +144,33 @@ export default {
         }
     },
     methods: {
-        /* 现金余额明细 */
+        /* 现金余额click */
         cashRestDetail() {
             let _this = this;
             _this.currentShow = '';
-            
         },
-        /* 费用余额明细 */
+        /* 费用余额click */
         costOffDetail() {
             let _this = this;
             _this.currentShow = costOff;
-            _this.tableDataArr =_this.cacheTableDataArr.costtableDataArr;
+            _this.tableDataArr = _this.cacheTableDataArr.costtableDataArr;
 
         },
-        /* 保证金余额明细 */
+        /* 保证金余额click */
         promiseRestDetail() {
             let _this = this;
             this.currentShow = promiseRest;
-            _this.tableDataArr =_this.cacheTableDataArr.promiseTableDataArr;
+            _this.tableDataArr = _this.cacheTableDataArr.promiseTableDataArr;
         },
-        /* 共建基金余额明细 */
+        /* 共建基金余额click */
         buildRestDetail() {
             let _this = this;
             this.currentShow = buildRest;
-            _this.tableDataArr =_this.cacheTableDataArr.buildTableDataArr;
+            _this.tableDataArr = _this.cacheTableDataArr.buildTableDataArr;
+        },
+        notDeliverDetail() {
+            let _this = this;
+            _this.currentShow = '';
         },
         fetchCashRestDetail() {
             let _this = this;
