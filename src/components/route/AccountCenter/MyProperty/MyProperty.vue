@@ -11,8 +11,8 @@
                     </el-col>
                     <el-col :span="7">
                         <!-- <div class="lookDetail">查看明细
-                                                <i class="el-icon-d-arrow-right"></i>
-                                            </div> -->
+                                                                                <i class="el-icon-d-arrow-right"></i>
+                                                                            </div> -->
                     </el-col>
                 </el-row>
             </div>
@@ -83,6 +83,13 @@ export default {
             totalBuildRest: 0,//总共建基金
             currentShow: '',//费用(costOff)|保证金(promiseRest)|共建基金(buildRest)
             tableDataArr: [],
+            //缓存表格明细信息
+            cacheTableDataArr: {
+                cashTableDataArr: [],
+                costtableDataArr: [],
+                promiseTableDataArr: [],
+                buildTableDataArr: [],
+            },
             paramsInfo: {
                 /* 现金余额 */
                 cashRestInfo: {
@@ -127,51 +134,78 @@ export default {
         /* 现金余额明细 */
         cashRestDetail() {
             let _this = this;
-            this.currentShow = '';
-            let { url, paramsWrap } = _this.paramsInfo.cashRestInfo;
-            _this.$http.get(url, paramsWrap)
-                .then(res => {
-                    _this.totalCash = res.data;
-                });
+            _this.currentShow = '';
+            
         },
         /* 费用余额明细 */
         costOffDetail() {
             let _this = this;
             _this.currentShow = costOff;
-            let { url, paramsWrap } = _this.paramsInfo.costRestInfo;
-            _this.$http.get(url, paramsWrap)
-                .then(res => {
-                    _this.totalCost = res.data.reduce((acc, v) => {
-                        return acc + (v.eReserve || 0) + (v.qReserve || 0) + (v.fReserve || 0)
-                    }, 0)
-                    _this.tableDataArr = res.data;
-                });
+            _this.tableDataArr =_this.cacheTableDataArr.costtableDataArr;
 
         },
         /* 保证金余额明细 */
         promiseRestDetail() {
             let _this = this;
             this.currentShow = promiseRest;
-            let { url, paramsWrap } = _this.paramsInfo.promiseRestInfo;
-            _this.$http.get(url, paramsWrap)
-                .then(res => {
-                    _this.totalPromiseRest = res.data.reduce((acc, v) => {
-                        return acc + (v.deposit || 0);
-                    }, 0)
-                    _this.tableDataArr = res.data;
-                });
+            _this.tableDataArr =_this.cacheTableDataArr.promiseTableDataArr;
         },
         /* 共建基金余额明细 */
         buildRestDetail() {
             let _this = this;
             this.currentShow = buildRest;
+            _this.tableDataArr =_this.cacheTableDataArr.buildTableDataArr;
+        },
+        fetchCashRestDetail() {
+            let _this = this;
+            let { url, paramsWrap } = _this.paramsInfo.cashRestInfo;
+            _this.$http.get(url, paramsWrap)
+                .then(res => {
+                    return {
+                        total: res.data
+                    }
+                });
+        },
+        fetchCostOffDetail() {
+            let _this = this;
+            let { url, paramsWrap } = _this.paramsInfo.costRestInfo;
+            _this.$http.get(url, paramsWrap)
+                .then(res => {
+                    let total = res.data.reduce((acc, v) => {
+                        return acc + (v.eReserve || 0) + (v.qReserve || 0) + (v.fReserve || 0)
+                    }, 0);
+                    return {
+                        total: total,
+                        data: res.data
+                    }
+                });
+        },
+        fetchPromiseRestDetail() {
+            let _this = this;
+            let { url, paramsWrap } = _this.paramsInfo.promiseRestInfo;
+            _this.$http.get(url, paramsWrap)
+                .then(res => {
+                    let total = res.data.reduce((acc, v) => {
+                        return acc + (v.deposit || 0);
+                    }, 0);
+                    return {
+                        total: total,
+                        data: res.data
+                    }
+                });
+        },
+        fetchBuildRestDetail() {
+            let _this = this;
             let { url, paramsWrap } = _this.paramsInfo.buildRestInfo;
             _this.$http.get(url, paramsWrap)
                 .then(res => {
-                    _this.totalBuildRest = res.data.reduce((acc, v) => {
+                    let total = res.data.reduce((acc, v) => {
                         return acc + (v.reserve || 0);
-                    }, 0)
-                    _this.tableDataArr = res.data;
+                    }, 0);
+                    return {
+                        total: total,
+                        data: res.data
+                    }
                 });
         },
 
@@ -180,10 +214,26 @@ export default {
 
     },
     mounted() {
-        this.costOffDetail();
-        this.promiseRestDetail();
-        this.buildRestDetail();
-        this.cashRestDetail();
+        let _this = this;
+        _this.fetchCashRestDetail().then(res => {
+            let { total } = res;
+            _this.totalCash = total;
+        });
+        _this.fetchCostOffDetail().then(res => {
+            let { total, data } = res;
+            _this.cacheTableDataArr.costtableDataArr = data;
+            _this.totalCost = total;
+        });
+        _this.fetchPromiseRestDetail().then(res => {
+            let { total, data } = res;
+            _this.cacheTableDataArr.promiseTableDataArr = data;
+            _this.totalPromiseRest = total;
+        });
+        _this.fetchBuildRestDetail().then(res => {
+            let { total, data } = res;
+            _this.cacheTableDataArr.buildTableDataArr = data;
+            _this.totalBuildRest = total;
+        });
     }
 }
 </script>

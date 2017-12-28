@@ -2,6 +2,7 @@
     <div class="OrderTable1">
         <template v-for="(item,index) in orderData">
             <div class="orderWrap" :key="index">
+                
                 <div class="orderHeader">
                     <el-row>
                         <el-col :span="2">订单类型:</el-col>
@@ -15,7 +16,18 @@
                         <el-col :span="2">订单状态:</el-col>
                         <el-col v-red :span="2">{{item.billStatusName}}</el-col>
                         <el-col :span="2">
-                            <el-button v-if="item.poTypeBusinessType =='03' && item.billStatusCode == '03' && item.totalRepaidAmount < item.totalRepayAmount" @click="goPickGoods(item)" size="mini" type="primary">去提货</el-button>
+                            
+                            
+                        </el-col>
+                    </el-row>
+                </div>
+                <div class="orderHeader">
+                    <el-row type="flex" justify="end">
+                        <el-col v-if="item.poTypeBusinessType =='03' && item.billStatusCode == '03' && item.totalRepaidAmount < item.totalRepayAmount" @click="goPickGoods(item)" :span="2">
+                            <el-button size="mini" type="primary">去提货</el-button>
+                        </el-col>
+                        <el-col v-if="item.isNoticeSend == 1 && item.isApplySendOver == 0" :span="2">
+                            <el-button size="mini" type="primary">申请发货</el-button>
                         </el-col>
                     </el-row>
                 </div>
@@ -46,17 +58,17 @@
                         </template>
                     </el-table-column>
                     <!-- <el-table-column prop="" label="金额">
-                                <template slot-scope="scope">
-                                    <div v-red>{{item.totalAmount | formatPrice}}</div>
-                                </template>
-                            </el-table-column>
-                            <el-table-column prop="" label="操作">
-                                <template slot-scope="scope">
-                                    <div>
-                                        <el-button size="mini" type="primary">去融资</el-button>
-                                    </div>
-                                </template>
-                            </el-table-column> -->
+                                    <template slot-scope="scope">
+                                        <div v-red>{{item.totalAmount | formatPrice}}</div>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column prop="" label="操作">
+                                    <template slot-scope="scope">
+                                        <div>
+                                            <el-button size="mini" type="primary">去融资</el-button>
+                                        </div>
+                                    </template>
+                                </el-table-column> -->
                 </el-table>
             </div>
         </template>
@@ -71,7 +83,9 @@
 累计已填仓金额 totalRepaidAmount
 累计已还款金额 totalRepayAmount
 1. billStatusCode == '03' totalRepaidAmount < totalRepayAmoun 已审核(审核通过) -> 去提货 
-
+isNoticeSend  是  1 ， 否   0
+isApplySendOver 申请发货完成 0 1，
+2. isNoticeSend == 1 && isApplySendOver == 0   => 申请发货
 填仓订单：
 
 
@@ -95,8 +109,7 @@
 // Financing("03", "融资订单", null),
 // Repaid("04", "填仓订单", null),
 // SendApply("05", "发货申请订单", null);
-//---------------------------------isNoticeSend
-//是  1 ， 否   0
+
 export default {
     name: 'OrderTable1',
     props: {

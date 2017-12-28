@@ -45,7 +45,13 @@ export default {
             }
             this.$http.get('/ocm-web/api/base/prod/search-for-purchase-order', paramsWrap)
                 .then(res => {
-                    let goodsData = res.data.map(v => Object.assign({}, v, { hasPurchase: false }));
+                    let goodsData = res.data.map(v => Object.assign(
+                        {},
+                        v,
+                        {
+                            hasPurchase: false,
+                            imageUrl: v.imageUrl ? `${v.imageUrl}@217w217h` : ''
+                        }));
                     this.goodsData = goodsData;
                 });
         },
@@ -94,6 +100,7 @@ export default {
                                 v,
                                 {
                                     hasPurchase: false,
+                                    imageUrl: v.imageUrl ? `${v.imageUrl}@217w217h` : ''
                                 })
                         });
                         _this.goodsData = goodsData;
