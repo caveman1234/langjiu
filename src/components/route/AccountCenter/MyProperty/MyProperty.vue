@@ -61,6 +61,19 @@
                     </el-col>
                 </el-row>
             </div>
+            <div class="notDeliver MypropertyLeftItem">
+                <el-row>
+                    <el-col :span="5">
+                        <div class="text">未发货金额:</div>
+                    </el-col>
+                    <el-col :span="12">
+                        <div class="money">¥50002.00</div>
+                    </el-col>
+                    <el-col :span="7">
+
+                    </el-col>
+                </el-row>
+            </div>
 
         </div>
         <div class="MyPropertyRight">
@@ -159,7 +172,7 @@ export default {
         fetchCashRestDetail() {
             let _this = this;
             let { url, paramsWrap } = _this.paramsInfo.cashRestInfo;
-            _this.$http.get(url, paramsWrap)
+            return _this.$http.get(url, paramsWrap)
                 .then(res => {
                     return {
                         total: res.data
@@ -169,7 +182,7 @@ export default {
         fetchCostOffDetail() {
             let _this = this;
             let { url, paramsWrap } = _this.paramsInfo.costRestInfo;
-            _this.$http.get(url, paramsWrap)
+            return _this.$http.get(url, paramsWrap)
                 .then(res => {
                     let total = res.data.reduce((acc, v) => {
                         return acc + (v.eReserve || 0) + (v.qReserve || 0) + (v.fReserve || 0)
@@ -183,7 +196,7 @@ export default {
         fetchPromiseRestDetail() {
             let _this = this;
             let { url, paramsWrap } = _this.paramsInfo.promiseRestInfo;
-            _this.$http.get(url, paramsWrap)
+            return _this.$http.get(url, paramsWrap)
                 .then(res => {
                     let total = res.data.reduce((acc, v) => {
                         return acc + (v.deposit || 0);
@@ -197,7 +210,7 @@ export default {
         fetchBuildRestDetail() {
             let _this = this;
             let { url, paramsWrap } = _this.paramsInfo.buildRestInfo;
-            _this.$http.get(url, paramsWrap)
+            return _this.$http.get(url, paramsWrap)
                 .then(res => {
                     let total = res.data.reduce((acc, v) => {
                         return acc + (v.reserve || 0);

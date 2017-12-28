@@ -5,7 +5,6 @@
                 <template v-for="(item,index) in tabArr">
                     <el-tab-pane :label="item.label" :name='item.name' :key="index"></el-tab-pane>
                 </template>
-
             </el-tabs>
         </div>
         <div class="AccountContainer">
@@ -22,38 +21,38 @@ let tabArr = [
     },
     {
         label: '现金对账',
-        name: '',
-        routeName: ''
+        name: 'CashCheck',
+        routeName: 'CashCheck'
     },
     {
         label: '费用对账',
-        name: '',
-        routeName: ''
+        name: 'CostCheck',
+        routeName: 'CostCheck'
     },
     {
         label: '共建基金对账',
-        name: '',
-        routeName: ''
+        name: 'BuildCheck',
+        routeName: 'BuildCheck'
     },
     {
         label: '保证金对账',
-        name: '',
-        routeName: ''
+        name: 'PromiseCheck',
+        routeName: 'PromiseCheck'
     },
     {
-        label: '未发货金额',
-        name: 'NotDeliver',
-        routeName: 'NotDeliver'
+        label: '业务往来对账',
+        name: 'BusinessCheck',
+        routeName: 'BusinessCheck'
     },
     {
         label: '电子发票下载',
-        name: '',
-        routeName: ''
+        name: 'BillDownload',
+        routeName: 'BillDownload'
     },
     {
         label: '物流码下载',
-        name: '',
-        routeName: ''
+        name: 'LogisticsDownload',
+        routeName: 'LogisticsDownload'
     },
     {
         label: '融资信息',
@@ -77,8 +76,8 @@ let tabArr = [
     },
     {
         label: '我的信息',
-        name: '',
-        routeName: ''
+        name: 'MyInfo',
+        routeName: 'MyInfo'
     },
 ];
 export default {

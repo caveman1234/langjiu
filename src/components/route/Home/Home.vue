@@ -2,7 +2,12 @@
     <div class="Home">
         <div class="bannerContainer">
             <div class="imgContainer">
-                <img src="../../../assets/banner.png" alt="">
+
+                <el-carousel :interval="3000" arrow="always" height="500px">
+                    <el-carousel-item v-for="item in imageArr" :key="item">
+                        <img :src="item" alt="">
+                    </el-carousel-item>
+                </el-carousel>
             </div>
             <div class="msgContainer">
                 <div class="msg">
@@ -61,15 +66,20 @@ export default {
     name: 'Home',
     data() {
         return {
-            msgArr: msgArr
+            msgArr: msgArr,
+            imageArr:[
+                require('../../../assets/images/banner1.jpg'),
+                require('../../../assets/images/banner2.jpg'),
+                require('../../../assets/images/banner3.jpg')
+            ]
         }
     },
 
     methods: {
-       
+
         handleClick() { }
     },
-    mounted(){
+    mounted() {
         this.$store.commit('changeCurrentNav', { hash: '/Home' });
     }
 }

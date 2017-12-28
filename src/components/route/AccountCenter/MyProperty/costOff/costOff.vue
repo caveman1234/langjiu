@@ -20,7 +20,6 @@ export default {
         }
     },
     mounted(){
-        debugger
     }
 }
 </script>

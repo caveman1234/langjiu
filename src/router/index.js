@@ -8,9 +8,17 @@ import AccountCenter from '@/components/route/AccountCenter/AccountCenter'
 import AccountMgr from '@/components/route/AccountCenter/AccountMgr/AccountMgr'
 import OnlineRecharge from '@/components/route/AccountCenter/OnlineRecharge/OnlineRecharge'
 import MyProperty from '@/components/route/AccountCenter/MyProperty/MyProperty'
-import NotDeliver from '@/components/route/AccountCenter/NotDeliver/NotDeliver'
+import BusinessCheck from '@/components/route/AccountCenter/BusinessCheck/BusinessCheck'
 import FinancingInfo from '@/components/route/AccountCenter/FinancingInfo/FinancingInfo'
 import PaymentInfo from '@/components/route/AccountCenter/PaymentInfo/PaymentInfo'
+
+import CashCheck from '@/components/route/AccountCenter/CashCheck/CashCheck'
+import CostCheck from '@/components/route/AccountCenter/CostCheck/CostCheck'
+import BuildCheck from '@/components/route/AccountCenter/BuildCheck/BuildCheck'
+import PromiseCheck from '@/components/route/AccountCenter/PromiseCheck/PromiseCheck'
+import BillDownload from '@/components/route/AccountCenter/BillDownload/BillDownload'
+import LogisticsDownload from '@/components/route/AccountCenter/LogisticsDownload/LogisticsDownload'
+import MyInfo from '@/components/route/AccountCenter/MyInfo/MyInfo'
 
 
 import MsgCenter from '@/components/route/MsgCenter/MsgCenter'
@@ -125,9 +133,9 @@ export default new Router({
                             component: MyProperty
                         },
                         {
-                            path: '/NotDeliver',
-                            name: 'NotDeliver',
-                            component: NotDeliver
+                            path: '/BusinessCheck',
+                            name: 'BusinessCheck',
+                            component: BusinessCheck
                         },
                         {
                             path: '/FinancingInfo',
@@ -138,6 +146,41 @@ export default new Router({
                             path: '/PaymentInfo',
                             name: 'PaymentInfo',
                             component: PaymentInfo
+                        },
+                        {
+                            path: '/CashCheck',
+                            name: 'CashCheck',
+                            component: CashCheck
+                        },
+                        {
+                            path: '/CostCheck',
+                            name: 'CostCheck',
+                            component: CostCheck
+                        },
+                        {
+                            path: '/BuildCheck',
+                            name: 'BuildCheck',
+                            component: BuildCheck
+                        },
+                        {
+                            path: '/PromiseCheck',
+                            name: 'PromiseCheck',
+                            component: PromiseCheck
+                        },
+                        {
+                            path: '/BillDownload',
+                            name: 'BillDownload',
+                            component: BillDownload
+                        },
+                        {
+                            path: '/LogisticsDownload',
+                            name: 'LogisticsDownload',
+                            component: LogisticsDownload
+                        },
+                        {
+                            path: '/MyInfo',
+                            name: 'MyInfo',
+                            component: MyInfo
                         },
                     ]
                 },
