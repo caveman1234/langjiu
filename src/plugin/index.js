@@ -3,6 +3,7 @@ import { Loading, Notification } from 'element-ui';
 import interfaceAddress from './interfaceAddress.js';
 import util from './util.js';
 import mixins from './mixins.js';
+import './downLoadBrower.js';
 
 function install(Vue) {
     window.log = window.console.log;
