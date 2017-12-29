@@ -2,8 +2,8 @@
     <div class="SearchComp">
         <el-form label-position="right" label-width="100px" :model="formDatas" size="mini">
             <el-row>
-                <template v-for="(item,index) in searchConfigInner">
-                    <el-col :span="12" :key="index" class="clearfix">
+                <template v-for="(item,index) in searchConfig">
+                    <el-col :span="8" :key="index" class="clearfix">
                         <template v-if="item.type == 'input'">
                             <el-form-item :label="item.label">
                                 <el-input v-model="formDatas[item.field]"></el-input>
@@ -12,15 +12,14 @@
                         <template v-if="item.type == 'select'">
                             <el-form-item :label="item.label">
                                 <el-select v-model="formDatas[item.field]" placeholder="请选择">
-                                    <el-option v-for="(itemSelect,selectIndex) in item.combo" :key="selectIndex" :label="itemSelect.label" :value="itemSelect.value"></el-option>
+                                    <el-option v-for="(itemSelect,selectIndex) in item.dataSource" :key="selectIndex" :label="itemSelect.label" :value="itemSelect.value"></el-option>
                                 </el-select>
                             </el-form-item>
                         </template>
                         <template v-if="item.type == 'radio'">
                             <el-form-item :label="item.label">
                                 <el-radio-group v-model="formDatas[item.field]">
-                                    <el-radio :label="1">是</el-radio>
-                                    <el-radio :label="0">否</el-radio>
+                                    <el-radio v-for="(itemRadio,radioIndex) in item.dataSource" :label="itemRadio.value" :key="radioIndex">{{itemRadio.label}}</el-radio>
                                 </el-radio-group>
                             </el-form-item>
                         </template>
@@ -87,6 +86,7 @@ let defaultConfig = [
         label: '字段九'
     },
 ];
+
 export default {
     name: 'SearchComp',
     props: {
@@ -97,20 +97,31 @@ export default {
         },
         serverUrl: {
             default() {
-                return '/ocm-web/api/b2b/query-balance/queryFundReserve'
+                return ''
             }
         },
     },
     data() {
         return {
-            searchConfigInner: [],//元数据，
             formDatas: {},//v-model数据绑定
         }
     },
     methods: {
         search() {
             let _this = this;
-            let formData = this.formDatas;
+            let formData = Object.assign({},this.formDatas);
+            //时间段处理
+            let dateTypeArr = ['datePickerRange'];
+            _this.searchConfig.forEach(obj => {
+                if (dateTypeArr.includes(obj.type)) {
+                    if (formData[obj.field]) {
+                        formData[`${obj.field}Begin`] = formData[obj.field][0].getTime();
+                        formData[`${obj.field}End`] = formData[obj.field][1].getTime();
+                        delete formData[obj.field];
+                    }
+                }
+            });
+            //时间处理
             let paramsWrap = {
                 params: {
                     customerId: this.$store.state.customerId,
@@ -124,16 +135,15 @@ export default {
                 });
         },
         reset() {
-            let formDatas = this.formDatas;
-            Object.keys(formDatas).forEach(key => {
-                formDatas[key] = '';
+            let _this = this;
+            _this.searchConfig.forEach(obj => {
+                _this.formDatas[obj.field] = '';
             })
         }
     },
     mounted() {
         let _this = this;
-        _this.searchConfigInner = this.searchConfig
-        _this.formDatas = _this.searchConfigInner.reduce((acc, obj) => {
+        _this.formDatas = _this.searchConfig.reduce((acc, obj) => {
             return Object.assign(
                 {},
                 acc,
