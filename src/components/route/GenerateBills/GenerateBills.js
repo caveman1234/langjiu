@@ -70,6 +70,7 @@ export default {
         CostOffEvent(calcMoney, useOffMoney, calcDataTable) {
             let _this = this;
             _this.calcMoney = calcMoney;
+            _this.calcDataTable = calcDataTable;
             /* 
             calcMoney :[]每行的折扣
             useOffMoney 输入的金额
@@ -114,15 +115,15 @@ export default {
             /* 使用费用表格 */
             let calcDataTable = this.calcDataTable.map(v => v.currentMoney);
             let purchaseOrderItems = this.goodsData.map(v => {
-                let discountAmount = '';
-                let dealAmount = '';
-                let fundAmount = '';
-                let fundFee = '';
-                let fundCash = '';
-                let realAmount = '';
+                var discountAmount = '';
+                var dealAmount = '';
+                var fundAmount = '';
+                var fundFee = '';
+                var fundCash = '';
+                var realAmount = '';
                 if (Array.isArray(this.calcMoney)) {
-                    let currentObj = this.calcMoney.find(aObj => aObj.productId == v.productId);
-                    let { discountAmount, dealAmount, fundAmount, fundFee, fundCash, realAmount } = currentObj;
+                    var currentObj = this.calcMoney.find(aObj => aObj.productId == v.productId);
+                    var { discountAmount, dealAmount, fundAmount, fundFee, fundCash, realAmount } = currentObj;
                 }
                 return {
                     productId: v.productId,
@@ -183,7 +184,7 @@ export default {
                 fFeeUsedAmount: calcDataTable[2],
                 purchaseOrderItems: purchaseOrderItems
             };
-
+            debugger
             //销售订单请求地址
             let sreverUrl = '/ocm-web/api/b2b/purchase-orders/submit';
             if (_this.carriageMethod == '03') {

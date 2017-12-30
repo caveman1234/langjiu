@@ -59,6 +59,7 @@ let defaultConfig = [
         type: 'select',
         field: 'field6',
         label: '字段六',
+        defaultValue: 1,
         dataSource: [
             {
                 label: '选项一',
@@ -150,13 +151,13 @@ export default {
     },
     mounted() {
         let _this = this;
-        //设置form表单需要的字段
+        //设置form表单需要的字段--其默认值
         _this.formDatas = _this.searchConfig.reduce((acc, obj) => {
             return Object.assign(
                 {},
                 acc,
                 {
-                    [obj.field]: ''
+                    [obj.field]: (obj.defaultValue ? obj.defaultValue : '')
                 }
             );
         }, {});
