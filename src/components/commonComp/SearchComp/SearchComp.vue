@@ -59,7 +59,7 @@ let defaultConfig = [
         type: 'select',
         field: 'field6',
         label: '字段六',
-        combo: [
+        dataSource: [
             {
                 label: '选项一',
                 value: 1
@@ -108,13 +108,14 @@ export default {
     },
     methods: {
         search(pageParams) {
+            let _this = this;
             let page = 0;
-            let size = 20;
+            let size = 10;
             if (pageParams.hasOwnProperty('page')) {
                 page = pageParams.page;
                 size = pageParams.size;
             }
-            let _this = this;
+            //浅拷贝from表单数据
             let formData = Object.assign({}, this.formDatas);
             //时间段处理
             let dateTypeArr = ['datePickerRange'];
@@ -123,11 +124,11 @@ export default {
                     if (formData[obj.field]) {
                         formData[`${obj.field}Begin`] = formData[obj.field][0].getTime();
                         formData[`${obj.field}End`] = formData[obj.field][1].getTime();
-                        delete formData[obj.field];
                     }
+                    delete formData[obj.field];
                 }
             });
-            //时间处理
+            //拼接参数
             let paramsWrap = {
                 params: {
                     customerId: this.$store.state.customerId,
@@ -136,12 +137,9 @@ export default {
                     size
                 }
             };
-            debugger
             let url = _this.serverUrl;
             _this.$http.get(url, paramsWrap)
-                .then(res => {
-                    _this.$emit('receiveData', res.data);
-                });
+                .then(res => _this.$emit('receiveData', res.data));
         },
         reset() {
             let _this = this;
@@ -152,6 +150,7 @@ export default {
     },
     mounted() {
         let _this = this;
+        //设置form表单需要的字段
         _this.formDatas = _this.searchConfig.reduce((acc, obj) => {
             return Object.assign(
                 {},

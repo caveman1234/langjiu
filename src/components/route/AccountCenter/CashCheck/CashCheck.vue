@@ -12,10 +12,13 @@
                 @size-change="handleSizeChange"
                 @current-change="handleCurrentChange"
                 :current-page="pageParams.pageIndex"
-                :page-sizes="[20, 50, 100, 200]"
+                :page-sizes="[10, 20, 50, 100]"
                 :page-size="pageParams.pageSize"
                 layout="total, sizes, prev, pager, next, jumper"
-                :total="pageParams.totalPage">
+                :total="pageParams.total"
+                prev-text="上一页"
+                next-text="下一页"
+            >
             </el-pagination>
         </div>
     </div>
@@ -36,18 +39,20 @@ export default {
         return {
             searchConfig: searchConfig,
             tableData: [],
+            //分页参数
             pageParams:{
                 pageIndex:1,
-                pageSize:20,
-                totalPage:0
+                pageSize:10,
+                total:0
             }
         }
     },
     methods: {
         receiveData(data) {
             this.tableData = data.content;
-            this.pageParams.size = data.size;
-            this.pageParams.totalPage = data.totalPages;
+            this.pageParams.pageSize = data.size;//每页数量
+            this.pageParams.total = data.totalElements;//总页数
+            this.pageParams.pageIndex = data.number + 1;//当前页
         },
         handleSizeChange(pageSize){
             let _this = this;
@@ -71,7 +76,7 @@ export default {
     mounted(){
         let _this = this;
         let params = {
-                page:_this.pageParams.pageIndex - 1,
+                page:0,
                 size:_this.pageParams.pageSize
             };
         _this.$refs.searchRef.search(params);
