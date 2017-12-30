@@ -4,7 +4,7 @@
         <div class="tableContainer">
             <el-table :data="tableData">
                 <el-table-column prop="dbilldate" label="日期"></el-table-column>
-                <el-table-column prop="sybCode" label="事业部编码"></el-table-column>
+                <el-table-column prop="syb" label="事业部编码"></el-table-column>
                 <el-table-column prop="sybName" label="事业部名称"></el-table-column>
                 <el-table-column prop="billcode" label="单据号"></el-table-column>
                 <el-table-column prop="memo" label="摘要"></el-table-column>

@@ -107,9 +107,15 @@ export default {
         }
     },
     methods: {
-        search() {
+        search(pageParams) {
+            let page = 0;
+            let size = 20;
+            if (pageParams.hasOwnProperty('page')) {
+                page = pageParams.page;
+                size = pageParams.size;
+            }
             let _this = this;
-            let formData = Object.assign({},this.formDatas);
+            let formData = Object.assign({}, this.formDatas);
             //时间段处理
             let dateTypeArr = ['datePickerRange'];
             _this.searchConfig.forEach(obj => {
@@ -125,9 +131,12 @@ export default {
             let paramsWrap = {
                 params: {
                     customerId: this.$store.state.customerId,
-                    ...formData
+                    ...formData,
+                    page,
+                    size
                 }
             };
+            debugger
             let url = _this.serverUrl;
             _this.$http.get(url, paramsWrap)
                 .then(res => {
@@ -155,6 +164,6 @@ export default {
     }
 }
 </script>
-<style lang="scss" scoped>
+<style lang="scss" >
 @import './SearchComp.scss';
 </style>
