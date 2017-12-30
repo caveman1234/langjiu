@@ -43,8 +43,9 @@ import TotalOrder from '@/components/route/OrderCenter/MyOrderList/TotalOrder/To
 
 
 import MainPage from '@/components/MainPage/MainPage'
-import Login from '@/components/Login/Login'
-import Login1 from '@/components/Login/Login1.vue'
+
+import Login from '@/components/Login/Login.vue'
+import ChangePassword from '@/components/ChangePassword/ChangePassword.vue'
 
 /* 合同中心 */
 import ContractCenter from '@/components/route/ContractCenter/ContractCenter'
@@ -58,7 +59,7 @@ export default new Router({
             component: MainPage,
             children: [{
                     path: '',
-                    redirect: '/Login1'
+                    redirect: '/Login'
                 },
                 {
                     path: '/Home',
@@ -235,9 +236,14 @@ export default new Router({
             ]
         },
         {
-            path: '/Login1',
-            name: 'Login1',
-            component: Login1
+            path: '/Login',
+            name: 'Login',
+            component: Login
+        },
+        {
+            path: '/ChangePassword',
+            name: 'ChangePassword',
+            component: ChangePassword
         }
 
     ],

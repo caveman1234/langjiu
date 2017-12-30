@@ -1,24 +1,37 @@
 <template>
-    <div class="Login">
-        <div class="LoginContainer">
-            <div class="title">用户登陆</div>
-            <el-form :model="loginForm" status-icon :rules="rules" ref="ruleForm2" label-width="100px" size="small" style="width:100%;" class="loginForm">
-                <el-form-item label="用户名：" prop="username">
-                    <el-input v-model="loginForm.username"></el-input>
-                </el-form-item>
-                <el-form-item label="密码：" prop="password">
-                    <el-input type="password" v-model="loginForm.password"></el-input>
-                </el-form-item>
-                <el-form-item>
-                    <el-button type="primary" @click="submitForm('ruleForm2')">登陆</el-button>
-                    <el-button @click="resetForm('ruleForm2')">清空</el-button>
-                </el-form-item>
-            </el-form>
+    <div class="Login1">
+        <div class="wrap-box">
+            <div class="login-top-bg">
+                <div class="login-top-con clearfix">
+                    <a href="#" class="logo-img"></a>
+                    <div class="logo-txt">郎酒经销商门户</div>
+                </div>
+            </div>
+            <div class="login-con-box">
+                <div :style='{backgroundImage:`url(${imgUrl})`}' class="login-bg">
+                    <div class="logContainer">
+                        <div class="loginTitle">欢迎登陆</div>
+                        <el-form :model="loginForm" status-icon :rules="rules" ref="ruleForm2" label-width="120px" size="small" style="width:100%;" class="loginForm">
+                            <el-form-item label="用户名：" prop="username">
+                                <el-input v-model="loginForm.username"></el-input>
+                            </el-form-item>
+                            <el-form-item label="密码：" prop="password">
+                                <el-input type="password" v-model="loginForm.password">
+                                    <!-- <i class="el-icon-edit el-input__icon" slot="suffix"></i> -->
+                                </el-input>
+                            </el-form-item>
+                            <el-form-item class="formBottom">
+                                <el-button type="primary" @click="submitForm('ruleForm2')">登陆</el-button>
+                                <el-button @click="resetForm('ruleForm2')">清空</el-button>
+                            </el-form-item>
+                        </el-form>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
 <script>
-
 export default {
     name: 'Login',
     data() {
@@ -48,7 +61,8 @@ export default {
                 password: [
                     { validator: pawsswordV, message: '密码不能为空' }
                 ]
-            }
+            },
+            imgUrl: require('../../assets/images/login-bg.jpg')
         }
     },
     methods: {
@@ -61,14 +75,22 @@ export default {
                         url: '/ocm-web/api/account/login',
                         data: _this.loginForm
                     }).then(res => {
+                        debugger
+                        //首次登陆，没改密码
+
                         if (res.headers["x-ocm-code"] == '1') {
+                            _this.$store.commit('userloginName', res.data.userloginName);
                             _this.$store.commit('setCustomerId', res.data.customerId);
+                            _this.$store.commit('changeUsername', res.data.username);
                             _this.$router.push({ name: 'Home' });
                             _this.$Notification.success({
                                 title: decodeURI(res.headers["x-ocm-message"]),
                                 offset: 90,
                                 duration: 3000
                             });
+                            if (res.data.isPwdModify == 0) {
+                                _this.$router.push({ name: 'ChangePassword' });
+                            }
                         }
 
                     });
@@ -84,7 +106,6 @@ export default {
     }
 }
 </script>
-<style lang="scss" scoped>
-@import "./Login.scss";
+<style lang="scss">
+@import './Login.scss';
 </style>
-

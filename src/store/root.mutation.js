@@ -28,6 +28,9 @@ let mutations = {
     },
     [types.userloginName](store, userloginName) {
         store.userloginName = userloginName;
+    },
+    [types.changeUsername](store, username) {
+        store.username = username;
     }
 };
 export default mutations;

@@ -1,7 +1,8 @@
 let state = {
     purchaseCount: 0,
     customerId: "5f797111-a54a-4473-b71b-1b27a9e1da03", //红旗
-    prodGroupId: '',
+    prodGroupId: '', //产品线
+    username: '', //用户名
     navList: [
         { name: "首页", routeTo: "/Home", hasSelected: true },
         { name: "合同中心", routeTo: "/ContractCenter", hasSelected: false },

@@ -92,10 +92,13 @@
             font-size: 25px;
             right: -2px;
             bottom: 14px;
-            color: #E7442E;
+            color: $color999;
             i {
                 font-size: 24px;
             }
+        }
+        .selectedIconRed {
+            color: #E7442E;
         }
     }
 }

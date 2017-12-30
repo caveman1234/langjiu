@@ -183,7 +183,6 @@ export default {
                 fFeeUsedAmount: calcDataTable[2],
                 purchaseOrderItems: purchaseOrderItems
             };
-            debugger
 
             //销售订单请求地址
             let sreverUrl = '/ocm-web/api/b2b/purchase-orders/submit';
@@ -191,12 +190,20 @@ export default {
                 //融资订单请求地址
                 sreverUrl = '/ocm-web/api/b2b/purchase-orders/financing-submit';
             }
-            _this.$http.post(sreverUrl, params)
-                .then(res => {
-                    if (res.headers["x-ocm-code"] == '1') {
-                        _this.$router.push({ name: 'TotalOrder' });
-                    }
-                });
+            _this.$confirm('此操作不可逆，是否提交？', '提交', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning',
+                center: true
+            }).then(() => {
+                _this.$http.post(sreverUrl, params)
+                    .then(res => {
+                        if (res.headers["x-ocm-code"] == '1') {
+                            _this.$router.push({ name: 'TotalOrder' });
+                        }
+                    });
+            }).catch(() => {});
+
         },
         /* 获取收货地址 */
         fetchAddress() {

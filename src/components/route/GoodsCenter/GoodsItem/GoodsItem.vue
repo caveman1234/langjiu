@@ -6,10 +6,8 @@
             <div class="price">¥{{birefData.basicPrice||'暂无价格'}}</div>
             <div class="textDetail">{{birefData.productDesc}}</div>
             <div class="store">
-                <!-- <span>库存:</span>
-                            <span>{{birefData.count}}瓶</span> -->
             </div>
-            <div v-if="birefData.hasPurchase" class="selectedIcon">
+            <div :class="[birefData.hasPurchase?'selectedIconRed':'']" class="selectedIcon">
                 <i class="el-icon-success"></i>
             </div>
         </div>

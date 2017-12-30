@@ -8,6 +8,8 @@
                 <div class="right">
                     <span>欢迎:{{userloginName}}</span>
                     <a @click="logOut">注销</a>
+                    <a @click="changePwd">修改密码</a>
+
                 </div>
 
             </div>
@@ -33,8 +35,8 @@
                             <span class="text">进货单</span>
                         </el-badge>
                         <!-- <span class="text">进货单
-                                                        <i>{{purchaseCount}}</i>
-                                                    </span> -->
+                                                            <i>{{purchaseCount}}</i>
+                                                        </span> -->
                     </div>
                     <div class="searchSection">
                         <div class="searchInp">
@@ -76,9 +78,14 @@ export default {
             this.$store.commit('changeCurrentNav', { hash: '' })
         },
         logOut() {
-            this.$router.push('Login1');
+            this.$router.push('Login');
             //清空ID
             this.$store.commit('setCustomerId', '');
+            //清空用户名
+            this.$store.commit('changeUsername', '');
+        },
+        changePwd() {
+            this.$router.push({ name: 'ChangePassword' });
         }
 
     },
