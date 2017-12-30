@@ -50,7 +50,11 @@ function install(Vue) {
         return formatDate.join('-');
     });
     Vue.filter('formatPrice', function(value) {
-        return `¥${value}`
+        if (value == null || value == undefined || value == '' || value == 0) {
+            return '¥0.00';
+        } else {
+            return '¥' + Number(value).toFixed(2);
+        }
     });
 
     /* *****************************-axios-*********************************** */

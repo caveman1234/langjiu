@@ -39,7 +39,7 @@
                     </el-table-column>
                     <el-table-column prop="totalAmount" label="金额">
                         <template slot-scope="scope">
-                            <div v-red>{{scope.row.totalAmount}}</div>
+                            <div v-red>{{scope.row.totalAmount | formatPrice}}</div>
                         </template>
                     </el-table-column>
                     <el-table-column prop="billStatusName" label="状态"></el-table-column>

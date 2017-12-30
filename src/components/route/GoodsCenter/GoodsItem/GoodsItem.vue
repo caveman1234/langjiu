@@ -3,7 +3,7 @@
         <div :style='{"backgroundImage":`url(${birefData.imageUrl || defaultImg})`}' class="imgContainer">
         </div>
         <div class="textContent">
-            <div class="price">¥{{birefData.basicPrice||'暂无价格'}}</div>
+            <div class="price">¥{{Number(birefData.basicPrice).toFixed(2)||'暂无价格'}}</div>
             <div class="textDetail">{{birefData.productDesc}}</div>
             <div class="store">
             </div>

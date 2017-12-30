@@ -4,7 +4,7 @@
             <div class="login-top-bg">
                 <div class="login-top-con clearfix">
                     <a href="#" class="logo-img"></a>
-                    <div class="logo-txt">郎酒经销商门户</div>
+                    <div class="logo-txt">郎酒CRM数字营销系统</div>
                 </div>
             </div>
             <div class="login-con-box">

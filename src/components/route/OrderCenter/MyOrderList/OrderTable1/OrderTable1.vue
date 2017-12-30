@@ -48,7 +48,11 @@
                             </div>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="basePrice" label="单价"> </el-table-column>
+                    <el-table-column prop="basePrice" label="单价">
+                        <template slot-scope="scope">
+                            <div>{{scope.row.basePrice|formatPrice}}</div>
+                        </template>
+                    </el-table-column>
                     <el-table-column prop="boxCount" label="数量">
                         <template slot-scope="scope">
                             <div>

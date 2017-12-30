@@ -8,9 +8,27 @@
                 <el-table-column prop="sybName" label="事业部名称"></el-table-column>
                 <el-table-column prop="billcode" label="单据号"></el-table-column>
                 <el-table-column prop="memo" label="摘要"></el-table-column>
-                <el-table-column prop="amount" label="收入"></el-table-column>
-                <el-table-column prop="amount" label="支出"></el-table-column>
-                <el-table-column prop="amount" label="余额"></el-table-column>
+                <el-table-column prop="amount" label="收入">
+                    <template slot-scope="scope">
+                        <div>
+                            <div>{{scope.row.amount|formatPrice}}</div>
+                        </div>
+                    </template>
+                </el-table-column>
+                <el-table-column prop="amount" label="支出">
+                    <template slot-scope="scope">
+                        <div>
+                            <div>{{scope.row.amount|formatPrice}}</div>
+                        </div>
+                    </template>
+                </el-table-column>
+                <el-table-column prop="amount" label="余额">
+                    <template slot-scope="scope">
+                        <div>
+                            <div>{{scope.row.amount|formatPrice}}</div>
+                        </div>
+                    </template>
+                </el-table-column>
             </el-table>
             <el-pagination
                 @size-change="handleSizeChange"

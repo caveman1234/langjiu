@@ -7,7 +7,7 @@
                         <div class="text">现金余额:</div>
                     </el-col>
                     <el-col :span="12">
-                        <div class="money">¥{{totalCash}}</div>
+                        <div class="money">{{totalCash|formatPrice}}</div>
                     </el-col>
                     <el-col :span="7">
                         <!-- <div class="lookDetail">查看明细
@@ -22,7 +22,7 @@
                         <div class="text">费用余额:</div>
                     </el-col>
                     <el-col :span="12">
-                        <div class="money">¥{{totalCost}}</div>
+                        <div class="money">{{totalCost|formatPrice}}</div>
                     </el-col>
                     <el-col :span="7">
                         <div class="lookDetail">查看明细
@@ -37,7 +37,7 @@
                         <div class="text">共建基金余额:</div>
                     </el-col>
                     <el-col :span="12">
-                        <div class="money">¥{{totalBuildRest}}</div>
+                        <div class="money">{{totalBuildRest|formatPrice}}</div>
                     </el-col>
                     <el-col :span="7">
                         <div class="lookDetail">查看明细
@@ -52,7 +52,7 @@
                         <div class="text">保证金余额:</div>
                     </el-col>
                     <el-col :span="12">
-                        <div class="money">¥{{totalPromiseRest}}</div>
+                        <div class="money">{{totalPromiseRest|formatPrice}}</div>
                     </el-col>
                     <el-col :span="7">
                         <div class="lookDetail">查看明细

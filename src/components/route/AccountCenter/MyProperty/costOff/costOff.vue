@@ -3,23 +3,48 @@
         <div class="title">费用余额明细</div>
         <el-table :data="tableDataArr">
             <el-table-column prop="syb" label="产品线"></el-table-column>
-            <el-table-column prop="eReserve" label="E"></el-table-column>
-            <el-table-column prop="qReserve" label="Q"></el-table-column>
-            <el-table-column prop="fReserve" label="F"></el-table-column>
-            <el-table-column prop="total" label="合计"></el-table-column>
+            <el-table-column prop="eReserve" label="E">
+                <template slot-scope="scope">
+                    <div>
+                        <div>{{scope.row.standard}}</div>
+                    </div>
+                </template>
+            </el-table-column>
+            <el-table-column prop="qReserve" label="Q">
+                <template slot-scope="scope">
+                    <div>
+                        <div>{{scope.row.qReserve|formatPrice}}</div>
+                    </div>
+                </template>
+            </el-table-column>
+            <el-table-column prop="fReserve" label="F">
+                <template slot-scope="scope">
+                    <div>
+                        <div>{{scope.row.fReserve|formatPrice}}</div>
+                    </div>
+                </template>
+            </el-table-column>
+            <el-table-column prop="total" label="合计">
+                <template slot-scope="scope">
+                    <div>
+                        <div>{{scope.row.total|formatPrice}}</div>
+                    </div>
+                </template>
+            </el-table-column>
         </el-table>
     </div>
 </template>
 <script>
+//formatPrice
 export default {
-    name:'costOff',
-    props:['tableDataArr'],
-    data(){
+    name: 'costOff',
+    props: ['tableDataArr'],
+    data() {
         return {
-            tableData:[]
+            tableData: []
         }
     },
-    mounted(){
+    mounted() {
     }
 }
 </script>

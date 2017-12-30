@@ -9,21 +9,29 @@
                 <el-table-column prop="ctype" label="费用类型"></el-table-column>
                 <el-table-column prop="billcode" label="单据号"></el-table-column>
                 <el-table-column prop="memo" label="摘要"></el-table-column>
-                <el-table-column prop="amount" label="收入"></el-table-column>
-                <el-table-column prop="amount" label="支出"></el-table-column>
-                <el-table-column prop="amount" label="余额"></el-table-column>
+                <el-table-column prop="amount" label="收入">
+                    <template slot-scope="scope">
+                        <div>
+                            <div>{{scope.row.amount|formatPrice}}</div>
+                        </div>
+                    </template>
+                </el-table-column>
+                <el-table-column prop="amount" label="支出">
+                    <template slot-scope="scope">
+                        <div>
+                            <div>{{scope.row.amount|formatPrice}}</div>
+                        </div>
+                    </template>
+                </el-table-column>
+                <el-table-column prop="amount" label="余额">
+                    <template slot-scope="scope">
+                        <div>
+                            <div>{{scope.row.amount|formatPrice}}</div>
+                        </div>
+                    </template>
+                </el-table-column>
             </el-table>
-            <el-pagination
-                @size-change="handleSizeChange"
-                @current-change="handleCurrentChange"
-                :current-page="pageParams.pageIndex"
-                :page-sizes="[10, 20, 50, 100]"
-                :page-size="pageParams.pageSize"
-                layout="total, sizes, prev, pager, next, jumper"
-                :total="pageParams.total"
-                prev-text="上一页"
-                next-text="下一页"
-            >
+            <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="pageParams.pageIndex" :page-sizes="[10, 20, 50, 100]" :page-size="pageParams.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="pageParams.total" prev-text="上一页" next-text="下一页">
             </el-pagination>
         </div>
     </div>
@@ -79,10 +87,10 @@ export default {
             searchConfig: searchConfig,
             tableData: [],
             //分页参数
-            pageParams:{
-                pageIndex:1,
-                pageSize:10,
-                total:0
+            pageParams: {
+                pageIndex: 1,
+                pageSize: 10,
+                total: 0
             }
         }
     },
@@ -107,21 +115,21 @@ export default {
                     _this.searchConfig = searchConfig;
                 })
         },
-        handleSizeChange(pageSize){
+        handleSizeChange(pageSize) {
             let _this = this;
             _this.pageParams.pageSize = pageSize;
             let params = {
-                page:_this.pageParams.pageIndex - 1,
-                size:_this.pageParams.pageSize
+                page: _this.pageParams.pageIndex - 1,
+                size: _this.pageParams.pageSize
             };
             _this.$refs.searchRef.search(params);
         },
-        handleCurrentChange(pageIndex){
+        handleCurrentChange(pageIndex) {
             let _this = this;
             _this.pageParams.pageIndex = pageIndex;
             let params = {
-                page:_this.pageParams.pageIndex - 1,
-                size:_this.pageParams.pageSize
+                page: _this.pageParams.pageIndex - 1,
+                size: _this.pageParams.pageSize
             };
             _this.$refs.searchRef.search(params);
         },
@@ -131,9 +139,9 @@ export default {
         let _this = this;
         _this.fetchSysDataSource()
         let params = {
-                page:0,
-                size:_this.pageParams.pageSize
-            };
+            page: 0,
+            size: _this.pageParams.pageSize
+        };
         _this.$refs.searchRef.search(params);
     }
 }
