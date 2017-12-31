@@ -42,8 +42,8 @@
                 <div class="opacity0">1</div>
             </el-col>
             <el-col :span="4">
+                <el-button @click="reset" size="mini">清空</el-button>
                 <el-button @click="search" type="primary" size="mini">搜索</el-button>
-                <el-button @click="reset" type="primary" size="mini">清空</el-button>
             </el-col>
         </el-row>
     </div>

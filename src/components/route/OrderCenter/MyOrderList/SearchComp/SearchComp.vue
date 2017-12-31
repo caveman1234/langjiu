@@ -30,7 +30,7 @@
                     </el-date-picker>
                 </el-col>
                 <el-col :span="2">
-                    <el-button @click="clearSearchData" size="mini" type="primary">清空</el-button>
+                    <el-button @click="clearSearchData" size="mini">清空</el-button>
                 </el-col>
                 <el-col :span="2">
                     <el-button id="searchBtn" @click="searchData" size="mini" type="primary">搜索</el-button>

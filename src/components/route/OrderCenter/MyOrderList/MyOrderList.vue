@@ -1,10 +1,10 @@
 <template>
     <div class="MyOrderList">
         <div class="topList">
-            <!-- <el-tabs @tab-click="tabClick" tab-position="top">
+            <el-tabs @tab-click="tabClick" tab-position="top">
                 <el-tab-pane label="全部订单"></el-tab-pane>
                 <el-tab-pane label="暂存订单"></el-tab-pane>
-            </el-tabs> -->
+            </el-tabs>
         </div>
         <div class="searchBox">
             <router-view></router-view>
