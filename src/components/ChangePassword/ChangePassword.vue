@@ -13,13 +13,19 @@
                         <div class="loginTitle">修改密码</div>
                         <el-form :model="loginForm" status-icon :rules="rules" ref="ruleForm2" label-width="120px" size="small" style="width:100%;" class="loginForm">
                             <el-form-item label="用户名：">
-                                <el-input v-model="loginForm.username" disabled></el-input>
+                                <el-input v-model="loginForm.username" disabled>
+                                    <i class="icon iconfont lj-account" slot="prefix"></i>
+                                </el-input>
                             </el-form-item>
                             <el-form-item label="新密码：" prop="password">
-                                <el-input type="password" v-model="loginForm.password"></el-input>
+                                <el-input type="password" v-model="loginForm.password">
+                                    <i class="icon iconfont lj-password" slot="prefix"></i>
+                                </el-input>
                             </el-form-item>
                             <el-form-item label="确认新密码：" prop="rePassword">
-                                <el-input type="password" v-model="loginForm.rePassword"></el-input>
+                                <el-input type="password" v-model="loginForm.rePassword">
+                                    <i class="icon iconfont lj-password" slot="prefix"></i>
+                                </el-input>
                             </el-form-item>
                             <el-form-item class="formBottom">
                                 <el-button type="primary" @click="changePwd('ruleForm2')">确认修改</el-button>

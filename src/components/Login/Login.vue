@@ -13,11 +13,13 @@
                         <div class="loginTitle">欢迎登陆</div>
                         <el-form :model="loginForm" status-icon :rules="rules" ref="ruleForm2" label-width="120px" size="small" style="width:100%;" class="loginForm">
                             <el-form-item label="用户名：" prop="username">
-                                <el-input v-model="loginForm.username"></el-input>
+                                <el-input v-model="loginForm.username">
+                                    <i class="icon iconfont lj-account" slot="prefix"></i>
+                                </el-input>
                             </el-form-item>
                             <el-form-item label="密码：" prop="password">
                                 <el-input type="password" v-model="loginForm.password">
-                                    <!-- <i class="el-icon-edit el-input__icon" slot="suffix"></i> -->
+                                    <i class="icon iconfont lj-password" slot="prefix"></i>
                                 </el-input>
                             </el-form-item>
                             <el-form-item class="formBottom">

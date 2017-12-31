@@ -223,12 +223,11 @@ export default {
             return this.searchData.reduce((acc, v) => (acc + v.reserve), 0).toFixed(2)
         },
         placeholderMax(){
-            let maxUsed = Number(this.totalMoney*this.ratio).toFixed(2);
-            if(this.moneyRest>maxUsed){
-                return maxUsed
-            }else{
-                return this.moneyRest;
-            }
+            //本次最大使用金额
+            let maxUsed = this.totalMoney*this.ratio;
+            //费用余额
+            let moneyRest =this.moneyRest;
+            return String(Math.min(maxUsed,moneyRest).toFixed(2));
         }
     },
     mounted() {
