@@ -142,6 +142,23 @@
                     </div>
                 </el-col>
             </el-row>
+            <el-row v-show="financingChecked">
+                <el-col :span="5">
+                    <div class="calcLeft">1</div>
+                </el-col>
+                <el-col :span="19">
+                    <div class="calcRight">
+                        <el-col :span="7">
+                            <div class="calcRightName">现金余额：</div>
+                        </el-col>
+                        <el-col :span="17">
+                            <el-col :span="5">
+                                <span class="calcRightMoney">¥{{billFooger.cashRest}}</span>
+                            </el-col>
+                        </el-col>
+                    </div>
+                </el-col>
+            </el-row>
             <el-row class="realTotal">
                 <el-col :span="5">
                     <div class="calcLeft">1</div>

@@ -1,9 +1,9 @@
 <template>
     <div class="MyOrderList">
         <div class="topList">
-            <el-tabs @tab-click="tabClick" tab-position="top">
-                <el-tab-pane label="全部订单"></el-tab-pane>
-                <el-tab-pane label="暂存订单"></el-tab-pane>
+            <el-tabs @tab-click="tabClick" tab-position="top" v-model="currentChecked">
+                <el-tab-pane label="全部订单" name="total"></el-tab-pane>
+                <el-tab-pane label="待审核订单" name="waitCheck"></el-tab-pane>
             </el-tabs>
         </div>
         <div class="searchBox">
@@ -16,7 +16,7 @@ export default {
     name: 'MyOrderList',
     data() {
         return {
-            
+            currentChecked: 'total'
         }
     },
     methods: {
@@ -33,7 +33,14 @@ export default {
                     this.$router.push({ path: '/TotalOrder' });
                     break;
             }
-         }
+        }
+    },
+    mounted() {
+        let _this = this;
+        let from = _this.$route.params.from;
+        if(from == 'Home'){
+            _this.currentChecked = 'waitCheck';
+        }
     }
 }
 </script>

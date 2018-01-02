@@ -10,40 +10,43 @@
             </div>
             <div class="msgContainer">
                 <div class="msg">
-                    <div class="title">消息公告</div>
+                    <div class="title">公告</div>
                     <ul>
-                        <li v-for="(item,index) in msgArr" :key="index">{{item}}</li>
+                        <li v-for="(item,index) in msgArr" :key="index" v-html="item.title" @click="msgItemClick(item)"></li>
                     </ul>
+                    <div @click="lookMore" class="more">查看更多
+                        <i class="el-icon-d-arrow-right"></i>
+                    </div>
                 </div>
                 <div class="wait">
                     <div class="title">待办事项</div>
                     <div class="waitItems">
                         <div class="row1">
-                            <div class="left">
+                            <div @click="willCheckOrder" class="left">
                                 <div>
-                                    <i class="el-icon-document"></i>
+                                    <i class="icon iconfont lj-daishenhe"></i>
                                 </div>
-                                <div>待提交订单</div>
+                                <div>待审核订单</div>
                             </div>
-                            <div class="right">
+                            <div @click="willSendApply" class="right">
                                 <div>
-                                    <i class="el-icon-document"></i>
+                                    <i class="icon iconfont lj-daishenhe"></i>
                                 </div>
-                                <div>处理中订单</div>
+                                <div>待审核发货申请</div>
                             </div>
                         </div>
                         <div class="row2">
-                            <div class="left">
+                            <div @click="willReturnApply" class="left">
                                 <div>
-                                    <i class="el-icon-document"></i>
+                                    <i class="icon iconfont lj-daishenhe"></i>
                                 </div>
-                                <div>待发货订单</div>
+                                <div>待审核退换货申请 </div>
                             </div>
                             <div class="right">
                                 <div>
-                                    <i class="el-icon-document"></i>
+                                    <i class="icon iconfont lj-daishenhe"></i>
                                 </div>
-                                <div>签收单</div>
+                                <div>待审核费用</div>
                             </div>
                         </div>
                     </div>
@@ -53,20 +56,12 @@
     </div>
 </template>
 <script>
-let msgArr = [
-    '新华社为郎酒打CALL 八方八方八方',
-    '郎牌特曲广告全新升级 扎根扎根扎根',
-    '白酒行业高速发展风口，汪汪汪汪汪汪白酒行业高速发展风口，汪汪汪汪汪汪',
-    '俊林董事长倡议共建、共享共享共享',
-    '青花郎诞生记…',
-    '青花郎诞生记…'
-];
 export default {
     name: 'Home',
     data() {
         return {
-            msgArr: msgArr,
-            imageArr:[
+            msgArr: [],
+            imageArr: [
                 require('../../../assets/images/banner1.jpg'),
                 require('../../../assets/images/banner2.jpg'),
                 require('../../../assets/images/banner3.jpg')
@@ -75,11 +70,45 @@ export default {
     },
 
     methods: {
-
-        handleClick() { }
+        handleClick() { },
+        msgItemClick(msgContent) {
+            let _this = this;
+            _this.$router.push({ name: 'MsgContent', params: { msgContent } });
+        },
+        lookMore() {
+            this.$router.push({ name: 'MsgCenter' })
+        },
+        fetchMsg() {
+            let _this = this;
+            let paramsWrap = {
+                params: {
+                    customerId: _this.$store.state.customerId,
+                    page: 0,
+                    size: 9
+                }
+            };
+            return _this.$http.get('/ocm-web/api/notice/pageQuery', paramsWrap)
+                .then(res => res.data);
+        },
+        //待提交订单
+        willCheckOrder() {
+            this.$router.push({ name: 'SavedOrder', params: { from: 'Home' } });
+        },
+        //待发货申请
+        willSendApply() {
+            this.$router.push({ name: 'DeliverList', params: { from: 'DeliverList' } });
+        },
+        //待退货申请
+        willReturnApply() {
+            this.$router.push({ name: 'ReturnList', params: { from: 'ReturnList' } });
+        }
     },
     mounted() {
-        this.$store.commit('changeCurrentNav', { hash: '/Home' });
+        let _this = this;
+        _this.$store.commit('changeCurrentNav', { hash: '/Home' });
+        _this.fetchMsg().then(res => {
+            _this.msgArr = res.content;
+        })
     }
 }
 </script>

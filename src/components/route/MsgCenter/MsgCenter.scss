@@ -1,6 +1,25 @@
+@import 'src/css/colors.scss';
 .MsgCenter {
     background: white;
     padding-bottom: 80px;
     padding-left: 30px;
     padding-right: 30px;
+    min-height: 800px;
+    ul {
+        list-style: none;
+        li {
+            line-height: 30px;
+            font-size: 15px;
+            border-bottom: 1px dashed $color999;
+            // color: $color999;
+            &:hover {
+                color: $redColor !important;
+            }
+            cursor: pointer;
+            .content {}
+            .time {
+                float: right;
+            }
+        }
+    }
 }

@@ -1,0 +1,22 @@
+@import 'src/css/colors.scss';
+.MsgContent {
+    min-height: 800px;
+    background: white;
+    color: $color333;
+    box-sizing: border-box;
+    padding: 10px;
+    .msgTitle {
+        font-size: 20px;
+        text-align: center;
+    }
+    .msgTime {
+        text-align: center;
+        color: $color999;
+    }
+    .msgContainer {
+        margin-top: 15px;
+        pre {
+            white-space: pre-wrap !important;
+        }
+    }
+}

@@ -1,10 +1,10 @@
 <template>
     <div class="OrderCenter">
         <div class="leftList">
-            <el-tabs @tab-click="tabClick" tab-position="left">
-                <el-tab-pane label="我的订单列表"></el-tab-pane>
-                <el-tab-pane label="发货申请列表"></el-tab-pane>
-                <el-tab-pane label="退货申请列表"></el-tab-pane>
+            <el-tabs @tab-click="tabClick" tab-position="left" v-model="currentCheck">
+                <el-tab-pane label="我的订单列表" name="TotalOrder"></el-tab-pane>
+                <el-tab-pane label="发货申请列表" name="DeliverList"></el-tab-pane>
+                <el-tab-pane label="退货申请列表" name="ReturnList"></el-tab-pane>
             </el-tabs>
         </div>
         <div class="orderContainer">
@@ -18,7 +18,7 @@ export default {
     name: 'OrderCenter',
     data() {
         return {
-
+            currentCheck: 'TotalOrder'
         }
     },
     methods: {
@@ -45,6 +45,16 @@ export default {
     },
     mounted() {
         this.$store.commit('changeCurrentNav', { hash: '/OrderCenter' });
+        switch (this.$route.params.from) {
+            case 'DeliverList':
+                this.currentCheck = 'DeliverList';
+                break;
+            case 'ReturnList':
+                this.currentCheck = 'ReturnList';
+                break;
+            default:
+                this.currentCheck = 'TotalOrder';
+        }
 
     }
 }

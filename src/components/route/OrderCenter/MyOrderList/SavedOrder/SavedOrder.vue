@@ -133,7 +133,7 @@ export default {
             searchParams: {
                 serverUrl: '/ocm-web/api/b2b/purchase-orders/search-all-orders',
                 poTypeBusinessType: "01,03,04",
-                "billStatusCode": "01",
+                "billStatusCode": "02",//已提交状态code
                 distributorIds: this.$store.state.customerId
             }
         }
@@ -142,6 +142,8 @@ export default {
         searchData(orderData) {
             this.orderData = orderData;
          }
+    },
+    mounted(){
     }
 }
 </script>

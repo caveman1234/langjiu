@@ -15,7 +15,7 @@
                     <div class="searchName">订单状态：</div>
                 </el-col>
                 <el-col :span="10">
-                    <el-select size="mini" v-model="searchCondition.orderStatus" placeholder="请选择" style="width:100%;">
+                    <el-select size="mini" v-model="searchCondition.billStatusCode" placeholder="请选择" style="width:100%;" :disabled="orderStatusDisabled">
                         <el-option v-for="item in searchCondition.orderStatusCombo" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
                     </el-select>
@@ -78,7 +78,7 @@ export default {
                 /* 订单类型v-model */
                 orderType: '',
                 /* 订单状态 */
-                orderStatus: '',
+                billStatusCode: '',
                 /* 日期范围 */
                 orderDateRange: '',
                 /* 订单类型combo */
@@ -86,6 +86,7 @@ export default {
                 /* 订单状态combo */
                 orderStatusCombo: []
             },
+            orderStatusDisabled:false
 
         }
     },
@@ -101,11 +102,10 @@ export default {
             let params = {
                 distributorIds: this.searchParams.distributorIds,
                 poTypeBusinessType: this.searchParams.poTypeBusinessType,
-                billStatusCode: this.searchParams.billStatusCode,
                 orderDateStart: startTime,
                 orderDateEnd: endTime,
                 poTypeId: this.searchCondition.orderType,
-                billStatusCode: this.searchCondition.orderStatus
+                billStatusCode: this.searchParams.billStatusCode || this.searchCondition.billStatusCode
             };
             let loadingInstance1 = _this.$loading.service({ fullscreen: true });
             _this.$http.post(this.searchParams.serverUrl, params)
@@ -144,6 +144,10 @@ export default {
         /* 获取下拉框 */
         this.fetchCombos();
         this.searchData();
+        this.searchCondition.billStatusCode = this.searchParams.billStatusCode;
+        if(this.searchParams.billStatusCode){
+            this.orderStatusDisabled = true;
+        }
     }
 }
 </script>

@@ -22,6 +22,9 @@ import MyInfo from '@/components/route/AccountCenter/MyInfo/MyInfo'
 
 
 import MsgCenter from '@/components/route/MsgCenter/MsgCenter'
+import MsgContent from '@/components/route/MsgCenter/MsgContent/MsgContent'
+
+
 import PurchaseBills from '@/components/route/PurchaseBills/PurchaseBills'
 import GenerateBills from '@/components/route/GenerateBills/GenerateBills.vue'
 import GenerateBillsEdit from '@/components/route/GenerateBills/GenerateBillsEdit/GenerateBillsEdit.vue'
@@ -232,6 +235,11 @@ export default new Router({
                     path: '/ContractCenter',
                     name: 'ContractCenter',
                     component: ContractCenter
+                },
+                {
+                    path: '/MsgContent',
+                    name: 'MsgContent',
+                    component: MsgContent
                 }
             ]
         },

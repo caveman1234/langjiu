@@ -82,14 +82,14 @@ export default {
             deductionMoney 抵扣货款金额：
             cashRest  现金余额：
             */
-            this.useOffMoney = useOffMoney;
+            this.useOffMoney = Number(useOffMoney).toFixed(2);
 
             /* 写订单footer */
             _this.billFooger.dealAmount = calcMoney.reduce((acc, v) => (acc + v.dealAmount), 0).toFixed(2);
             _this.billFooger.xType = calcMoney.reduce((acc, v) => (acc + v.fundCash), 0).toFixed(2);
             _this.billFooger.notXtype = calcMoney.reduce((acc, v) => (acc + v.fundFee), 0).toFixed(2);
             _this.billFooger.deductionMoney = calcMoney.reduce((acc, v) => (acc + v.discountAmount), 0).toFixed(2);
-            _this.fetchCashRest().then(cashRest => _this.billFooger.cashRest = cashRest);
+            _this.fetchCashRest().then(cashRest => _this.billFooger.cashRest = Number(cashRest).toFixed(2));
         },
         /* 在线支付 */
         payOnline() {

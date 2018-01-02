@@ -70,6 +70,10 @@ let searchConfig = [
             {
                 label: 'Q',
                 value: 'Q'
+            },
+            {
+                label: 'F',
+                value: 'F'
             }
         ]
     },

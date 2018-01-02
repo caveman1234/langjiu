@@ -40,11 +40,6 @@ let tabArr = [
         routeName: 'PromiseCheck'
     },
     {
-        label: '业务往来对账',
-        name: 'BusinessCheck',
-        routeName: 'BusinessCheck'
-    },
-    {
         label: '电子发票下载',
         name: 'BillDownload',
         routeName: 'BillDownload'
