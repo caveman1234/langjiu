@@ -79,7 +79,7 @@
                     <div class="opacity">1</div>
                 </el-col>
                 <el-col :span="2" v-if="prodGroupId">
-                    <CostOff :goodsData="goodsData" :totalMoney="totalMoney" @CostOffEvent="CostOffEvent"></CostOff>
+                    <CostOff ref="costOffRef" :goodsData="goodsData" :totalMoney="totalMoney" @CostOffEvent="CostOffEvent"></CostOff>
                 </el-col>
             </el-row>
         </div>

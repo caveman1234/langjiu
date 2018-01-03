@@ -34,7 +34,23 @@ import ApplyReturn from '@/components/route/ApplyReturn/ApplyReturn'
 import OrderCenter from '@/components/route/OrderCenter/OrderCenter'
 /* 订单children */
 import DeliverList from '@/components/route/OrderCenter/DeliverList/DeliverList'
+
+import DeliverCheckNotPass from '@/components/route/OrderCenter/DeliverList/DeliverCheckNotPass/DeliverCheckNotPass'
+import DeliverCheckPass from '@/components/route/OrderCenter/DeliverList/DeliverCheckPass/DeliverCheckPass'
+import DeliverComplete from '@/components/route/OrderCenter/DeliverList/DeliverComplete/DeliverComplete'
+import DeliverTotal from '@/components/route/OrderCenter/DeliverList/DeliverTotal/DeliverTotal'
+import DeliverWaitCheck from '@/components/route/OrderCenter/DeliverList/DeliverWaitCheck/DeliverWaitCheck'
+
+
 import ReturnList from '@/components/route/OrderCenter/ReturnList/ReturnList'
+
+import ReturnTotal from '@/components/route/OrderCenter/ReturnList/ReturnTotal/ReturnTotal'
+import ReturnWaitCheck from '@/components/route/OrderCenter/ReturnList/ReturnWaitCheck/ReturnWaitCheck'
+import ReturnCheckPass from '@/components/route/OrderCenter/ReturnList/ReturnCheckPass/ReturnCheckPass'
+import ReturnCheckNotPass from '@/components/route/OrderCenter/ReturnList/ReturnCheckNotPass/ReturnCheckNotPass'
+import ReturnComplete from '@/components/route/OrderCenter/ReturnList/ReturnComplete/ReturnComplete'
+
+
 import MyOrderList from '@/components/route/OrderCenter/MyOrderList/MyOrderList'
 //去提货 eidt--
 import GoPickGoods from '@/components/route/OrderCenter/GoPickGoods/GoPickGoods.vue'
@@ -91,12 +107,72 @@ export default new Router({
                         {
                             path: '/DeliverList',
                             name: 'DeliverList',
-                            component: DeliverList
+                            component: DeliverList,
+                            children: [{
+                                    path: '',
+                                    redirect: '/DeliverTotal'
+                                },
+                                {
+                                    path: '/DeliverCheckNotPass',
+                                    name: 'DeliverCheckNotPass',
+                                    component: DeliverCheckNotPass
+                                },
+                                {
+                                    path: '/DeliverCheckPass',
+                                    name: 'DeliverCheckPass',
+                                    component: DeliverCheckPass
+                                },
+                                {
+                                    path: '/DeliverComplete',
+                                    name: 'DeliverComplete',
+                                    component: DeliverComplete
+                                },
+                                {
+                                    path: '/DeliverTotal',
+                                    name: 'DeliverTotal',
+                                    component: DeliverTotal
+                                },
+                                {
+                                    path: '/DeliverWaitCheck',
+                                    name: 'DeliverWaitCheck',
+                                    component: DeliverWaitCheck
+                                },
+                            ]
                         },
                         {
                             path: '/ReturnList',
                             name: 'ReturnList',
-                            component: ReturnList
+                            component: ReturnList,
+                            children: [{
+                                    path: '',
+                                    redirect: '/ReturnTotal'
+                                },
+                                {
+                                    path: '/ReturnTotal',
+                                    name: 'ReturnTotal',
+                                    component: ReturnTotal
+                                },
+                                {
+                                    path: '/ReturnWaitCheck',
+                                    name: 'ReturnWaitCheck',
+                                    component: ReturnWaitCheck
+                                },
+                                {
+                                    path: '/ReturnCheckPass',
+                                    name: 'ReturnCheckPass',
+                                    component: ReturnCheckPass
+                                },
+                                {
+                                    path: '/ReturnCheckNotPass',
+                                    name: 'ReturnCheckNotPass',
+                                    component: ReturnCheckNotPass
+                                },
+                                {
+                                    path: '/ReturnComplete',
+                                    name: 'ReturnComplete',
+                                    component: ReturnComplete
+                                },
+                            ]
                         },
                         {
                             path: '/MyOrderList',

@@ -55,11 +55,9 @@ export default {
             default:
                 this.currentCheck = 'TotalOrder';
         }
-
     }
 }
 </script>
 <style lang="scss">
 @import "./OrderCenter.scss";
 </style>
-

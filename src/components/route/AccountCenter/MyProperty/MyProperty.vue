@@ -11,8 +11,8 @@
                     </el-col>
                     <el-col :span="7">
                         <!-- <div class="lookDetail">查看明细
-                                                                                    <i class="el-icon-d-arrow-right"></i>
-                                                                                </div> -->
+                                                                                        <i class="el-icon-d-arrow-right"></i>
+                                                                                    </div> -->
                     </el-col>
                 </el-row>
             </div>
@@ -67,7 +67,7 @@
                         <div class="text">未发货金额:</div>
                     </el-col>
                     <el-col :span="12">
-                        <div class="money">¥50002.00</div>
+                        <div class="money">{{notDeliver|formatPrice}}</div>
                     </el-col>
                     <el-col :span="7">
 
@@ -96,6 +96,7 @@ export default {
             totalBuildRest: 0,//总共建基金
             currentShow: '',//费用(costOff)|保证金(promiseRest)|共建基金(buildRest)
             tableDataArr: [],
+            notDeliver: 0,//未发货金额
             //缓存表格明细信息
             cacheTableDataArr: {
                 cashTableDataArr: [],
@@ -224,6 +225,20 @@ export default {
                     }
                 });
         },
+        //获取未发货金额
+        fetchNotDeliverDetail() {
+            let _this = this;
+            let url = '/ocm-web/api/b2b/purchase-orders/countUnSendedAmountByCustomerId';
+            let paramsWrap = {
+                params: {
+                    customerId: this.$store.state.customerId
+                }
+            }
+            _this.$http.get(url, paramsWrap)
+                .then(res => {
+                    _this.notDeliver = res.data;
+                })
+        }
 
 
 
@@ -250,6 +265,7 @@ export default {
             _this.cacheTableDataArr.buildTableDataArr = data;
             _this.totalBuildRest = total;
         });
+        _this.fetchNotDeliverDetail();
     }
 }
 </script>

@@ -157,7 +157,6 @@ export default {
                 _this.$http.get(url, paramsWrap)
                     .then(res => _this.$emit('receiveData', res.data));
             } else {
-                debugger
                 _this.$http.post(url, paramsWrap.params)
                     .then(res => _this.$emit('receiveData', res.data));
             }

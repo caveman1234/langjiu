@@ -1,89 +1,57 @@
 <template>
     <div class="ReturnList">
-        <SearchComp @searchData="searchData" :searchParams="searchParams"></SearchComp>
-        <ReturnDeliverTable :orderData="orderData"></ReturnDeliverTable>
+       <div class="topList">
+            <el-tabs @tab-click="tabClick" tab-position="top" v-model="currentChecked">
+                <el-tab-pane label="全部订单" name="total"></el-tab-pane>
+                <el-tab-pane label="待审核订单" name="waitCheck"></el-tab-pane>
+                <el-tab-pane label="审核通过" name="checkPass"></el-tab-pane>
+                <el-tab-pane label="审核不通过" name="notCheckPass"></el-tab-pane>
+                <el-tab-pane label="已完成" name="complete"></el-tab-pane>
+            </el-tabs>
+        </div>
+        <div class="searchBox">
+            <router-view></router-view>
+        </div>
     </div>
 </template>
 <script>
-import SearchComp from '../MyOrderList/SearchComp/SearchComp.vue';
-import ReturnDeliverTable from '../ReturnDeliverTable/ReturnDeliverTable';
-let orderData = [
-    {
-        orderDate: 1496678400000,
-        poTypeCode: 'langjiu123',
-        billStatusName: "已审核",
-        totalAmount: 1000,
-        purchaseOrderItems: [
-            {
-                imageUrl: "src/assets/goodsItem.png",
-                productDesc: "5郎酒红花郎10 53度酱香500度酱香500度酱香500度酱香500",
-                "standard": 500,
-                "productModel": 53,
-                applyNum: 20,
-                money: 4000.00,
-                orderStatus: "待退货",
-                basePrice: 120
-            },
-            {
-                // imageUrl: "src/assets/goodsItem.png",
-                productDesc: "6郎酒红花郎10 53度酱香500度酱香500度酱香500度酱香500",
-                "standard": 500,
-                "productModel": 53,
-                applyNum: 20,
-                money: 4000.00,
-                orderStatus: "待退货",
-                basePrice: 120
-            }
-        ]
-    },
-    {
-        orderDate: 1496678400000,
-        poTypeCode: 'langjiu124',
-        billStatusName: "未审核",
-        totalAmount: 1000,
-        purchaseOrderItems: [
-            {
-                imageUrl: "src/assets/goodsItem.png",
-                productDesc: "7郎酒红花郎10 53度酱香500度酱香500度酱香500度酱香500",
-                "standard": 500,
-                "productModel": 53,
-                applyNum: 20,
-                money: 4000.00,
-                orderStatus: "审批中",
-                basePrice: 120
-            },
-            {
-                imageUrl: "src/assets/goodsItem.png",
-                productDesc: "8郎酒红花郎10 53度酱香500度酱香500度酱香500度酱香500",
-                "standard": 500,
-                "productModel": 53,
-                applyNum: 20,
-                money: 4000.00,
-                orderStatus: "待退货",
-                basePrice: 120
-            }
-        ]
-    }
-
-];
 export default {
     name: 'ReturnList',
-    components: { SearchComp, ReturnDeliverTable },
     data() {
         return {
-            orderData: [],
-            /* 搜索条件 */
-            searchParams: {
-                serverUrl: '/ocm-web/api/b2b/purchase-orders/search-all-orders',
-                poTypeBusinessType: "02",
-                distributorIds: this.$store.state.customerId
-            }
+            currentChecked: 'total'
         }
     },
     methods: {
-        searchData(orderData) {
-            this.orderData = orderData;
+        tabClick(tab) {
+            let index = tab.index;
+            switch (index) {
+                case '0':
+                    this.$router.push({ path: '/ReturnTotal' });
+                    break;
+                case '1':
+                    this.$router.push({ path: '/ReturnWaitCheck' });
+                    break;
+                case '2':
+                    this.$router.push({ path: '/ReturnCheckPass' });
+                    break;
+                case '3':
+                    this.$router.push({ path: '/ReturnCheckNotPass' });
+                    break;
+                case '4':
+                    this.$router.push({ path: '/ReturnComplete' });
+                    break;
+                default:
+                    break;
+            }
         }
+    },
+    mounted() {
+        let _this = this;
+        let from = _this.$route.params.from;
+        // if(from == 'Home'){
+        //     _this.currentChecked = 'waitCheck';
+        // }
     }
 }
 </script>

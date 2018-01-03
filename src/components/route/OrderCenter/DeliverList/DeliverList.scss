@@ -1,4 +1,29 @@
+@import 'src/css/colors.scss';
 .DeliverList {
+    background: white;
     min-height: 400px;
     padding: 10px 27px 27px 27px;
+    box-sizing: border-box;
+    .topList {
+        .el-tabs--top {
+            position: relative;
+            .el-tabs__header {
+                .el-tabs__item {
+                    font-weight: 400;
+                    color: #333333;
+                    &:hover {
+                        color: #E7442E;
+                    }
+                }
+                .is-active {
+                    color: #E7442E;
+                    font-size: 14px;
+                    font-weight: 400;
+                }
+                .el-tabs__active-bar {
+                    background-color: #E7442E;
+                }
+            }
+        }
+    }
 }

@@ -24,7 +24,7 @@
                         <el-row>
                             <el-col :span="8">
                                 <el-form-item label="本次最大使用金额：" label-width="130px" style="font-size:12px;">
-                                    <div>{{(totalMoney*ratio).toFixed(2)}}</div>
+                                    <div>{{(totalMoney*ratio).toFixed(2) > moneyRest ? moneyRest : (totalMoney*ratio).toFixed(2)}}</div>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="14">
@@ -121,25 +121,36 @@ export default {
         },
         /* 打开弹窗 */
         handleOpen() {
-            this.fetchMoneyType();
-            this.fetchUseOffMoney();
+            // this.fetchMoneyType();
+            // this.fetchUseOffMoney();
         },
         cancel() {
             this.dialogVisible = false;
         },
         /* 确认 */
-        confirm() {
+        confirm(isMainPage) {
             let _this = this;
             /* 验证 */
-            _this.$refs.form1.validate(valide => {
-                if (valide) {
-                    this.fetchCalcMoney()
-                        .then(calcMoney => {
-                            _this.dialogVisible = false;
-                            _this.$emit('CostOffEvent', calcMoney, _this.formData.useOffMoney, _this.searchData);
-                        });
-                }
-            });
+            //主页进来就加载计算
+            if (isMainPage) {
+                this.fetchCalcMoney()
+                    .then(calcMoney => {
+                        _this.dialogVisible = false;
+                        _this.$emit('CostOffEvent', calcMoney, _this.formData.useOffMoney, _this.searchData);
+                    });
+            } else {
+                _this.$refs.form1.validate(valide => {
+                    if (valide) {
+                        this.fetchCalcMoney()
+                            .then(calcMoney => {
+                                _this.dialogVisible = false;
+                                _this.$emit('CostOffEvent', calcMoney, _this.formData.useOffMoney, _this.searchData);
+                            });
+                    }
+                });
+            }
+
+
         },
         /* 输入框改变事件 */
         useOffMoneyChange(value, oldValue) {
@@ -222,18 +233,17 @@ export default {
         moneyRest() {
             return this.searchData.reduce((acc, v) => (acc + v.reserve), 0).toFixed(2)
         },
-        placeholderMax(){
+        placeholderMax() {
             //本次最大使用金额
-            let maxUsed = this.totalMoney*this.ratio;
+            let maxUsed = this.totalMoney * this.ratio;
             //费用余额
-            let moneyRest =this.moneyRest;
-            return String(Math.min(maxUsed,moneyRest).toFixed(2));
+            let moneyRest = this.moneyRest;
+            return String(Math.min(maxUsed, moneyRest).toFixed(2));
         }
     },
     mounted() {
-        // this.fetchUseOffMoney();
-        // this.fetchMoneyType();
-        // this.this.useOffMoney = this.totalMoney * this.ratio;
+        this.fetchMoneyType();
+        this.fetchUseOffMoney();
     }
 }
 </script>

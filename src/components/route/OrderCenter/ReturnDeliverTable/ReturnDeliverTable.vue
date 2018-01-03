@@ -9,7 +9,7 @@
                         <el-col :span="2">订单时间:</el-col>
                         <el-col :span="2">{{item.orderDate|formatDate}}</el-col>
                         <el-col :span="2">订单编号:</el-col>
-                        <el-col :span="2">{{item.poTypeCode}}</el-col>
+                        <el-col :span="2">{{item.orderCode}}</el-col>
                     </el-row>
                 </div>
                 <el-table :data="item.purchaseOrderItems" border style="width: 100%">

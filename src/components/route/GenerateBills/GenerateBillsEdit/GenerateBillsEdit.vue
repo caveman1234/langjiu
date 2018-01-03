@@ -39,7 +39,7 @@
                             <div>{{scope.row.baseQuantity}} </div>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="paymentTotalMoney" label="货款金额">
+                    <el-table-column prop="paymentTotalMoney" label="货款金额" width="180px">
                         <template slot-scope="scope">
                             <div>{{scope.row.paymentTotalMoney|formatPrice}}</div>
                         </template>
