@@ -31,21 +31,21 @@ $redColor: #E7442E;
 
 .el-button--primary:focus,
 .el-button--primary:hover {
-    background: #e26f5e;
-    border-color: #e26f5e;
+    background: #e26f5e !important;
+    border-color: #e26f5e !important;
     color: #fff;
 }
 
 .el-button--primary {
     color: #fff;
-    background-color: #E7442E;
-    border-color: #E7442E;
+    background-color: #E7442E !important;
+    border-color: #E7442E !important;
 }
 
 .el-button--primary.is-active,
 .el-button--primary:active {
-    background: #e26f5e;
-    border-color: #e26f5e;
+    background: #e26f5e !important;
+    border-color: #e26f5e !important;
     color: #fff;
 }
 
@@ -56,18 +56,18 @@ $redColor: #E7442E;
 /* input  active 颜色 */
 
 .el-select .el-input.is-focus .el-input__inner {
-    border-color: #E7442E;
+    border-color: #E7442E !important;
 }
 
 .el-input.is-active .el-input__inner,
 .el-input__inner:focus {
-    border-color: #E7442E;
+    border-color: #E7442E !important;
     outline: 0;
 }
 
 .el-input-number__decrease:hover:not(.is-disabled)~.el-input .el-input__inner:not(.is-disabled),
 .el-input-number__increase:hover:not(.is-disabled)~.el-input .el-input__inner:not(.is-disabled) {
-    border-color: #E7442E;
+    border-color: #E7442E !important;
 }
 
 
@@ -75,25 +75,25 @@ $redColor: #E7442E;
 
 .el-range-editor.is-active,
 .el-range-editor.is-active:hover {
-    border-color: #E7442E;
+    border-color: #E7442E !important;
 }
 
 
 /* radio*/
 
 .el-radio__input.is-checked+.el-radio__label {
-    color: #E7442E;
+    color: #E7442E !important;
 }
 
 .el-radio__input.is-checked .el-radio__inner {
-    border-color: #E7442E;
-    background: #E7442E;
+    border-color: #E7442E !important;
+    background: #E7442E !important;
 }
 
 
 /* select */
 
 .el-select-dropdown__item.selected {
-    color: #E7442E;
+    color: #E7442E !important;
     font-weight: 700;
 }

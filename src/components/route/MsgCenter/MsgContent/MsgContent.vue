@@ -52,7 +52,6 @@ export default {
     },
     mounted() {
         let _this = this;
-        debugger
         _this.msgContent = _this.$route.params.msgContent;
         _this.origin = location.origin;
     }

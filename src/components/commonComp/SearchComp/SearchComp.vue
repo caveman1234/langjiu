@@ -101,6 +101,19 @@ export default {
                 return ''
             }
         },
+        //额外字段
+        extralParams: {
+            default() {
+                return {
+
+                }
+            }
+        },
+        method: {
+            default() {
+                return 'get'
+            }
+        }
     },
     data() {
         return {
@@ -133,14 +146,22 @@ export default {
             let paramsWrap = {
                 params: {
                     customerId: this.$store.state.customerId,
-                    ...formData,
+                    ...formData,//搜索的form表单数据
+                    ..._this.extralParams,//搜索的额外字段
                     page,
                     size
                 }
             };
             let url = _this.serverUrl;
-            _this.$http.get(url, paramsWrap)
-                .then(res => _this.$emit('receiveData', res.data));
+            if (this.method == 'get') {
+                _this.$http.get(url, paramsWrap)
+                    .then(res => _this.$emit('receiveData', res.data));
+            } else {
+                debugger
+                _this.$http.post(url, paramsWrap.params)
+                    .then(res => _this.$emit('receiveData', res.data));
+            }
+
         },
         reset() {
             let _this = this;

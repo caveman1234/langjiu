@@ -1,152 +1,116 @@
 <template>
     <div class="TotalOrder">
-        <SearchComp ref="searchComp" @searchData="searchData" :searchParams="searchParams"></SearchComp>
-        <!-- <OrderTable :orderData="orderData"></OrderTable> -->
+        <SearchComp ref="searchRef" :searchConfig="searchConfig" @receiveData="receiveData" :extralParams="extralParams" method="post" serverUrl="/ocm-web/api/b2b/purchase-orders/search-all-orders"></SearchComp>
         <OrderTable1 :orderData="orderData"></OrderTable1>
+        <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="pageParams.pageIndex" :page-sizes="[10, 20, 50, 100]" :page-size="pageParams.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="pageParams.total" prev-text="上一页" next-text="下一页">
+        </el-pagination>
     </div>
 </template>
 <script>
-import SearchComp from '../SearchComp/SearchComp';
-import OrderTable from '../OrderTable/OrderTable';
 import OrderTable1 from '../OrderTable1/OrderTable1';
-let orderData = [
+import SearchComp from '@/components/commonComp/SearchComp/SearchComp';
+let searchConfig = [
     {
-        totalTakeMoney: 2000,/* 累计提货金额 */
-        totalFillMoney: 1000,/* 累计填仓金额 */
-        poTypeName: "融资订单",
-        orderDate: 1496678400000,
-        poTypeCode: "1234",
-        billStatusName: "已审核",
-        waitNotice: "是",/* 待提货通知 */
-        totalApplyNum: 10,/* 累计申请发货数量 */
-        orderNum: 20,/* 订单数量 */
-        totalAmount: 1000,
-        purchaseOrderItems: [
-            {
-                // imageUrl: "src/assets/goodsItem.png",
-                productDesc: "1郎酒 红花郎（10）陈酿 53度整箱装 白酒 558m l*6瓶（箱内有礼)",
-                standard: 500,
-                "productModel": 53,
-                basePrice: 1000,
-                num: 5,
-                money: 4000,
-                orderStatus: '已审核',
-                "imgUrl": "src/assets/goodsItem.png",
-                "brief": "郎酒红花郎10 53度酱香500度酱香500度酱香500度酱香500",
-                "price": 1668,
-                "count": 1980,
-                "hasPurchase": false,
-                "id": "12345id1",
-                "boxCount": 10,
-                "bottolCount": 20,
-                "costOffMoney": 1000,
-                "commonBuild": 2000,
-                "volume": 500,
-
-            },
-            {
-                imageUrl: "src/assets/goodsItem.png",
-                productDesc: "2郎酒 红花郎（10）陈酿 53度整箱装 白酒 558m l*6瓶（箱内有礼)",
-                standard: 500,
-                "productModel": 53,
-                basePrice: 1000,
-                num: 5,
-                money: 4000,
-                orderStatus: '已审核',
-                "imgUrl": "src/assets/goodsItem.png",
-                "brief": "郎酒红花郎10 53度酱香500度酱香500度酱香500度酱香500",
-                "price": 1668,
-                "count": 1980,
-                "hasPurchase": false,
-                "id": "12345id1",
-                "boxCount": 10,
-                "bottolCount": 20,
-                "costOffMoney": 1000,
-                "commonBuild": 2000,
-                "volume": 500,
-            }
-        ]
+        type: 'select',
+        field: 'poTypeId',
+        label: '订单类型：',
+        dataSource: []
     },
     {
-        totalTakeMoney: 2000,/* 累计提货金额 */
-        totalFillMoney: 1000,/* 累计填仓金额 */
-        poTypeName: "融资订单",
-        orderDate: 1514097811000,
-        poTypeCode: "1235",
-        billStatusName: "已审核",
-        waitNotice: "是",/* 待提货通知 */
-        totalApplyNum: 10,/* 累计申请发货数量 */
-        orderNum: 20,/* 订单数量 */
-        totalAmount: 1000,
-        purchaseOrderItems: [
-            {
-                imageUrl: "src/assets/goodsItem.png",
-                productDesc: "3郎酒 红花郎（10）陈酿 53度整箱装 白酒 558m l*6瓶（箱内有礼)",
-                standard: 500,
-                "productModel": 53,
-                basePrice: 1000,
-                num: 5,
-                money: 4000,
-                orderStatus: '已审核',
-                "imgUrl": "src/assets/goodsItem.png",
-                "brief": "郎酒红花郎10 53度酱香500度酱香500度酱香500度酱香500",
-                "price": 1668,
-                "count": 1980,
-                "hasPurchase": false,
-                "id": "12345id1",
-                "boxCount": 10,
-                "bottolCount": 20,
-                "costOffMoney": 1000,
-                "commonBuild": 2000,
-                "volume": 500,
-
-            },
-            {
-                imageUrl: "src/assets/goodsItem.png",
-                productDesc: "4郎酒 红花郎（10）陈酿 53度整箱装 白酒 558m l*6瓶（箱内有礼)",
-                standard: 500,
-                "productModel": 53,
-                basePrice: 1000,
-                num: 5,
-                money: 4000,
-                orderStatus: '已审核',
-                "imgUrl": "src/assets/goodsItem.png",
-                "brief": "郎酒红花郎10 53度酱香500度酱香500度酱香500度酱香500",
-                "price": 1668,
-                "count": 1980,
-                "hasPurchase": false,
-                "id": "12345id1",
-                "boxCount": 10,
-                "bottolCount": 20,
-                "costOffMoney": 1000,
-                "commonBuild": 2000,
-                "volume": 500,
-            }
-        ]
+        type: 'select',
+        field: 'billStatusCode',
+        label: '订单状态：',
+        dataSource: []
+    },
+    {
+        type: 'datePickerRange',
+        field: 'orderDate',
+        label: '订单日期：'
+    },
+    {
+        type: 'input',
+        field: 'orderCode',
+        label: '订单编号：'
     }
 ];
 export default {
     name: 'TotalOrder',
-    components: { SearchComp, OrderTable, OrderTable1 },
+    components: { SearchComp, OrderTable1 },
     data() {
         return {
             orderData: [],
-            /* 搜索条件 */
-            searchParams: {
-                serverUrl: '/ocm-web/api/b2b/purchase-orders/search-all-orders',
+            //分页参数
+            pageParams: {
+                pageIndex: 1,
+                pageSize: 10,
+                total: 0
+            },
+            searchConfig: searchConfig,
+            //搜索额外字段
+            extralParams: {
                 poTypeBusinessType: "01,03,04",
-                distributorIds: this.$store.state.customerId
+                distributorIds: this.$store.state.customerId,
             }
         }
     },
     methods: {
-        searchData(data) {
-            this.orderData = data;
+        receiveData(data) {
+            this.orderData = data.content;
+            this.pageParams.pageSize = data.size;//每页数量
+            this.pageParams.total = data.totalElements;//总页数
+            this.pageParams.pageIndex = data.number + 1;//当前页
+        },
+        handleSizeChange(pageSize) {
+            let _this = this;
+            _this.pageParams.pageSize = pageSize;
+            let params = {
+                page: _this.pageParams.pageIndex - 1,
+                size: _this.pageParams.pageSize
+            };
+            _this.$refs.searchRef.search(params);
+        },
+        handleCurrentChange(pageIndex) {
+            let _this = this;
+            _this.pageParams.pageIndex = pageIndex;
+            let params = {
+                page: _this.pageParams.pageIndex - 1,
+                size: _this.pageParams.pageSize
+            };
+            _this.$refs.searchRef.search(params);
+        },
+        fetchOrderType() {
+            let _this = this;
+            /* 获取订单类型 */
+            return _this.$http.get('/ocm-web/api/b2b/po-types/get-common')
+                .then(res => {
+                    return res.data.map(v => ({ label: v.name, value: v.id }));
+                });
+        },
+        fetchOrderStatus() {
+            let _this = this;
+            /* 获取订单状态 */
+            return _this.$http.get('/ocm-web/api/b2b/billstatus/getAll')
+                .then(res => {
+                    return res.data.map(v => ({ label: v.name, value: v.value }));
+                });
         }
     },
     mounted() {
         let _this = this;
-        _this.$refs.searchComp.searchData();
+        let params = {
+            page: 0,
+            size: _this.pageParams.pageSize
+        };
+        //页面初始化搜索
+        _this.$refs.searchRef.search(params);
+        //获取订单类型下拉框
+        _this.fetchOrderType().then(res => {
+            _this.searchConfig[0].dataSource = res;
+        });
+        //获取订单状态下拉框
+        _this.fetchOrderStatus().then(res => {
+            _this.searchConfig[1].dataSource = res;
+        });
     }
 }
 </script>

@@ -2,7 +2,7 @@
     <div class="OrderTable1">
         <template v-for="(item,index) in orderData">
             <div class="orderWrap" :key="index">
-                
+
                 <div class="orderHeader">
                     <el-row>
                         <el-col :span="2">订单类型:</el-col>
@@ -16,8 +16,7 @@
                         <el-col :span="2">订单状态:</el-col>
                         <el-col v-red :span="2">{{item.billStatusName}}</el-col>
                         <el-col :span="2">
-                            
-                            
+
                         </el-col>
                     </el-row>
                 </div>
@@ -28,6 +27,9 @@
                         </el-col>
                         <el-col v-if="item.isNoticeSend == 1 && item.isApplySendOver == 0" :span="2">
                             <el-button size="mini" type="primary">申请发货</el-button>
+                        </el-col>
+                        <el-col :span="2">
+                            <el-button @click="goFinancing(item)" size="mini" type="primary">去融资</el-button>
                         </el-col>
                     </el-row>
                 </div>
@@ -62,17 +64,17 @@
                         </template>
                     </el-table-column>
                     <!-- <el-table-column prop="" label="金额">
-                                    <template slot-scope="scope">
-                                        <div v-red>{{item.totalAmount | formatPrice}}</div>
-                                    </template>
-                                </el-table-column>
-                                <el-table-column prop="" label="操作">
-                                    <template slot-scope="scope">
-                                        <div>
-                                            <el-button size="mini" type="primary">去融资</el-button>
-                                        </div>
-                                    </template>
-                                </el-table-column> -->
+                                        <template slot-scope="scope">
+                                            <div v-red>{{item.totalAmount | formatPrice}}</div>
+                                        </template>
+                                    </el-table-column>
+                                    <el-table-column prop="" label="操作">
+                                        <template slot-scope="scope">
+                                            <div>
+                                                <el-button size="mini" type="primary">去融资</el-button>
+                                            </div>
+                                        </template>
+                                    </el-table-column> -->
                 </el-table>
             </div>
         </template>
@@ -162,6 +164,19 @@ export default {
                     }
                 }
             }
+        },
+        //去融资
+        goFinancing(item) {
+            let _this = this;
+            let params = {
+                mastContCode: item.id,//订单id
+                clientId: _this.$store.state.customerId//客户id
+            };
+            let url = '/ocm-web/api/cmbc/pushOrderInfoToCmbc';
+            _this.$http.post(url, params)
+                .then(res => {
+                    debugger
+                })
         }
     },
     mounted() {

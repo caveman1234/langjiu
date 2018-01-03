@@ -11,7 +11,7 @@
                 <GoodsItem @itemClick="itemClick" :birefData="item" :key="index" class="items"></GoodsItem>
             </template>
         </div>
-        <div @click="goBuyGoods" class="goBuyGoods">去进货
+        <div @click="goBuyGoods" class="goBuyGoods">去结算
             <i>{{selectedCount}}</i>
         </div>
     </div>

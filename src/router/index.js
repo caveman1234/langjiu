@@ -45,6 +45,11 @@ import SavedOrder from '@/components/route/OrderCenter/MyOrderList/SavedOrder/Sa
 import TotalOrder from '@/components/route/OrderCenter/MyOrderList/TotalOrder/TotalOrder'
 
 
+import CheckPass from '@/components/route/OrderCenter/MyOrderList/CheckPass/CheckPass'
+import Complete from '@/components/route/OrderCenter/MyOrderList/Complete/Complete'
+import NotCheckPass from '@/components/route/OrderCenter/MyOrderList/NotCheckPass/NotCheckPass'
+
+
 import MainPage from '@/components/MainPage/MainPage'
 
 import Login from '@/components/Login/Login.vue'
@@ -110,6 +115,21 @@ export default new Router({
                                     path: '/SavedOrder',
                                     name: 'SavedOrder',
                                     component: SavedOrder
+                                },
+                                {
+                                    path: '/CheckPass',
+                                    name: 'CheckPass',
+                                    component: CheckPass
+                                },
+                                {
+                                    path: '/Complete',
+                                    name: 'Complete',
+                                    component: Complete
+                                },
+                                {
+                                    path: '/NotCheckPass',
+                                    name: 'NotCheckPass',
+                                    component: NotCheckPass
                                 }
 
                             ]

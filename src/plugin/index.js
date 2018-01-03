@@ -50,8 +50,10 @@ function install(Vue) {
         return formatDate.join('-');
     });
     Vue.filter('formatPrice', function(value) {
-        if (value == null || value == undefined || value == '' || value == 0) {
+        if (value == 0) {
             return '¥0.00';
+        } else if (value == null || value == undefined || value == '') {
+            return '暂无价格'
         } else {
             return '¥' + Number(value).toFixed(2);
         }

@@ -22,31 +22,35 @@
                     <div class="title">待办事项</div>
                     <div class="waitItems">
                         <div class="row1">
-                            <div @click="willCheckOrder" class="left">
+                            <div @click="willCheckOrder" class="left item">
                                 <div>
                                     <i class="icon iconfont lj-daishenhe"></i>
                                 </div>
                                 <div>待审核订单</div>
+                                <i class="budge">{{budge.waitCheckCount}}</i>
                             </div>
-                            <div @click="willSendApply" class="right">
+                            <div @click="willSendApply" class="right item">
                                 <div>
                                     <i class="icon iconfont lj-daishenhe"></i>
                                 </div>
                                 <div>待审核发货申请</div>
+                                <i class="budge">{{budge.waitSendApplyCount}}</i>
                             </div>
                         </div>
                         <div class="row2">
-                            <div @click="willReturnApply" class="left">
+                            <div @click="willReturnApply" class="left item">
                                 <div>
                                     <i class="icon iconfont lj-daishenhe"></i>
                                 </div>
                                 <div>待审核退换货申请 </div>
+                                <i class="budge">{{budge.waitCheckReturnCount}}</i>
                             </div>
-                            <div class="right">
+                            <div class="right item">
                                 <div>
                                     <i class="icon iconfont lj-daishenhe"></i>
                                 </div>
                                 <div>待审核费用</div>
+                                <!-- <i class="budge">4</i> -->
                             </div>
                         </div>
                     </div>
@@ -65,7 +69,12 @@ export default {
                 require('../../../assets/images/banner1.jpg'),
                 require('../../../assets/images/banner2.jpg'),
                 require('../../../assets/images/banner3.jpg')
-            ]
+            ],
+            budge:{
+                waitCheckCount:10,//待审核订单
+                waitSendApplyCount:11,//待发货申请单
+                waitCheckReturnCount:12,//待审核退换货申请
+            }
         }
     },
 
@@ -101,14 +110,62 @@ export default {
         //待退货申请
         willReturnApply() {
             this.$router.push({ name: 'ReturnList', params: { from: 'ReturnList' } });
-        }
+        },
+        //获取待审核订单数量
+        fetchWaitCheckCount(){
+            // /ocm-web/api/b2b/purchase-orders/countUnSendedAmountByCustomerId
+            let _this = this;
+            let url = '/ocm-web/api/b2b/purchase-orders/countUnSendedAmountByCustomerId';
+            let paramsWrap = {
+                params: {
+                    customerId: this.$store.state.customerId
+                }
+            }
+            _this.$http.get(url,paramsWrap)
+                .then(res=>{
+                    _this.budge.waitCheckCount = res.data;
+                })
+        },
+        //获取待发货申请单数量
+        fetchWaitSendApplyCount(){
+            // /ocm-web/api/b2b/purchase-orders/countUnSendedAmountByCustomerId
+            let _this = this;
+            let url = '/ocm-web/api/b2b/purchase-orders/countUnSendedAmountByCustomerId';
+            let paramsWrap = {
+                params: {
+                    customerId: this.$store.state.customerId
+                }
+            }
+            _this.$http.get(url,paramsWrap)
+                .then(res=>{
+                    _this.budge.waitSendApplyCount = res.data;
+                })
+        },
+        //获取待审核退换货申请数量
+        fetchWaitCheckReturnCount(){
+            let _this = this;
+            let url = '/ocm-web/api/b2b/purchase-orders/countUnSendedAmountByCustomerId';
+            let paramsWrap = {
+                params: {
+                    customerId: this.$store.state.customerId
+                }
+            }
+            _this.$http.get(url,paramsWrap)
+                .then(res=>{
+                    _this.budge.waitCheckReturnCount = res.data;
+                })
+        },
     },
     mounted() {
         let _this = this;
         _this.$store.commit('changeCurrentNav', { hash: '/Home' });
         _this.fetchMsg().then(res => {
             _this.msgArr = res.content;
-        })
+        });
+        //获取budge
+        _this.fetchWaitCheckCount();
+        _this.fetchWaitSendApplyCount();
+        _this.fetchWaitCheckReturnCount();
     }
 }
 </script>

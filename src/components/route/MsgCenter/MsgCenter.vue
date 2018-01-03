@@ -39,12 +39,12 @@ export default {
                     size
                 }
             };
-            return _this.$http.get('/ocm-web/api/notice/pageQuery', paramsWrap)
+            _this.$http.get('/ocm-web/api/notice/pageQuery', paramsWrap)
                 .then(res => {
                     _this.pageParams.pageSize = res.data.size;//每页数量
                     _this.pageParams.total = res.data.totalElements;//总页数
                     _this.pageParams.pageIndex = res.data.number + 1;//当前页
-                    return res.data.content;
+                    _this.msgContent = res.data.content;
                 });
         },
         handleSizeChange(pageSize) {
@@ -69,9 +69,7 @@ export default {
     mounted() {
         let _this = this;
         _this.$store.commit('changeCurrentNav', { hash: '/MsgCenter' });
-        _this.fetchMsg({ page: 0, size: 10 }).then(msgContent => {
-            _this.msgContent = msgContent
-        });
+        _this.fetchMsg({ page: 0, size: 10 });
     }
 }
 </script>

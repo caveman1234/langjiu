@@ -24,7 +24,7 @@
                     <el-table-column prop="basicPrice" label="单价">
                         <template slot-scope="scope">
                             <div class="price">
-                                <div>价格：¥{{scope.row.basicPrice || '暂无价格'}}</div>
+                                <div>价格：{{scope.row.basicPrice | formatPrice}}</div>
                                 <div v-if="false">共建：¥{{scope.row.fundPrice || 0}}</div>
                             </div>
                         </template>
@@ -39,7 +39,11 @@
                             <div>{{scope.row.baseQuantity}} </div>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="paymentTotalMoney" label="货款金额"></el-table-column>
+                    <el-table-column prop="paymentTotalMoney" label="货款金额">
+                        <template slot-scope="scope">
+                            <div>{{scope.row.paymentTotalMoney|formatPrice}}</div>
+                        </template>
+                    </el-table-column>
                     <el-table-column prop="handle" label="操作">
                         <template slot-scope="scope">
                             <div class="handle">
@@ -152,6 +156,7 @@ export default {
                 this.$Notify({ title: '商品不能为空', type: 'warning' });
             }
         },
+        //表格合计
         getSummaries(params) {
             let _this = this;
             const { columns, data } = params;
@@ -161,7 +166,7 @@ export default {
                     case 'paymentTotalMoney':
                         let totalArr = data.map(v => v[column.property]);
                         let total = totalArr.reduce((acc, a) => (acc + a))
-                        arr[i] = `货款总金额:${total}`;
+                        arr[i] = `货款总金额:${Number(total).toFixed(2)}`;
                         break;
                     default:
                         arr[i] = null;

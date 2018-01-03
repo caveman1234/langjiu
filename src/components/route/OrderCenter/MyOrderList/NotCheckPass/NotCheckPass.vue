@@ -1,5 +1,5 @@
 <template>
-    <div class="SavedOrder">
+    <div class="NotCheckPass">
         <SearchComp ref="searchRef" :searchConfig="searchConfig" @receiveData="receiveData" :extralParams="extralParams" method="post" serverUrl="/ocm-web/api/b2b/purchase-orders/search-all-orders"></SearchComp>
         <OrderTable1 :orderData="orderData"></OrderTable1>
         <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="pageParams.pageIndex" :page-sizes="[10, 20, 50, 100]" :page-size="pageParams.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="pageParams.total" prev-text="上一页" next-text="下一页">
@@ -27,9 +27,8 @@ let searchConfig = [
         label: '订单编号：'
     }
 ];
-//待审核订单
 export default {
-    name: 'SavedOrder',
+    name:'NotCheckPass',
     components: { SearchComp, OrderTable1 },
     data() {
         return {
@@ -43,7 +42,7 @@ export default {
             searchConfig:searchConfig,
             //搜索额外字段
             extralParams:{
-                billStatusCode:'02',
+                billStatusCode:'04',
                 poTypeBusinessType: "01,03,04",
                 distributorIds: this.$store.state.customerId,
             }
@@ -96,7 +95,6 @@ export default {
     }
 }
 </script>
-<style lang="scss">
-@import './SavedOrder.scss';
+<style lang="scss" scoped>
+@import './NotCheckPass.scss';
 </style>
-
