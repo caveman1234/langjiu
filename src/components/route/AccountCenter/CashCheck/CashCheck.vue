@@ -13,6 +13,22 @@
                     label="单据编号"></el-table-column>
                 <el-table-column prop="memo"
                     label="摘要"></el-table-column>
+                <el-table-column prop="income"
+                    label="收入">
+                    <template slot-scope="scope">
+                        <div>
+                            <div>{{scope.row.income|formatPrice}}</div>
+                        </div>
+                    </template>
+                </el-table-column>
+                <el-table-column prop="cost"
+                    label="支出">
+                    <template slot-scope="scope">
+                        <div>
+                            <div>{{scope.row.cost|formatPrice}}</div>
+                        </div>
+                    </template>
+                </el-table-column>
                 <el-table-column prop="amount"
                     label="余额">
                     <template slot-scope="scope">

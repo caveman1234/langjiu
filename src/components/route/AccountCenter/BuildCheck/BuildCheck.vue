@@ -103,7 +103,7 @@ export default {
                     customerId: _this.$store.state.customerId
                 }
             }
-            return _this.$http.get('/ocm-web/api/base/prodline/get-mgr-list', paramsWrap)
+            return _this.$http.get('/ocm-web/api/base/organization/get-offices-list', paramsWrap)
                 .then(res => {
                     return res.data;
                 })
