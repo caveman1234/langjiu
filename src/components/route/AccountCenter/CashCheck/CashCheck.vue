@@ -1,31 +1,49 @@
 <template>
     <div class="CashCheck">
-        <SearchComp ref="searchRef" :searchConfig="searchConfig" serverUrl="/ocm-web/api/b2b/query-balance/queryCashDetail" @receiveData="receiveData"></SearchComp>
+        <SearchComp ref="searchRef"
+            :searchConfig="searchConfig"
+            serverUrl="/ocm-web/api/b2b/query-balance/queryCashDetail"
+            @receiveData="receiveData"></SearchComp>
         <div class="tableContainer">
             <el-table :data="tableData">
-                <el-table-column prop="amount" label="余额">
+
+                <el-table-column prop="dbilldate"
+                    label="日期"></el-table-column>
+                <el-table-column prop="billcode"
+                    label="单据编号"></el-table-column>
+                <el-table-column prop="memo"
+                    label="摘要"></el-table-column>
+                <el-table-column prop="amount"
+                    label="余额">
                     <template slot-scope="scope">
                         <div>
                             <div>{{scope.row.amount|formatPrice}}</div>
                         </div>
                     </template>
                 </el-table-column>
-                <el-table-column prop="dbilldate" label="日期"></el-table-column>
-                <el-table-column prop="billcode" label="单据编号"></el-table-column>
-                <el-table-column prop="memo" label="摘要"></el-table-column>
             </el-table>
-            <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="pageParams.pageIndex" :page-sizes="[10, 20, 50, 100]" :page-size="pageParams.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="pageParams.total" prev-text="上一页" next-text="下一页">
+            <el-pagination @size-change="handleSizeChange"
+                @current-change="handleCurrentChange"
+                :current-page="pageParams.pageIndex"
+                :page-sizes="[10, 20, 50, 100]"
+                :page-size="pageParams.pageSize"
+                layout="total, sizes, prev, pager, next, jumper"
+                :total="pageParams.total"
+                prev-text="上一页"
+                next-text="下一页">
             </el-pagination>
         </div>
     </div>
 </template>
 <script>
 import SearchComp from '@/components/commonComp/SearchComp/SearchComp';
+let defaultValue = [new Date(new Date().getTime() - 24 * 60 * 60 * 1000 * 30), new Date(new Date().getTime())];
 let searchConfig = [
     {
         type: 'datePickerRange',
         field: 'billDate',
-        label: '日期：'
+        label: '日期：',
+        defaultValue: defaultValue
     }
 ];
 export default {

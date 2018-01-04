@@ -2,10 +2,10 @@
     <div class="promiseRest">
         <div class="title">保证金余额明细</div>
         <el-table :data="tableDataArr">
-            <el-table-column prop="syb" label="事业部">
+            <el-table-column prop="sybName" label="事业部">
                 <template slot-scope="scope">
                     <div>
-                        <div>{{scope.row.syb}}</div>
+                        <div>{{scope.row.sybName}}</div>
                     </div>
                 </template>
             </el-table-column>

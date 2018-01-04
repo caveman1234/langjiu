@@ -1,5 +1,5 @@
 <template>
-    <div class="LogisticsDownload">LogisticsDownload物流码下载</div>
+    <div class="LogisticsDownload">LogisticsDownload物流码下载正在开发</div>
 </template>
 <script>
 export default {

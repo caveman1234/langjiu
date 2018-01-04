@@ -1,29 +1,41 @@
 <template>
     <div class="BuildCheck">
-        <SearchComp ref="searchRef" :searchConfig="searchConfig" @receiveData="receiveData" serverUrl="/ocm-web/api/b2b/query-balance/queryFundDetail"></SearchComp>
+        <SearchComp ref="searchRef"
+            :searchConfig="searchConfig"
+            @receiveData="receiveData"
+            serverUrl="/ocm-web/api/b2b/query-balance/queryFundDetail"></SearchComp>
         <div class="tableContainer">
             <el-table :data="tableData">
-                <el-table-column prop="dbilldate" label="日期"></el-table-column>
-                <el-table-column prop="syb" label="事业部编码"></el-table-column>
-                <el-table-column prop="sybName" label="事业部名称"></el-table-column>
-                <el-table-column prop="ctype" label="费用类型"></el-table-column>
-                <el-table-column prop="billcode" label="单据号"></el-table-column>
-                <el-table-column prop="memo" label="摘要"></el-table-column>
-                <el-table-column prop="amount" label="收入">
+                <el-table-column prop="dbilldate"
+                    label="日期"></el-table-column>
+                <!-- <el-table-column prop="syb"
+                    label="事业部编码"></el-table-column> -->
+                <el-table-column prop="sybName"
+                    label="事业部名称"></el-table-column>
+                <el-table-column prop="ctype"
+                    label="费用类型"></el-table-column>
+                <el-table-column prop="billcode"
+                    label="单据号"></el-table-column>
+                <el-table-column prop="memo"
+                    label="摘要"></el-table-column>
+                <el-table-column prop="income"
+                    label="收入">
                     <template slot-scope="scope">
                         <div>
-                            <div>{{scope.row.amount|formatPrice}}</div>
+                            <div>{{scope.row.income|formatPrice}}</div>
                         </div>
                     </template>
                 </el-table-column>
-                <el-table-column prop="amount" label="支出">
+                <el-table-column prop="cost"
+                    label="支出">
                     <template slot-scope="scope">
                         <div>
-                            <div>{{scope.row.amount|formatPrice}}</div>
+                            <div>{{scope.row.cost|formatPrice}}</div>
                         </div>
                     </template>
                 </el-table-column>
-                <el-table-column prop="amount" label="余额">
+                <el-table-column prop="amount"
+                    label="余额">
                     <template slot-scope="scope">
                         <div>
                             <div>{{scope.row.amount|formatPrice}}</div>
@@ -31,33 +43,34 @@
                     </template>
                 </el-table-column>
             </el-table>
-            <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="pageParams.pageIndex" :page-sizes="[10, 20, 50, 100]" :page-size="pageParams.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="pageParams.total" prev-text="上一页" next-text="下一页">
+            <el-pagination @size-change="handleSizeChange"
+                @current-change="handleCurrentChange"
+                :current-page="pageParams.pageIndex"
+                :page-sizes="[10, 20, 50, 100]"
+                :page-size="pageParams.pageSize"
+                layout="total, sizes, prev, pager, next, jumper"
+                :total="pageParams.total"
+                prev-text="上一页"
+                next-text="下一页">
             </el-pagination>
         </div>
     </div>
 </template>
 <script>
 import SearchComp from '@/components/commonComp/SearchComp/SearchComp';
+let defaultValue = [new Date(new Date().getTime() - 24 * 60 * 60 * 1000 * 30), new Date(new Date().getTime())];
 let searchConfig = [
     {
         type: 'select',
         field: 'syb',
         label: '事业部：',
-        dataSource: [
-            {
-                label: '事业部一',
-                value: 1
-            },
-            {
-                label: '事业部二',
-                value: 2
-            }
-        ]
+        dataSource: [ ]
     },
     {
         type: 'datePickerRange',
         field: 'billDate',
-        label: '日期：'
+        label: '日期：',
+        defaultValue: defaultValue
     }
 ];
 export default {
@@ -65,7 +78,7 @@ export default {
     components: { SearchComp },
     data() {
         return {
-            searchConfig: [],
+            searchConfig: searchConfig,
             tableData: [],
             //分页参数
             pageParams: {

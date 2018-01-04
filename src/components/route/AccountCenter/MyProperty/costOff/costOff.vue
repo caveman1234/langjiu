@@ -2,11 +2,11 @@
     <div class="costOff">
         <div class="title">费用余额明细</div>
         <el-table :data="tableDataArr">
-            <el-table-column prop="syb" label="产品线"></el-table-column>
+            <el-table-column prop="sybName" label="产品线"></el-table-column>
             <el-table-column prop="eReserve" label="E">
                 <template slot-scope="scope">
                     <div>
-                        <div>{{scope.row.standard}}</div>
+                        <div>{{scope.row.eReserve | formatPrice}}</div>
                     </div>
                 </template>
             </el-table-column>

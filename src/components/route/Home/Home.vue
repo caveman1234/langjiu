@@ -27,14 +27,14 @@
                                     <i class="icon iconfont lj-daishenhe"></i>
                                 </div>
                                 <div>待审核订单</div>
-                                <i class="budge">{{budge.waitCheckCount}}</i>
+                                <i class="budge">{{budge.commonOrderNum}}</i>
                             </div>
                             <div @click="willSendApply" class="right item">
                                 <div>
                                     <i class="icon iconfont lj-daishenhe"></i>
                                 </div>
                                 <div>待审核发货申请</div>
-                                <i class="budge">{{budge.waitSendApplyCount}}</i>
+                                <i class="budge">{{budge.sendApplyOrderNum}}</i>
                             </div>
                         </div>
                         <div class="row2">
@@ -43,14 +43,14 @@
                                     <i class="icon iconfont lj-daishenhe"></i>
                                 </div>
                                 <div>待审核退换货申请 </div>
-                                <i class="budge">{{budge.waitCheckReturnCount}}</i>
+                                <i class="budge">{{budge.returnChangeOrderNum}}</i>
                             </div>
                             <div class="right item">
                                 <div>
                                     <i class="icon iconfont lj-daishenhe"></i>
                                 </div>
                                 <div>待审核费用</div>
-                                <!-- <i class="budge">4</i> -->
+                                <i class="budge">{{budge.feeOrderOrderNum}}</i>
                             </div>
                         </div>
                     </div>
@@ -68,12 +68,14 @@ export default {
             imageArr: [
                 require('../../../assets/images/banner1.jpg'),
                 require('../../../assets/images/banner2.jpg'),
-                require('../../../assets/images/banner3.jpg')
+                require('../../../assets/images/banner3.jpg'),
+                require('../../../assets/images/banner4.jpg'),
             ],
             budge:{
-                waitCheckCount:10,//待审核订单
-                waitSendApplyCount:11,//待发货申请单
-                waitCheckReturnCount:12,//待审核退换货申请
+                commonOrderNum:0,//待审核订单
+                sendApplyOrderNum:0,//待发货申请单
+                returnChangeOrderNum:0,//待审核退换货申请
+                feeOrderOrderNum:0,//待审核费用
             }
         }
     },
@@ -112,10 +114,10 @@ export default {
             this.$router.push({ name: 'ReturnList', params: { from: 'ReturnList' } });
         },
         //获取待审核订单数量
-        fetchWaitCheckCount(){
+        fetchCount(){
             // /ocm-web/api/b2b/purchase-orders/countUnSendedAmountByCustomerId
             let _this = this;
-            let url = '/ocm-web/api/b2b/purchase-orders/countUnSendedAmountByCustomerId';
+            let url = '/ocm-web/api/b2b/purchase-orders/countOrderByCustomerId';
             let paramsWrap = {
                 params: {
                     customerId: this.$store.state.customerId
@@ -123,36 +125,10 @@ export default {
             }
             _this.$http.get(url,paramsWrap)
                 .then(res=>{
-                    _this.budge.waitCheckCount = res.data;
-                })
-        },
-        //获取待发货申请单数量
-        fetchWaitSendApplyCount(){
-            // /ocm-web/api/b2b/purchase-orders/countUnSendedAmountByCustomerId
-            let _this = this;
-            let url = '/ocm-web/api/b2b/purchase-orders/countUnSendedAmountByCustomerId';
-            let paramsWrap = {
-                params: {
-                    customerId: this.$store.state.customerId
-                }
-            }
-            _this.$http.get(url,paramsWrap)
-                .then(res=>{
-                    _this.budge.waitSendApplyCount = res.data;
-                })
-        },
-        //获取待审核退换货申请数量
-        fetchWaitCheckReturnCount(){
-            let _this = this;
-            let url = '/ocm-web/api/b2b/purchase-orders/countUnSendedAmountByCustomerId';
-            let paramsWrap = {
-                params: {
-                    customerId: this.$store.state.customerId
-                }
-            }
-            _this.$http.get(url,paramsWrap)
-                .then(res=>{
-                    _this.budge.waitCheckReturnCount = res.data;
+                    _this.budge.commonOrderNum = res.data.commonOrderNum;
+                    _this.budge.sendApplyOrderNum = res.data.sendApplyOrderNum;
+                    _this.budge.returnChangeOrderNum = res.data.returnChangeOrderNum;
+                    _this.budge.feeOrderOrderNum = res.data.feeOrderOrderNum;
                 })
         },
     },
@@ -163,9 +139,7 @@ export default {
             _this.msgArr = res.content;
         });
         //获取budge
-        _this.fetchWaitCheckCount();
-        _this.fetchWaitSendApplyCount();
-        _this.fetchWaitCheckReturnCount();
+        _this.fetchCount();
     }
 }
 </script>

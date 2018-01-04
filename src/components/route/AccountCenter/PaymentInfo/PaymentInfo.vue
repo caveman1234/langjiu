@@ -1,7 +1,7 @@
 <template>
     <div class="PaymentInfo">
         PaymentInfo
-        付款信息
+        付款信息正在开发
     </div>
 </template>
 <script>

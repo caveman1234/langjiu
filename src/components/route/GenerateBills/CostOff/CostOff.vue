@@ -121,8 +121,8 @@ export default {
         },
         /* 打开弹窗 */
         handleOpen() {
-            // this.fetchMoneyType();
-            // this.fetchUseOffMoney();
+            this.fetchMoneyType();
+            this.fetchUseOffMoney();
         },
         cancel() {
             this.dialogVisible = false;
@@ -132,7 +132,7 @@ export default {
             let _this = this;
             /* 验证 */
             //主页进来就加载计算
-            if (isMainPage) {
+            if (isMainPage == true) {
                 this.fetchCalcMoney()
                     .then(calcMoney => {
                         _this.dialogVisible = false;
@@ -141,7 +141,7 @@ export default {
             } else {
                 _this.$refs.form1.validate(valide => {
                     if (valide) {
-                        this.fetchCalcMoney()
+                        _this.fetchCalcMoney()
                             .then(calcMoney => {
                                 _this.dialogVisible = false;
                                 _this.$emit('CostOffEvent', calcMoney, _this.formData.useOffMoney, _this.searchData);

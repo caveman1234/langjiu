@@ -1,8 +1,22 @@
 <template>
     <div class="TotalOrder">
-        <SearchComp ref="searchRef" :searchConfig="searchConfig" @receiveData="receiveData" :extralParams="extralParams" method="post" serverUrl="/ocm-web/api/b2b/purchase-orders/search-all-orders"></SearchComp>
+        <SearchComp ref="searchRef"
+            :searchConfig="searchConfig"
+            @receiveData="receiveData"
+            :extralParams="extralParams"
+            method="post"
+            serverUrl="/ocm-web/api/b2b/purchase-orders/search-all-orders">
+        </SearchComp>
         <OrderTable1 :orderData="orderData"></OrderTable1>
-        <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="pageParams.pageIndex" :page-sizes="[10, 20, 50, 100]" :page-size="pageParams.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="pageParams.total" prev-text="上一页" next-text="下一页">
+        <el-pagination @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page="pageParams.pageIndex"
+            :page-sizes="[10, 20, 50, 100]"
+            :page-size="pageParams.pageSize"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="pageParams.total"
+            prev-text="上一页"
+            next-text="下一页">
         </el-pagination>
     </div>
 </template>
@@ -55,7 +69,10 @@ export default {
     },
     methods: {
         receiveData(data) {
-            this.orderData = data.content;
+            this.orderData = data.content.map(v=>{
+                v.isMoreShow = false;
+                return v;
+            });
             this.pageParams.pageSize = data.size;//每页数量
             this.pageParams.total = data.totalElements;//总页数
             this.pageParams.pageIndex = data.number + 1;//当前页

@@ -442,8 +442,7 @@ export default {
         _this.fetchOrderType(); /* 获取订单类型 */
         //设置产品线
         _this.prodGroupId = _this.$store.state.prodGroupId;
-        //
-        debugger
+        //页面加载使用费用0
         _this.$nextTick(() => {
             _this.$refs.costOffRef.confirm(true);
         });

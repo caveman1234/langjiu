@@ -1,28 +1,37 @@
 <template>
     <div class="PromiseCheck">
-        <SearchComp ref="searchRef" :searchConfig="searchConfig" @receiveData="receiveData" serverUrl="/ocm-web/api/b2b/query-balance/queryDepositDetail"></SearchComp>
+        <SearchComp ref="searchRef"
+            :searchConfig="searchConfig"
+            @receiveData="receiveData"
+            serverUrl="/ocm-web/api/b2b/query-balance/queryDepositDetail"></SearchComp>
         <div class="tableContainer">
             <el-table :data="tableData">
-                <el-table-column prop="dbilldate" label="日期"></el-table-column>
-                <el-table-column prop="syb" label="事业部编码"></el-table-column>
-                <el-table-column prop="sybName" label="事业部名称"></el-table-column>
-                <el-table-column prop="billcode" label="单据号"></el-table-column>
-                <el-table-column prop="memo" label="摘要"></el-table-column>
-                <el-table-column prop="amount" label="收入">
+                <el-table-column prop="dbilldate"
+                    label="日期"></el-table-column>
+                <el-table-column prop="sybName"
+                    label="事业部名称"></el-table-column>
+                <el-table-column prop="billcode"
+                    label="单据号"></el-table-column>
+                <el-table-column prop="memo"
+                    label="摘要"></el-table-column>
+                <el-table-column prop="income"
+                    label="收入">
                     <template slot-scope="scope">
                         <div>
-                            <div>{{scope.row.amount|formatPrice}}</div>
+                            <div>{{scope.row.income|formatPrice}}</div>
                         </div>
                     </template>
                 </el-table-column>
-                <el-table-column prop="amount" label="支出">
+                <el-table-column prop="cost"
+                    label="支出">
                     <template slot-scope="scope">
                         <div>
-                            <div>{{scope.row.amount|formatPrice}}</div>
+                            <div>{{scope.row.cost|formatPrice}}</div>
                         </div>
                     </template>
                 </el-table-column>
-                <el-table-column prop="amount" label="余额">
+                <el-table-column prop="amount"
+                    label="余额">
                     <template slot-scope="scope">
                         <div>
                             <div>{{scope.row.amount|formatPrice}}</div>
@@ -30,8 +39,7 @@
                     </template>
                 </el-table-column>
             </el-table>
-            <el-pagination
-                @size-change="handleSizeChange"
+            <el-pagination @size-change="handleSizeChange"
                 @current-change="handleCurrentChange"
                 :current-page="pageParams.pageIndex"
                 :page-sizes="[10, 20, 50, 100]"
@@ -39,14 +47,14 @@
                 layout="total, sizes, prev, pager, next, jumper"
                 :total="pageParams.total"
                 prev-text="上一页"
-                next-text="下一页"
-            >
+                next-text="下一页">
             </el-pagination>
         </div>
     </div>
 </template>
 <script>
 import SearchComp from '@/components/commonComp/SearchComp/SearchComp';
+let defaultValue = [new Date(new Date().getTime() - 24 * 60 * 60 * 1000 * 30), new Date(new Date().getTime())];
 let searchConfig = [
     {
         type: 'select',
@@ -66,7 +74,8 @@ let searchConfig = [
     {
         type: 'datePickerRange',
         field: 'billDate',
-        label: '日期：'
+        label: '日期：',
+        defaultValue:defaultValue
     }
 ];
 export default {
@@ -77,10 +86,10 @@ export default {
             searchConfig: searchConfig,
             tableData: [],
             //分页参数
-            pageParams:{
-                pageIndex:1,
-                pageSize:10,
-                total:0
+            pageParams: {
+                pageIndex: 1,
+                pageSize: 10,
+                total: 0
             }
         }
     },
@@ -99,26 +108,26 @@ export default {
                     customerId: _this.$store.state.customerId
                 }
             }
-            return _this.$http.get('/ocm-web/api/base/prodline/get-mgr-list',paramsWrap)
+            return _this.$http.get('/ocm-web/api/base/prodline/get-mgr-list', paramsWrap)
                 .then(res => {
                     return res.data;
                 })
         },
-        handleSizeChange(pageSize){
+        handleSizeChange(pageSize) {
             let _this = this;
             _this.pageParams.pageSize = pageSize;
             let params = {
-                page:_this.pageParams.pageIndex - 1,
-                size:_this.pageParams.pageSize
+                page: _this.pageParams.pageIndex - 1,
+                size: _this.pageParams.pageSize
             };
             _this.$refs.searchRef.search(params);
         },
-        handleCurrentChange(pageIndex){
+        handleCurrentChange(pageIndex) {
             let _this = this;
             _this.pageParams.pageIndex = pageIndex;
             let params = {
-                page:_this.pageParams.pageIndex - 1,
-                size:_this.pageParams.pageSize
+                page: _this.pageParams.pageIndex - 1,
+                size: _this.pageParams.pageSize
             };
             _this.$refs.searchRef.search(params);
         },
@@ -131,9 +140,9 @@ export default {
                 _this.searchConfig = searchConfig;
             });
         let params = {
-                page:0,
-                size:_this.pageParams.pageSize
-            };
+            page: 0,
+            size: _this.pageParams.pageSize
+        };
         _this.$refs.searchRef.search(params);
     }
 }

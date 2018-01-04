@@ -11,6 +11,24 @@
             border-top: 1px solid $borderColor;
             border-left: 1px solid $borderColor;
             border-right: 1px solid $borderColor;
+            .lookMore {
+                display: flex;
+                justify-content: flex-end;
+                font-size: 12px;
+                color: $color999;
+                cursor: pointer;
+                i {
+                    font-size: 12px;
+                }
+                span {
+                    margin-right: 5px;
+                }
+            }
+            .el-button-group {
+                .el-button:not(:last-child) {
+                    margin-right: 5px;
+                }
+            }
         }
         .el-table {
             .detailContainer {

@@ -1,5 +1,5 @@
 <template>
-    <div class="BillDownload">BillDownload电子发票下载</div>
+    <div class="BillDownload">BillDownload电子发票下载正在开发</div>
 </template>
 <script>
 export default {

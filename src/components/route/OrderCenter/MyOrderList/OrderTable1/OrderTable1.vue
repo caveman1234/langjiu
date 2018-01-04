@@ -1,48 +1,107 @@
 <template>
     <div class="OrderTable1">
         <template v-for="(item,index) in orderData">
-            <div class="orderWrap" :key="index">
+            <div class="orderWrap"
+                :key="index">
 
                 <div class="orderHeader">
                     <el-row>
                         <el-col :span="2">订单类型:</el-col>
-                        <el-col v-red :span="2">{{item.poTypeName}}</el-col>
+                        <el-col v-red
+                            :span="3">{{item.poTypeName}}</el-col>
                         <el-col :span="2">订单日期:</el-col>
                         <el-col :span="2">{{item.orderDate|formatDate}}</el-col>
                         <el-col :span="2">订单编号:</el-col>
                         <el-col :span="3">{{item.orderCode}}</el-col>
                         <el-col :span="2">订单金额:</el-col>
-                        <el-col v-red :span="2">{{item.totalAmount | formatPrice}}</el-col>
+                        <el-col v-red
+                            :span="2">
+                            {{item.totalAmount | formatPrice}}
+                        </el-col>
                         <el-col :span="2">订单状态:</el-col>
-                        <el-col v-red :span="2">{{item.billStatusName}}</el-col>
+                        <el-col v-red
+                            :span="2">{{item.billStatusName}}</el-col>
                         <el-col :span="2">
-
+                            <div @click="lookMore(item)"
+                                class="lookMore">
+                                <span class="text">查看更多</span>
+                                <i class="icon iconfont" :class="[item.isMoreShow ? 'lj-up' :'lj-down-']"></i>
+                            </div>
                         </el-col>
                     </el-row>
+                </div>
+                <div v-show="item.isMoreShow">
+                    <div class="orderHeader">
+                        <el-row>
+                            <el-col :span="2">审核意见：</el-col>
+                            <el-col :span="22">{{item.approveOpinion}}</el-col>
+                        </el-row>
+                    </div>
+                    <div class="orderHeader">
+                        <el-row>
+                            <el-col :span="3">融资审批状态:</el-col>
+                            <el-col :span="2">{{item.financingStatus || '暂无'}}</el-col>
+                            <el-col :span="2">融资金额:</el-col>
+                            <el-col :span="3">{{item.totalAmount | formatPrice}}</el-col>
+                            <el-col :span="3">累计已还款金额:</el-col>
+                            <el-col :span="3">{{item.totalRepayAmount | formatPrice}}</el-col>
+                            <el-col :span="3">累计已提货金额:</el-col>
+                            <el-col :span="3">{{item.totalRepaidAmount | formatPrice}}</el-col>
+                        </el-row>
+                    </div>
+                    <div class="orderHeader">
+                        <el-row>
+                            <el-col :span="3">费用使用明细：</el-col>
+                            <el-col :span="1">E类：</el-col>
+                            <el-col :span="3">{{item.eFeeUsedAmount | formatPrice}}</el-col>
+                            <el-col :span="1">Q类：</el-col>
+                            <el-col :span="3">{{item.qFeeUsedAmount | formatPrice}}</el-col>
+                            <el-col :span="1">F类：</el-col>
+                            <el-col :span="3">{{item.fFeeUsedAmount | formatPrice}}</el-col>
+                        </el-row>
+                    </div>
                 </div>
                 <div class="orderHeader">
-                    <el-row type="flex" justify="end">
-                        <el-col v-if="item.poTypeBusinessType =='03' && item.billStatusCode == '03' && item.totalRepaidAmount < item.totalRepayAmount" @click="goPickGoods(item)" :span="2">
-                            <el-button size="mini" type="primary">去提货</el-button>
-                        </el-col>
-                        <el-col v-if="item.isNoticeSend == 1 && item.isApplySendOver == 0" :span="2">
-                            <el-button size="mini" type="primary">申请发货</el-button>
-                        </el-col>
-                        <el-col :span="2">
-                            <el-button @click="goFinancing(item)" size="mini" type="primary">去融资</el-button>
-                        </el-col>
+                    <el-row type="flex"
+                        justify="end">
+                        <el-button-group>
+                            <template v-if="item.poTypeBusinessType =='03' && item.billStatusCode == '03' && item.totalRepaidAmount < item.totalRepayAmount"
+                                @click="goPickGoods(item)">
+                                <el-button size="mini"
+                                    type="primary">去提货
+                                </el-button>
+                            </template>
+                            <template v-if="item.isNoticeSend == 1 && item.isApplySendOver == 0">
+                                <el-button size="mini"
+                                    type="primary">申请发货
+                                </el-button>
+                            </template>
+                            <template>
+                                <el-button @click="goFinancing(item)"
+                                    size="mini"
+                                    type="primary">去融资
+                                </el-button>
+                            </template>
+                        </el-button-group>
                     </el-row>
                 </div>
-                <el-table :data="item.purchaseOrderItems" :span-method="spanMethod" border style="width: 100%">
-                    <el-table-column prop="productDesc" label="商品详情" width="300">
+                <el-table :data="item.purchaseOrderItems"
+                    :span-method="spanMethod"
+                    border
+                    style="width: 100%">
+                    <el-table-column prop="productDesc"
+                        label="商品详情"
+                        width="300">
                         <template slot-scope="scope">
                             <div class="detailContainer">
-                                <div :style='{"backgroundImage":`url(${scope.row.imageUrl || defaultImg})`}' class="goodsImg"></div>
+                                <div :style='{"backgroundImage":`url(${scope.row.imageUrl || defaultImg})`}'
+                                    class="goodsImg"></div>
                                 <div class="desc">{{scope.row.productDesc}}</div>
                             </div>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="" label="规格">
+                    <el-table-column prop=""
+                        label="规格">
                         <template slot-scope="scope">
                             <div class="standard">
                                 <div>容量：{{scope.row.standard}}ml</div>
@@ -50,12 +109,14 @@
                             </div>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="basePrice" label="单价">
+                    <el-table-column prop="basePrice"
+                        label="单价">
                         <template slot-scope="scope">
                             <div>{{scope.row.basePrice|formatPrice}}</div>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="boxCount" label="数量">
+                    <el-table-column prop="boxCount"
+                        label="数量">
                         <template slot-scope="scope">
                             <div>
                                 <div>箱数：{{scope.row.baleQuantity}} 箱</div>
@@ -64,17 +125,17 @@
                         </template>
                     </el-table-column>
                     <!-- <el-table-column prop="" label="金额">
-                                        <template slot-scope="scope">
-                                            <div v-red>{{item.totalAmount | formatPrice}}</div>
-                                        </template>
-                                    </el-table-column>
-                                    <el-table-column prop="" label="操作">
-                                        <template slot-scope="scope">
-                                            <div>
-                                                <el-button size="mini" type="primary">去融资</el-button>
-                                            </div>
-                                        </template>
-                                    </el-table-column> -->
+                                                                                                                <template slot-scope="scope">
+                                                                                                                    <div v-red>{{item.totalAmount | formatPrice}}</div>
+                                                                                                                </template>
+                                                                                                            </el-table-column>
+                                                                                                            <el-table-column prop="" label="操作">
+                                                                                                                <template slot-scope="scope">
+                                                                                                                    <div>
+                                                                                                                        <el-button size="mini" type="primary">去融资</el-button>
+                                                                                                                    </div>
+                                                                                                                </template>
+                                                                                                            </el-table-column> -->
                 </el-table>
             </div>
         </template>
@@ -127,7 +188,7 @@ export default {
     },
     data() {
         return {
-            defaultImg: require('../../../../../assets/defaultimg.png')
+            defaultImg: require('../../../../../assets/defaultimg.png'),
         }
     },
     methods: {
@@ -177,10 +238,13 @@ export default {
                 .then(res => {
                     debugger
                 })
-        }
+        },
+        //查看更多
+        lookMore(item) {
+            item.isMoreShow = !item.isMoreShow;
+         }
     },
     mounted() {
-
     }
 }
 </script>

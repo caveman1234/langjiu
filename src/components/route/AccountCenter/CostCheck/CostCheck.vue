@@ -4,22 +4,21 @@
         <div class="tableContainer">
             <el-table :data="tableData">
                 <el-table-column prop="dbilldate" label="日期"></el-table-column>
-                <el-table-column prop="syb" label="产品线编码"></el-table-column>
                 <el-table-column prop="sybName" label="产品线名称"></el-table-column>
                 <el-table-column prop="ctype" label="费用类型"></el-table-column>
                 <el-table-column prop="billcode" label="单据号"></el-table-column>
                 <el-table-column prop="memo" label="摘要"></el-table-column>
-                <el-table-column prop="amount" label="收入">
+                <el-table-column prop="income" label="收入">
                     <template slot-scope="scope">
                         <div>
-                            <div>{{scope.row.amount|formatPrice}}</div>
+                            <div>{{scope.row.income|formatPrice}}</div>
                         </div>
                     </template>
                 </el-table-column>
-                <el-table-column prop="amount" label="支出">
+                <el-table-column prop="cost" label="支出">
                     <template slot-scope="scope">
                         <div>
-                            <div>{{scope.row.amount|formatPrice}}</div>
+                            <div>{{scope.row.cost|formatPrice}}</div>
                         </div>
                     </template>
                 </el-table-column>
@@ -38,6 +37,8 @@
 </template>
 <script>
 import SearchComp from '@/components/commonComp/SearchComp/SearchComp';
+let defaultValue = [new Date(new Date().getTime() - 24 * 60 * 60 * 1000 * 30), new Date(new Date().getTime())];
+
 let searchConfig = [
     {
         type: 'select',
@@ -80,7 +81,8 @@ let searchConfig = [
     {
         type: 'datePickerRange',
         field: 'billDate',
-        label: '日期：'
+        label: '日期：',
+        defaultValue:defaultValue
     }
 ];
 export default {

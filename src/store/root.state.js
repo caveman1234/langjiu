@@ -1,7 +1,7 @@
 let state = {
     purchaseCount: 0,
     customerId: "2b6c6970-2464-4040-9bd5-e314ff67eb9d", //红旗
-    // customerId: "7c38a6d5-d5bf-4942-b695-16ca1898cc66", 
+    // customerId: "3eac6d3b-16c1-489c-aa0f-a2b5fdc2e5a9",
     prodGroupId: '', //产品线
     username: '', //用户名
     navList: [

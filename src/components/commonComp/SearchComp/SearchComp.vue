@@ -1,9 +1,14 @@
 <template>
     <div class="SearchComp">
-        <el-form label-position="right" label-width="100px" :model="formDatas" size="mini">
+        <el-form label-position="right"
+            label-width="100px"
+            :model="formDatas"
+            size="mini">
             <el-row>
                 <template v-for="(item,index) in searchConfig">
-                    <el-col :span="8" :key="index" class="clearfix">
+                    <el-col :span="8"
+                        :key="index"
+                        class="clearfix">
                         <template v-if="item.type == 'input'">
                             <el-form-item :label="item.label">
                                 <el-input v-model="formDatas[item.field]"></el-input>
@@ -11,26 +16,38 @@
                         </template>
                         <template v-if="item.type == 'select'">
                             <el-form-item :label="item.label">
-                                <el-select v-model="formDatas[item.field]" placeholder="请选择">
-                                    <el-option v-for="(itemSelect,selectIndex) in item.dataSource" :key="selectIndex" :label="itemSelect.label" :value="itemSelect.value"></el-option>
+                                <el-select v-model="formDatas[item.field]"
+                                    placeholder="请选择">
+                                    <el-option v-for="(itemSelect,selectIndex) in item.dataSource"
+                                        :key="selectIndex"
+                                        :label="itemSelect.label"
+                                        :value="itemSelect.value"></el-option>
                                 </el-select>
                             </el-form-item>
                         </template>
                         <template v-if="item.type == 'radio'">
                             <el-form-item :label="item.label">
                                 <el-radio-group v-model="formDatas[item.field]">
-                                    <el-radio v-for="(itemRadio,radioIndex) in item.dataSource" :label="itemRadio.value" :key="radioIndex">{{itemRadio.label}}</el-radio>
+                                    <el-radio v-for="(itemRadio,radioIndex) in item.dataSource"
+                                        :label="itemRadio.value"
+                                        :key="radioIndex">{{itemRadio.label}}</el-radio>
                                 </el-radio-group>
                             </el-form-item>
                         </template>
                         <template v-if="item.type == 'datePicker'">
                             <el-form-item :label="item.label">
-                                <el-date-picker v-model="formDatas[item.field]" type="date" placeholder="选择日期"></el-date-picker>
+                                <el-date-picker v-model="formDatas[item.field]"
+                                    type="date"
+                                    placeholder="选择日期"></el-date-picker>
                             </el-form-item>
                         </template>
                         <template v-if="item.type == 'datePickerRange'">
                             <el-form-item :label="item.label">
-                                <el-date-picker v-model="formDatas[item.field]" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
+                                <el-date-picker v-model="formDatas[item.field]"
+                                    type="daterange"
+                                    range-separator="至"
+                                    start-placeholder="开始日期"
+                                    end-placeholder="结束日期"></el-date-picker>
                             </el-form-item>
                         </template>
                     </el-col>
@@ -42,8 +59,11 @@
                 <div class="opacity0">1</div>
             </el-col>
             <el-col :span="4">
-                <el-button @click="reset" size="mini">清空</el-button>
-                <el-button @click="search" type="primary" size="mini">搜索</el-button>
+                <el-button @click="reset"
+                    size="mini">清空</el-button>
+                <el-button @click="search"
+                    type="primary"
+                    size="mini">搜索</el-button>
             </el-col>
         </el-row>
     </div>
@@ -136,6 +156,7 @@ export default {
             _this.searchConfig.forEach(obj => {
                 if (dateTypeArr.includes(obj.type)) {
                     if (formData[obj.field]) {
+                        debugger
                         formData[`${obj.field}Begin`] = formData[obj.field][0].getTime();
                         formData[`${obj.field}End`] = formData[obj.field][1].getTime();
                     }
@@ -173,6 +194,7 @@ export default {
         let _this = this;
         //设置form表单需要的字段--其默认值
         _this.formDatas = _this.searchConfig.reduce((acc, obj) => {
+            debugger
             return Object.assign(
                 {},
                 acc,
