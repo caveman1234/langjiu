@@ -24,7 +24,7 @@
                         <el-col :span="2">
                             <div @click="lookMore(item)"
                                 class="lookMore">
-                                <span class="text">查看更多</span>
+                                <span class="text">{{ item.isMoreShow ? '收起' : '更多'}}</span>
                                 <i class="icon iconfont" :class="[item.isMoreShow ? 'lj-up' :'lj-down-']"></i>
                             </div>
                         </el-col>
@@ -40,7 +40,7 @@
                     <div class="orderHeader">
                         <el-row>
                             <el-col :span="3">融资审批状态:</el-col>
-                            <el-col :span="2">{{item.financingStatus || '暂无'}}</el-col>
+                            <el-col :span="2">{{item.financingStatus | formatBillStatus}}</el-col>
                             <el-col :span="2">融资金额:</el-col>
                             <el-col :span="3">{{item.totalAmount | formatPrice}}</el-col>
                             <el-col :span="3">累计已还款金额:</el-col>

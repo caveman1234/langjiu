@@ -43,7 +43,7 @@
                     </template>
                 </el-table-column>
             </el-table>
-            <el-pagination @size-change="handleSizeChange"
+            <!-- <el-pagination @size-change="handleSizeChange"
                 @current-change="handleCurrentChange"
                 :current-page="pageParams.pageIndex"
                 :page-sizes="[10, 20, 50, 100]"
@@ -52,7 +52,7 @@
                 :total="pageParams.total"
                 prev-text="上一页"
                 next-text="下一页">
-            </el-pagination>
+            </el-pagination> -->
         </div>
     </div>
 </template>

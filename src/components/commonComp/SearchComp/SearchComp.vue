@@ -156,7 +156,6 @@ export default {
             _this.searchConfig.forEach(obj => {
                 if (dateTypeArr.includes(obj.type)) {
                     if (formData[obj.field]) {
-                        debugger
                         formData[`${obj.field}Begin`] = formData[obj.field][0].getTime();
                         formData[`${obj.field}End`] = formData[obj.field][1].getTime();
                     }
@@ -194,7 +193,6 @@ export default {
         let _this = this;
         //设置form表单需要的字段--其默认值
         _this.formDatas = _this.searchConfig.reduce((acc, obj) => {
-            debugger
             return Object.assign(
                 {},
                 acc,

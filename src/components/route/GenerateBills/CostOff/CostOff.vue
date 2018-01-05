@@ -24,7 +24,7 @@
                         <el-row>
                             <el-col :span="8">
                                 <el-form-item label="本次最大使用金额：" label-width="130px" style="font-size:12px;">
-                                    <div>{{(totalMoney*ratio).toFixed(2) > moneyRest ? moneyRest : (totalMoney*ratio).toFixed(2)}}</div>
+                                    <div>{{maxUseRest}}</div>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="14">
@@ -239,6 +239,14 @@ export default {
             //费用余额
             let moneyRest = this.moneyRest;
             return String(Math.min(maxUsed, moneyRest).toFixed(2));
+        },
+        //最大使用额度
+        maxUseRest(){
+            //最大使用额
+            let maxUse = Number(this.totalMoney*this.ratio).toFixed(2);
+            //费用余额
+            let moneyRest = Number(this.moneyRest);
+            return Number(maxUse > moneyRest ? moneyRest : maxUse).toFixed(2);
         }
     },
     mounted() {

@@ -4,13 +4,14 @@ import interfaceAddress from './interfaceAddress.js';
 import util from './util.js';
 import mixins from './mixins.js';
 import './downLoadBrower.js';
+import store from '@/store/root.index.js';
 
 function install(Vue) {
     window.log = window.console.log;
     /* *****************************-static-********************************* */
     Vue.config.productionTip = false;
     /* *****************************-prototype-****************************** */
-    Vue.prototype.util = util;
+    Vue.prototype.$util = util;
     Vue.prototype.interfaceAddress = interfaceAddress;
     // axios.defaults.baseURL = 'http://localhost:8080';
     // axios.defaults.headers.post['Content-Type'] = 'application/json';
@@ -58,6 +59,17 @@ function install(Vue) {
             return '¥' + Number(value).toFixed(2);
         }
     });
+    //格式化审核状态
+    Vue.filter('formatBillStatus', function(value) {
+        let billStatusObj = {
+            0: '未融资',
+            1: '融资成功',
+            2: '融资审批拒绝',
+            3: '限定时间内未处理',
+            4: '作废'
+        };
+        return billStatusObj[value] || '暂无';
+    });
 
     /* *****************************-axios-*********************************** */
     /* request */
@@ -67,6 +79,10 @@ function install(Vue) {
             fullscreen: true,
             // target: '.routeContainer'
         });
+        if (config.method == 'get' && config.params.hasOwnProperty('customerId') && !config.params.customerId) {
+            let cookies = new Vue.prototype.$util.Cookies();
+            config.params.customerId = cookies.getCookie('customerId');
+        }
         return config;
     }, function(error) {
         loadingInstance1.close();

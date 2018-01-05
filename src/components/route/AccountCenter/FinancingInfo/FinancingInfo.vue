@@ -1,38 +1,68 @@
 <template>
     <div class="FinancingInfo">
-        <SearchComp ref="searchRef" :searchConfig="searchConfig" @receiveData="receiveData" serverUrl="/ocm-web/api/b2b/query-balance/queryCashDetail"></SearchComp>
+        <SearchComp ref="searchRef"
+            :searchConfig="searchConfig"
+            @receiveData="receiveData"
+            serverUrl="/ocm-web/api/b2b/financing-apply/list"></SearchComp>
         <div class="tableContainer">
-            <el-table :data="tableData" style="width: 100%">
-                <el-table-column  prop="applyDate" label="日期"></el-table-column>
-                <el-table-column  prop="custcode" label="客户编码"></el-table-column>
-                <el-table-column  prop="syb" label="产品线"></el-table-column>
-                <el-table-column  prop="ctype" label="费用类型"></el-table-column>
-                <el-table-column  prop="billcode" label="单据号"></el-table-column>
-                <el-table-column  prop="memo" label="摘要"></el-table-column>
-                <el-table-column  prop="amount" label="收入">
+            <el-table :data="tableData"
+                style="width: 100%">
+                <el-table-column prop="applyDate"
+                    label="申请日期">
                     <template slot-scope="scope">
                         <div>
-                            <div>{{scope.row.amount|formatPrice}}</div>
+                            {{scope.row.applyDate | formatDate}}
                         </div>
                     </template>
                 </el-table-column>
-                <el-table-column  prop="amount" label="支出">
+                <el-table-column prop="code"
+                    label="申请单号"></el-table-column>
+                <el-table-column prop="orderCode"
+                    label="订单号"></el-table-column>
+                <el-table-column prop="orderMny"
+                    label="现金余额">
                     <template slot-scope="scope">
                         <div>
-                            <div>{{scope.row.amount|formatPrice}}</div>
+                            <div>{{scope.row.orderMny|formatPrice}}</div>
                         </div>
                     </template>
                 </el-table-column>
-                <el-table-column  prop="amount" label="余额">
+                <el-table-column prop="billStatus"
+                    label="审核状态">
                     <template slot-scope="scope">
                         <div>
-                            <div>{{scope.row.amount|formatPrice}}</div>
+                            <div>{{scope.row.billStatus | formatBillStatus}}</div>
                         </div>
                     </template>
                 </el-table-column>
+                <el-table-column prop="totalRepayMny"
+                    label="累计还款金额">
+                    <template slot-scope="scope">
+                        <div>
+                            <div>{{scope.row.totalRepayMny|formatPrice}}</div>
+                        </div>
+                    </template>
+                </el-table-column>
+                <el-table-column prop="totalRepaidMny"
+                    label="累计提货金额">
+                    <template slot-scope="scope">
+                        <div>
+                            <div>{{scope.row.totalRepaidMny|formatPrice}}</div>
+                        </div>
+                    </template>
+                </el-table-column>
+                <el-table-column prop="expireDate"
+                    label="到期日">
+                    <template slot-scope="scope">
+                        <div>
+                            {{scope.row.expireDate | formatDate}}
+                        </div>
+                    </template>
+                </el-table-column>
+                <el-table-column prop="remark"
+                    label="备注"></el-table-column>
             </el-table>
-            <el-pagination
-                @size-change="handleSizeChange"
+            <el-pagination @size-change="handleSizeChange"
                 @current-change="handleCurrentChange"
                 :current-page="pageParams.pageIndex"
                 :page-sizes="[10, 20, 50, 100]"
@@ -40,8 +70,7 @@
                 layout="total, sizes, prev, pager, next, jumper"
                 :total="pageParams.total"
                 prev-text="上一页"
-                next-text="下一页"
-            >
+                next-text="下一页">
             </el-pagination>
         </div>
     </div>
@@ -60,17 +89,34 @@ let searchConfig = [
         label: '申请单号：'
     },
     {
+        type: 'input',
+        field: 'orderCode',
+        label: '订单号：'
+    },
+    {
         type: 'select',
-        field: 'auditStatus',
+        field: 'billStatus',
         label: '审核状态：',
         dataSource: [
             {
-                label: '状态一',
+                label: '未融资',
+                value: 0
+            },
+            {
+                label: '融资成功',
                 value: 1
             },
             {
-                label: '状态二',
+                label: '融资审批拒绝',
                 value: 2
+            },
+            {
+                label: '限定时间内未处理',
+                value: 3
+            },
+            {
+                label: '作废',
+                value: 4
             }
         ]
     },
@@ -88,10 +134,10 @@ export default {
             searchConfig: searchConfig,
             tableData: [],
             //分页参数
-            pageParams:{
-                pageIndex:1,
-                pageSize:10,
-                total:0
+            pageParams: {
+                pageIndex: 1,
+                pageSize: 10,
+                total: 0
             }
         }
     },
@@ -110,31 +156,31 @@ export default {
                     return res.data;
                 })
         },
-        handleSizeChange(pageSize){
+        handleSizeChange(pageSize) {
             let _this = this;
             _this.pageParams.pageSize = pageSize;
             let params = {
-                page:_this.pageParams.pageIndex - 1,
-                size:_this.pageParams.pageSize
+                page: _this.pageParams.pageIndex - 1,
+                size: _this.pageParams.pageSize
             };
             _this.$refs.searchRef.search(params);
         },
-        handleCurrentChange(pageIndex){
+        handleCurrentChange(pageIndex) {
             let _this = this;
             _this.pageParams.pageIndex = pageIndex;
             let params = {
-                page:_this.pageParams.pageIndex - 1,
-                size:_this.pageParams.pageSize
+                page: _this.pageParams.pageIndex - 1,
+                size: _this.pageParams.pageSize
             };
             _this.$refs.searchRef.search(params);
-        },
+        }
     },
-    mounted(){
+    mounted() {
         let _this = this;
         let params = {
-                page:0,
-                size:_this.pageParams.pageSize
-            };
+            page: 0,
+            size: _this.pageParams.pageSize
+        };
         _this.$refs.searchRef.search(params);
     }
 }

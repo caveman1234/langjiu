@@ -1,7 +1,7 @@
 <template>
-  <div id="app">
-    <router-view></router-view>
-  </div>
+    <div id="app">
+        <router-view></router-view>
+    </div>
 </template>
 
 <script>
@@ -10,19 +10,27 @@ import Vheader from "@/components/MainPage/Header/Header.vue";
 import Vfooter from "@/components/MainPage/Footer/Footer.vue";
 import MainPage from "@/components/MainPage/MainPage.vue";
 export default {
-  components: { Vheader, Vfooter, MainPage },
-  name: 'app',
-  data() {
-    return {
+    components: { Vheader, Vfooter, MainPage },
+    name: 'app',
+    data() {
+        return {
 
+        }
+    },
+    methods: {
+        initUserName(){
+            debugger
+            let username = this.$store.state.username;
+            let cookies = new this.$util.Cookies();
+            let customerName = cookies.getCookie('customerName'); 
+            let customerId = cookies.getCookie('customerId'); 
+            this.$store.commit('userloginName',customerName);
+            this.$store.commit('setCustomerId',customerId);
+        }
+    },
+    mounted() {
+        this.initUserName();
     }
-  },
-  methods: {
-
-  },
-  mounted() {
-
-  }
 }
 </script>
 
@@ -30,6 +38,8 @@ export default {
 /* 全局css */
 
 @import './css/style.scss';
+
+
 
 
 
