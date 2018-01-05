@@ -79,9 +79,12 @@ function install(Vue) {
             fullscreen: true,
             // target: '.routeContainer'
         });
-        if (config.method == 'get' && config.params.hasOwnProperty('customerId') && !config.params.customerId) {
-            let cookies = new Vue.prototype.$util.Cookies();
+        let cookies = new Vue.prototype.$util.Cookies();
+        if (config.method == 'get' && config.params && config.params.hasOwnProperty('customerId') && !config.params.customerId) {
             config.params.customerId = cookies.getCookie('customerId');
+        }
+        if (config.url == '/ocm-web/api/b2b/purchase-orders/search-all-orders') {
+            config.data.distributorIds = cookies.getCookie('customerId');
         }
         return config;
     }, function(error) {

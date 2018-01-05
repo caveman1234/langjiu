@@ -18,14 +18,16 @@ export default {
         }
     },
     methods: {
-        initUserName(){
-            debugger
-            let username = this.$store.state.username;
-            let cookies = new this.$util.Cookies();
-            let customerName = cookies.getCookie('customerName'); 
-            let customerId = cookies.getCookie('customerId'); 
-            this.$store.commit('userloginName',customerName);
-            this.$store.commit('setCustomerId',customerId);
+        initUserName() {
+            let _this = this;
+            let username = _this.$store.state.username;
+            let cookies = new _this.$util.Cookies();
+            let customerName = cookies.getCookie('customerName');
+            let customerId = cookies.getCookie('customerId');
+            //设置header的登陆名字
+            _this.$store.commit('userloginName', customerName);
+            //设置经销商ID
+            _this.$store.commit('setCustomerId', customerId);
         }
     },
     mounted() {
@@ -38,6 +40,7 @@ export default {
 /* 全局css */
 
 @import './css/style.scss';
+
 
 
 

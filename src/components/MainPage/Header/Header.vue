@@ -6,7 +6,7 @@
 
                 </div>
                 <div class="right">
-                    <span>欢迎:{{userloginName}}</span>
+                    <span>欢迎:{{$store.state.userloginName}}</span>
                     <a @click="logOut">注销</a>
                     <a @click="changePwd">修改密码</a>
 
