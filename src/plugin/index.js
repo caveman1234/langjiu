@@ -83,8 +83,11 @@ function install(Vue) {
         if (config.method == 'get' && config.params && config.params.hasOwnProperty('customerId') && !config.params.customerId) {
             config.params.customerId = cookies.getCookie('customerId');
         }
+        //订单中心列表
         if (config.url == '/ocm-web/api/b2b/purchase-orders/search-all-orders') {
-            config.data.distributorIds = cookies.getCookie('customerId');
+            if (!config.data.distributorIds) {
+                config.data.distributorIds = cookies.getCookie('customerId');
+            }
         }
         return config;
     }, function(error) {

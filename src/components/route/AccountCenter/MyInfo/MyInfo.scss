@@ -3,16 +3,7 @@
     min-height: 800px !important;
     background: white !important;
     padding: 10px;
-    .el-card {
-        margin-top: 10px;
-        .el-card__header {
-            padding: 10px;
-            span {
-                font-size: 15px;
-            }
-        }
-        .el-card__body {
-            height: 17px;
-        }
+    .el-alert {
+        margin-bottom: 10px;
     }
 }

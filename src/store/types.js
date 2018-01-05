@@ -1,8 +1,8 @@
 /* ********************-goodsCenter.module-********************* */
 export const setCustomerId = 'setCustomerId'; /* root-设置经销商ID */
 export const prodGroupId = 'prodGroupId'; /* 舍当前选中品类,产品线 */
-export const userloginName = 'userloginName'; /* 设置经销商名字 */
-export const changeUsername = 'changeUsername'; /* 改变用户名 */
+export const userloginName = 'userloginName'; /* 设置经销商名字-header显示 */
+export const changeUsername = 'changeUsername'; /* 改变用户名--注册 */
 
 
 

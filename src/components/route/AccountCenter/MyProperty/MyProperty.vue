@@ -1,27 +1,29 @@
 <template>
     <div class="MyProperty">
         <div class="MyPropertyLeft">
-            <div @click="cashRestDetail" class="cashRest MypropertyLeftItem">
+            <div @click="cashRestDetail"
+                class="cashRest MypropertyLeftItem">
                 <el-row>
-                    <el-col :span="5">
+                    <el-col :span="7">
                         <div class="text">现金余额:</div>
                     </el-col>
-                    <el-col :span="12">
+                    <el-col :span="10">
                         <div class="money">{{totalCash|formatPrice}}</div>
                     </el-col>
                     <el-col :span="7">
                         <!-- <div class="lookDetail">查看明细
-                                                                                        <i class="el-icon-d-arrow-right"></i>
-                                                                                    </div> -->
+                                                                                            <i class="el-icon-d-arrow-right"></i>
+                                                                                        </div> -->
                     </el-col>
                 </el-row>
             </div>
-            <div @click="costOffDetail" class="costRest MypropertyLeftItem">
+            <div @click="costOffDetail"
+                class="costRest MypropertyLeftItem">
                 <el-row>
-                    <el-col :span="5">
+                    <el-col :span="7">
                         <div class="text">费用余额:</div>
                     </el-col>
-                    <el-col :span="12">
+                    <el-col :span="10">
                         <div class="money">{{totalCost|formatPrice}}</div>
                     </el-col>
                     <el-col :span="7">
@@ -31,12 +33,13 @@
                     </el-col>
                 </el-row>
             </div>
-            <div @click="buildRestDetail" class="buildRest MypropertyLeftItem">
+            <div @click="buildRestDetail"
+                class="buildRest MypropertyLeftItem">
                 <el-row>
-                    <el-col :span="5">
+                    <el-col :span="7">
                         <div class="text">共建基金余额:</div>
                     </el-col>
-                    <el-col :span="12">
+                    <el-col :span="10">
                         <div class="money">{{totalBuildRest|formatPrice}}</div>
                     </el-col>
                     <el-col :span="7">
@@ -46,12 +49,13 @@
                     </el-col>
                 </el-row>
             </div>
-            <div @click="promiseRestDetail" class="promiseRest MypropertyLeftItem">
+            <div @click="promiseRestDetail"
+                class="promiseRest MypropertyLeftItem">
                 <el-row>
-                    <el-col :span="5">
+                    <el-col :span="7">
                         <div class="text">保证金余额:</div>
                     </el-col>
-                    <el-col :span="12">
+                    <el-col :span="10">
                         <div class="money">{{totalPromiseRest|formatPrice}}</div>
                     </el-col>
                     <el-col :span="7">
@@ -61,23 +65,27 @@
                     </el-col>
                 </el-row>
             </div>
-            <div @click="notDeliverDetail" class="notDeliver MypropertyLeftItem">
+            <div @click="notDeliverDetail"
+                class="notDeliver MypropertyLeftItem">
                 <el-row>
-                    <el-col :span="5">
+                    <el-col :span="7">
                         <div class="text">未发货金额:</div>
                     </el-col>
-                    <el-col :span="12">
+                    <el-col :span="10">
                         <div class="money">{{notDeliver|formatPrice}}</div>
                     </el-col>
                     <el-col :span="7">
-
+                        <div class="lookDetail">查看明细
+                            <i class="el-icon-d-arrow-right"></i>
+                        </div>
                     </el-col>
                 </el-row>
             </div>
 
         </div>
         <div class="MyPropertyRight">
-            <component :is="currentShow" :tableDataArr='tableDataArr'></component>
+            <component :is="currentShow"
+                :tableDataArr='tableDataArr'></component>
         </div>
     </div>
 </template>
@@ -85,6 +93,7 @@
 import costOff from './costOff/costOff';
 import promiseRest from './promiseRest/promiseRest';
 import buildRest from './buildRest/buildRest';
+import NotdeliverMoney from './NotdeliverMoney/NotdeliverMoney';
 export default {
     name: 'MyProperty',
     components: { costOff, promiseRest, buildRest },
@@ -99,10 +108,16 @@ export default {
             notDeliver: 0,//未发货金额
             //缓存表格明细信息
             cacheTableDataArr: {
+                //现金余额
                 cashTableDataArr: [],
+                //费用余额
                 costtableDataArr: [],
+                //保证金余额
                 promiseTableDataArr: [],
+                //共建基金余额
                 buildTableDataArr: [],
+                //未发货金额
+                notDeliverTableDataArr: [],
             },
             paramsInfo: {
                 /* 现金余额 */
@@ -141,6 +156,15 @@ export default {
                         }
                     }
                 },
+                //未发货金额
+                notDeliverInfo: {
+                    url: '/ocm-web/api/b2b/purchase-orders/countUnSendedOrderByCustomerId',
+                    paramsWrap: {
+                        params: {
+                            customerId: this.$store.state.customerId
+                        }
+                    }
+                },
             }
         }
     },
@@ -169,9 +193,11 @@ export default {
             this.currentShow = buildRest;
             _this.tableDataArr = _this.cacheTableDataArr.buildTableDataArr;
         },
+        //未发货金额
         notDeliverDetail() {
             let _this = this;
-            _this.currentShow = '';
+            _this.currentShow = NotdeliverMoney;
+            _this.tableDataArr = _this.cacheTableDataArr.notDeliverTableDataArr;
         },
         fetchCashRestDetail() {
             let _this = this;
@@ -228,21 +254,18 @@ export default {
         //获取未发货金额
         fetchNotDeliverDetail() {
             let _this = this;
-            let url = '/ocm-web/api/b2b/purchase-orders/countUnSendedAmountByCustomerId';
-            let paramsWrap = {
-                params: {
-                    customerId: this.$store.state.customerId
-                }
-            }
-            _this.$http.get(url, paramsWrap)
+            let { url, paramsWrap } = _this.paramsInfo.notDeliverInfo;
+            return _this.$http.get(url, paramsWrap)
                 .then(res => {
-                    _this.notDeliver = res.data;
+                    let total = res.data.reduce((acc, v) => {
+                        return acc + (v.unSendAmount || 0);
+                    }, 0);
+                    return {
+                        total: total,
+                        data: res.data
+                    }
                 })
         }
-
-
-
-
     },
     mounted() {
         let _this = this;
@@ -265,7 +288,11 @@ export default {
             _this.cacheTableDataArr.buildTableDataArr = data;
             _this.totalBuildRest = total;
         });
-        _this.fetchNotDeliverDetail();
+        _this.fetchNotDeliverDetail().then(res => {
+            let { total, data } = res;
+            _this.cacheTableDataArr.notDeliverTableDataArr = data;
+            _this.notDeliver = total;
+        });
     }
 }
 </script>

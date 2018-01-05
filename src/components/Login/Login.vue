@@ -18,7 +18,7 @@
                                 </el-input>
                             </el-form-item>
                             <el-form-item label="密码：" prop="password">
-                                <el-input type="password" v-model="loginForm.password">
+                                <el-input @keyup.native.enter="submitForm('ruleForm2')" type="password" v-model="loginForm.password">
                                     <i class="icon iconfont lj-password" slot="prefix"></i>
                                 </el-input>
                             </el-form-item>
@@ -77,7 +77,6 @@ export default {
                         url: '/ocm-web/api/account/login',
                         data: _this.loginForm
                     }).then(res => {
-                        debugger
                         //首次登陆，没改密码
 
                         if (res.headers["x-ocm-code"] == '1') {

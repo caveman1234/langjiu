@@ -54,17 +54,14 @@
                 </template>
             </el-row>
         </el-form>
-        <el-row>
-            <el-col :span="20">
-                <div class="opacity0">1</div>
-            </el-col>
-            <el-col :span="4">
-                <el-button @click="reset"
-                    size="mini">清空</el-button>
-                <el-button @click="search"
-                    type="primary"
-                    size="mini">搜索</el-button>
-            </el-col>
+        <el-row type="flex"
+            class="row-bg"
+            justify="end">
+            <el-button @click="reset"
+                size="mini">清空</el-button>
+            <el-button @click="search"
+                type="primary"
+                size="mini">搜索</el-button>
         </el-row>
     </div>
 </template>

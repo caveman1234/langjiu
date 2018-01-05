@@ -107,11 +107,11 @@ export default {
         },
         //待发货申请
         willSendApply() {
-            this.$router.push({ name: 'DeliverList', params: { from: 'DeliverList' } });
+            this.$router.push({ name: 'DeliverWaitCheck', params: { from: 'Home' } });
         },
         //待退货申请
         willReturnApply() {
-            this.$router.push({ name: 'ReturnList', params: { from: 'ReturnList' } });
+            this.$router.push({ name: 'ReturnWaitCheck', params: { from: 'Home' } });
         },
         //获取待审核订单数量
         fetchCount(){

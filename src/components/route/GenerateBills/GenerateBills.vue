@@ -203,7 +203,6 @@
                                 <el-button @click="edit" size="mini">修改</el-button>
                                 <el-button @click="submit" size="mini" type="primary">提交</el-button>
                                 <!-- <el-button v-show="financingChecked" @click="payOnline" size="mini" type="primary">在线支付</el-button> -->
-                                <el-button v-show="!financingChecked" @click="payOnline" size="mini" type="primary">去融资</el-button>
                             </div>
                         </el-col>
                     </div>

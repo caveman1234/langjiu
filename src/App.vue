@@ -18,20 +18,17 @@ export default {
         }
     },
     methods: {
-        initUserName() {
+        initUsername() {
             let _this = this;
-            let username = _this.$store.state.username;
             let cookies = new _this.$util.Cookies();
-            let customerName = cookies.getCookie('customerName');
-            let customerId = cookies.getCookie('customerId');
-            //设置header的登陆名字
-            _this.$store.commit('userloginName', customerName);
-            //设置经销商ID
-            _this.$store.commit('setCustomerId', customerId);
+            //设置登陆名字
+            _this.$nextTick(() => {
+                _this.$store.commit('userloginName', cookies.getCookie('customerName'));
+            });
         }
     },
     mounted() {
-        this.initUserName();
+        this.initUsername();
     }
 }
 </script>
@@ -40,6 +37,8 @@ export default {
 /* 全局css */
 
 @import './css/style.scss';
+
+
 
 
 

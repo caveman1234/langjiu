@@ -50,9 +50,10 @@ export default {
     mounted() {
         let _this = this;
         let from = _this.$route.params.from;
-        // if(from == 'Home'){
-        //     _this.currentChecked = 'waitCheck';
-        // }
+        //首页跳进来
+        if(from == 'Home'){
+            _this.currentChecked = 'waitCheck';
+        }
     }
 }
 </script>

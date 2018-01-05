@@ -1,0 +1,11 @@
+@import 'src/css/colors.scss';
+.NotdeliverMoney {
+    box-sizing: border-box;
+    padding: 0 10px;
+    // width: 526px;
+    .title {
+        text-align: center;
+        line-height: 30px;
+        font-size: 20px;
+    }
+}
