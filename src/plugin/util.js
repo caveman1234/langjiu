@@ -1,6 +1,6 @@
 class Cookies {
     constructor() {
-        let cookiesArr = document.cookie.split(';').filter(v => v);
+        let cookiesArr = document.cookie.split(';').filter(v => v.trim());
         this.cookiesObj = cookiesArr.reduce((acc, v) => {
             let item = v.split('=');
             let key = decodeURI(item[0].trim());
@@ -13,7 +13,11 @@ class Cookies {
         return this.cookiesObj[key];
     }
     clear() {
-        document.cookie = '';
+        var keys = document.cookie.match(/[^ =;]+(?=\=)/g);
+        if (keys) {
+            for (var i = keys.length; i--;)
+                document.cookie = keys[i] + '=0;expires=' + new Date(0).toUTCString()
+        }
     }
 }
 export default {

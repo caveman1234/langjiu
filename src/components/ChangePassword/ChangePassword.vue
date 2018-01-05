@@ -18,12 +18,12 @@
                                 </el-input>
                             </el-form-item>
                             <el-form-item label="新密码：" prop="password">
-                                <el-input type="password" v-model="loginForm.password">
+                                <el-input @keyup.native.enter="changePwd('ruleForm2')" type="password" v-model="loginForm.password">
                                     <i class="icon iconfont lj-password" slot="prefix"></i>
                                 </el-input>
                             </el-form-item>
                             <el-form-item label="确认新密码：" prop="rePassword">
-                                <el-input type="password" v-model="loginForm.rePassword">
+                                <el-input @keyup.native.enter="changePwd('ruleForm2')" type="password" v-model="loginForm.rePassword">
                                     <i class="icon iconfont lj-password" slot="prefix"></i>
                                 </el-input>
                             </el-form-item>

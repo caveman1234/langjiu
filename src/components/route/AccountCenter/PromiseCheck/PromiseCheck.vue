@@ -10,15 +10,15 @@
                     label="日期"></el-table-column>
                 <el-table-column prop="sybName"
                     label="事业部名称"></el-table-column>
-                <el-table-column prop="billcode"
+                <el-table-column prop="billcode" width="150px"
                     label="单据号"></el-table-column>
-                <el-table-column prop="memo"
+                <el-table-column prop="memo" width="200px"
                     label="摘要"></el-table-column>
                 <el-table-column prop="income"
                     label="收入">
                     <template slot-scope="scope">
                         <div>
-                            <div>{{scope.row.income|formatPrice}}</div>
+                            <div>{{scope.row.income|formatInOut}}</div>
                         </div>
                     </template>
                 </el-table-column>
@@ -26,7 +26,7 @@
                     label="支出">
                     <template slot-scope="scope">
                         <div>
-                            <div>{{scope.row.cost|formatPrice}}</div>
+                            <div>{{scope.row.cost|formatInOut}}</div>
                         </div>
                     </template>
                 </el-table-column>

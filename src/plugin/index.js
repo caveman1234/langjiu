@@ -59,6 +59,17 @@ function install(Vue) {
             return '¥' + Number(value).toFixed(2);
         }
     });
+    //收入支出格式化
+    Vue.filter('formatInOut', function(value) {
+        if (value == 0) {
+            return '¥0.00';
+        } else if (value == null || value == undefined || value == '') {
+            return ''
+        } else {
+            return '¥' + Number(value).toFixed(2);
+        }
+    });
+
     //格式化审核状态
     Vue.filter('formatBillStatus', function(value) {
         let billStatusObj = {

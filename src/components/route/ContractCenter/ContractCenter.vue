@@ -35,6 +35,10 @@ export default {
                     break;
             }
         }
+    },
+    mounted(){
+        let _this = this;
+        _this.$store.commit('changeCurrentNav', { hash: '/ContractCenter' });
     }
 }
 </script>

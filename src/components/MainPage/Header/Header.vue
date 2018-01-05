@@ -94,6 +94,9 @@ export default {
             this.$store.commit('setCustomerId', '');
             //清空用户名
             this.$store.commit('changeUsername', '');
+            //清空cookies
+            let cookies = new this.$util.Cookies();
+            cookies.clear();
         },
         changePwd() {
             this.$router.push({ name: 'ChangePassword' });
@@ -114,7 +117,7 @@ export default {
         let cookies = new this.$util.Cookies();
         this.$store.commit('userloginName',cookies.getCookie('customerName'));
         //登陆用户名-修改密码
-        this.$store.commit('changeUsername',cookies.getCookie('changeUsername'));
+        // this.$store.commit('changeUsername',cookies.getCookie('changeUsername'));
     }
 
 }

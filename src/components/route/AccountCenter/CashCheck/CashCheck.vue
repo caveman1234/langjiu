@@ -17,7 +17,7 @@
                     label="收入">
                     <template slot-scope="scope">
                         <div>
-                            <div>{{scope.row.income|formatPrice}}</div>
+                            <div>{{scope.row.income|formatInOut}}</div>
                         </div>
                     </template>
                 </el-table-column>
@@ -25,7 +25,7 @@
                     label="支出">
                     <template slot-scope="scope">
                         <div>
-                            <div>{{scope.row.cost|formatPrice}}</div>
+                            <div>{{scope.row.cost|formatInOut}}</div>
                         </div>
                     </template>
                 </el-table-column>

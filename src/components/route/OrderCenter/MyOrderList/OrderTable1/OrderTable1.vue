@@ -37,10 +37,10 @@
                             <el-col :span="22">{{item.approveOpinion}}</el-col>
                         </el-row>
                     </div>
-                    <div class="orderHeader">
+                    <div v-if="item.poTypeBusinessType == '03'" class="orderHeader">
                         <el-row>
                             <el-col :span="3">融资审批状态:</el-col>
-                            <el-col :span="2">{{item.financingStatus | formatBillStatus}}</el-col>
+                            <el-col :span="2">{{(item.financingStatus) | formatBillStatus}}</el-col>
                             <el-col :span="2">融资金额:</el-col>
                             <el-col :span="3">{{item.totalAmount | formatPrice}}</el-col>
                             <el-col :span="3">累计已还款金额:</el-col>
@@ -76,7 +76,7 @@
                                     type="primary">申请发货
                                 </el-button>
                             </template>
-                            <template>
+                            <template v-if="item.poTypeBusinessType == '03' && item.billStatusCode == '03' && item.financingStatus=='0'  ">
                                 <el-button @click="goFinancing(item)"
                                     size="mini"
                                     type="primary">去融资
@@ -154,6 +154,9 @@ isNoticeSend  是  1 ， 否   0
 isApplySendOver 申请发货完成 0 1，
 2. isNoticeSend == 1 && isApplySendOver == 0   => 申请发货
 填仓订单：
+
+3 去融资 -》融资订单&&订单状态已审核&&融资状态未审核
+item.poTypeBusinessType == '03' && item.billStatusCode == '03' && item.financingStatus=='0'
 
 
 */
@@ -241,6 +244,7 @@ export default {
         },
         //查看更多
         lookMore(item) {
+            debugger
             item.isMoreShow = !item.isMoreShow;
          }
     },
