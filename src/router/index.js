@@ -28,8 +28,8 @@ import MsgContent from '@/components/route/MsgCenter/MsgContent/MsgContent'
 import PurchaseBills from '@/components/route/PurchaseBills/PurchaseBills'
 import GenerateBills from '@/components/route/GenerateBills/GenerateBills.vue'
 import GenerateBillsEdit from '@/components/route/GenerateBills/GenerateBillsEdit/GenerateBillsEdit.vue'
-import ApplySend from '@/components/route/ApplySend/ApplySend'
-import ApplyReturn from '@/components/route/ApplyReturn/ApplyReturn'
+import ApplySend from '@/components/route/OrderCenter/MyOrderList/ApplySend/ApplySend'
+import ApplyReturn from '@/components/route/OrderCenter/MyOrderList/ApplyReturn/ApplyReturn'
 
 import OrderCenter from '@/components/route/OrderCenter/OrderCenter'
 /* 订单children */

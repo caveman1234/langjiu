@@ -82,7 +82,7 @@ export default {
         fetchOrderType() {
             let _this = this;
             /* 获取订单类型 */
-            return _this.$http.get('/ocm-web/api/b2b/po-types/get-common')
+            return _this.$http.get('/ocm-web/api/b2b/po-types/get-sendapply')
                 .then(res => {
                     return res.data.map(v => ({ label: v.name, value: v.id }));
                 });

@@ -57,7 +57,7 @@ let defaultValue = [new Date(new Date().getTime() - 24 * 60 * 60 * 1000 * 30), n
 let searchConfig = [
     {
         type: 'datePickerRange',
-        field: 'billDate',
+        field: 'apprDate',
         label: '日期：',
         defaultValue: defaultValue
     }

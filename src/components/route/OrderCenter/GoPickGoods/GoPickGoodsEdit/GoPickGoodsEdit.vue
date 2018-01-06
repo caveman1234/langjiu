@@ -65,6 +65,7 @@
     </div>
 </template>
 <script>
+//去提货，去填仓
 import AddNewGoods from '@/components/route/GenerateBills/AddNewGoods/AddNewGoods';
 export default {
     name: 'GoPickGoodsEdit',

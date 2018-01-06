@@ -9,7 +9,9 @@
                         <el-col :span="2">订单时间:</el-col>
                         <el-col :span="2">{{item.orderDate|formatDate}}</el-col>
                         <el-col :span="2">订单编号:</el-col>
-                        <el-col :span="2">{{item.orderCode}}</el-col>
+                        <el-col :span="3">{{item.orderCode}}</el-col>
+                        <el-col :span="2">订单状态:</el-col>
+                        <el-col :span="2">{{item.billStatusName}}</el-col>
                     </el-row>
                 </div>
                 <el-table :data="item.purchaseOrderItems" border style="width: 100%">
@@ -29,7 +31,7 @@
                             </div>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="applyNum" label="数量">
+                    <el-table-column prop="applyNum" :label="item.poTypeBusinessType == '05' ? '申请发货数量':'退订数量'  ">
                         <template slot-scope="scope">
                             <div>
                                 <div>箱数：{{scope.row.baleQuantity}} 箱</div>
@@ -39,10 +41,9 @@
                     </el-table-column>
                     <el-table-column prop="totalAmount" label="金额">
                         <template slot-scope="scope">
-                            <div v-red>{{scope.row.totalAmount | formatPrice}}</div>
+                            <div v-red>{{scope.row.realAmount | formatPrice}}</div>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="billStatusName" label="状态"></el-table-column>
                 </el-table>
             </div>
         </template>

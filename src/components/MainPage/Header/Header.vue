@@ -116,8 +116,9 @@ export default {
     mounted() {
         let cookies = new this.$util.Cookies();
         this.$store.commit('userloginName',cookies.getCookie('customerName'));
+        this.$store.commit('setCustomerId',cookies.getCookie('customerId'));
         //登陆用户名-修改密码
-        // this.$store.commit('changeUsername',cookies.getCookie('changeUsername'));
+        this.$store.commit('changeUsername',cookies.getCookie('username'));
     }
 
 }

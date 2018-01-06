@@ -68,7 +68,7 @@ let searchConfig = [
     },
     {
         type: 'datePickerRange',
-        field: 'billDate',
+        field: 'apprDate',
         label: '日期：',
         defaultValue: defaultValue
     }

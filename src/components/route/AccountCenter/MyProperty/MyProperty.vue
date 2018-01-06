@@ -17,6 +17,22 @@
                     </el-col>
                 </el-row>
             </div>
+            <div @click="promiseRestDetail"
+                class="promiseRest MypropertyLeftItem">
+                <el-row>
+                    <el-col :span="7">
+                        <div class="text">保证金余额:</div>
+                    </el-col>
+                    <el-col :span="10">
+                        <div class="money">{{totalPromiseRest|formatPrice}}</div>
+                    </el-col>
+                    <el-col :span="7">
+                        <!-- <div class="lookDetail">查看明细
+                            <i class="el-icon-d-arrow-right"></i>
+                        </div> -->
+                    </el-col>
+                </el-row>
+            </div>
             <div @click="costOffDetail"
                 class="costRest MypropertyLeftItem">
                 <el-row>
@@ -49,22 +65,7 @@
                     </el-col>
                 </el-row>
             </div>
-            <div @click="promiseRestDetail"
-                class="promiseRest MypropertyLeftItem">
-                <el-row>
-                    <el-col :span="7">
-                        <div class="text">保证金余额:</div>
-                    </el-col>
-                    <el-col :span="10">
-                        <div class="money">{{totalPromiseRest|formatPrice}}</div>
-                    </el-col>
-                    <el-col :span="7">
-                        <div class="lookDetail">查看明细
-                            <i class="el-icon-d-arrow-right"></i>
-                        </div>
-                    </el-col>
-                </el-row>
-            </div>
+            
             <div @click="notDeliverDetail"
                 class="notDeliver MypropertyLeftItem">
                 <el-row>
@@ -184,8 +185,8 @@ export default {
         /* 保证金余额click */
         promiseRestDetail() {
             let _this = this;
-            this.currentShow = promiseRest;
-            _this.tableDataArr = _this.cacheTableDataArr.promiseTableDataArr;
+            this.currentShow = '';
+            // _this.tableDataArr = _this.cacheTableDataArr.promiseTableDataArr;
         },
         /* 共建基金余额click */
         buildRestDetail() {
@@ -228,13 +229,7 @@ export default {
             let { url, paramsWrap } = _this.paramsInfo.promiseRestInfo;
             return _this.$http.get(url, paramsWrap)
                 .then(res => {
-                    let total = res.data.reduce((acc, v) => {
-                        return acc + (v.deposit || 0);
-                    }, 0);
-                    return {
-                        total: total,
-                        data: res.data
-                    }
+                    return res.data;
                 });
         },
         fetchBuildRestDetail() {
@@ -279,9 +274,7 @@ export default {
             _this.totalCost = total;
         });
         _this.fetchPromiseRestDetail().then(res => {
-            let { total, data } = res;
-            _this.cacheTableDataArr.promiseTableDataArr = data;
-            _this.totalPromiseRest = total;
+            _this.totalPromiseRest = res;
         });
         _this.fetchBuildRestDetail().then(res => {
             let { total, data } = res;

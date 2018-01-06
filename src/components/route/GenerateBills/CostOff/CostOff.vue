@@ -215,6 +215,7 @@ export default {
                     fundPrice: v.fundPrice
                 }
             });
+            
             let paramsWrap = {
                 saleChannelCode: '00',
                 distributorId: this.$store.state.customerId,

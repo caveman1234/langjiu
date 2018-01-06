@@ -8,8 +8,8 @@
             <el-table :data="tableData">
                 <el-table-column prop="dbilldate"
                     label="日期"></el-table-column>
-                <el-table-column prop="sybName"
-                    label="事业部名称"></el-table-column>
+                <!-- <el-table-column prop="sybName"
+                    label="事业部名称"></el-table-column> -->
                 <el-table-column prop="billcode" width="150px"
                     label="单据号"></el-table-column>
                 <el-table-column prop="memo" width="200px"
@@ -56,24 +56,24 @@
 import SearchComp from '@/components/commonComp/SearchComp/SearchComp';
 let defaultValue = [new Date(new Date().getTime() - 24 * 60 * 60 * 1000 * 30), new Date(new Date().getTime())];
 let searchConfig = [
-    {
-        type: 'select',
-        field: 'productGroupId',
-        label: '事业部：',
-        dataSource: [
-            {
-                label: '事业部一',
-                value: 1
-            },
-            {
-                label: '事业部二',
-                value: 2
-            }
-        ]
-    },
+    // {
+    //     type: 'select',
+    //     field: 'productGroupId',
+    //     label: '事业部：',
+    //     dataSource: [
+    //         {
+    //             label: '事业部一',
+    //             value: 1
+    //         },
+    //         {
+    //             label: '事业部二',
+    //             value: 2
+    //         }
+    //     ]
+    // },
     {
         type: 'datePickerRange',
-        field: 'billDate',
+        field: 'apprDate',
         label: '日期：',
         defaultValue:defaultValue
     }
@@ -134,11 +134,11 @@ export default {
     },
     mounted() {
         let _this = this;
-        _this.fetchSysDataSource()
-            .then(data => {
-                searchConfig[0].dataSource = data.map(v => ({ label: v.name, value: v.id }));
-                _this.searchConfig = searchConfig;
-            });
+        // _this.fetchSysDataSource()
+        //     .then(data => {
+        //         searchConfig[0].dataSource = data.map(v => ({ label: v.name, value: v.id }));
+        //         _this.searchConfig = searchConfig;
+        //     });
         let params = {
             page: 0,
             size: _this.pageParams.pageSize

@@ -73,11 +73,12 @@ function install(Vue) {
     //格式化审核状态
     Vue.filter('formatBillStatus', function(value) {
         let billStatusObj = {
-            0: '未融资',
+            0: '融资中',
             1: '融资成功',
             2: '融资审批拒绝',
             3: '限定时间内未处理',
-            4: '作废'
+            4: '作废',
+            10:'未融资'
         };
         return billStatusObj[value] || '暂无';
     });

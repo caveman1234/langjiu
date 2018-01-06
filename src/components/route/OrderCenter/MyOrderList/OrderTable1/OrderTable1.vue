@@ -25,7 +25,8 @@
                             <div @click="lookMore(item)"
                                 class="lookMore">
                                 <span class="text">{{ item.isMoreShow ? '收起' : '更多'}}</span>
-                                <i class="icon iconfont" :class="[item.isMoreShow ? 'lj-up' :'lj-down-']"></i>
+                                <i class="icon iconfont"
+                                    :class="[item.isMoreShow ? 'lj-up' :'lj-down-']"></i>
                             </div>
                         </el-col>
                     </el-row>
@@ -37,7 +38,8 @@
                             <el-col :span="22">{{item.approveOpinion}}</el-col>
                         </el-row>
                     </div>
-                    <div v-if="item.poTypeBusinessType == '03'" class="orderHeader">
+                    <div v-if="item.poTypeBusinessType == '03'"
+                        class="orderHeader">
                         <el-row>
                             <el-col :span="3">融资审批状态:</el-col>
                             <el-col :span="2">{{(item.financingStatus) | formatBillStatus}}</el-col>
@@ -67,16 +69,24 @@
                         <el-button-group>
                             <template v-if="item.poTypeBusinessType =='03' && item.billStatusCode == '03' && item.totalRepaidAmount < item.totalRepayAmount"
                                 @click="goPickGoods(item)">
-                                <el-button size="mini"
+                                <!-- <el-button size="mini"
                                     type="primary">去提货
-                                </el-button>
+                                </el-button> -->
                             </template>
-                            <template v-if="item.isNoticeSend == 1 && item.isApplySendOver == 0">
-                                <el-button size="mini"
+                            <template v-if="item.isNoticeSend == 1 && item.isApplySendOver == 0 && item.billStatusCode == '03' && item.poTypeBusinessType !=='03' && item.isNcConfirm ==1 ">
+                                <el-button @click="applySend(item)"
+                                    size="mini"
                                     type="primary">申请发货
                                 </el-button>
                             </template>
-                            <template v-if="item.poTypeBusinessType == '03' && item.billStatusCode == '03' && item.financingStatus=='0'  ">
+
+                            <template v-if="item.isSendOver == 0 && item.isNcConfirm == 1 && item.billStatusCode == '03' " >
+                                <el-button @click="applyReturn(item)"
+                                    size="mini"
+                                    type="primary">申请退订
+                                </el-button>
+                            </template>
+                            <template v-if="item.poTypeBusinessType == '03' && item.billStatusCode == '03' && item.financingStatus == '10' ">
                                 <el-button @click="goFinancing(item)"
                                     size="mini"
                                     type="primary">去融资
@@ -125,17 +135,17 @@
                         </template>
                     </el-table-column>
                     <!-- <el-table-column prop="" label="金额">
-                                                                                                                <template slot-scope="scope">
-                                                                                                                    <div v-red>{{item.totalAmount | formatPrice}}</div>
-                                                                                                                </template>
-                                                                                                            </el-table-column>
-                                                                                                            <el-table-column prop="" label="操作">
-                                                                                                                <template slot-scope="scope">
-                                                                                                                    <div>
-                                                                                                                        <el-button size="mini" type="primary">去融资</el-button>
-                                                                                                                    </div>
-                                                                                                                </template>
-                                                                                                            </el-table-column> -->
+                                                                                                                            <template slot-scope="scope">
+                                                                                                                                <div v-red>{{item.totalAmount | formatPrice}}</div>
+                                                                                                                            </template>
+                                                                                                                        </el-table-column>
+                                                                                                                        <el-table-column prop="" label="操作">
+                                                                                                                            <template slot-scope="scope">
+                                                                                                                                <div>
+                                                                                                                                    <el-button size="mini" type="primary">去融资</el-button>
+                                                                                                                                </div>
+                                                                                                                            </template>
+                                                                                                                        </el-table-column> -->
                 </el-table>
             </div>
         </template>
@@ -157,7 +167,7 @@ isApplySendOver 申请发货完成 0 1，
 
 3 去融资 -》融资订单&&订单状态已审核&&融资状态未审核
 item.poTypeBusinessType == '03' && item.billStatusCode == '03' && item.financingStatus=='0'
-
+isSendOver 发货未完成
 
 */
 //-----------------------------------------billStatusCode订单状态
@@ -239,14 +249,46 @@ export default {
             let url = '/ocm-web/api/cmbc/pushOrderInfoToCmbc';
             _this.$http.post(url, params)
                 .then(res => {
-                    debugger
+                    //改变状态
+                    item.financingStatus = '0';
+                    _this.$Notify({ title: '融资成功', type: 'success' });
                 })
         },
         //查看更多
         lookMore(item) {
             debugger
             item.isMoreShow = !item.isMoreShow;
-         }
+        },
+        //申请发货
+        applySend(item) {
+            let _this = this;
+            let paramsWrap = {
+                params: {
+                    id: item.id,//订单id
+                }
+            }
+            let url = decodeURI('/ocm-web/api/b2b/purchase-orders/get-sendapply-order-push-detail');
+            _this.$http.get(url, paramsWrap)
+                .then(res => {
+                    _this.$router.push({ name: 'ApplySend', params:{infoData: res.data} });
+                })
+
+        },
+        //申请退货
+        applyReturn(item) {
+            let _this = this;
+            let paramsWrap = {
+                params: {
+                    id: item.id,//订单id
+                }
+            }
+            let url = '/ocm-web/api/b2b/purchase-orders/get-returnchange-order-push-detail';
+            _this.$http.get(url, paramsWrap)
+                .then(res => {
+                    debugger
+                    _this.$router.push({ name: 'ApplyReturn', params:{infoData: res.data} });
+                })
+        }
     },
     mounted() {
     }

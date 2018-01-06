@@ -66,10 +66,10 @@ export default {
         return {
             msgArr: [],
             imageArr: [
-                require('../../../assets/images/banner4.jpg'),
+                require('../../../assets/images/banner1.jpg'),
                 require('../../../assets/images/banner2.jpg'),
                 require('../../../assets/images/banner3.jpg'),
-                require('../../../assets/images/banner1.jpg'),
+                require('../../../assets/images/banner4.jpg'),
             ],
             budge:{
                 commonOrderNum:0,//待审核订单

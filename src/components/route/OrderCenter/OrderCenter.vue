@@ -4,7 +4,7 @@
             <el-tabs @tab-click="tabClick" tab-position="left" v-model="currentCheck">
                 <el-tab-pane label="我的订单列表" name="TotalOrder"></el-tab-pane>
                 <el-tab-pane label="发货申请列表" name="DeliverList"></el-tab-pane>
-                <el-tab-pane label="退货申请列表" name="ReturnList"></el-tab-pane>
+                <el-tab-pane label="退订申请列表" name="ReturnList"></el-tab-pane>
             </el-tabs>
         </div>
         <div class="orderContainer">
@@ -52,9 +52,16 @@ export default {
             case 'ReturnList':
                 this.currentCheck = 'ReturnList';
                 break;
+            case 'ApplySend':
+                this.currentCheck = 'DeliverList';
+                break;
+            case 'ApplyReturn':
+                this.currentCheck = 'ReturnList';
+                break;
             default:
                 this.currentCheck = 'TotalOrder';
         }
+
     }
 }
 </script>
