@@ -3,32 +3,52 @@
         <div class="wrap-box">
             <div class="login-top-bg">
                 <div class="login-top-con clearfix">
-                    <a href="#" class="logo-img"></a>
+                    <a href="#"
+                        class="logo-img"></a>
                     <div class="logo-txt">郎酒CRM数字营销系统</div>
                 </div>
             </div>
             <div class="login-con-box">
-                <div :style='{backgroundImage:`url(${imgUrl})`}' class="login-bg">
+                <div :style='{backgroundImage:`url(${imgUrl})`}'
+                    class="login-bg">
                     <div class="logContainer">
                         <div class="loginTitle">修改密码</div>
-                        <el-form :model="loginForm" status-icon :rules="rules" ref="ruleForm2" label-width="120px" size="small" style="width:100%;" class="loginForm">
+                        <el-form :model="loginForm"
+                            status-icon
+                            :rules="rules"
+                            ref="ruleForm2"
+                            label-width="120px"
+                            size="small"
+                            style="width:100%;"
+                            class="loginForm">
                             <el-form-item label="用户名：">
-                                <el-input v-model="loginForm.username" disabled>
-                                    <i class="icon iconfont lj-account" slot="prefix"></i>
+                                <el-input v-model="loginForm.username"
+                                    disabled>
+                                    <i class="icon iconfont lj-account"
+                                        slot="prefix"></i>
                                 </el-input>
                             </el-form-item>
-                            <el-form-item label="新密码：" prop="password">
-                                <el-input @keyup.native.enter="changePwd('ruleForm2')" type="password" v-model="loginForm.password">
-                                    <i class="icon iconfont lj-password" slot="prefix"></i>
+                            <el-form-item label="新密码："
+                                prop="password">
+                                <el-input @keyup.native.enter="changePwd('ruleForm2')"
+                                    type="password"
+                                    v-model="loginForm.password">
+                                    <i class="icon iconfont lj-password"
+                                        slot="prefix"></i>
                                 </el-input>
                             </el-form-item>
-                            <el-form-item label="确认新密码：" prop="rePassword">
-                                <el-input @keyup.native.enter="changePwd('ruleForm2')" type="password" v-model="loginForm.rePassword">
-                                    <i class="icon iconfont lj-password" slot="prefix"></i>
+                            <el-form-item label="确认新密码："
+                                prop="rePassword">
+                                <el-input @keyup.native.enter="changePwd('ruleForm2')"
+                                    type="password"
+                                    v-model="loginForm.rePassword">
+                                    <i class="icon iconfont lj-password"
+                                        slot="prefix"></i>
                                 </el-input>
                             </el-form-item>
                             <el-form-item class="formBottom">
-                                <el-button type="primary" @click="changePwd('ruleForm2')">确认修改</el-button>
+                                <el-button type="primary"
+                                    @click="changePwd('ruleForm2')">确认修改</el-button>
                                 <el-button @click="resetForm('ruleForm2')">清空</el-button>
                             </el-form-item>
                         </el-form>
@@ -104,12 +124,19 @@ export default {
                         data: params
                     }).then(res => {
                         if (res.headers["x-ocm-code"] == '1') {
-                            _this.$router.push({ name: 'Home' });
-                            _this.$Notification.success({
-                                title: decodeURI(res.headers["x-ocm-message"]),
+                            // _this.$Notification.success({
+                            //     title: decodeURI(res.headers["x-ocm-message"]),
+                            //     offset: 90,
+                            //     duration: 3000
+                            // });
+                            _this.$Notification.warning({
+                                title: '密码已修改请重新登陆',
                                 offset: 90,
                                 duration: 3000
                             });
+                            _this.$router.push({ name: 'Login' });
+
+
                         }
 
                     });
