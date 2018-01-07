@@ -1,0 +1,13 @@
+.ContactUs {
+    min-height: 800px;
+    background: white;
+    box-sizing: border-box;
+    padding: 10px;
+    .title {
+        font-size: 20px;
+        text-align: center;
+    }
+    .el-alert {
+        margin-top: 10px;
+    }
+}

@@ -16,8 +16,10 @@
         </div>
         <div class="headerBottom">
             <div class="content clearfix">
-                <div class="logo"><img :src="logoImg"
-                        alt=""></div>
+                <div class="logo">
+                    <img :src="logoImg" alt="">
+                </div>
+                    
                 <div class="nav">
                     <ul>
                         <template v-for="(item,index) in navList">
@@ -42,8 +44,8 @@
                             <span class="text">进货单</span>
                         </el-badge>
                         <!-- <span class="text">进货单
-                                                                <i>{{purchaseCount}}</i>
-                                                            </span> -->
+                                                                            <i>{{purchaseCount}}</i>
+                                                                        </span> -->
                     </div>
                     <div class="searchSection">
                         <div class="searchInp">
@@ -63,14 +65,14 @@
     </div>
 </template>
 <script>
-import { mapState, mapMutations,mapGetters } from 'Vuex';
+import { mapState, mapMutations, mapGetters } from 'Vuex';
 export default {
     name: 'Header',
     data() {
         return {
             searchInfo: "",
             logoImg: require('../../../assets/logo.png'),
-            state:this.$store.state
+            state: this.$store.state
         }
     },
     methods: {
@@ -89,14 +91,17 @@ export default {
             this.$store.commit('changeCurrentNav', { hash: '' })
         },
         logOut() {
-            this.$router.push('Login');
-            //清空ID
-            this.$store.commit('setCustomerId', '');
-            //清空用户名
-            this.$store.commit('changeUsername', '');
+            let _this = this;
+
             //清空cookies
             let cookies = new this.$util.Cookies();
-            cookies.clear();
+            cookies.clear().then(res => {
+                _this.$router.push('Login');
+                //清空ID
+                _this.$store.commit('setCustomerId', '');
+                //清空用户名
+                _this.$store.commit('changeUsername', '');
+            });
         },
         changePwd() {
             this.$router.push({ name: 'ChangePassword' });
@@ -115,10 +120,10 @@ export default {
     },
     mounted() {
         let cookies = new this.$util.Cookies();
-        this.$store.commit('userloginName',cookies.getCookie('customerName'));
-        this.$store.commit('setCustomerId',cookies.getCookie('customerId'));
+        this.$store.commit('userloginName', cookies.getCookie('customerName'));
+        this.$store.commit('setCustomerId', cookies.getCookie('customerId'));
         //登陆用户名-修改密码
-        this.$store.commit('changeUsername',cookies.getCookie('username'));
+        this.$store.commit('changeUsername', cookies.getCookie('username'));
     }
 
 }

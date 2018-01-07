@@ -11,7 +11,8 @@ let state = {
         { name: "商品中心", routeTo: "/GoodsCenter", hasSelected: false },
         { name: "订单中心", routeTo: "/OrderCenter", hasSelected: false },
         { name: "账户中心", routeTo: "/AccountCenter", hasSelected: false },
-        { name: "公告", routeTo: "/MsgCenter", hasSelected: false }
+        { name: "公告", routeTo: "/MsgCenter", hasSelected: false },
+        { name: "联系我们", routeTo: "/ContactUs", hasSelected: false }
     ]
 }
 export default state;

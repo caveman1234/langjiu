@@ -78,9 +78,17 @@ function install(Vue) {
             2: '融资审批拒绝',
             3: '限定时间内未处理',
             4: '作废',
-            10:'未融资'
+            10: '未融资'
         };
         return billStatusObj[value] || '暂无';
+    });
+    //格式化发货要求下拉框
+    Vue.filter('formatIsNoticeSend', function(value) {
+        let billStatusObj = {
+            0: '立即发货',
+            1: '待通知发货'
+        };
+        return billStatusObj[value];
     });
 
     /* *****************************-axios-*********************************** */

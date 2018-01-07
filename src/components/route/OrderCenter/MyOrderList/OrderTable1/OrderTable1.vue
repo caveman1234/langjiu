@@ -8,7 +8,7 @@
                     <el-row>
                         <el-col :span="2">订单类型:</el-col>
                         <el-col v-red
-                            :span="3">{{item.poTypeName}}</el-col>
+                            :span="2">{{item.poTypeName}}</el-col>
                         <el-col :span="2">订单日期:</el-col>
                         <el-col :span="2">{{item.orderDate|formatDate}}</el-col>
                         <el-col :span="2">订单编号:</el-col>
@@ -31,7 +31,16 @@
                         </el-col>
                     </el-row>
                 </div>
+
                 <div v-show="item.isMoreShow">
+                    <div class="orderHeader">
+                        <el-row>
+                            <el-col :span="2">发货要求：</el-col>
+                            <el-col :span="3">{{item.isNoticeSend|formatIsNoticeSend}}</el-col>
+                            <el-col :span="2">发货地址：</el-col>
+                            <el-col :span="17">{{item.addressDetail}}</el-col>
+                        </el-row>
+                    </div>
                     <div class="orderHeader">
                         <el-row>
                             <el-col :span="2">审核意见：</el-col>
@@ -70,8 +79,8 @@
                             <template v-if="item.poTypeBusinessType =='03' && item.billStatusCode == '03' && item.totalRepaidAmount < item.totalRepayAmount"
                                 @click="goPickGoods(item)">
                                 <!-- <el-button size="mini"
-                                    type="primary">去提货
-                                </el-button> -->
+                                        type="primary">去提货
+                                    </el-button> -->
                             </template>
                             <template v-if="item.isNoticeSend == 1 && item.isApplySendOver == 0 && item.billStatusCode == '03' && item.poTypeBusinessType !=='03' && item.isNcConfirm ==1 ">
                                 <el-button @click="applySend(item)"
@@ -80,7 +89,7 @@
                                 </el-button>
                             </template>
 
-                            <template v-if="item.isSendOver == 0 && item.isNcConfirm == 1 && item.billStatusCode == '03' " >
+                            <template v-if="item.isSendOver == 0 && item.isNcConfirm == 1 && item.billStatusCode == '03' ">
                                 <el-button @click="applyReturn(item)"
                                     size="mini"
                                     type="primary">申请退订
@@ -135,17 +144,17 @@
                         </template>
                     </el-table-column>
                     <!-- <el-table-column prop="" label="金额">
-                                                                                                                            <template slot-scope="scope">
-                                                                                                                                <div v-red>{{item.totalAmount | formatPrice}}</div>
-                                                                                                                            </template>
-                                                                                                                        </el-table-column>
-                                                                                                                        <el-table-column prop="" label="操作">
-                                                                                                                            <template slot-scope="scope">
-                                                                                                                                <div>
-                                                                                                                                    <el-button size="mini" type="primary">去融资</el-button>
-                                                                                                                                </div>
-                                                                                                                            </template>
-                                                                                                                        </el-table-column> -->
+                                                                                                                                <template slot-scope="scope">
+                                                                                                                                    <div v-red>{{item.totalAmount | formatPrice}}</div>
+                                                                                                                                </template>
+                                                                                                                            </el-table-column>
+                                                                                                                            <el-table-column prop="" label="操作">
+                                                                                                                                <template slot-scope="scope">
+                                                                                                                                    <div>
+                                                                                                                                        <el-button size="mini" type="primary">去融资</el-button>
+                                                                                                                                    </div>
+                                                                                                                                </template>
+                                                                                                                            </el-table-column> -->
                 </el-table>
             </div>
         </template>
@@ -270,7 +279,7 @@ export default {
             let url = decodeURI('/ocm-web/api/b2b/purchase-orders/get-sendapply-order-push-detail');
             _this.$http.get(url, paramsWrap)
                 .then(res => {
-                    _this.$router.push({ name: 'ApplySend', params:{infoData: res.data} });
+                    _this.$router.push({ name: 'ApplySend', params: { infoData: res.data } });
                 })
 
         },
@@ -286,7 +295,7 @@ export default {
             _this.$http.get(url, paramsWrap)
                 .then(res => {
                     debugger
-                    _this.$router.push({ name: 'ApplyReturn', params:{infoData: res.data} });
+                    _this.$router.push({ name: 'ApplyReturn', params: { infoData: res.data } });
                 })
         }
     },

@@ -1,3 +1,4 @@
+import axios from 'axios';
 class Cookies {
     constructor() {
         let cookiesArr = document.cookie.split(';').filter(v => v.trim());
@@ -13,11 +14,13 @@ class Cookies {
         return this.cookiesObj[key];
     }
     clear() {
-        var keys = document.cookie.match(/[^ =;]+(?=\=)/g);
-        if (keys) {
-            for (var i = keys.length; i--;)
-                document.cookie = keys[i] + '=0;expires=' + new Date(0).toUTCString()
-        }
+        // var keys = document.cookie.match(/[^ =;]+(?=\=)/g);
+        // if (keys) {
+        //     for (var i = keys.length; i--;)
+        //         document.cookie = keys[i] + '=0;expires=' + new Date(0).toUTCString()
+        // }
+        return axios.post('/ocm-web/api/account/logout')
+
     }
 }
 export default {
