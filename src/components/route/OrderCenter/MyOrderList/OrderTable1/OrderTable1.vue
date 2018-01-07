@@ -15,7 +15,7 @@
                         <el-col :span="3">{{item.orderCode}}</el-col>
                         <el-col :span="2">订单金额:</el-col>
                         <el-col v-red
-                            :span="2">
+                            :span="3">
                             {{item.totalAmount | formatPrice}}
                         </el-col>
                         <el-col :span="2">订单状态:</el-col>

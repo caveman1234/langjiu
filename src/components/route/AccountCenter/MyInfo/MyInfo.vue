@@ -1,50 +1,57 @@
 <template>
     <div class="MyInfo">
-        <el-alert title="经销商名称："
-            type="info"
-            :closable="false"
-            :description="customerName">
-        </el-alert>
-        <el-alert title="开户银行："
-            type="info"
-            :closable="false"
-            :description="bank">
-        </el-alert>
-        <el-alert title="账户名称："
-            type="info"
-            :closable="false"
-            :description="accountName">
-        </el-alert>
-        <el-alert title="银行账号："
-            type="info"
-            :closable="false"
-            :description="bankAccount">
-        </el-alert>
-        <el-alert title="联系电话："
-            type="info"
-            :closable="false"
-            :description="telephone">
-        </el-alert>
-        <el-alert title="收货地址："
-            type="info"
-            :closable="false"
-            :description="receiveAddress">
-        </el-alert>
-        <el-alert title="专属账号名称："
-            type="info"
-            :closable="false"
-            :description="personalAccountName || '暂无'">
-        </el-alert>
-        <el-alert title="专属账号编码："
-            type="info"
-            :closable="false"
-            :description="personalAccountCode || '暂无'">
-        </el-alert>
-        <el-alert title="专属账号开户行："
-            type="info"
-            :closable="false"
-            :description="personalAccountBank || '暂无'">
-        </el-alert>
+        <el-row :gutter="15">
+            <el-col :span="12">
+                <el-alert title="经销商名称："
+                    type="info"
+                    :closable="false"
+                    :description="customerName || '暂无'">
+                </el-alert>
+                <el-alert title="开户银行："
+                    type="info"
+                    :closable="false"
+                    :description="bank || '暂无'">
+                </el-alert>
+                <el-alert title="账户名称："
+                    type="info"
+                    :closable="false"
+                    :description="accountName || '暂无'">
+                </el-alert>
+                <el-alert title="银行账号："
+                    type="info"
+                    :closable="false"
+                    :description="bankAccount || '暂无'">
+                </el-alert>
+                <el-alert title="联系电话："
+                    type="info"
+                    :closable="false"
+                    :description="telephone || '暂无'">
+                </el-alert>
+                <el-alert title="收货地址："
+                    type="info"
+                    :closable="false"
+                    :description="receiveAddress || '暂无'">
+                </el-alert>
+            </el-col>
+            <el-col :span="12">
+                <el-alert title="专属账号名称："
+                    type="info"
+                    :closable="false"
+                    :description="personalAccountName || '暂无'">
+                </el-alert>
+                <el-alert title="专属账号编码："
+                    type="info"
+                    :closable="false"
+                    :description="personalAccountCode || '暂无'">
+                </el-alert>
+                <el-alert title="专属账号开户行："
+                    type="info"
+                    :closable="false"
+                    :description="personalAccountBank || '暂无'">
+                </el-alert>
+            </el-col>
+        </el-row>
+
     </div>
 </template>
 <script>

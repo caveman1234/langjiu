@@ -128,6 +128,7 @@ export default {
                             //     title: decodeURI(res.headers["x-ocm-message"]),
                             //     offset: 90,
                             //     duration: 3000
+              
                             // });
                             _this.$Notification.warning({
                                 title: '密码已修改请重新登陆',

@@ -431,6 +431,7 @@ export default {
             // notXtype  计提非X类共建基金：
             // deductionMoney 费用抵扣金额：
             // cashRest  现金余额：
+            debugger
             let currentPay = Number(this.totalMoney) + Number(this.billFooger.xType) + Number(this.billFooger.notXtype) - Number(this.useOffMoney);
             return currentPay.toFixed(2);
         }
