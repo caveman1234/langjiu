@@ -10,7 +10,7 @@ export default {
             /* 产品线 */
             prodGroupId: '',
             /* 发货通知 */
-            isNotice: 1,
+            isNotice: '',
             /* 运输方式 */
             carriageMethod: "",
             /* 期望到货日期 */
@@ -129,6 +129,11 @@ export default {
                 _this.$Notify({ title: '商品不能为空', type: 'warning' });
                 return;
             }
+            //检查发货要求
+            if (_this.isNotice == '') {
+                _this.$Notify({ title: '发货要求不能为空', type: 'warning' });
+                return;
+            }
             /* 使用费用表格 */
             let calcDataTable = this.calcDataTable.map(v => v.currentMoney);
             let purchaseOrderItems = this.goodsData.map(v => {
@@ -201,7 +206,6 @@ export default {
                 fFeeUsedAmount: calcDataTable[2],
                 purchaseOrderItems: purchaseOrderItems
             };
-            debugger
             //销售订单请求地址
             let sreverUrl = '/ocm-web/api/b2b/purchase-orders/submit';
             _this.$confirm('此操作不可逆，是否提交？', '提交', {
@@ -229,6 +233,11 @@ export default {
             /* 验证 商品为空 */
             if (_this.goodsData.length == 0) {
                 _this.$Notify({ title: '商品不能为空', type: 'warning' });
+                return;
+            }
+            //检查发货要求
+            if (_this.isNotice == '') {
+                _this.$Notify({ title: '发货要求不能为空', type: 'warning' });
                 return;
             }
             /* 使用费用表格 */

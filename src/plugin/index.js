@@ -58,13 +58,10 @@ function install(Vue) {
         return formatDate.join('-');
     });
     Vue.filter('formatPrice', function(value) {
-        if (value == 0) {
-            return '¥0.00';
-        } else if (value == null || value == undefined || value == '') {
-            return '暂无价格'
-        } else {
-            return '¥' + Number(value).toFixed(2);
-        }
+        debugger
+        value = String(Number(value).toFixed(2));
+        var str = value.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+        return '¥' + str;
     });
     //收入支出格式化
     Vue.filter('formatInOut', function(value) {

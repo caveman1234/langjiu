@@ -10,6 +10,7 @@
         border-right: 1px solid $borderColor;
         .MypropertyLeftItem {
             border-bottom: 1px dashed $borderColor;
+            padding: 10px 0;
             .main {
                 line-height: 30px;
                 cursor: pointer;
