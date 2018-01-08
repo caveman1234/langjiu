@@ -3,84 +3,103 @@
         <div class="MyPropertyLeft">
             <div @click="cashRestDetail"
                 class="cashRest MypropertyLeftItem">
-                <el-row>
-                    <el-col :span="7">
-                        <div class="text">现金余额:</div>
-                    </el-col>
-                    <el-col :span="10">
-                        <div class="money">{{totalCash|formatPrice}}</div>
-                    </el-col>
-                    <el-col :span="7">
-                        <!-- <div class="lookDetail">查看明细
-                                                                                            <i class="el-icon-d-arrow-right"></i>
-                                                                                        </div> -->
-                    </el-col>
-                </el-row>
+                <div class="main">
+                    <el-row>
+                        <el-col :span="7">
+                            <div class="text">现金余额:</div>
+                        </el-col>
+                        <el-col :span="10">
+                            <div class="money">{{totalCash|formatPrice}}</div>
+                        </el-col>
+                    </el-row>
+                </div>
+                <!-- <div class="brie">
+                    <el-row>
+                        <el-col :span="7" style="text-align:right;">账面余额:</el-col>
+                        <el-col :span="17">10000000.00</el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :span="7" style="text-align:right;">现金余额:</el-col>
+                        <el-col :span="17">10000000.00</el-col>
+                    </el-row>
+                </div> -->
+
             </div>
             <div @click="promiseRestDetail"
                 class="promiseRest MypropertyLeftItem">
-                <el-row>
-                    <el-col :span="7">
-                        <div class="text">保证金余额:</div>
-                    </el-col>
-                    <el-col :span="10">
-                        <div class="money">{{totalPromiseRest|formatPrice}}</div>
-                    </el-col>
-                    <el-col :span="7">
-                        <!-- <div class="lookDetail">查看明细
-                            <i class="el-icon-d-arrow-right"></i>
-                        </div> -->
-                    </el-col>
-                </el-row>
+                <div class="main">
+                    <el-row>
+                        <el-col :span="7">
+                            <div class="text">保证金余额:</div>
+                        </el-col>
+                        <el-col :span="10">
+                            <div class="money">{{totalPromiseRest|formatPrice}}</div>
+                        </el-col>
+                    </el-row>
+                </div>
+                <div class="brief"></div>
+
             </div>
             <div @click="costOffDetail"
                 class="costRest MypropertyLeftItem">
-                <el-row>
-                    <el-col :span="7">
-                        <div class="text">费用余额:</div>
-                    </el-col>
-                    <el-col :span="10">
-                        <div class="money">{{totalCost|formatPrice}}</div>
-                    </el-col>
-                    <el-col :span="7">
-                        <div class="lookDetail">查看明细
-                            <i class="el-icon-d-arrow-right"></i>
-                        </div>
-                    </el-col>
-                </el-row>
+                <div class="main">
+                    <el-row>
+                        <el-col :span="7">
+                            <div class="text">费用余额:</div>
+                        </el-col>
+                        <el-col :span="10">
+                            <div class="money">{{totalCost|formatPrice}}</div>
+                        </el-col>
+                        <el-col :span="7">
+                            <div class="lookDetail">查看明细
+                                <i class="el-icon-d-arrow-right"></i>
+                            </div>
+                        </el-col>
+                    </el-row>
+                </div>
+                <div class="brief"></div>
+
             </div>
             <div @click="buildRestDetail"
                 class="buildRest MypropertyLeftItem">
-                <el-row>
-                    <el-col :span="7">
-                        <div class="text">共建基金余额:</div>
-                    </el-col>
-                    <el-col :span="10">
-                        <div class="money">{{totalBuildRest|formatPrice}}</div>
-                    </el-col>
-                    <el-col :span="7">
-                        <div class="lookDetail">查看明细
-                            <i class="el-icon-d-arrow-right"></i>
-                        </div>
-                    </el-col>
-                </el-row>
+                <div class="main">
+                    <el-row>
+                        <el-col :span="7">
+                            <div class="text">共建基金余额:</div>
+                        </el-col>
+                        <el-col :span="10">
+                            <div class="money">{{totalBuildRest|formatPrice}}</div>
+                        </el-col>
+                        <el-col :span="7">
+                            <div class="lookDetail">查看明细
+                                <i class="el-icon-d-arrow-right"></i>
+                            </div>
+                        </el-col>
+                    </el-row>
+                </div>
+                <div class="brief"></div>
+
             </div>
-            
+
             <div @click="notDeliverDetail"
                 class="notDeliver MypropertyLeftItem">
-                <el-row>
-                    <el-col :span="7">
-                        <div class="text">未发货金额:</div>
-                    </el-col>
-                    <el-col :span="10">
-                        <div class="money">{{notDeliver|formatPrice}}</div>
-                    </el-col>
-                    <el-col :span="7">
-                        <div class="lookDetail">查看明细
-                            <i class="el-icon-d-arrow-right"></i>
-                        </div>
-                    </el-col>
-                </el-row>
+                <div class="main">
+                    <el-row>
+                        <el-col :span="7">
+                            <div class="text">未发货金额:</div>
+                        </el-col>
+                        <el-col :span="10">
+                            <div class="money">{{notDeliver|formatPrice}}</div>
+                        </el-col>
+                        <el-col :span="7">
+                            <div class="lookDetail">查看明细
+                                <i class="el-icon-d-arrow-right"></i>
+                            </div>
+                        </el-col>
+                    </el-row>
+                </div>
+                <div class="brief"></div>
+
             </div>
 
         </div>

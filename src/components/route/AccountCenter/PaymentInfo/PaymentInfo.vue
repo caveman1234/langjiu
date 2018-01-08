@@ -1,7 +1,6 @@
 <template>
     <div class="PaymentInfo">
-        PaymentInfo
-        付款信息正在开发
+        <div style="font-size:50px;font-size: 50px;color: #999999;">即将开发,敬请期待......</div>
     </div>
 </template>
 <script>

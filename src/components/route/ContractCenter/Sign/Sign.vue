@@ -1,12 +1,13 @@
 <template>
     <div class="Sign">
-        <el-carousel :autoplay="false" arrow="always" indicator-position="outside" height="800px">
+        <el-carousel v-show="false" :autoplay="false" arrow="always" indicator-position="outside" height="800px">
             <el-carousel-item v-for="(item,index) in imageArr" :key="index">
                 <div class="imageContainer">
                     <img :src="item" alt="">
                 </div>
             </el-carousel-item>
         </el-carousel>
+        <div style="font-size:50px;font-size: 50px;color: #999999;">即将开发,敬请期待......</div>
     </div>
 </template>
 <script>

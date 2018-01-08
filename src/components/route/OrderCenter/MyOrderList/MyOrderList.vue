@@ -1,12 +1,19 @@
 <template>
     <div class="MyOrderList">
         <div class="topList">
-            <el-tabs @tab-click="tabClick" tab-position="top" v-model="currentChecked">
-                <el-tab-pane label="全部订单" name="total"></el-tab-pane>
-                <el-tab-pane label="待审核订单" name="waitCheck"></el-tab-pane>
-                <el-tab-pane label="审核通过" name="checkPass"></el-tab-pane>
-                <el-tab-pane label="审核不通过" name="notCheckPass"></el-tab-pane>
-                <el-tab-pane label="已完成" name="complete"></el-tab-pane>
+            <el-tabs @tab-click="tabClick"
+                tab-position="top"
+                v-model="currentChecked">
+                <el-tab-pane label="全部订单"
+                    name="total"></el-tab-pane>
+                <el-tab-pane label="待审核订单"
+                    name="waitCheck"></el-tab-pane>
+                <el-tab-pane label="审核通过"
+                    name="checkPass"></el-tab-pane>
+                <el-tab-pane label="审核不通过"
+                    name="notCheckPass"></el-tab-pane>
+                <el-tab-pane label="已完成"
+                    name="complete"></el-tab-pane>
             </el-tabs>
         </div>
         <div class="searchBox">
@@ -49,8 +56,12 @@ export default {
     mounted() {
         let _this = this;
         let from = _this.$route.params.from;
-        if(from == 'Home'){
-            _this.currentChecked = 'waitCheck';
+        switch (from) {
+            case 'Home':
+                _this.currentChecked = 'waitCheck';
+                break;
+            default:
+                _this.currentChecked = 'total';
         }
     }
 }

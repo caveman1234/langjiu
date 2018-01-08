@@ -9,21 +9,26 @@
         flex: 0 0 320px;
         border-right: 1px solid $borderColor;
         .MypropertyLeftItem {
-            line-height: 60px;
-            cursor: pointer;
             border-bottom: 1px dashed $borderColor;
-            .text {
-                text-align: right;
+            .main {
+                line-height: 40px;
+                cursor: pointer;
+                .text {
+                    text-align: right;
+                }
+                .money {
+                    font-size: 20px;
+                    padding-left: 10px;
+                    color: $redColor;
+                }
+                .lookDetail {
+                    text-align: right;
+                    padding-right: 10px;
+                    color: $redColor;
+                }
             }
-            .money {
-                font-size: 20px;
-                padding-left: 10px;
-                color: $redColor;
-            }
-            .lookDetail {
-                text-align: right;
-                padding-right: 10px;
-                color: $redColor;
+            .brief {
+                color: $borderColor;
             }
         }
     }

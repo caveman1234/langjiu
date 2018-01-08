@@ -64,75 +64,12 @@
                     }
                 }
             }
-            .search {
+            .notice {
                 float: right;
-                font-size: 14px;
-                line-height: 60px;
-                .inBill {
-                    display: inline-block;
-                    width: 120px;
-                    height: 34px;
-                    line-height: 34px;
-                    color: #E7442E;
-                    background: #F5F5F5;
-                    text-align: center;
-                    border-radius: 2px;
-                    margin-right: 20px;
-                    cursor: pointer;
-                    box-sizing: border-box;
-                    &:hover {
-                        border: 1px solid #E7442E;
-                    }
-                    .car {
-                        width: 20px;
-                        height: 20px;
-                        display: inline-block;
-                        position: relative;
-                        top: 4px;
-                        margin-left: -27px;
-                        img {
-                            height: 100%;
-                            width: 100%;
-                        }
-                    }
-                    .text {
-                        position: relative;
-                        i {
-                            width: 20px;
-                            height: 20px;
-                            position: absolute;
-                            border-radius: 50%;
-                            background: #E7442E;
-                            color: white;
-                            top: -9px;
-                            right: -18px;
-                            line-height: 20px;
-                        }
-                    }
-                }
-                .searchSection {
-                    width: 200px;
-                    display: inline-block;
-                    .searchInp {
-                        display: inline-block;
-                        .el-input__inner {
-                            height: 34px;
-                        }
-                        .el-input-group__append {
-                            background: #E7442E;
-                            .el-button {
-                                width: 34px;
-                                i {
-                                    color: white;
-                                    font-weight: bold;
-                                    transform: scale(1.3);
-                                    position: relative;
-                                    left: -7px;
-                                }
-                            }
-                        }
-                    }
-                }
+                position: relative;
+                z-index: 2000;
+                width: 250px;
+                margin-top: 13px;
             }
         }
     }

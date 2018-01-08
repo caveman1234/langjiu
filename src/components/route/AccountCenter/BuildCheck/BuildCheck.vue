@@ -62,7 +62,7 @@ let defaultValue = [new Date(new Date().getTime() - 24 * 60 * 60 * 1000 * 30), n
 let searchConfig = [
     {
         type: 'select',
-        field: 'syb',
+        field: 'productGroupId',
         label: '事业部：',
         dataSource: [ ]
     },

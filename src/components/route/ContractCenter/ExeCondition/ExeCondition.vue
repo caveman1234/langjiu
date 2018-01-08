@@ -1,6 +1,6 @@
 <template>
     <div class="ExeCondition">
-        <el-table :row-key="rowKey" :expand-row-keys="[1]" :data="tableData" style="width:100%;">
+        <el-table v-show="false" :row-key="rowKey" :expand-row-keys="[1]" :data="tableData" style="width:100%;">
             <el-table-column type="expand">
                 <template slot-scope="props">
                     <el-table :data="props.row.children">
@@ -24,6 +24,7 @@
                 </template>
             </el-table-column>
         </el-table>
+        <div style="font-size:50px;font-size: 50px;color: #999999;">即将开发,敬请期待......</div>
     </div>
 </template>
 <script>
