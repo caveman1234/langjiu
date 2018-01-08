@@ -33,7 +33,7 @@
                     label="余额">
                     <template slot-scope="scope">
                         <div>
-                            <div>{{scope.row.amount|formatPrice}}</div>
+                            <div>{{scope.row.amount|formatInOut}}</div>
                         </div>
                     </template>
                 </el-table-column>
