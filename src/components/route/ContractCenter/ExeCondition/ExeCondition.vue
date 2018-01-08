@@ -24,7 +24,7 @@
                 </template>
             </el-table-column>
         </el-table>
-        <div style="font-size:50px;font-size: 50px;color: #999999;">即将开发,敬请期待......</div>
+        <div style="font-size:50px;font-size: 50px;color: #999999;">即将开放,敬请期待......</div>
     </div>
 </template>
 <script>

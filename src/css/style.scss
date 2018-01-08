@@ -103,8 +103,20 @@ $redColor: #E7442E;
 }
 
 // 媒体查询
-// @media screen and (min-width: 1500px) {
-//     .routeContainer {
-//         width: 1400px !important;
-//     }
-// }
+@media screen and (min-width: 1550px) {
+    .routeContainer {
+        width: 1430px !important;
+    }
+    .Header {
+        .headerTop {
+            .content {
+                width: 1430px !important;
+            }
+        }
+        .headerBottom {
+            .content {
+                width: 1430px !important;
+            }
+        }
+    }
+}
