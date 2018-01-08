@@ -6,23 +6,35 @@
                 <div class="main">
                     <el-row>
                         <el-col :span="7">
-                            <div class="text">现金余额:</div>
+                            <div class="text">现金:</div>
                         </el-col>
                         <el-col :span="10">
-                            <div class="money">{{totalCash|formatPrice}}</div>
+                            <div class="money"></div>
                         </el-col>
                     </el-row>
                 </div>
-                <!-- <div class="brie">
+                <div class="brief">
                     <el-row>
-                        <el-col :span="7" style="text-align:right;">账面余额:</el-col>
-                        <el-col :span="17">10000000.00</el-col>
+                        <el-col :span="7"
+                            style="text-align:right;">
+                            <div class="text">账面余额:</div>
+                        </el-col>
+                        <el-col :span="17">
+                            <div class="text"
+                                v-red>{{totalCash|formatPrice}}</div>
+                        </el-col>
                     </el-row>
                     <el-row>
-                        <el-col :span="7" style="text-align:right;">现金余额:</el-col>
-                        <el-col :span="17">10000000.00</el-col>
+                        <el-col :span="7"
+                            style="text-align:right;">
+                            <div class="text">可用余额:</div>
+                        </el-col>
+                        <el-col :span="17">
+                            <div class="text"
+                                v-red>{{cashRemaining|formatPrice}}</div>
+                        </el-col>
                     </el-row>
-                </div> -->
+                </div>
 
             </div>
             <div @click="promiseRestDetail"
@@ -30,76 +42,136 @@
                 <div class="main">
                     <el-row>
                         <el-col :span="7">
-                            <div class="text">保证金余额:</div>
+                            <div class="text">保证金:</div>
                         </el-col>
                         <el-col :span="10">
-                            <div class="money">{{totalPromiseRest|formatPrice}}</div>
+                            <div class="money"></div>
                         </el-col>
                     </el-row>
                 </div>
-                <div class="brief"></div>
+                <div class="brief">
+                    <el-row>
+                        <el-col :span="7"
+                            style="text-align:right;">
+                            <div class="text">账面余额:</div>
+                        </el-col>
+                        <el-col :span="10">
+                            <div class="text"
+                                v-red>{{totalPromiseRest|formatPrice}}</div>
+                        </el-col>
+                    </el-row>
+                </div>
 
             </div>
-            <div @click="costOffDetail"
-                class="costRest MypropertyLeftItem">
+            <div class="costRest MypropertyLeftItem">
                 <div class="main">
                     <el-row>
                         <el-col :span="7">
-                            <div class="text">费用余额:</div>
+                            <div class="text">费用:</div>
                         </el-col>
                         <el-col :span="10">
-                            <div class="money">{{totalCost|formatPrice}}</div>
+                            <div class="money"></div>
+                        </el-col>
+                    </el-row>
+                </div>
+                <div class="brief">
+                    <el-row>
+                        <el-col :span="7"
+                            style="text-align:right;">
+                            <div class="text">账面余额:</div>
+                        </el-col>
+                        <el-col :span="10">
+                            <div class="text"
+                                v-red>{{totalCost|formatPrice}}</div>
                         </el-col>
                         <el-col :span="7">
-                            <div class="lookDetail">查看明细
+                            <div @click="costOffDetail"
+                                class="lookDetail">查看明细
+                                <i class="el-icon-d-arrow-right"></i>
+                            </div>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :span="7"
+                            style="text-align:right;">
+                            <div class="text">可用余额:</div>
+                        </el-col>
+                        <el-col :span="17">
+                            <div class="text"
+                                v-red>{{costOffRemaining|formatPrice}}</div>
+                        </el-col>
+                    </el-row>
+                </div>
+
+            </div>
+            <div class="buildRest MypropertyLeftItem">
+                <div class="main">
+                    <el-row>
+                        <el-col :span="7">
+                            <div class="text">共建基金:</div>
+                        </el-col>
+                        <el-col :span="10">
+                            <div class="money"></div>
+                        </el-col>
+                    </el-row>
+                </div>
+                <div class="brief">
+                    <el-row>
+                        <el-col :span="7"
+                            style="text-align:right;">
+                            <div class="text">账面余额:</div>
+                        </el-col>
+                        <el-col :span="10">
+                            <div class="text"
+                                v-red>{{totalBuildRest|formatPrice}}</div>
+                        </el-col>
+                        <el-col :span="7">
+                            <div @click="buildRestDetail"
+                                class="lookDetail">查看明细
                                 <i class="el-icon-d-arrow-right"></i>
                             </div>
                         </el-col>
                     </el-row>
                 </div>
-                <div class="brief"></div>
-
             </div>
-            <div @click="buildRestDetail"
-                class="buildRest MypropertyLeftItem">
+
+            <div class="notDeliver MypropertyLeftItem">
                 <div class="main">
                     <el-row>
                         <el-col :span="7">
-                            <div class="text">共建基金余额:</div>
+                            <div class="text">订单:</div>
                         </el-col>
                         <el-col :span="10">
-                            <div class="money">{{totalBuildRest|formatPrice}}</div>
+                            <div class="money"></div>
+                        </el-col>
+                    </el-row>
+                </div>
+                <div class="brief">
+                    <el-row>
+                        <el-col :span="7"
+                            style="text-align:right;">
+                            <div class="text">终审未发货:</div>
+                        </el-col>
+                        <el-col :span="10">
+                            <div class="text"
+                                v-red>{{notDeliver|formatPrice}}</div>
                         </el-col>
                         <el-col :span="7">
-                            <div class="lookDetail">查看明细
+                            <div @click="notDeliverDetail"
+                                class="lookDetail">查看明细
                                 <i class="el-icon-d-arrow-right"></i>
                             </div>
                         </el-col>
                     </el-row>
-                </div>
-                <div class="brief"></div>
-
-            </div>
-
-            <div @click="notDeliverDetail"
-                class="notDeliver MypropertyLeftItem">
-                <div class="main">
                     <el-row>
                         <el-col :span="7">
-                            <div class="text">未发货金额:</div>
+                            <div class="text"
+                                style="text-align:right;">未终审:</div>
                         </el-col>
-                        <el-col :span="10">
-                            <div class="money">{{notDeliver|formatPrice}}</div>
-                        </el-col>
-                        <el-col :span="7">
-                            <div class="lookDetail">查看明细
-                                <i class="el-icon-d-arrow-right"></i>
-                            </div>
-                        </el-col>
+                        <el-col :span="10"
+                            v-red>{{unSendAmountFinal|formatPrice}}</el-col>
                     </el-row>
                 </div>
-                <div class="brief"></div>
-
             </div>
 
         </div>
@@ -126,6 +198,9 @@ export default {
             currentShow: '',//费用(costOff)|保证金(promiseRest)|共建基金(buildRest)
             tableDataArr: [],
             notDeliver: 0,//未发货金额
+            unSendAmountFinal: 0,//未终审
+            costOffRemaining:0,//费用余额
+            cashRemaining:0,//现金可用余额
             //缓存表格明细信息
             cacheTableDataArr: {
                 //现金余额
@@ -185,6 +260,33 @@ export default {
                         }
                     }
                 },
+                //未审核金额
+                unSendAmountInfo: {
+                    url: '/ocm-web/api/b2b/purchase-orders/countUnApproveOrderByCustomerId',
+                    paramsWrap: {
+                        params: {
+                            customerId: this.$store.state.customerId
+                        }
+                    }
+                },
+                //费用余额，可用余额
+                costOffRemainingInfo:{
+                    url: '/ocm-web/api/b2b/query-balance/getTwoChargeReserve',
+                    paramsWrap: {
+                        params: {
+                            customerId: this.$store.state.customerId
+                        }
+                    }
+                },
+                //现金可用余额
+                cashRemainingInfo:{
+                    url: '/ocm-web/api/b2b/query-balance/getCashReserve',
+                    paramsWrap: {
+                        params: {
+                            customerId: this.$store.state.customerId
+                        }
+                    }
+                }
             }
         }
     },
@@ -279,6 +381,40 @@ export default {
                         data: res.data
                     }
                 })
+        },
+        //未审核金额
+        fetchUnSendAmount() {
+            let _this = this;
+            let { url, paramsWrap } = _this.paramsInfo.unSendAmountInfo;
+            return _this.$http.get(url, paramsWrap)
+                .then(res => {
+                    let total = res.data.reduce((acc, v) => {
+                        return acc + (v.unSendAmount || 0);
+                    }, 0);
+                    return total;
+                })
+        },
+        //获取费用余额
+        fetchCostOffRemaining(){
+            let _this = this;
+            //costOffRemainingInfo
+            let { url, paramsWrap } = _this.paramsInfo.costOffRemainingInfo;
+            return _this.$http.get(url, paramsWrap)
+                .then(res => {
+                    let total = res.data.reduce((acc, v) => {
+                        return acc + (v.actualReserve || 0);
+                    }, 0);
+                    return total;
+                })
+        },
+        //获取现金可用余额
+        fetchCashRemaining(){
+            let _this = this;
+            let { url, paramsWrap } = _this.paramsInfo.cashRemainingInfo;
+            return _this.$http.get(url, paramsWrap)
+                .then(res => {
+                    return res.data;
+                })
         }
     },
     mounted() {
@@ -305,6 +441,9 @@ export default {
             _this.cacheTableDataArr.notDeliverTableDataArr = data;
             _this.notDeliver = total;
         });
+        _this.fetchUnSendAmount().then(res => _this.unSendAmountFinal = res);
+        _this.fetchCostOffRemaining().then(res => _this.costOffRemaining = res);
+        _this.fetchCashRemaining().then(res=>_this.cashRemaining = res);
     }
 }
 </script>

@@ -154,7 +154,7 @@
                     <el-col :span="19">
                         <div class="calcRight">
                             <el-col :span="7">
-                                <div class="calcRightName">现金余额：</div>
+                                <div class="calcRightName">可用现金余额：</div>
                             </el-col>
                             <el-col :span="17">
                                 <el-col :span="5">

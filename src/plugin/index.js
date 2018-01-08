@@ -40,6 +40,13 @@ function install(Vue) {
             el.style.color = '#E7442E';
         }
     });
+    Vue.directive('blue', {
+        inserted(el, binding, vnode) {
+            let context = vnode.context;
+            // context.myFun('al');
+            el.style.color = 'blue';
+        }
+    });
     /* 格式化日期 */
     Vue.filter('formatDate', function(value) {
         if (!value) return '';

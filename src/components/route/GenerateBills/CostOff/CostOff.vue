@@ -15,7 +15,7 @@
                                 </el-form-item>
                             </el-col>
                             <el-col :span="10">
-                                <el-form-item label="费用余额：" label-width="130px">
+                                <el-form-item label="可用费用余额：" label-width="130px">
                                     <div>{{moneyRest}}</div>
                                 </el-form-item>
                             </el-col>
