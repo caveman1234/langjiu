@@ -58,8 +58,11 @@ function install(Vue) {
         return formatDate.join('-');
     });
     Vue.filter('formatPrice', function(value) {
-        if (value == null || value == '' || value == undefined) {
+        if (value === null || value === '' || value === undefined) {
             return '暂无价格';
+        }
+        if (value === 0) {
+            return '¥0.00';
         }
         value = String(Number(value).toFixed(2));
         var str = value.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
