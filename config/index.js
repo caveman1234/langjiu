@@ -18,7 +18,7 @@ module.exports = {
                 // target: 'http://10.18.0.210:8080',
                 // target: 'http://182.150.55.64:8013', //在线
                 // target: 'http://c.langjiu.cn', //正式
-                // target: 'http://10.18.1.246:8080',
+                // target: 'http://10.18.1.246:8080', //庆鹏
                 changeOrigin: true,
                 pathRewrite: {
                     '^/ocm-web': '/ocm-web'

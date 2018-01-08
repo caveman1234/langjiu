@@ -7,7 +7,7 @@ $redColor: #E7442E;
     padding: 0;
     font-size: 12px;
     color: $color333;
-    font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+    font-family: "PingFang SC", "Helvetica Neue", "微软雅黑";
 }
 
 // 清除浮动 --begin
@@ -100,6 +100,17 @@ $redColor: #E7442E;
 .el-select-dropdown__item.selected {
     color: #E7442E !important;
     font-weight: 700;
+}
+
+//checkbox
+.el-checkbox__input.is-checked .el-checkbox__inner,
+.el-checkbox__input.is-indeterminate .el-checkbox__inner {
+    background-color: #E7442E !important;
+    border-color: #E7442E !important;
+}
+
+.el-checkbox__inner:hover {
+    border-color: #E7442E !important;
 }
 
 // 媒体查询

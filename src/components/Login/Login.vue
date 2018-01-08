@@ -3,29 +3,50 @@
         <div class="wrap-box">
             <div class="login-top-bg">
                 <div class="login-top-con clearfix">
-                    <a href="#" class="logo-img"></a>
+                    <a href="#"
+                        class="logo-img"></a>
                     <div class="logo-txt">郎酒CRM数字营销系统</div>
                 </div>
             </div>
             <div class="login-con-box">
-                <div :style='{backgroundImage:`url(${imgUrl})`}' class="login-bg">
+                <div :style='{backgroundImage:`url(${imgUrl})`}'
+                    class="login-bg">
                     <div class="logContainer">
                         <div class="loginTitle">欢迎登陆</div>
-                        <el-form :model="loginForm" status-icon :rules="rules" ref="ruleForm2" label-width="120px" size="small" style="width:100%;" class="loginForm">
-                            <el-form-item label="用户名：" prop="username">
+                        <el-form :model="loginForm"
+                            status-icon
+                            :rules="rules"
+                            ref="ruleForm2"
+                            label-width="120px"
+                            size="small"
+                            style="width:100%;"
+                            class="loginForm">
+                            <el-form-item label="用户名："
+                                prop="username">
                                 <el-input v-model="loginForm.username">
-                                    <i class="icon iconfont lj-account" slot="prefix"></i>
+                                    <i class="icon iconfont lj-account"
+                                        slot="prefix"></i>
                                 </el-input>
                             </el-form-item>
-                            <el-form-item label="密码：" prop="password">
-                                <el-input @keyup.native.enter="submitForm('ruleForm2')" type="password" v-model="loginForm.password">
-                                    <i class="icon iconfont lj-password" slot="prefix"></i>
+                            <el-form-item label="密码："
+                                prop="password">
+                                <el-input @keyup.native.enter="submitForm('ruleForm2')"
+                                    type="password"
+                                    v-model="loginForm.password">
+                                    <i class="icon iconfont lj-password"
+                                        slot="prefix"></i>
                                 </el-input>
+                            </el-form-item>
+                            <el-form-item>
+                                <el-checkbox @change="remenberPwdChange"
+                                    v-model="remenberPwd">记住密码</el-checkbox>
                             </el-form-item>
                             <el-form-item class="formBottom">
-                                <el-button type="primary" @click="submitForm('ruleForm2')">登陆</el-button>
+                                <el-button type="primary"
+                                    @click="submitForm('ruleForm2')">登陆</el-button>
                                 <el-button @click="resetForm('ruleForm2')">清空</el-button>
                             </el-form-item>
+
                         </el-form>
                     </div>
                 </div>
@@ -52,6 +73,7 @@ export default {
             }
         }
         return {
+            remenberPwd: false,
             loginForm: {
                 username: '',
                 password: ''
@@ -92,6 +114,8 @@ export default {
                             if (res.data.isPwdModify == 0) {
                                 _this.$router.push({ name: 'ChangePassword' });
                             }
+                            //记住密码
+                            _this.setLocalStorage();
                         }
 
                     });
@@ -104,6 +128,26 @@ export default {
         resetForm(formName) {
             this.$refs[formName].resetFields();
         },
+        //记住密码
+        setLocalStorage() {
+            window.localStorage.setItem('username', this.loginForm.username);
+            window.localStorage.setItem('password', this.loginForm.password);
+        },
+        remenberPwdChange(v) {
+            if (v) {
+                localStorage.setItem('remenberPwd', '1')
+                this.setLocalStorage();
+            } else {
+                window.localStorage.setItem('remenberPwd', '0');
+            }
+        }
+    },
+    mounted() {
+        if(localStorage.getItem('remenberPwd') == '1'){
+            this.loginForm.password = localStorage.getItem('password');
+            this.remenberPwd = true;
+        }
+        this.loginForm.username = localStorage.getItem('username');
     }
 }
 </script>
