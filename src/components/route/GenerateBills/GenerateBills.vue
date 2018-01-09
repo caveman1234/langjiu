@@ -24,9 +24,9 @@
                             <div class="noticeName">发货要求：</div>
                         </el-col>
                         <el-col :span="5" style="margin-top: 3px;">
-                            <el-radio-group v-model="isNotice" :disabled="isNoticeDisable">
+                            <el-radio-group @change="isNoticeChange" v-model="isNotice" :disabled="isNoticeDisable">
                                 <el-radio :label="0">立即发货</el-radio>
-                                <el-radio :label="1">待通知发货</el-radio>
+                                <el-radio  :label="1">待通知发货</el-radio>
                             </el-radio-group>
                         </el-col>
                     </el-row>

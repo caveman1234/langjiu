@@ -130,7 +130,7 @@ export default {
                 return;
             }
             //检查发货要求
-            if (_this.isNotice == '') {
+            if (_this.isNotice === '') {
                 _this.$Notify({ title: '发货要求不能为空', type: 'warning' });
                 return;
             }
@@ -419,6 +419,13 @@ export default {
             }; ///api/b2b/query-balance/getCashReserve
             return _this.$http.get('/ocm-web/api/b2b/query-balance/getCashReserve', paramsWrap)
                 .then(res => res.data);
+        },
+        //待通知发货change
+        isNoticeChange(value) {
+            let _this = this;
+            if (value == 1) {
+                // _this.$Notify({ title: '待通知发货', type: 'warning' });
+            }
         }
     },
     computed: {
@@ -440,7 +447,6 @@ export default {
             // notXtype  计提非X类共建基金：
             // deductionMoney 费用抵扣金额：
             // cashRest  现金余额：
-            debugger
             let currentPay = Number(this.totalMoney) + Number(this.billFooger.xType) + Number(this.billFooger.notXtype) - Number(this.useOffMoney);
             return currentPay.toFixed(2);
         }
