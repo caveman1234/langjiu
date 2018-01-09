@@ -30,15 +30,6 @@
                         </template>
                     </ul>
                 </div>
-                <div v-show="isNotSign"
-                    class="notice">
-                    <el-alert
-                        title="警告：账户未签约"
-                        type="warning"
-                        show-icon>
-                        <span class="goSigin"  @click="goSigin">去签约</span>
-                    </el-alert>
-                </div>
             </div>
         </div>
     </div>
@@ -51,8 +42,7 @@ export default {
         return {
             searchInfo: "",
             logoImg: require('../../../assets/logo.jpg'),
-            state: this.$store.state,
-            isNotSign: false,//0:未签约 1:已签约
+            state: this.$store.state
         }
     },
     methods: {
@@ -97,12 +87,15 @@ export default {
             let url = '/ocm-web/api/base/customer/isSign';
             _this.$http.get(url, paramsWrap)
                 .then(res => {
-                    _this.isNotSign = (res.data.isSign === 0);
+                    if(res.data.isSign === 0){
+                        _this.goSigin();
+                    }
                 });
         },
         //去签约页面
         goSigin() {
             let _this = this;
+            _this.$Notify({ title: '请签约', type: 'warning' });
             _this.$router.push({ name: 'AccountMgr', params: { to: 'AccountMgr' } });
         }
 
