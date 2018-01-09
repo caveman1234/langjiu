@@ -400,8 +400,10 @@ export default {
                 switch (column.property) {
                     case 'paymentTotalMoney':
                         let totalArr = data.map(v => v[column.property]);
-                        let total = totalArr.reduce((acc, a) => (acc + a), 0)
-                        arr[i] = `货款总金额:¥${Number(total).toFixed(2)}`;
+                        let total = totalArr.reduce((acc, a) => (acc + a), 0);
+                        let value = String(Number(total).toFixed(2));
+                        var str = value.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+                        arr[i] = `货款总金额:¥${str}`;
                         break;
                     default:
                         arr[i] = null;

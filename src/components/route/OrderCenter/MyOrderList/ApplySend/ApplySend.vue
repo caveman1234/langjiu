@@ -133,7 +133,10 @@ export default {
                     case 'realAmount':
                         let totalArr = data.map(v => v[column.property]);
                         let total = totalArr.reduce((acc, a) => (acc + a), 0)
-                        arr[i] = `总金额:¥${Number(total).toFixed(2)}`;
+                        let value = String(Number(total).toFixed(2));
+                        var str = value.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+                        
+                        arr[i] = `总金额:¥${str}`;
                         break;
                     default:
                         arr[i] = null;
