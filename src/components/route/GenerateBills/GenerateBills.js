@@ -460,7 +460,10 @@ export default {
         _this.prodGroupId = _this.$store.state.prodGroupId;
         //页面加载使用费用0
         _this.$nextTick(() => {
-            _this.$refs.costOffRef.confirm(true);
+            //藏品产品线为空，不计算费用
+            if (_this.$store.state.prodGroupId) {
+                _this.$refs.costOffRef.confirm(true);
+            }
         });
     }
 }

@@ -23,8 +23,8 @@
                     <el-table-column prop="basePrice" label="单价">
                         <template slot-scope="scope">
                             <div class="price">
-                                <div>价格：¥{{scope.row.basePrice || '暂无价格'}}</div>
-                                <div v-if="false">共建：¥{{scope.row.fundPrice || 0}}</div>
+                                <div>价格：{{scope.row.basePrice | formatPrice}}</div>
+                                <div v-if="false">共建：{{scope.row.fundPrice | formatPrice}}</div>
                             </div>
                         </template>
                     </el-table-column>
@@ -38,7 +38,11 @@
                             <div>{{scope.row.baseQuantity}} </div>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="paymentTotalMoney" label="货款金额"></el-table-column>
+                    <el-table-column prop="paymentTotalMoney" label="货款金额">
+                        <template slot-scope="scope">
+                            <div>{{scope.row.paymentTotalMoney | formatPrice}}</div>
+                        </template>
+                    </el-table-column>
                     <el-table-column prop="handle" label="操作">
                         <template slot-scope="scope">
                             <div class="handle">
@@ -87,7 +91,12 @@ export default {
             let allProductId = this.goodsData.map(v => v.productId);
             let willAppendData = data.filter(v => !allProductId.includes(v.productId));
 
-
+             willAppendData = willAppendData.map(v => {
+                v.basePrice = v.basicPrice;
+                delete v.basicPrice;
+                v.paymentTotalMoney = v.baseQuantity * v.basicPrice;
+                return v;
+            });
 
             willAppendData = willAppendData.map(v => {
                 //baleQuantity 箱数
@@ -157,7 +166,6 @@ export default {
         }
     },
     mounted() {
-
     },
     activated() {
         //mounted

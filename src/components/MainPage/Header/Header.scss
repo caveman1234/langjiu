@@ -68,8 +68,13 @@
                 float: right;
                 position: relative;
                 z-index: 2000;
-                width: 250px;
-                margin-top: 13px;
+                width: 300px;
+                margin-top: 8px;
+                .goSigin {
+                    margin-left: 10px;
+                    cursor: pointer;
+                    color: #E7442E;
+                }
             }
         }
     }

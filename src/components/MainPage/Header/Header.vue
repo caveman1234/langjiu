@@ -30,10 +30,13 @@
                         </template>
                     </ul>
                 </div>
-                <div v-show="false" class="notice">
-                    <el-alert title="警告：账户未签约"
+                <div v-show="isNotSign"
+                    class="notice">
+                    <el-alert
+                        title="警告：账户未签约"
                         type="warning"
                         show-icon>
+                        <span class="goSigin"  @click="goSigin">去签约</span>
                     </el-alert>
                 </div>
             </div>
@@ -48,7 +51,8 @@ export default {
         return {
             searchInfo: "",
             logoImg: require('../../../assets/logo.jpg'),
-            state: this.$store.state
+            state: this.$store.state,
+            isNotSign: false,//0:未签约 1:已签约
         }
     },
     methods: {
@@ -81,6 +85,25 @@ export default {
         },
         changePwd() {
             this.$router.push({ name: 'ChangePassword' });
+        },
+        //检查是否签约过
+        checkIsNotSign() {
+            let _this = this;
+            let paramsWrap = {
+                params: {
+                    customerId: this.$store.state.customerId
+                }
+            };
+            let url = '/ocm-web/api/base/customer/isSign';
+            _this.$http.get(url, paramsWrap)
+                .then(res => {
+                    _this.isNotSign = (res.data.isSign === 0);
+                });
+        },
+        //去签约页面
+        goSigin() {
+            let _this = this;
+            _this.$router.push({ name: 'AccountMgr', params: { to: 'AccountMgr' } });
         }
 
     },
@@ -95,11 +118,14 @@ export default {
         })
     },
     mounted() {
+        let _this = this;
         let cookies = new this.$util.Cookies();
         this.$store.commit('userloginName', cookies.getCookie('customerName'));
         this.$store.commit('setCustomerId', cookies.getCookie('customerId'));
         //登陆用户名-修改密码
         this.$store.commit('changeUsername', cookies.getCookie('username'));
+        //检查是否签约过
+        _this.checkIsNotSign();
     }
 
 }

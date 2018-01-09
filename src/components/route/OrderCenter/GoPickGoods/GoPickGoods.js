@@ -11,20 +11,15 @@ export default {
     },
     data() {
         return {
-            billHeader: {},
-            addressObj: {
-                firstReceiver: '', //收货人
-                firstReceiverPhone: '', //收货人电话
-                addressDetail: '' //地址
-            },
+            /* 产品线 */
+            prodGroupId: '',
             /* 发货通知 */
-            isNotice: 1,
+            isNotice: '',
             /* 运输方式 */
             carriageMethod: "",
             /* 期望到货日期 */
             arriveDate: '',
             address: '',
-            /* 备注 */
             remark: '',
             /* 订单类型 */
             carriageMethodCombo: [],
@@ -43,26 +38,50 @@ export default {
             /* 费用计算后返回值 */
             calcMoney: {},
             /* 是否通知发货 disable */
-            isNoticeDisable: true,
+            isNoticeDisable: false,
             billFooger: {
                 xType: 0, //计提X类共建基金：
                 notXtype: 0, //计提非X类共建基金：
                 deductionMoney: 0, //费用抵扣金额：
                 cashRest: 0, //现金余额：
                 currentPay: 0, //本次应付金额：
-            }
+                dealAmount: 0, //货款金额
+            },
+            /* 订单类型，融资订单是否被选中 */
+            financingChecked: true,
+            //收货地址
+            addressObj: {},
+            //订单头
+            billHeader: {}
         }
     },
     methods: {
+        addressClick(item) {
+            let index = this.infoData.findIndex(v => v == item);
+            this.infoData.forEach((obj, i) => {
+                if (index == i) {
+                    obj.isSelected = true;
+                } else {
+                    obj.isSelected = false;
+                }
+                return obj;
+            });
+        },
+        delOneItem({ productId }) {
+            this.goodsData = this.goodsData.filter(v => v.productId != productId);
+        },
         /* 接收搜索数据 */
         receiveData(data) {
             let allProductId = this.goodsData.map(v => v.productId);
             let willAppendData = data.filter(v => !allProductId.includes(v.productId));
+
             this.goodsData = this.goodsData.concat(willAppendData);
         },
         /* 使用折扣金额 */
         CostOffEvent(calcMoney, useOffMoney, calcDataTable) {
             let _this = this;
+            _this.calcMoney = calcMoney;
+            _this.calcDataTable = calcDataTable;
             /* 
             calcMoney :[]每行的折扣
             useOffMoney 输入的金额
@@ -71,37 +90,61 @@ export default {
             ------billFooger
             xType 计提X类共建基金：
             notXtype  计提非X类共建基金：
-            deductionMoney 费用抵扣金额：
+            deductionMoney 抵扣货款金额：
             cashRest  现金余额：
             */
+            this.useOffMoney = Number(useOffMoney).toFixed(2);
 
             /* 写订单footer */
-            _this.billFooger.xType = calcMoney.reduce((acc, v) => (acc + v.fundCash), 0);
-            _this.billFooger.notXtype = calcMoney.reduce((acc, v) => (acc + v.fundFee), 0);
-            _this.billFooger.deductionMoney = calcMoney.reduce((acc, v) => (acc + v.discountAmount), 0);
-            _this.fetchCashRest().then(cashRest => _this.billFooger.cashRest = cashRest);
+            _this.billFooger.dealAmount = calcMoney.reduce((acc, v) => (acc + v.dealAmount), 0).toFixed(2);
+            _this.billFooger.xType = calcMoney.reduce((acc, v) => (acc + v.fundCash), 0).toFixed(2);
+            _this.billFooger.notXtype = calcMoney.reduce((acc, v) => (acc + v.fundFee), 0).toFixed(2);
+            _this.billFooger.deductionMoney = calcMoney.reduce((acc, v) => (acc + v.discountAmount), 0).toFixed(2);
+            _this.fetchCashRest().then(cashRest => _this.billFooger.cashRest = Number(cashRest).toFixed(2));
         },
+        /* 在线支付(去融资) */
+        payOnline() {
+
+
+        },
+        //去融资
+        goFinancing() {},
 
         /* 修改 */
         edit() {
-            this.$router.push({
-                name: 'GoPickGoodsEdit'
-            });
+            this.$router.push({ name: 'GoPickGoodsEdit' });
         },
-        /* 提交 */
-        submit() {
+        //普通销售订单
+        submitNormal() {
             let _this = this;
-            /* 验证 */
+            /* 验证收获地址为空 */
+            if (_this.infoData.length == 0) {
+                _this.$Notify({ title: '收货地址不能为空', type: 'warning' });
+                return;
+            }
+            /* 验证 商品为空 */
             if (_this.goodsData.length == 0) {
-                _this.$Notify({
-                    title: '商品不能为空',
-                    type: 'warning'
-                });
+                _this.$Notify({ title: '商品不能为空', type: 'warning' });
+                return;
+            }
+            //检查发货要求
+            if (_this.isNotice === '') {
+                _this.$Notify({ title: '发货要求不能为空', type: 'warning' });
                 return;
             }
             /* 使用费用表格 */
-            let calcDataTable = _this.calcDataTable.map(v => v.currentMoney);
-            let purchaseOrderItems = _this.goodsData.map((v, i) => {
+            let calcDataTable = this.calcDataTable.map(v => v.currentMoney);
+            let purchaseOrderItems = this.goodsData.map(v => {
+                var discountAmount = '';
+                var dealAmount = '';
+                var fundAmount = '';
+                var fundFee = '';
+                var fundCash = '';
+                var realAmount = '';
+                if (Array.isArray(this.calcMoney)) {
+                    var currentObj = this.calcMoney.find(aObj => aObj.productId == v.productId);
+                    var { discountAmount, dealAmount, fundAmount, fundFee, fundCash, realAmount } = currentObj;
+                }
                 return {
                     productId: v.productId,
                     productCode: v.productCode,
@@ -127,81 +170,66 @@ export default {
                     basePrice: v.basePrice,
                     fundPrice: v.fundPrice,
                     dealPrice: v.dealPrice,
-                    basePrice: v.basePrice,
+                    // fundAmount: v.fundAmount,
+                    // realAmount: v.realAmount,
+                    // dealAmount: v.dealAmount,
+                    // discountAmount: v.discountAmount,
+                    // fundFee: v.fundFee,
+                    // fundCash: v.fundCash,
                     /* 使用费用 */
-                    discountAmount: v.discountAmount,
-                    dealAmount: this.calcMoney.dealAmount,
-                    fundAmount: this.calcMoney.fundAmount,
-                    fundFee: this.calcMoney.fundFee,
-                    fundCash: this.calcMoney.fundCash,
-                    realAmount: this.calcMoney.realAmount,
-                    //新增字段
-                    srcBillType: this.billHeader.poTypeCode,
-                    srcBillId: this.billHeader.id,
-                    srcBillCode: this.billHeader.orderCode,
-
+                    discountAmount: discountAmount,
+                    dealAmount: dealAmount,
+                    fundAmount: fundAmount,
+                    fundFee: fundFee,
+                    fundCash: fundCash,
+                    realAmount: realAmount,
+                    //新增
+                    srcBillType: _this.billHeader.poTypeId,
+                    srcBillId: _this.billHeader.id,
+                    srcBillCode: _this.billHeader.orderCode,
                     srcBillRowId: v.id,
                     srcBillRowNum: v.rowNum,
-
+                    baseQuantity: v.baleQuantity * v.packageNum
                 }
             });
-            let receiveAddressId = _this.addressObj.receiveAddressId;
-            let params = {
 
+            let receiveAddressId = _this.infoData.find(v => v.isSelected).receiveAddressId;
+            let params = {
+                saleChannelCode: '00',
                 distributorId: _this.$store.state.customerId, //经销商id
                 receiveAddressId: receiveAddressId, //收获地址
-                isNoticeSend: _this.isNotice, //是否通知
-                sendDate: _this.arriveDate && _this.arriveDate.getTime(), //期望发货日期
+                isNoticeSend: this.isNotice, //是否通知
+                sendDate: this.arriveDate && this.arriveDate.getTime(), //期望发货日期
                 remark: _this.remark, //备注
-                poTypeId: _this.carriageMethod, //订单类型
+                poTypeId: this.carriageMethod,
                 eFeeUsedAmount: calcDataTable[0],
                 qFeeUsedAmount: calcDataTable[1],
                 fFeeUsedAmount: calcDataTable[2],
-                purchaseOrderItems: purchaseOrderItems,
-                //新增字段 _this.billHeader
-                saleChannelCode: _this.billHeader.saleChannelCode,
-                receiveOrgId: _this.billHeader.receiveOrgId,
-                saleOrgId: _this.billHeader.saleOrgId,
-                agencyId: _this.billHeader.agencyId,
-                cityUintId: _this.billHeader.cityUintId,
-                customerManagerId: _this.billHeader.customerManagerId,
-                productGroupId: _this.billHeader.productGroupId,
+
+                purchaseOrderItems: purchaseOrderItems
             };
-            _this.$http.post('/ocm-web/api/b2b/purchase-orders/repaid-submit', params)
-                .then(res => {
-                    if (res.headers["x-ocm-code"] == '1') {
-                        _this.$router.push({
-                            name: 'TotalOrder'
-                        });
-                    }
-                });
-        },
-        /* 获取收货地址 */
-        fetchAddress() {
-            let _this = this;
-            let paramsWrap = {
-                params: {
-                    customerId: this.$store.state.customerId
-                }
-            }
-            _this.$http.get('/ocm-web//api/base/customer/get-addr-List', paramsWrap)
-                .then(res => {
-                    let infoData = res.data.map((v, i) => {
-                        let obj = {
-                            firstReceiver: v.firstReceiver,
-                            firstReceiverPhone: v.firstReceiverPhone,
-                            addressDetail: v.addressDetail,
-                            id: v.id,
+            params.persistStatus = "new";
+            params.poTypeId = _this.carriageMethod;
+            params.receiveOrgId = _this.billHeader.receiveOrgId;
+            params.saleOrgId = _this.billHeader.saleOrgId;
+            params.agencyId = _this.billHeader.agencyId;
+            params.customerManagerId = _this.billHeader.customerManagerId;
+            params.cityUintId = _this.billHeader.cityUintId;
+            //销售订单请求地址
+            let sreverUrl = '/ocm-web/api/b2b/purchase-orders/repaid-submit';
+            _this.$confirm('此操作不可逆，是否提交？', '提交', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning',
+                center: true
+            }).then(() => {
+                _this.$http.post(sreverUrl, params)
+                    .then(res => {
+                        if (res.headers["x-ocm-code"] == '1') {
+                            _this.$router.push({ name: 'TotalOrder' });
                         }
-                        if (i == 0) {
-                            obj.isSelected = true;
-                        } else {
-                            obj.isSelected = false;
-                        }
-                        return obj;
                     });
-                    _this.infoData = infoData;
-                })
+            }).catch(() => {});
         },
         /* 获取订单类型  */
         fetchOrderType() {
@@ -211,15 +239,12 @@ export default {
                     customerId: this.$store.state.customerId
                 }
             };
-            _this.$http.get('/ocm-web/api/b2b/po-types/get-repaid', paramsWrap)
+            _this.$http.get('/ocm-web//api/b2b/po-types//get-repaid', paramsWrap)
                 .then(res => {
-                    let carriageMethodCombo = res.data.map(v => ({
-                        label: v.name,
-                        value: v.id,
-                        businessTypeCode: v.businessTypeCode
-                    }));
+                    let carriageMethodCombo = res.data.map(v => ({ label: v.name, value: v.id, businessTypeCode: v.businessTypeCode }));
                     this.carriageMethodCombo = carriageMethodCombo;
-                    this.carriageMethod = this.carriageMethodCombo.find(v => v.businessTypeCode == '04').value;
+                    //设置订单类型默认选中
+                    this.carriageMethod = carriageMethodCombo.find(v => v.businessTypeCode == '04').value;
                 })
         },
         baleQuantityChange(row) {
@@ -227,21 +252,32 @@ export default {
                 row.baseQuantity = (row.baleQuantity) * row.packageNum;
             });
         },
-
+        /* 订单类型改变，事件 */
+        noticeChange(value) {
+            let obj = this.carriageMethodCombo.find(v => v.value == value);
+            if (obj.businessTypeCode == "01") { //融资受控订单 03 销售订单01
+                this.isNoticeDisable = false;
+                this.isNotice = 1;
+                /* 融资订单状态 */
+                this.financingChecked = true;
+            } else {
+                this.isNoticeDisable = true;
+                this.isNotice = 1;
+                /* 融资订单状态 */
+                this.financingChecked = false;
+            }
+        },
         /* 合计 */
         getSummaries(params) {
             let _this = this;
-            const {
-                columns,
-                data
-            } = params;
+            const { columns, data } = params;
             let arr = [];
             columns.forEach((column, i) => {
                 switch (column.property) {
                     case 'paymentTotalMoney':
                         let totalArr = data.map(v => v[column.property]);
-                        let total = totalArr.reduce((acc, a) => (acc + a))
-                        arr[i] = `货款总金额:${total}`;
+                        let total = totalArr.reduce((acc, a) => (acc + a), 0)
+                        arr[i] = `货款总金额:¥${Number(total).toFixed(2)}`;
                         break;
                     default:
                         arr[i] = null;
@@ -254,19 +290,18 @@ export default {
             let _this = this;
             let paramsWrap = {
                 params: {
-                    customerId: this.$store.state.customerId,
-                    productGroupId: this.$store.state.prodGroupId
+                    customerId: this.$store.state.customerId
                 }
-            };
+            }; ///api/b2b/query-balance/getCashReserve
             return _this.$http.get('/ocm-web/api/b2b/query-balance/getCashReserve', paramsWrap)
                 .then(res => res.data);
         },
-        /* 提交前，获取id */
-        fetchPoTypeId() {
+        //待通知发货change
+        isNoticeChange(value) {
             let _this = this;
-            return _this.$http.get('/ocm-web/api/b2b/po-types/get-repaid').then(res => {
-                return res.data[0].id
-            })
+            if (value == 1) {
+                // _this.$Notify({ title: '待通知发货', type: 'warning' });
+            }
         }
     },
     computed: {
@@ -278,7 +313,7 @@ export default {
                 //总价 箱数*单价
                 total = total + (v.baseQuantity * (v.basePrice || 0))
             });
-            return total;
+            return total.toFixed(2);
         },
         orderPayMoney() {
             return this.totalMoney - this.useOffMoney;
@@ -288,14 +323,25 @@ export default {
             // notXtype  计提非X类共建基金：
             // deductionMoney 费用抵扣金额：
             // cashRest  现金余额：
-
-            return this.totalMoney + this.billFooger.xType + this.billFooger.notXtype - this.billFooger.deductionMoney - this.billFooger.cashRest;
+            let currentPay = Number(this.totalMoney) + Number(this.billFooger.xType) + Number(this.billFooger.notXtype) - Number(this.useOffMoney);
+            return currentPay.toFixed(2);
         }
     },
     mounted() {
-        this.goodsData = this.$route.params.selectedData;
-        this.fetchAddress(); /* 获取收货地址 */
-        this.fetchOrderType(); /* 获取订单类型 */
+        let _this = this;
+        _this.goodsData = this.$route.params.selectedData;
+        _this.fetchOrderType(); /* 获取订单类型 */
+        //设置产品线
+        _this.prodGroupId = _this.$store.state.prodGroupId;
+        //页面加载使用费用0
+
+        _this.$nextTick(() => {
+            //藏品产品线为空，不计算费用
+            if (_this.$store.state.prodGroupId) {
+                _this.$refs.costOffRef.confirm(true);
+            }
+        });
+        //收货地址
         let billHeader = this.$route.params.billHeader;
         this.addressObj = {
             firstReceiver: billHeader.firstReceiver,
@@ -303,7 +349,8 @@ export default {
             addressDetail: billHeader.addressDetail,
             receiveAddressId: billHeader.receiveAddressId,
             isSelected: true
-        }
+        };
+        this.infoData = [this.addressObj];
         this.billHeader = billHeader;
     }
 }

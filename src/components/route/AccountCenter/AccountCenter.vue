@@ -1,7 +1,7 @@
 <template>
     <div class="AccountCenter">
         <div class="leftList">
-            <el-tabs v-model="tabModel" @tab-click="tabClick" tab-position="left">
+            <el-tabs v-model="currentChecked" @tab-click="tabClick" tab-position="left">
                 <template v-for="(item,index) in tabArr">
                     <el-tab-pane :label="item.label" :name='item.name' :key="index"></el-tab-pane>
                 </template>
@@ -80,7 +80,7 @@ export default {
     data() {
         return {
             userInfoImg: 'src/assets/goodsItem.png',
-            tabModel: 'MyProperty',
+            currentChecked: 'MyProperty',
             tabArr: tabArr
         }
     },
@@ -92,7 +92,16 @@ export default {
         }
     },
     mounted() {
+        let _this = this;
         this.$store.commit('changeCurrentNav', { hash: '/AccountCenter' });
+        let to = _this.$route.params.to;
+        switch (to) {
+            case 'AccountMgr':
+                _this.currentChecked = 'AccountMgr';
+                break;
+            default:
+                _this.currentChecked = 'MyProperty';
+        }
     }
 }
 </script>

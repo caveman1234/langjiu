@@ -44,10 +44,11 @@ if (notSupportVersion.indexOf(currentVersion) != -1) {
     if (isConfirm) {
         let aTag = document.createElement('a');
         //360浏览器
-        aTag.href = "http://down.360safe.com/se/360se9.1.0.362.exe";
+        // aTag.href = "http://down.360safe.com/se/360se9.1.0.362.exe";
         //谷歌浏览器
         // aTag.href = "http://sw.bos.baidu.com/sw-search-sp/software/3b543c7b6bd21/ChromeStandalone_63.0.3239.108_Setup.exe";
-        aTag.click();
+        // aTag.click();
+        window.open('http://down.360safe.com/se/360se9.1.0.362.exe');
     } else {
 
     }

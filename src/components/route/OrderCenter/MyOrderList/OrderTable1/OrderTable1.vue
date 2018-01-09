@@ -76,11 +76,11 @@
                     <el-row type="flex"
                         justify="end">
                         <el-button-group>
-                            <template v-if="item.poTypeBusinessType =='03' && item.billStatusCode == '03' && item.totalRepaidAmount < item.totalRepayAmount"
-                                @click="goPickGoods(item)">
-                                <!-- <el-button size="mini"
-                                        type="primary">去提货
-                                    </el-button> -->
+                            <template v-if="item.poTypeBusinessType =='03' && item.billStatusCode == '03' && item.totalRepaidAmount < item.totalRepayAmount">
+                                <el-button size="mini"
+                                    @click="goPickGoods(item)"
+                                    type="primary">去提货
+                                </el-button>
                             </template>
                             <template v-if="item.isNoticeSend == 1 && item.isApplySendOver == 0 && item.billStatusCode == '03' && item.poTypeBusinessType !=='03' && item.isNcConfirm ==1 ">
                                 <el-button @click="applySend(item)"
@@ -144,17 +144,17 @@
                         </template>
                     </el-table-column>
                     <!-- <el-table-column prop="" label="金额">
-                                                                                                                                <template slot-scope="scope">
-                                                                                                                                    <div v-red>{{item.totalAmount | formatPrice}}</div>
-                                                                                                                                </template>
-                                                                                                                            </el-table-column>
-                                                                                                                            <el-table-column prop="" label="操作">
-                                                                                                                                <template slot-scope="scope">
-                                                                                                                                    <div>
-                                                                                                                                        <el-button size="mini" type="primary">去融资</el-button>
-                                                                                                                                    </div>
-                                                                                                                                </template>
-                                                                                                                            </el-table-column> -->
+                                                                                                                                    <template slot-scope="scope">
+                                                                                                                                        <div v-red>{{item.totalAmount | formatPrice}}</div>
+                                                                                                                                    </template>
+                                                                                                                                </el-table-column>
+                                                                                                                                <el-table-column prop="" label="操作">
+                                                                                                                                    <template slot-scope="scope">
+                                                                                                                                        <div>
+                                                                                                                                            <el-button size="mini" type="primary">去融资</el-button>
+                                                                                                                                        </div>
+                                                                                                                                    </template>
+                                                                                                                                </el-table-column> -->
                 </el-table>
             </div>
         </template>
