@@ -94,7 +94,7 @@ export default {
              willAppendData = willAppendData.map(v => {
                 v.basePrice = v.basicPrice;
                 delete v.basicPrice;
-                v.paymentTotalMoney = v.baseQuantity * v.basicPrice;
+                v.paymentTotalMoney = v.baseQuantity * v.basePrice;
                 return v;
             });
 
@@ -109,7 +109,7 @@ export default {
                 // 瓶
                 megerObj.baseQuantity = megerObj.baleQuantity * v.packageNum;
                 // 货款金额
-                megerObj.paymentTotalMoney = megerObj.baseQuantity * v.basicPrice;
+                megerObj.paymentTotalMoney = megerObj.baseQuantity * v.basePrice;
                 return Object.assign({}, v, megerObj);
             });
 
