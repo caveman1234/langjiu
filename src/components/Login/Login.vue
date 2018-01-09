@@ -107,7 +107,7 @@ export default {
                             _this.$store.commit('changeUsername', res.data.username);
                             _this.$router.push({ name: 'Home' });
                             _this.$Notification.success({
-                                title: decodeURI(res.headers["x-ocm-message"]),
+                                title: decodeURIComponent(res.headers["x-ocm-message"]),
                                 offset: 90,
                                 duration: 3000
                             });

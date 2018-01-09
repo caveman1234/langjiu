@@ -136,7 +136,7 @@ function install(Vue) {
         loadingInstance1.close();
         if (response.headers["x-ocm-code"] != '1') {
             Notification.error({
-                title: decodeURI(response.headers["x-ocm-message"]),
+                title: decodeURIComponent(response.headers["x-ocm-message"]),
                 // message: decodeURI(response.headers["x-ocm-message"]),
                 offset: 90,
                 duration: 3000

@@ -4,8 +4,8 @@ class Cookies {
         let cookiesArr = document.cookie.split(';').filter(v => v.trim());
         this.cookiesObj = cookiesArr.reduce((acc, v) => {
             let item = v.split('=');
-            let key = decodeURI(item[0].trim());
-            let value = decodeURI(item[1].trim());
+            let key = decodeURIComponent(item[0].trim());
+            let value = decodeURIComponent(item[1].trim());
             acc[key] = value;
             return acc;
         }, {});

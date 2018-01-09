@@ -165,7 +165,7 @@ export default {
                             _this.$store.commit('setCustomerId', res.data.customerId);
                             _this.$router.push({ name: 'Home' });
                             _this.$Notification.success({
-                                title: decodeURI(res.headers["x-ocm-message"]),
+                                title: decodeURIComponent(res.headers["x-ocm-message"]),
                                 offset: 90,
                                 duration: 3000
                             });
