@@ -7,16 +7,25 @@
     min-height: 800px;
     ul {
         list-style: none;
+        margin-top: 15px;
         li {
-            line-height: 30px;
+            line-height: 35px;
             font-size: 15px;
-            border-bottom: 1px dashed $color999;
+            border-bottom: 1px dashed $borderColor;
+            box-sizing: border-box;
+            padding: 0 15px;
             // color: $color999;
             &:hover {
-                color: $redColor !important;
+                background: rgba(231, 68, 46, 0.1);
+                span {
+                    color: $redColor !important;
+                }
             }
             cursor: pointer;
-            .content {}
+            .content {
+                font-size: 15px;
+                font-weight: bold;
+            }
             .time {
                 float: right;
             }
