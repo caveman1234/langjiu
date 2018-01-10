@@ -61,6 +61,15 @@
                 </el-table-column>
                 <el-table-column prop="remark"
                     label="备注"></el-table-column>
+                <el-table-column prop=""
+                    label="同步融资状态">
+                    <template slot-scope="scope">
+                        <el-button size="mini"
+                            v-if="scope.row.billStatus === 0 || scope.row.billStatus === 3 "
+                            plain
+                            @click="syncStatus(scope.row)">同步</el-button>
+                    </template>
+                </el-table-column>
             </el-table>
             <el-pagination @size-change="handleSizeChange"
                 @current-change="handleCurrentChange"
@@ -99,7 +108,7 @@ let searchConfig = [
         label: '审核状态：',
         dataSource: [
             {
-                label: '未融资',
+                label: '融资中',
                 value: 0
             },
             {
@@ -173,6 +182,22 @@ export default {
                 size: _this.pageParams.pageSize
             };
             _this.$refs.searchRef.search(params);
+        },
+        //同步融资状态
+        syncStatus(row) {
+            let _this = this;
+            let params = {
+                mastContCode: row.orderId
+            };
+            let url = '/ocm-web/api/cmbc/queryFinancingStatus';
+            _this.$http.post(url, params)
+                .then(res => {
+                    let params = {
+                        page: 0,
+                        size: _this.pageParams.pageSize
+                    };
+                    _this.$refs.searchRef.search(params);
+                });
         }
     },
     mounted() {

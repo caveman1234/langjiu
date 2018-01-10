@@ -101,6 +101,16 @@ function install(Vue) {
         };
         return billStatusObj[value];
     });
+    //格式化支付状态
+    Vue.filter('formatPaymentStatus', function(value) {
+        let billStatusObj = {
+            '0': '未支付',
+            '1': '支付中',
+            '2': '支付成功',
+            '3': '支付失败'
+        };
+        return billStatusObj[value];
+    });
 
     /* *****************************-axios-*********************************** */
     /* request */
@@ -108,7 +118,7 @@ function install(Vue) {
     axios.interceptors.request.use(function(config) {
         loadingInstance1 = Loading.service({
             fullscreen: true,
-            // target: '.routeContainer'
+            text: '正在加载'
         });
         let cookies = new Vue.prototype.$util.Cookies();
         if (config.method == 'get' && config.params && config.params.hasOwnProperty('customerId') && !config.params.customerId) {

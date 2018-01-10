@@ -24,16 +24,21 @@
     </div>
 </template>
 <script>
-/* 
-欢迎致电四川古蔺郎酒销售有限公司
-青花郎经销商客服电话：028-86710905
-小郎酒经销商客服电话：028-86651839
-郎牌特曲经销商客服电话：028-86652305
-全国统一服务热线：400-806-6969
 
-*/
+
 export default {
-    name: 'ContactUs'
+    name: 'ContactUs',
+    data(){
+        return {
+           
+        }
+    },
+    methods:{
+        receiveFormData(data){
+            log(data);
+        }
+    }
+    
 }
 </script>
 <style lang="scss" scoped>

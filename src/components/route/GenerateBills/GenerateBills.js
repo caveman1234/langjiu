@@ -206,6 +206,7 @@ export default {
                 fFeeUsedAmount: calcDataTable[2],
                 purchaseOrderItems: purchaseOrderItems
             };
+            params.persistStatus = "new";
             //销售订单请求地址
             let sreverUrl = '/ocm-web/api/b2b/purchase-orders/submit';
             _this.$confirm('此操作不可逆，是否提交？', '提交', {
@@ -312,6 +313,7 @@ export default {
                 // fFeeUsedAmount: calcDataTable[2],
                 purchaseOrderItems: purchaseOrderItems
             };
+            params.persistStatus = "new";
             //融资订单请求地址
             let sreverUrl = '/ocm-web/api/b2b/purchase-orders/financing-submit';
             _this.$confirm('此操作不可逆，是否提交？', '提交', {

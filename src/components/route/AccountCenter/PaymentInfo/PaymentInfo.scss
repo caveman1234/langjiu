@@ -1,4 +1,8 @@
 .PaymentInfo {
     min-height: 800px;
     background: white;
+    padding: 0 10px;
+    .el-table {
+        width: 963px;
+    }
 }

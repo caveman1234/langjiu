@@ -1,0 +1,12 @@
+.EditPanel {
+    .el-form {
+        display: flex;
+        flex-wrap: wrap;
+        .ui-item {
+            flex: 0 0 280px;
+        }
+    }
+    .el-form-item {
+        // margin-bottom: 0px;
+    }
+}
