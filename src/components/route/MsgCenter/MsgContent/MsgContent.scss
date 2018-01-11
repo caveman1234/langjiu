@@ -13,6 +13,18 @@
         text-align: center;
         color: $color999;
     }
+    .fujianContainer {
+        .fujianTitle {
+            font-size: 18px;
+        }
+        .fujianItem {
+            font-size: 15px;
+            a {
+                font-size: 15px;
+                line-height: 25px;
+            }
+        }
+    }
     .msgContainer {
         margin-top: 15px;
         pre {

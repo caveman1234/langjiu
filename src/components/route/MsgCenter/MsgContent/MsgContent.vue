@@ -2,15 +2,24 @@
     <div class="MsgContent">
         <div class="msgTitle">{{msgContent.title}}</div>
         <div class="msgTime">发布时间：{{msgContent.creationTime|formatDate}}</div>
-        <div class="msgContainer" v-html="msgContent.content"></div>
-        <div v-if="msgContent.files.length > 0">
-            <template v-for="(item,index) in msgContent.files">
-                <div :key="index">
-                    <i class="icon iconfont lj-fujian"></i>
-                    <a :href="origin + item.url" target="__blank">{{item.filename}}</a>
-                </div>
-            </template>
+
+        <div class="fujianContainer">
+            <div class="fujianTitle">附件：</div>
+            <div v-if="msgContent.files.length > 0">
+                <template v-for="(item,index) in msgContent.files">
+                    <div class="fujianItem"
+                        :key="index">
+                        <i class="icon iconfont lj-fujian"></i>
+                        <a :href="origin + item.url"
+                            target="__blank">{{item.filename}}</a>
+                    </div>
+                </template>
+            </div>
         </div>
+
+        <div class="msgContainer"
+            v-html="msgContent.content"></div>
+
     </div>
 </template>
 <script>
@@ -45,9 +54,9 @@ export default {
     data() {
         return {
             msgContent: {
-                files:[]
+                files: []
             },
-            origin:''
+            origin: ''
         }
     },
     mounted() {

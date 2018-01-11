@@ -21,24 +21,26 @@
             :closable="false"
             description="">
         </el-alert>
+
+        
+
     </div>
 </template>
 <script>
-
-
 export default {
     name: 'ContactUs',
-    data(){
+    components: {  },
+    data() {
         return {
-           
+
         }
     },
-    methods:{
-        receiveFormData(data){
+    methods: {
+        receiveFormData(data) {
             log(data);
         }
     }
-    
+
 }
 </script>
 <style lang="scss" scoped>
