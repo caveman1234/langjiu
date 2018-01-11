@@ -10,6 +10,7 @@ function install(Vue) {
     window.log = window.console.log;
     /* *****************************-static-********************************* */
     Vue.config.productionTip = false;
+    // Vue.config.devtools = true;
     /* *****************************-prototype-****************************** */
     Vue.prototype.$util = util;
     Vue.prototype.interfaceAddress = interfaceAddress;
@@ -18,7 +19,7 @@ function install(Vue) {
     Vue.prototype.$http = axios;
     Vue.prototype.$loading = Loading;
     Vue.prototype.$Notification = Notification;
-    Vue.prototype.$Notify = function({ message, type, title, offset = 40, duration = 3000 }) {
+    Vue.prototype.$Notify = function({ message, type, title, offset = 90, duration = 3000 }) {
         Notification({
             type: type,
             title: title,
