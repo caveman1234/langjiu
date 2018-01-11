@@ -80,7 +80,7 @@ function install(Vue) {
         var str = value.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
         return '¥' + str;
     });
-
+    ß
     //格式化审核状态
     Vue.filter('formatBillStatus', function(value) {
         let billStatusObj = {
@@ -118,7 +118,7 @@ function install(Vue) {
     axios.interceptors.request.use(function(config) {
         loadingInstance1 = Loading.service({
             fullscreen: true,
-            text: '正在加载......'
+            text: '正在拼命加载......'
         });
         let cookies = new Vue.prototype.$util.Cookies();
         if (config.method == 'get' && config.params && config.params.hasOwnProperty('customerId') && !config.params.customerId) {

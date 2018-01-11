@@ -40,7 +40,7 @@ let notSupportVersion = ["IE7", "IE8", "IE9", "IE10"];
 let currentVersion = IEVersion();
 
 if (notSupportVersion.indexOf(currentVersion) != -1) {
-    let isConfirm = window.confirm('当前浏览器版本过低，可能造成安全隐患和页面显示问题，是否下载安全性高、性能好的浏览器？');
+    let isConfirm = window.confirm('当前浏览器版本过低，是否现在高版本浏览器？');
     if (isConfirm) {
         let aTag = document.createElement('a');
         //360浏览器
