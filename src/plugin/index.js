@@ -80,7 +80,6 @@ function install(Vue) {
         var str = value.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
         return '¥' + str;
     });
-    ß
     //格式化审核状态
     Vue.filter('formatBillStatus', function(value) {
         let billStatusObj = {
