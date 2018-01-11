@@ -87,7 +87,7 @@ export default {
             let url = '/ocm-web/api/base/customer/isSign';
             _this.$http.get(url, paramsWrap)
                 .then(res => {
-                    if(res.data.isSign === 0){
+                    if (res.data.isSign === 0) {
                         _this.goSigin();
                     }
                 });
@@ -95,9 +95,61 @@ export default {
         //去签约页面
         goSigin() {
             let _this = this;
-            _this.$Notify({ title: '请签约', type: 'warning' });
+            // _this.$Notification({
+            //     title: '请签约',
+            //     type: 'warning',
+            //     duration: 0,
+            //     offset: 90
+            // });
             _this.$router.push({ name: 'AccountMgr', params: { to: 'AccountMgr' } });
-        }
+            _this.$confirm('你还没有与银行签约，是否去签约?', '签约', {
+                confirmButtonText: '签约',
+                cancelButtonText: '取消',
+                type: 'warning',
+                center: true,
+                dangerouslyUseHTMLString:true,
+                message:'<div style="font-size:18px">你还没有与银行签约，是否去签约?</div>'
+            }).then(() => {
+                _this.goMgr();
+            }).catch(() => {
+                
+            });
+        },
+        goMgr() {
+            //去管理
+            let _this = this;
+            let params = {
+                clientId: this.$store.state.customerId
+            };
+            debugger
+            _this.$http.post('/ocm-web/api/cmbc/queryCustomerInfo', params)
+                .then(res => {
+                    debugger
+                    if (res.headers['x-ocm-code']== '1') {
+                        let bankForm = document.querySelector('#bankForm');
+                        let bankFormSubmit = document.querySelector('#bankFormSubmit');
+                        let params = res.data.reduce((acc, v) => {
+                            acc[v.name] = v.value;
+                            return acc;
+                        }, {});
+                        Object.keys(params).forEach(key => {
+                            if (key != 'forwardUrl') {
+                                let input = document.createElement('input');
+                                input.setAttribute('name', key);
+                                input.value = params[key];
+                                bankForm.appendChild(input);
+                            }
+                        });
+                        //url  地址
+                        debugger
+                        let forwardUrl = params.forwardUrl;
+                        bankForm.setAttribute('action', forwardUrl);
+                        document.forms.bankForm.submit();
+                        // bankFormSubmit.click();
+                    }
+
+                });
+        },
 
     },
     computed: {
