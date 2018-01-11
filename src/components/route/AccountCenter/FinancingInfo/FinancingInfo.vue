@@ -62,12 +62,12 @@
                 <el-table-column prop="remark"
                     label="备注"></el-table-column>
                 <el-table-column prop=""
-                    label="同步融资状态">
+                    label="更新融资状态">
                     <template slot-scope="scope">
                         <el-button size="mini"
                             v-if="scope.row.billStatus === 0 || scope.row.billStatus === 3 "
                             plain
-                            @click="syncStatus(scope.row)">同步</el-button>
+                            @click="syncStatus(scope.row)">更新</el-button>
                     </template>
                 </el-table-column>
             </el-table>

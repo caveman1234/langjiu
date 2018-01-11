@@ -6,11 +6,9 @@
             @receiveData="receiveData"></SearchComp>
         <div class="tableContainer">
             <el-table :data="tableData">
-
-                <el-table-column prop="customerName"
-                    label="客户名称"></el-table-column>
                 <el-table-column prop="paymentTime"
-                    label="支付日期">
+                    label="支付日期"
+                    width="100px">
                     <template slot-scope="scope">
                         <div>
                             <div>{{scope.row.paymentTime | formatDate}}</div>
@@ -18,14 +16,22 @@
                     </template>
                 </el-table-column>
                 <el-table-column prop="code"
-                    label="支付单号"></el-table-column>
+                    label="支付单号" width="150px"></el-table-column>
                 <el-table-column prop="orderCode"
-                    label="订单号"></el-table-column>
+                    label="订单号"
+                    width="150px"></el-table-column>
                 <el-table-column prop="orderMny"
                     label="订单金额">
+                    <template slot-scope="scope">
+                        <div>{{scope.row.orderMny | formatInOut}}</div>
+                    </template>
                 </el-table-column>
                 <el-table-column prop="paymentMny"
-                    label="支付金额">
+                    label="支付金额"
+                    width="150px">
+                    <template slot-scope="scope">
+                        <div>{{scope.row.paymentMny | formatInOut}}</div>
+                    </template>
                 </el-table-column>
                 <el-table-column prop="paymentStatus"
                     label="支付状态">
@@ -40,7 +46,8 @@
                     label="付款方">
                 </el-table-column>
                 <el-table-column prop="payerAccount"
-                    label="付款方账户">
+                    label="付款方账户"
+                    width="150px">
                 </el-table-column>
                 <el-table-column prop="payerName"
                     label="付款方户名">
@@ -53,7 +60,8 @@
                     label="收款方">
                 </el-table-column>
                 <el-table-column prop="receiverAccount"
-                    label="收款方账户">
+                    label="收款方账户"
+                    width="150px">
                 </el-table-column>
                 <el-table-column prop="receiverName"
                     label="收款方户名">
@@ -62,7 +70,8 @@
                     label="收款方银行">
                 </el-table-column>
                 <el-table-column prop="remark"
-                    label="备注">
+                    label="备注"
+                    width="300px">
                 </el-table-column>
 
             </el-table>

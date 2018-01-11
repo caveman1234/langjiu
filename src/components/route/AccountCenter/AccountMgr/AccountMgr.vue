@@ -8,7 +8,6 @@
                     :style='{backgroundImage:`url(${bankImg})`}'></div>
             </div>
             <div class="text">本界面将导航到民生银行提供的专属账户管理界面！</div>
-            <div class="text">本功能2018年1月11号将与银行进行对接。2018年1月11号之后才能签约。</div>
             <div class="btn">
                 <el-button @click="goMgr"
                     size="small"
