@@ -32,6 +32,13 @@
                 </div>
             </div>
         </div>
+        <form v-show="false"
+            id="bankForm"
+            method="post"
+            action="http://111.205.207.144:7003/ecp/htmlMhtInFwd/forward">
+            <button id="bankFormSubmit"
+                type="submit">提交</button>
+        </form>
     </div>
 </template>
 <script>
@@ -102,17 +109,17 @@ export default {
             //     offset: 90
             // });
             _this.$router.push({ name: 'AccountMgr', params: { to: 'AccountMgr' } });
-            _this.$confirm('你还没有与银行签约，是否去签约?', '签约', {
-                confirmButtonText: '签约',
-                cancelButtonText: '取消',
+            _this.$confirm('你还没有与银行签约，是否去签约?', '未签约', {
+                confirmButtonText: '是',
+                cancelButtonText: '否',
                 type: 'warning',
                 center: true,
-                dangerouslyUseHTMLString:true,
-                message:'<div style="font-size:18px">你还没有与银行签约，是否去签约?</div>'
+                dangerouslyUseHTMLString: true,
+                message: '<div style="font-size:18px">你还没有与银行签约，是否去签约?</div>'
             }).then(() => {
                 _this.goMgr();
             }).catch(() => {
-                
+
             });
         },
         goMgr() {
@@ -125,7 +132,7 @@ export default {
             _this.$http.post('/ocm-web/api/cmbc/queryCustomerInfo', params)
                 .then(res => {
                     debugger
-                    if (res.headers['x-ocm-code']== '1') {
+                    if (res.headers['x-ocm-code'] == '1') {
                         let bankForm = document.querySelector('#bankForm');
                         let bankFormSubmit = document.querySelector('#bankFormSubmit');
                         let params = res.data.reduce((acc, v) => {
