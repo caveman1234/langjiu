@@ -4,8 +4,8 @@
         <div class="msgTime">发布时间：{{msgContent.creationTime|formatDate}}</div>
 
         <div class="fujianContainer">
-            <div class="fujianTitle">附件：</div>
             <div v-if="msgContent.files.length > 0">
+                <div class="fujianTitle">附件：</div>
                 <template v-for="(item,index) in msgContent.files">
                     <div class="fujianItem"
                         :key="index">
