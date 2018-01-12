@@ -29,13 +29,15 @@ export default {
     components: {},
     data() {
         return {
-            default:'1-1'
+            
         }
     },
     methods: {
         receiveFormData(data) {
             log(data);
         }
+    },
+    mounted(){
     }
 
 }
