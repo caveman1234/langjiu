@@ -84,10 +84,16 @@ let defaultConfig = [
 ];
 export default {
     name: 'EditPanel',
+    props: {
+        defaultConfig: {
+            default() {
+                return []
+            }
+        }
+    },
     data() {
         return {
             formData: {},
-            defaultConfig: [],
             rules: {}
         }
     },
@@ -107,13 +113,13 @@ export default {
                     return false;
                 }
             });
-            
+
         },
     },
     mounted() {
         let _this = this;
-        _this.defaultConfig = defaultConfig;
-        _this.formData = defaultConfig.reduce((acc, v) => {
+        // _this.defaultConfig = defaultConfig;
+        _this.formData = _this.defaultConfig.reduce((acc, v) => {
             acc[v.field] = v.fieldValue;
             if (v.rule) {
                 let mergerObj = {

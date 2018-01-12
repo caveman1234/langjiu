@@ -35,39 +35,10 @@ export default {
     },
     methods: {
         goMgr() {
-            //去管理
-            let _this = this;
-            let params = {
-                clientId: this.$store.state.customerId
-            };
-            debugger
-            _this.$http.post('/ocm-web/api/cmbc/queryCustomerInfo', params)
-                .then(res => {
-                    debugger
-                    if (res.headers['x-ocm-code']== '1') {
-                        let bankForm = document.querySelector('#bankForm');
-                        let bankFormSubmit = document.querySelector('#bankFormSubmit');
-                        let params = res.data.reduce((acc, v) => {
-                            acc[v.name] = v.value;
-                            return acc;
-                        }, {});
-                        Object.keys(params).forEach(key => {
-                            if (key != 'forwardUrl') {
-                                let input = document.createElement('input');
-                                input.setAttribute('name', key);
-                                input.value = params[key];
-                                bankForm.appendChild(input);
-                            }
-                        });
-                        //url  地址
-                        debugger
-                        let forwardUrl = params.forwardUrl;
-                        bankForm.setAttribute('action', forwardUrl);
-                        document.forms.bankForm.submit();
-                        // bankFormSubmit.click();
-                    }
-
-                });
+            let isSign = this.$store.state.isSign;
+            if(!isSign){
+                this.$store.commit('CheckCustomerInfoIsVisiable', true);
+            }
         },
         goAssign() {
             //去签约

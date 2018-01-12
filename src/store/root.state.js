@@ -5,6 +5,8 @@ let state = {
     // customerId: "3eac6d3b-16c1-489c-aa0f-a2b5fdc2e5a9",
     prodGroupId: '', //产品线
     username: '', //用户名
+    CheckCustomerInfoIsVisiable: false, //检查用户信息，是否签约弹框是否显示
+    isSign: false,
     navList: [
         { name: "首页", routeTo: "/Home", hasSelected: true },
         { name: "合同中心", routeTo: "/ContractCenter", hasSelected: false },

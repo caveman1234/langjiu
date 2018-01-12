@@ -39,12 +39,15 @@
             <button id="bankFormSubmit"
                 type="submit">提交</button>
         </form>
+        <CheckCustomerInfo></CheckCustomerInfo>
     </div>
 </template>
 <script>
 import { mapState, mapMutations, mapGetters } from 'Vuex';
+import CheckCustomerInfo from './CheckCustomerInfo/CheckCustomerInfo.vue';
 export default {
     name: 'Header',
+    components: { CheckCustomerInfo },
     data() {
         return {
             searchInfo: "",
@@ -95,7 +98,10 @@ export default {
             _this.$http.get(url, paramsWrap)
                 .then(res => {
                     if (res.data.isSign === 0) {
-                        _this.goSigin();
+                        //未签约
+                        _this.$store.commit('isSign',false);
+                        _this.$store.commit('CheckCustomerInfoIsVisiable', true)
+                        _this.$router.push({ name: 'AccountMgr', params: { to: 'AccountMgr' } });
                     }
                 });
         },
@@ -108,7 +114,7 @@ export default {
             //     duration: 0,
             //     offset: 90
             // });
-            _this.$router.push({ name: 'AccountMgr', params: { to: 'AccountMgr' } });
+            
             _this.$confirm('你还没有与银行签约，是否去签约?', '未签约', {
                 confirmButtonText: '是',
                 cancelButtonText: '否',

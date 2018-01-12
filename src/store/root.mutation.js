@@ -31,6 +31,12 @@ let mutations = {
     },
     [types.changeUsername](store, username) {
         store.username = username;
+    },
+    [types.CheckCustomerInfoIsVisiable](store, isVisiable) {
+        store.CheckCustomerInfoIsVisiable = isVisiable;
+    },
+    [types.isSign](store, isSign) {
+        store.isSign = isSign;
     }
 };
 export default mutations;
