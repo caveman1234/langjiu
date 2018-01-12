@@ -47,12 +47,12 @@
                 </el-table-column>
                 <el-table-column prop="payerAccount"
                     label="付款方账户"
-                    width="150px">
+                    width="180px">
                 </el-table-column>
                 <el-table-column prop="payerName"
-                    label="付款方户名">
+                    label="付款方户名" width="100px">
                 </el-table-column>
-                <el-table-column prop="payerBank"
+                <el-table-column prop="payerBank" width="100px"
                     label="付款方银行">
                 </el-table-column>
 
@@ -61,13 +61,13 @@
                 </el-table-column>
                 <el-table-column prop="receiverAccount"
                     label="收款方账户"
-                    width="150px">
+                    width="180px">
                 </el-table-column>
                 <el-table-column prop="receiverName"
-                    label="收款方户名">
+                    label="收款方户名" width="100px">
                 </el-table-column>
                 <el-table-column prop="receiverBank"
-                    label="收款方银行">
+                    label="收款方银行" width="100px">
                 </el-table-column>
                 <el-table-column prop="remark"
                     label="备注"

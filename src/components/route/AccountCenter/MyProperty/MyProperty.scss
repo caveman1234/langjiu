@@ -5,6 +5,7 @@
     padding: 10px;
     box-sizing: border-box;
     display: flex;
+    font-size: 12px;
     .MyPropertyLeft {
         flex: 0 0 320px;
         border-right: 1px solid $borderColor;
@@ -34,6 +35,7 @@
                     padding-right: 10px;
                     color: $redColor;
                     cursor: pointer;
+                    font-size: 12px;
                 }
             }
         }

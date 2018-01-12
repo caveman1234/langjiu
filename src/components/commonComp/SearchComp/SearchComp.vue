@@ -6,7 +6,7 @@
             size="mini">
             <el-row>
                 <template v-for="(item,index) in searchConfig">
-                    <el-col style="width:299px;" :span="8"
+                    <el-col style="width:303px;" :span="8"
                         :key="index"
                         class="clearfix">
                         <template v-if="item.type == 'input'">

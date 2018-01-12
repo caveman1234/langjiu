@@ -15,13 +15,13 @@
             </div>
         </div>
 
-        <form v-show="false"
+        <!-- <form v-show="false"
             id="bankForm"
             method="post"
             action="http://111.205.207.144:7003/ecp/htmlMhtInFwd/forward">
             <button id="bankFormSubmit"
                 type="submit">提交</button>
-        </form>
+        </form> -->
     </div>
 </template>
 <script>

@@ -51,7 +51,7 @@
                         class="orderHeader">
                         <el-row>
                             <el-col :span="3">融资审批状态:</el-col>
-                            <el-col :span="2">{{(item.financingStatus) | formatBillStatus}}</el-col>
+                            <el-col :span="3">{{(item.financingStatus) | formatBillStatus}}</el-col>
                             <el-col :span="2">融资金额:</el-col>
                             <el-col :span="3">{{item.totalAmount | formatPrice}}</el-col>
                             <el-col :span="3">累计已还款金额:</el-col>

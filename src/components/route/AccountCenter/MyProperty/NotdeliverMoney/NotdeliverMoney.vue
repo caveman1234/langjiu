@@ -10,15 +10,15 @@
                     </div>
                 </template></el-table-column>
             <el-table-column prop="orderCode"
-                label="订单号" width="100px"></el-table-column>
+                label="订单号" ></el-table-column>
             <el-table-column prop="productDesc"
                 label="产品名称"></el-table-column>
             <el-table-column prop="baseQuantity"
                 label="订单数量"></el-table-column>
             <el-table-column prop="sendedQuantity"
-                label="已发货数量"></el-table-column>
+                label="已发货数量" width="90px"></el-table-column>
             <el-table-column prop="unSendQuantity"
-                label="未发货数量"> </el-table-column>
+                label="未发货数量" width="90px"> </el-table-column>
             <el-table-column prop="unSendAmount"
                 label="未发货金额" min-width="120px">
                 <template slot-scope="scope">
