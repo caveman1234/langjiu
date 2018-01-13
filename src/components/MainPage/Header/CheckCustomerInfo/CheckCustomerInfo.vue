@@ -193,10 +193,12 @@ export default {
             //debugger
             this.$refs.formData1.resetFields();
             this.canEditable = false;
+            this.$store.commit('CheckCustomerInfoIsVisiable', false);
         },
         handleOpen() {
             //debugger
             let _this = this;
+            _this.canSingn = true;
             _this.fetchCustomerInfo();
         },
         cancle() {
@@ -215,6 +217,7 @@ export default {
         goMgr() {
             //去管理
             let _this = this;
+            this.$store.commit('CheckCustomerInfoIsVisiable', false);
             let params = {
                 clientId: this.$store.state.customerId
             };

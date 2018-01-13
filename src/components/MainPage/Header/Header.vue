@@ -97,6 +97,7 @@ export default {
             let url = '/ocm-web/api/base/customer/isSign';
             _this.$http.get(url, paramsWrap)
                 .then(res => {
+                    debugger
                     if (res.data.isSign === 0) {
                         //未签约
                         _this.$store.commit('isSign',false);
