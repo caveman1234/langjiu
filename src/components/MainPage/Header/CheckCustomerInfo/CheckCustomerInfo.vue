@@ -10,7 +10,8 @@
                 ref="formData1"
                 :rules="rules"
                 size="mini"
-                label-width="160px">
+                label-width="160px"
+            >
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="备案证件类型:"
@@ -25,6 +26,7 @@
                                     :value="item.value">
                                 </el-option>
                             </el-select>
+
                         </el-form-item>
                         <el-form-item label="证件号码:"
                             prop="credentialNo">
@@ -32,30 +34,6 @@
                             <div v-if="!canEditable">{{formData.credentialNo}}</div>
                             <el-input v-else
                                 v-model="formData.credentialNo"></el-input>
-
-                        </el-form-item>
-                        <el-form-item label="财务联系人姓名:"
-                            prop="contactName">
-
-                            <div v-if="!canEditable">{{formData.contactName}}</div>
-                            <el-input v-else
-                                v-model="formData.contactName"></el-input>
-
-                        </el-form-item>
-                        <el-form-item label="财务联系人身份证号:"
-                            prop="contactIdCard">
-                            <div v-if="!canEditable">{{formData.contactIdCard}}</div>
-                            <el-input v-else
-                                v-model="formData.contactIdCard"></el-input>
-
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="财务联系人电话:"
-                            prop="contactPhone">
-                            <div v-if="!canEditable">{{formData.contactPhone}}</div>
-                            <el-input v-else
-                                v-model="formData.contactPhone"></el-input>
 
                         </el-form-item>
                         <el-form-item label="开户银行:"
@@ -72,6 +50,9 @@
                                 v-model="formData.accountName"></el-input>
 
                         </el-form-item>
+                        
+                    </el-col>
+                    <el-col :span="12">
                         <el-form-item label="银行账号:"
                             prop="bankAccount">
                             <div v-if="!canEditable">{{formData.bankAccount }}</div>
@@ -79,6 +60,31 @@
                                 v-model="formData.bankAccount"></el-input>
 
                         </el-form-item>
+                        
+                        <el-form-item label="经办人姓名:"
+                            prop="contactName">
+
+                            <div v-if="!canEditable">{{formData.contactName}}</div>
+                            <el-input v-else
+                                v-model="formData.contactName"></el-input>
+
+                        </el-form-item>
+                        <el-form-item label="经办人身份证号:"
+                            prop="contactIdCard">
+                            <div v-if="!canEditable">{{formData.contactIdCard}}</div>
+                            <el-input v-else
+                                v-model="formData.contactIdCard"></el-input>
+
+                        </el-form-item>
+                        <el-form-item label="经办人电话:"
+                            prop="contactPhone">
+                            <div v-if="!canEditable">{{formData.contactPhone}}</div>
+                            <el-input v-else
+                                v-model="formData.contactPhone"></el-input>
+
+                        </el-form-item>
+                        
+                        
                     </el-col>
                 </el-row>
 
@@ -125,7 +131,7 @@ export default {
             }
         };
         let checkName = (rule, value, callback) => {
-            if (value.trim() == '') {
+            if (value == '' || value == null) {
                 callback(new Error('姓名不能为空'));
             } else {
                 callback();
@@ -151,7 +157,7 @@ export default {
                     { validator: checkPhone, required: true, trigger: 'blur' }
                 ],
                 contactName: [
-                    { validator: checkName, required: true, trigger: 'blur' }
+                    { required: true, message: '不能为空', trigger: 'blur' },
                 ],
                 bankAccount: [
                     { required: true, message: '不能为空', trigger: 'blur' },
@@ -186,6 +192,7 @@ export default {
         handleClose() {
             //debugger
             this.$refs.formData1.resetFields();
+            this.canEditable = false;
         },
         handleOpen() {
             //debugger

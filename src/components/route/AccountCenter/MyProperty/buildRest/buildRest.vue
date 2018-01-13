@@ -9,10 +9,25 @@
                     </div>
                 </template>
             </el-table-column>
-            <el-table-column prop="reserve" label="余额">
+            
+            <el-table-column prop="xReserve" label="X类">
                 <template slot-scope="scope">
                     <div>
-                        <div>{{scope.row.reserve|formatPrice}}</div>
+                        <div>{{scope.row.xReserve|formatPrice}}</div>
+                    </div>
+                </template>
+            </el-table-column>
+            <el-table-column prop="fReserve" label="F类">
+                <template slot-scope="scope">
+                    <div>
+                        <div>{{scope.row.fReserve|formatPrice}}</div>
+                    </div>
+                </template>
+            </el-table-column>
+            <el-table-column prop="total" label="余额">
+                <template slot-scope="scope">
+                    <div>
+                        <div>{{scope.row.total|formatPrice}}</div>
                     </div>
                 </template>
             </el-table-column>

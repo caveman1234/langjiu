@@ -60,6 +60,38 @@
                 </el-card>
             </el-col>
             <el-col :span="12">
+
+                <el-card class="box-card"
+                    :body-style="{    padding:'10px'}">
+                    <div slot="header">
+                        <span>绑定开户银行：</span>
+                    </div>
+                    <div>
+                        {{personalAccountName || '暂无'}}
+                    </div>
+                </el-card>
+                <el-card class="box-card"
+                    :body-style="{    padding:'10px'}">
+                    <div slot="header">
+                        <span>绑定账户名称：</span>
+                    </div>
+                    <div>
+                        {{personalAccountName || '暂无'}}
+                    </div>
+                </el-card>
+                <el-card class="box-card"
+                    :body-style="{    padding:'10px'}">
+                    <div slot="header">
+                        <span>绑定银行账号：</span>
+                    </div>
+                    <div>
+                        {{personalAccountName || '暂无'}}
+                    </div>
+                </el-card>
+
+
+
+
                 <el-card class="box-card"
                     :body-style="{    padding:'10px'}">
                     <div slot="header">

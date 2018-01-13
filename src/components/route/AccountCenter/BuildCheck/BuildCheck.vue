@@ -71,6 +71,21 @@ let searchConfig = [
         field: 'apprDate',
         label: '日期：',
         defaultValue: defaultValue
+    },
+    {
+        type: 'select',
+        field: 'ctype',
+        label: '费用类型：',
+        dataSource:[
+            {
+                label:'X类',
+                value:'X'
+            },
+            {
+                label:'非X类',
+                value:'F'
+            }
+        ]
     }
 ];
 export default {

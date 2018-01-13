@@ -3,21 +3,21 @@
         <div class="title">费用余额明细</div>
         <el-table :data="tableDataArr">
             <el-table-column prop="sybName" label="产品线"></el-table-column>
-            <el-table-column prop="eReserve" label="E">
+            <el-table-column prop="eReserve" label="E类">
                 <template slot-scope="scope">
                     <div>
                         <div>{{scope.row.eReserve | formatPrice}}</div>
                     </div>
                 </template>
             </el-table-column>
-            <el-table-column prop="qReserve" label="Q">
+            <el-table-column prop="qReserve" label="Q类">
                 <template slot-scope="scope">
                     <div>
                         <div>{{scope.row.qReserve|formatPrice}}</div>
                     </div>
                 </template>
             </el-table-column>
-            <el-table-column prop="fReserve" label="F">
+            <el-table-column prop="fReserve" label="F类">
                 <template slot-scope="scope">
                     <div>
                         <div>{{scope.row.fReserve|formatPrice}}</div>
