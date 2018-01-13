@@ -102,6 +102,8 @@ export default {
                         _this.$store.commit('isSign',false);
                         _this.$store.commit('CheckCustomerInfoIsVisiable', true)
                         _this.$router.push({ name: 'AccountMgr', params: { to: 'AccountMgr' } });
+                    }else{
+                        _this.$store.commit('isSign',true);
                     }
                 });
         },

@@ -16,12 +16,12 @@
         </div>
 
         <!-- <form v-show="false"
-            id="bankForm"
-            method="post"
-            action="http://111.205.207.144:7003/ecp/htmlMhtInFwd/forward">
-            <button id="bankFormSubmit"
-                type="submit">提交</button>
-        </form> -->
+                id="bankForm"
+                method="post"
+                action="http://111.205.207.144:7003/ecp/htmlMhtInFwd/forward">
+                <button id="bankFormSubmit"
+                    type="submit">提交</button>
+            </form> -->
     </div>
 </template>
 <script>
@@ -36,12 +36,44 @@ export default {
     methods: {
         goMgr() {
             let isSign = this.$store.state.isSign;
-            if(!isSign){
+            if (!isSign) {
                 this.$store.commit('CheckCustomerInfoIsVisiable', true);
+            }else{
+                this.goAssign();
             }
         },
         goAssign() {
-            //去签约
+            //去管理
+            let _this = this;
+            let params = {
+                clientId: this.$store.state.customerId
+            };
+            debugger
+            _this.$http.post('/ocm-web/api/cmbc/queryCustomerInfo', params)
+                .then(res => {
+                    if (res.headers['x-ocm-code'] == '1') {
+                        let bankForm = document.querySelector('#bankForm');
+                        let bankFormSubmit = document.querySelector('#bankFormSubmit');
+                        let params = res.data.reduce((acc, v) => {
+                            acc[v.name] = v.value;
+                            return acc;
+                        }, {});
+                        Object.keys(params).forEach(key => {
+                            if (key != 'forwardUrl') {
+                                let input = document.createElement('input');
+                                input.setAttribute('name', key);
+                                input.value = params[key];
+                                bankForm.appendChild(input);
+                            }
+                        });
+                        //url  地址
+                        let forwardUrl = params.forwardUrl;
+                        bankForm.setAttribute('action', forwardUrl);
+                        document.forms.bankForm.submit();
+                        // bankFormSubmit.click();
+                    }
+
+                });
         }
     },
     mounted() {

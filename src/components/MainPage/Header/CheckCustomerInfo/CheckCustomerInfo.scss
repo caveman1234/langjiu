@@ -1,0 +1,6 @@
+@import 'src/css/style.scss';
+.CheckCustomerInfo {
+    .el-dialog__header {
+        border-bottom: 1px dashed $borderColor;
+    }
+}
