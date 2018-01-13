@@ -209,6 +209,7 @@ export default {
             let _this = this;
             _this.$refs.formData1.validate(valide => {
                 if (valide) {
+                    _this.$store.commit('CheckCustomerInfoIsVisiable', false);
                     _this.goMgr();
                 }
             });
