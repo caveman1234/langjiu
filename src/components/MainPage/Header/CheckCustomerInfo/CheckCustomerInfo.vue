@@ -1,6 +1,6 @@
 <template>
     <div class="CheckCustomerInfo">
-        <el-dialog title="请确认以下信息，以便成功签约。"
+        <el-dialog title="请确认以下信息，以便成功签约。签约后请重新打开浏览器登录。"
             :visible.sync="$store.state.CheckCustomerInfoIsVisiable"
             @close="handleClose"
             @open="handleOpen"
