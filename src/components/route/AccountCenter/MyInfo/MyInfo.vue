@@ -60,37 +60,33 @@
                 </el-card>
             </el-col>
             <el-col :span="12">
-
                 <el-card class="box-card"
                     :body-style="{    padding:'10px'}">
                     <div slot="header">
-                        <span>绑定开户银行：</span>
+                        <span>绑定开户名：</span>
                     </div>
                     <div>
-                        {{personalAccountName || '暂无'}}
+                        {{bindAccountName || '暂无'}}
                     </div>
                 </el-card>
                 <el-card class="box-card"
                     :body-style="{    padding:'10px'}">
                     <div slot="header">
-                        <span>绑定账户名称：</span>
+                        <span>绑定银行卡：</span>
                     </div>
                     <div>
-                        {{personalAccountName || '暂无'}}
+                        {{bindBankCard || '暂无'}}
                     </div>
                 </el-card>
                 <el-card class="box-card"
                     :body-style="{    padding:'10px'}">
                     <div slot="header">
-                        <span>绑定银行账号：</span>
+                        <span>专属账号开户行：</span>
                     </div>
                     <div>
-                        {{personalAccountName || '暂无'}}
+                        {{personalAccountBank || '暂无'}}
                     </div>
                 </el-card>
-
-
-
 
                 <el-card class="box-card"
                     :body-style="{    padding:'10px'}">
@@ -108,15 +104,6 @@
                     </div>
                     <div>
                         {{personalAccountCode || '暂无'}}
-                    </div>
-                </el-card>
-                <el-card class="box-card"
-                    :body-style="{    padding:'10px'}">
-                    <div slot="header">
-                        <span>专属账号开户行：</span>
-                    </div>
-                    <div>
-                        {{personalAccountBank || '暂无'}}
                     </div>
                 </el-card>
 
@@ -139,6 +126,8 @@ export default {
             personalAccountName: '',//专属账号名称
             personalAccountCode: '',//编码
             personalAccountBank: '',//银行
+            bindAccountName: '',//绑定开户名
+            bindBankCard: '',//绑定银行卡
         }
     },
     methods: {
@@ -161,6 +150,8 @@ export default {
                     _this.personalAccountName = res.data.personalAccountName;
                     _this.personalAccountCode = res.data.personalAccountCode;
                     _this.personalAccountBank = res.data.personalAccountBank;
+                    _this.bindAccountName = res.data.bindAccountName;
+                    _this.bindBankCard = res.data.bindBankCard;
                 });
         }
     },
