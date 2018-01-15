@@ -2,16 +2,33 @@
     <div class="GoodsCenter">
         <div class="treeList">
             <div class="treeTitle">商品分类</div>
-            <el-tabs @tab-click="tabClick" tab-position="left">
-                <el-tab-pane v-for="(item,index) in leftItems" :key="index" :label="item.name"></el-tab-pane>
+            <el-tabs @tab-click="tabClick"
+                tab-position="left">
+                <el-tab-pane v-for="(item,index) in leftItems"
+                    :key="index"
+                    :label="item.name"></el-tab-pane>
             </el-tabs>
+
+            <el-menu>
+                <el-submenu index="1">
+                    <template slot="title">
+                        <i class="el-icon-location"></i>
+                        <span>导航一</span>
+                    </template>
+                </el-submenu>
+            </el-menu>
+
         </div>
         <div class="goodsItems">
             <template v-for="(item,index) in goodsData">
-                <GoodsItem @itemClick="itemClick" :birefData="item" :key="index" class="items"></GoodsItem>
+                <GoodsItem @itemClick="itemClick"
+                    :birefData="item"
+                    :key="index"
+                    class="items"></GoodsItem>
             </template>
         </div>
-        <div @click="goBuyGoods" class="goBuyGoods">去结算
+        <div @click="goBuyGoods"
+            class="goBuyGoods">去结算
             <i>{{selectedCount}}</i>
         </div>
     </div>
