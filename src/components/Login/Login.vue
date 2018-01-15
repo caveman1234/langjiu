@@ -3,8 +3,8 @@
         <div class="wrap-box">
             <div class="login-top-bg">
                 <div class="login-top-con clearfix">
-                    <!-- <a href="#"
-                        class="logo-img" :style="{backgroundImage:`url(${logoImg})`}"></a> -->
+                    <a href="#"
+                        class="logo-img" :style="{backgroundImage:`url(${logoImg})`}"></a>
                     <div class="logo-txt">郎酒CRM数字营销系统</div>
                 </div>
             </div>
