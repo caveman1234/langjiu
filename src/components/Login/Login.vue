@@ -3,8 +3,8 @@
         <div class="wrap-box">
             <div class="login-top-bg">
                 <div class="login-top-con clearfix">
-                    <a href="#"
-                        class="logo-img"></a>
+                    <!-- <a href="#"
+                        class="logo-img" :style="{backgroundImage:`url(${logoImg})`}"></a> -->
                     <div class="logo-txt">郎酒CRM数字营销系统</div>
                 </div>
             </div>
@@ -86,7 +86,9 @@ export default {
                     { validator: pawsswordV, message: '密码不能为空' }
                 ]
             },
-            imgUrl: require('../../assets/images/login-bg.jpg')
+            imgUrl: require('../../assets/images/login-bg.jpg'),
+            logoImg: require('../../assets/images/logo-img.png'),
+            
         }
     },
     methods: {
