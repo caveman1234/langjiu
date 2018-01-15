@@ -54,11 +54,11 @@ let tabArr = [
         name: 'FinancingInfo',
         routeName: 'FinancingInfo'
     },
-    {
-        label: '在线充值',
-        name: 'OnlineRecharge',
-        routeName: 'OnlineRecharge'
-    },
+    // {
+    //     label: '在线充值',
+    //     name: 'OnlineRecharge',
+    //     routeName: 'OnlineRecharge'
+    // },
     {
         label: '付款信息',
         name: 'PaymentInfo',
