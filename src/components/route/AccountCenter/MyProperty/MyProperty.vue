@@ -21,7 +21,7 @@
                         </el-col>
                         <el-col :span="17">
                             <div class="text"
-                                v-red>{{totalCash|formatPrice}}</div>
+                                v-red>{{totalCash|formatInOut}}</div>
                         </el-col>
                     </el-row>
                     <el-row>
@@ -31,7 +31,7 @@
                         </el-col>
                         <el-col :span="17">
                             <div class="text"
-                                v-red>{{cashRemaining|formatPrice}}</div>
+                                v-red>{{cashRemaining|formatInOut}}</div>
                         </el-col>
                     </el-row>
                 </div>
@@ -57,7 +57,7 @@
                         </el-col>
                         <el-col :span="10">
                             <div class="text"
-                                v-red>{{totalPromiseRest|formatPrice}}</div>
+                                v-red>{{totalPromiseRest|formatInOut}}</div>
                         </el-col>
                     </el-row>
                 </div>
@@ -82,7 +82,7 @@
                         </el-col>
                         <el-col :span="10">
                             <div class="text"
-                                v-red>{{totalCost|formatPrice}}</div>
+                                v-red>{{totalCost|formatInOut}}</div>
                         </el-col>
                         <el-col :span="7">
                             <div @click="costOffDetail"
@@ -98,7 +98,7 @@
                         </el-col>
                         <el-col :span="17">
                             <div class="text"
-                                v-red>{{costOffRemaining|formatPrice}}</div>
+                                v-red>{{costOffRemaining|formatInOut}}</div>
                         </el-col>
                     </el-row>
                 </div>
@@ -123,7 +123,7 @@
                         </el-col>
                         <el-col :span="10">
                             <div class="text"
-                                v-red>{{totalBuildRest|formatPrice}}</div>
+                                v-red>{{totalBuildRest|formatInOut}}</div>
                         </el-col>
                         <el-col :span="7">
                             <div @click="buildRestDetail"
@@ -154,7 +154,7 @@
                         </el-col>
                         <el-col :span="10">
                             <div class="text"
-                                v-red>{{notDeliver|formatPrice}}</div>
+                                v-red>{{notDeliver|formatInOut}}</div>
                         </el-col>
                         <el-col :span="7">
                             <div @click="notDeliverDetail"
@@ -169,7 +169,7 @@
                                 style="text-align:right;">未终审:</div>
                         </el-col>
                         <el-col :span="10"
-                            v-red>{{unSendAmountFinal|formatPrice}}</el-col>
+                            v-red>{{unSendAmountFinal|formatInOut}}</el-col>
                     </el-row>
                 </div>
             </div>

@@ -71,10 +71,10 @@ function install(Vue) {
     });
     //收入支出格式化
     Vue.filter('formatInOut', function(value) {
-        if (value == null || value == '' || value == undefined) {
+        if (value === null || value === '' || value === undefined) {
             return '';
         }
-        if (value == 0) {
+        if (value === 0) {
             return '¥0.00';
         }
         value = String(Number(value).toFixed(2));
