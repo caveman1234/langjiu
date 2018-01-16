@@ -359,7 +359,7 @@ export default {
             return _this.$http.get(url, paramsWrap)
                 .then(res => {
                     let total = res.data.reduce((acc, v) => {
-                        return acc + (v.reserve || 0);
+                        return acc + (v.total || 0);
                     }, 0);
                     return {
                         total: total,
