@@ -1,9 +1,7 @@
 .Sign {
-    .imageContainer {
-        text-align: center;
-        img {
-            width: 600px;
-            height: 800px;
-        }
+    min-height: 800px;
+    background: white;
+    .tableContainer {
+        padding: 10px;
     }
 }
