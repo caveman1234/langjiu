@@ -4,7 +4,7 @@
         <el-alert title="青花郎经销商客服电话：028-86710905"
             type="info"
             :closable="false"
-            description="">
+            description="青花郎小组联系电话：028-86719513、028-86726355、02886710905">
         </el-alert>
         <el-alert title="小郎酒经销商客服电话：028-86651839"
             type="info"
