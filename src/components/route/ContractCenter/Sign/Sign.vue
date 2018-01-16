@@ -1,7 +1,7 @@
 <template>
     <div class="Sign">
         <div style="font-size:50px;font-size: 50px;color: #999999;">即将开放,敬请期待......</div>
-        <div v-if="false">
+        <div v-show="false">
 
             <SearchComp ref="searchRef" :searchConfig="searchConfig" @receiveData="receiveData" serverUrl="/ocm-web/api/b2b/financing-apply/list"></SearchComp>
             <el-row style="padding:0 10px;">

@@ -2,8 +2,8 @@
     <div class="ContractCenter">
         <div class="leftList">
             <el-tabs @tab-click="tabClick" tab-position="left" v-model="tabModel">
-                <el-tab-pane label="合同执行情况" name="ExeCondition"></el-tab-pane>
                 <el-tab-pane label="合同签订" name="Sign"></el-tab-pane>
+                <el-tab-pane label="合同执行情况" name="ExeCondition"></el-tab-pane>
             </el-tabs>
         </div>
         <div class="contractContainer">
@@ -18,8 +18,8 @@ export default {
     name: 'ContractCenter',
     data() {
         return {
-            tabModel: 'ExeCondition',
-            comp: ExeCondition
+            tabModel: 'Sign',
+            comp: Sign
         }
     },
     methods: {
@@ -28,10 +28,10 @@ export default {
             let index = tab.index;
             switch (index) {
                 case '0':
-                    _this.comp = ExeCondition;
+                    _this.comp = Sign;
                     break;
                 case '1':
-                    _this.comp = Sign;
+                    _this.comp = ExeCondition;
                     break;
             }
         }
