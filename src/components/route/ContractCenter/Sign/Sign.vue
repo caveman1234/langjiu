@@ -4,28 +4,14 @@
         <div v-show="false">
 
             <SearchComp ref="searchRef" :searchConfig="searchConfig" @receiveData="receiveData" serverUrl="/ocm-web/api/b2b/financing-apply/list"></SearchComp>
-            <el-row style="padding:0 10px;">
-                <el-button size="mini">签章</el-button>
-                <el-button type="primary" size="mini">提交</el-button>
-            </el-row>
             <div class="tableContainer">
-                <el-table @selection-change="handleSelectionChange" :data="tableData" style="width: 100%" border>
-                    <el-table-column type="selection" width="36"></el-table-column>
+                <el-table :data="tableData" style="width: 100%" border>
                     <el-table-column prop="applyDate" label="合同编号"> </el-table-column>
-                    <el-table-column prop="code" label="合同类型"></el-table-column>
                     <el-table-column prop="orderCode" label="合同版本"></el-table-column>
-                    <el-table-column prop="orderMny" label="合同总额(万元)"></el-table-column>
                     <el-table-column prop="billStatus" label="制单日期">
                         <template slot-scope="scope">
                             <div>
                                 <div>{{scope.row.billStatus | formatBillStatus}}</div>
-                            </div>
-                        </template>
-                    </el-table-column>
-                    <el-table-column prop="totalRepayMny" label="制单人">
-                        <template slot-scope="scope">
-                            <div>
-                                <div>{{scope.row.totalRepayMny|formatPrice}}</div>
                             </div>
                         </template>
                     </el-table-column>
@@ -36,6 +22,12 @@
                         <template slot-scope="scope">
                             <el-button @click="downloadFujian" size="mini">
                                 <i class="icon iconfont lj-fujian"></i>下载附件</el-button>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="" label="操作" width="150px">
+                        <template slot-scope="scope">
+                            <el-button size="mini">签章</el-button>
+                            <el-button size="mini">提交</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -52,21 +44,6 @@ let searchConfig = [
         type: 'input',
         field: 'applyDate',
         label: '合同编号：'
-    },
-    {
-        type: 'select',
-        field: 'code',
-        label: '合同类型：',
-        dataSource: [
-            {
-                label: '融资中',
-                value: 0
-            },
-            {
-                label: '融资成功',
-                value: 1
-            }
-        ]
     },
     {
         type: 'select',
