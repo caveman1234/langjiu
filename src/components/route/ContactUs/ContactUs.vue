@@ -6,12 +6,12 @@
             :closable="false"
             description="">
         </el-alert>
-        <el-alert title="小郎酒经销商客服电话：028-86651839"
+        <el-alert title="小郎酒经销商客服电话：028-86651839、028-86665349"
             type="info"
             :closable="false"
             description="">
         </el-alert>
-        <el-alert title="郎牌特曲经销商客服电话：028-86652305"
+        <el-alert title="郎牌特曲经销商客服电话：028-86652305、028-86730207"
             type="info"
             :closable="false"
             description="">
