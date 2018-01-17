@@ -1,10 +1,11 @@
 <template>
     <div class="Sign">
-        <div style="font-size:50px;font-size: 50px;color: #999999;">即将开放,敬请期待......</div>
-        <div v-show="false">
+        <!-- <div style="font-size:50px;font-size: 50px;color: #999999;">即将开放,敬请期待......</div> -->
+        <div v-show="true">
 
             <SearchComp ref="searchRef" :searchConfig="searchConfig" @receiveData="receiveData" serverUrl="/ocm-web/api/b2b/financing-apply/list"></SearchComp>
             <div class="tableContainer">
+
                 <el-table :data="tableData" style="width: 100%" border>
                     <el-table-column prop="applyDate" label="合同编号"> </el-table-column>
                     <el-table-column prop="orderCode" label="合同版本"></el-table-column>
@@ -15,19 +16,20 @@
                             </div>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="totalRepaidMny" label="提交状态"></el-table-column>
+                    <el-table-column prop="totalRepaidMny" label="提交状态"> </el-table-column>
                     <el-table-column prop="expireDate" label="作废状态"></el-table-column>
                     <el-table-column prop="remark" label="签章状态"></el-table-column>
                     <el-table-column prop="" label="附件" width="130px">
                         <template slot-scope="scope">
                             <el-button @click="downloadFujian" size="mini">
-                                <i class="icon iconfont lj-fujian"></i>下载附件</el-button>
+                                <i class="icon iconfont lj-fujian"></i>下载合同</el-button>
                         </template>
                     </el-table-column>
                     <el-table-column prop="" label="操作" width="150px">
                         <template slot-scope="scope">
-                            <el-button size="mini">签章</el-button>
+
                             <el-button size="mini">提交</el-button>
+                            <el-button size="mini">签章</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -39,31 +41,7 @@
 </template>
 <script>
 import SearchComp from '@/components/commonComp/SearchComp/SearchComp';
-/* 
 
-  // 提交状态
-    COMMITSTATUS: [
-      {name: "未提交", value: "0"},
-      {name: "已提交", value: "1"},
-    ],
-    // 审核状态
-    APPROVESTATUS: [
-      {name: "未审核", value: "0"},
-      {name: "已审核", value: "1"},
-    ],
-    // 作废状态
-    INVAILDSTATUS: [
-      {name: "未作废", value: "0"},
-      {name: "已作废", value: "1"},
-    ],
-    // 签章状态
-    SIGNSTATUS: [
-      {name: "无签章", value: "0"},
-      {name: "单方签章", value: "1"},
-      {name: "双方签章", value: "2"},
-    ],
-
- */
 let searchConfig = [
     {
         type: 'input',
@@ -162,6 +140,33 @@ export default {
             size: _this.pageParams.pageSize
         };
         _this.$refs.searchRef.search(params);
+    },
+    filters: {
+        //格式化提交状态
+        formatCommitStatus(value) {
+            let obj = {
+                '0': '未审核',
+                '1': '已审核'
+            }
+            return obj[value];
+        },
+        //格式化作废状态
+        formatCommitStatus(value) {
+            let obj = {
+                '0': '未作废',
+                '1': '已作废'
+            }
+            return obj[value];
+        },
+        //格式化签章状态
+        formatCommitStatus(value) {
+            let obj = {
+                '0': '无签章',
+                '1': '单方签章',
+                '2': '双方签章'
+            }
+            return obj[value];
+        },
     }
 }
 </script>

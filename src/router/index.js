@@ -74,6 +74,7 @@ import ChangePassword from '@/components/ChangePassword/ChangePassword.vue'
 
 /* 合同中心 */
 import ContractCenter from '@/components/route/ContractCenter/ContractCenter'
+import GoSign from '@/components/route/ContractCenter/Sign/GoSign/GoSign'
 
 Vue.use(Router)
 
@@ -342,6 +343,11 @@ export default new Router({
                     path: '/ContactUs',
                     name: 'ContactUs',
                     component: ContactUs
+                },
+                {
+                    path: '/GoSign',
+                    name: 'GoSign',
+                    component: GoSign
                 }
             ]
         },
