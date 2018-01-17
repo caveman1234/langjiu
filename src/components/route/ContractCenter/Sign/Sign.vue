@@ -39,6 +39,31 @@
 </template>
 <script>
 import SearchComp from '@/components/commonComp/SearchComp/SearchComp';
+/* 
+
+  // 提交状态
+    COMMITSTATUS: [
+      {name: "未提交", value: "0"},
+      {name: "已提交", value: "1"},
+    ],
+    // 审核状态
+    APPROVESTATUS: [
+      {name: "未审核", value: "0"},
+      {name: "已审核", value: "1"},
+    ],
+    // 作废状态
+    INVAILDSTATUS: [
+      {name: "未作废", value: "0"},
+      {name: "已作废", value: "1"},
+    ],
+    // 签章状态
+    SIGNSTATUS: [
+      {name: "无签章", value: "0"},
+      {name: "单方签章", value: "1"},
+      {name: "双方签章", value: "2"},
+    ],
+
+ */
 let searchConfig = [
     {
         type: 'input',
@@ -47,47 +72,30 @@ let searchConfig = [
     },
     {
         type: 'select',
-        field: 'orderCode',
+        field: 'commitStatus',
         label: '提交状态：',
         dataSource: [
-            {
-                label: '融资中',
-                value: 0
-            },
-            {
-                label: '融资成功',
-                value: 1
-            }
+            { label: "未审核", value: "0" },
+            { label: "已审核", value: "1" },
         ]
     },
     {
         type: 'select',
-        field: 'billStatus',
+        field: 'invaildStatus',
         label: '作废状态：',
         dataSource: [
-            {
-                label: '融资中',
-                value: 0
-            },
-            {
-                label: '融资成功',
-                value: 1
-            }
+            { label: "未作废", value: "0" },
+            { label: "已作废", value: "1" },
         ]
     },
     {
         type: 'select',
-        field: 'expireDate',
+        field: 'signStatus',
         label: '签章状态：',
         dataSource: [
-            {
-                label: '融资中',
-                value: 0
-            },
-            {
-                label: '融资成功',
-                value: 1
-            }
+            { label: "无签章", value: "0" },
+            { label: "单方签章", value: "1" },
+            { label: "双方签章", value: "2" },
         ]
     }
 ];
