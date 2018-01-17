@@ -17,7 +17,7 @@
                     </div>
                 </template>
             </el-table-column>
-            <el-table-column prop="fReserve" label="非X类">
+            <el-table-column prop="fReserve" label="F类">
                 <template slot-scope="scope">
                     <div>
                         <div>{{scope.row.fReserve|formatPrice}}</div>
