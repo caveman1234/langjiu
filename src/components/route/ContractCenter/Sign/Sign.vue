@@ -1,35 +1,52 @@
 <template>
     <div class="Sign">
         <!-- <div style="font-size:50px;font-size: 50px;color: #999999;">即将开放,敬请期待......</div> -->
-        <div v-show="false">
+        <div v-show="true">
 
-            <SearchComp ref="searchRef" :searchConfig="searchConfig" @receiveData="receiveData" serverUrl="/ocm-web/api/b2b/financing-apply/list"></SearchComp>
+            <SearchComp ref="searchRef" :searchConfig="searchConfig" @receiveData="receiveData" serverUrl="ocm-web/api/cm/contract-mgr/search-all" method="post"></SearchComp>
+
             <div class="tableContainer">
 
                 <el-table :data="tableData" style="width: 100%" border>
-                    <el-table-column prop="applyDate" label="合同编号"> </el-table-column>
-                    <el-table-column prop="orderCode" label="合同版本"></el-table-column>
-                    <el-table-column prop="billStatus" label="制单日期">
+                    <el-table-column prop="code" label="合同编号"> </el-table-column>
+                    <el-table-column prop="version" label="合同版本"></el-table-column>
+                    <el-table-column prop="signTime" label="制单日期">
                         <template slot-scope="scope">
                             <div>
-                                <div>{{scope.row.billStatus | formatBillStatus}}</div>
+                                <div>{{scope.row.signTime | formatDate}}</div>
                             </div>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="totalRepaidMny" label="提交状态"> </el-table-column>
-                    <el-table-column prop="expireDate" label="作废状态"></el-table-column>
-                    <el-table-column prop="remark" label="签章状态"></el-table-column>
+                    <el-table-column prop="cusCommitStatus" label="提交状态">
+                        <template slot-scope="scope">
+                            <div>{{scope.row.cusCommitStatus | formatCommitStatus}}</div>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="invalidStatus" label="作废状态">
+                        <template slot-scope="scope">
+                            <div>{{scope.row.invalidStatus | formatInvalidStatus}}</div>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="signStatus" label="签章状态">
+                        <template slot-scope="scope">
+                            <div>{{scope.row.signStatus | formatSignStatus}}</div>
+                        </template>
+                    </el-table-column>
                     <el-table-column prop="" label="附件" width="130px">
                         <template slot-scope="scope">
+                            <!-- attachment -->
                             <el-button @click="downloadFujian" size="mini">
-                                <i class="icon iconfont lj-fujian"></i>下载合同</el-button>
+                                <i class="icon iconfont lj-fujian"></i>下载合同
+                            </el-button>
                         </template>
                     </el-table-column>
                     <el-table-column prop="" label="操作" width="150px">
                         <template slot-scope="scope">
 
                             <el-button size="mini">提交</el-button>
-                            <el-button size="mini">签章</el-button>
+                            <el-button @click="goSign(scope.row)" size="mini">
+                                签章
+                            </el-button>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -45,12 +62,12 @@ import SearchComp from '@/components/commonComp/SearchComp/SearchComp';
 let searchConfig = [
     {
         type: 'input',
-        field: 'applyDate',
+        field: 'code',
         label: '合同编号：'
     },
     {
         type: 'select',
-        field: 'commitStatus',
+        field: 'cusCommitStatus',
         label: '提交状态：',
         dataSource: [
             { label: "未审核", value: "0" },
@@ -59,7 +76,7 @@ let searchConfig = [
     },
     {
         type: 'select',
-        field: 'invaildStatus',
+        field: 'invalidStatus',
         label: '作废状态：',
         dataSource: [
             { label: "未作废", value: "0" },
@@ -131,6 +148,15 @@ export default {
         },
         //change
         handleSelectionChange(value) {
+        },
+        //签章
+        goSign(row) {
+            let _this = this;
+            _this.$router.push({
+                name: 'GoSign', params: {
+                    payload: row
+                }
+            });
         }
     },
     mounted() {
@@ -151,7 +177,7 @@ export default {
             return obj[value];
         },
         //格式化作废状态
-        formatCommitStatus(value) {
+        formatInvalidStatus(value) {
             let obj = {
                 '0': '未作废',
                 '1': '已作废'
@@ -159,7 +185,7 @@ export default {
             return obj[value];
         },
         //格式化签章状态
-        formatCommitStatus(value) {
+        formatSignStatus(value) {
             let obj = {
                 '0': '无签章',
                 '1': '单方签章',
