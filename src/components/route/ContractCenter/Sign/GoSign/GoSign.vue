@@ -1,7 +1,7 @@
 <template>
     <div class="GoSign">
-        <el-row>
-            <el-button size="mini" @click="save">保存</el-button>
+        <el-row style="margin-bottom:10px;">
+            <el-button size="mini" @click="save" type="primary">保存</el-button>
         </el-row>
         <object id="PdfView" classid="CLSID:80699FE6-C4F4-44EE-BE77-9D4D10D9CB10" width="1000" height="640" style="border:solid 1px red">
 
