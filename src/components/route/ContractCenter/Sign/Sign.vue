@@ -1,7 +1,7 @@
 <template>
     <div class="Sign">
-        <!-- <div style="font-size:50px;font-size: 50px;color: #999999;">即将开放,敬请期待......</div> -->
-        <div v-show="true">
+        <div style="font-size:50px;font-size: 50px;color: #999999;">即将开放,敬请期待......</div>
+        <div v-show="false">
 
             <SearchComp ref="searchRef" :searchConfig="searchConfig" @receiveData="receiveData" serverUrl="/ocm-web/api/cm/contract-mgr/search-all" method="post"></SearchComp>
 
@@ -35,8 +35,8 @@
                     <el-table-column prop="" label="附件" width="130px">
                         <template slot-scope="scope">
                             <!-- attachment -->
-                            <el-button @click="downloadFujian" size="mini">
-                                <i class="icon iconfont lj-fujian"></i>下载合同
+                            <el-button @click="downloadFujian(scope.row)" v-if="scope.row.attachment" size="mini">
+                                下载合同
                             </el-button>
                         </template>
                     </el-table-column>
@@ -45,7 +45,7 @@
                             <template v-if="scope.row.signStatus !== 2 ">
                                 <el-button @click="submit(scope.row)" size="mini">提交</el-button>
                             </template>
-                            <el-button @click="goSign(scope.row)" size="mini">
+                            <el-button @click="goSign(scope.row)" v-if="scope.row.attachment" size="mini">
                                 签章
                             </el-button>
                         </template>
@@ -144,8 +144,8 @@ export default {
             _this.$refs.searchRef.search(params);
         },
         //下载附件
-        downloadFujian() {
-            console.log('fujian');
+        downloadFujian(row) {
+            window.open(row.attachment);
         },
         //change
         handleSelectionChange(value) {

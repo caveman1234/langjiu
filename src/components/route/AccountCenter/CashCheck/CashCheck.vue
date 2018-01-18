@@ -1,36 +1,27 @@
 <template>
     <div class="CashCheck">
-        <SearchComp ref="searchRef"
-            :searchConfig="searchConfig"
-            serverUrl="/ocm-web/api/b2b/query-balance/queryCashDetail"
-            @receiveData="receiveData"></SearchComp>
+        <SearchComp ref="searchRef" :searchConfig="searchConfig" serverUrl="/ocm-web/api/b2b/query-balance/queryCashDetail" @receiveData="receiveData" :disable11="true"></SearchComp>
         <div class="tableContainer">
             <el-table :data="tableData">
 
-                <el-table-column prop="dbilldate"
-                    label="日期"></el-table-column>
-                <el-table-column prop="billcode"
-                    label="单据编号"></el-table-column>
-                <el-table-column prop="memo"
-                    label="摘要"></el-table-column>
-                <el-table-column prop="income"
-                    label="收入">
+                <el-table-column prop="dbilldate" label="日期"></el-table-column>
+                <el-table-column prop="billcode" label="单据编号"></el-table-column>
+                <el-table-column prop="memo" label="摘要"></el-table-column>
+                <el-table-column prop="income" label="收入">
                     <template slot-scope="scope">
                         <div>
                             <div>{{scope.row.income|formatInOut}}</div>
                         </div>
                     </template>
                 </el-table-column>
-                <el-table-column prop="cost"
-                    label="支出">
+                <el-table-column prop="cost" label="支出">
                     <template slot-scope="scope">
                         <div>
                             <div>{{scope.row.cost|formatInOut}}</div>
                         </div>
                     </template>
                 </el-table-column>
-                <el-table-column prop="amount"
-                    label="余额">
+                <el-table-column prop="amount" label="余额">
                     <template slot-scope="scope">
                         <div>
                             <div>{{scope.row.amount|formatInOut}}</div>
@@ -39,27 +30,32 @@
                 </el-table-column>
             </el-table>
             <!-- <el-pagination @size-change="handleSizeChange"
-                @current-change="handleCurrentChange"
-                :current-page="pageParams.pageIndex"
-                :page-sizes="[10, 20, 50, 100]"
-                :page-size="pageParams.pageSize"
-                layout="total, sizes, prev, pager, next, jumper"
-                :total="pageParams.total"
-                prev-text="上一页"
-                next-text="下一页">
-            </el-pagination> -->
+                                @current-change="handleCurrentChange"
+                                :current-page="pageParams.pageIndex"
+                                :page-sizes="[10, 20, 50, 100]"
+                                :page-size="pageParams.pageSize"
+                                layout="total, sizes, prev, pager, next, jumper"
+                                :total="pageParams.total"
+                                prev-text="上一页"
+                                next-text="下一页">
+                            </el-pagination> -->
         </div>
     </div>
 </template>
 <script>
 import SearchComp from '@/components/commonComp/SearchComp/SearchComp';
-let defaultValue = [new Date(new Date().getTime() - 24 * 60 * 60 * 1000 * 30), new Date(new Date().getTime())];
+let date11 = new Date(`${(new Date()).getFullYear()}-01-01`).getTime();
+let startTime = new Date().getTime() - 24 * 60 * 60 * 1000 * 30;
+let endTime = new Date();
+startTime = startTime < date11 ? new Date(date11) : new Date(startTime);
+let defaultValue = [startTime, endTime];
 let searchConfig = [
     {
         type: 'datePickerRange',
         field: 'apprDate',
         label: '日期：',
-        defaultValue: defaultValue
+        defaultValue: defaultValue,
+        // defaultValue: [],
     }
 ];
 export default {

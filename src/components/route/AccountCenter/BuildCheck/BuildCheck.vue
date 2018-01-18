@@ -3,7 +3,7 @@
         <SearchComp ref="searchRef"
             :searchConfig="searchConfig"
             @receiveData="receiveData"
-            serverUrl="/ocm-web/api/b2b/query-balance/queryFundDetail"></SearchComp>
+            serverUrl="/ocm-web/api/b2b/query-balance/queryFundDetail" :disable11="true"></SearchComp>
         <div class="tableContainer">
             <el-table :data="tableData">
                 <el-table-column prop="dbilldate"
@@ -58,8 +58,11 @@
 </template>
 <script>
 import SearchComp from '@/components/commonComp/SearchComp/SearchComp';
-let defaultValue = [new Date(new Date().getTime() - 24 * 60 * 60 * 1000 * 30), new Date(new Date().getTime())];
-let searchConfig = [
+let date11 = new Date(`${(new Date()).getFullYear()}-01-01`).getTime();
+let startTime = new Date().getTime() - 24 * 60 * 60 * 1000 * 30;
+let endTime = new Date();
+startTime = startTime < date11 ? new Date(date11) : new Date(startTime);
+let defaultValue = [startTime, endTime];let searchConfig = [
     {
         type: 'select',
         field: 'productGroupId',

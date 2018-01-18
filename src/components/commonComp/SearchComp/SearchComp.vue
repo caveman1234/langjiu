@@ -1,14 +1,9 @@
 <template>
     <div class="SearchComp">
-        <el-form label-position="right"
-            label-width="100px"
-            :model="formDatas"
-            size="mini">
+        <el-form label-position="right" label-width="100px" :model="formDatas" size="mini">
             <el-row>
                 <template v-for="(item,index) in searchConfig">
-                    <el-col style="width:303px;" :span="8"
-                        :key="index"
-                        class="clearfix">
+                    <el-col style="width:303px;" :span="8" :key="index" class="clearfix">
                         <template v-if="item.type == 'input'">
                             <el-form-item :label="item.label">
                                 <el-input v-model="formDatas[item.field]"></el-input>
@@ -16,52 +11,38 @@
                         </template>
                         <template v-if="item.type == 'select'">
                             <el-form-item :label="item.label">
-                                <el-select v-model="formDatas[item.field]"
-                                    placeholder="请选择">
-                                    <el-option v-for="(itemSelect,selectIndex) in item.dataSource"
-                                        :key="selectIndex"
-                                        :label="itemSelect.label"
-                                        :value="itemSelect.value"></el-option>
+                                <el-select v-model="formDatas[item.field]" placeholder="请选择">
+                                    <el-option v-for="(itemSelect,selectIndex) in item.dataSource" :key="selectIndex" :label="itemSelect.label" :value="itemSelect.value"></el-option>
                                 </el-select>
                             </el-form-item>
                         </template>
                         <template v-if="item.type == 'radio'">
                             <el-form-item :label="item.label">
                                 <el-radio-group v-model="formDatas[item.field]">
-                                    <el-radio v-for="(itemRadio,radioIndex) in item.dataSource"
-                                        :label="itemRadio.value"
-                                        :key="radioIndex">{{itemRadio.label}}</el-radio>
+                                    <el-radio v-for="(itemRadio,radioIndex) in item.dataSource" :label="itemRadio.value" :key="radioIndex">{{itemRadio.label}}</el-radio>
                                 </el-radio-group>
                             </el-form-item>
                         </template>
                         <template v-if="item.type == 'datePicker'">
                             <el-form-item :label="item.label">
-                                <el-date-picker v-model="formDatas[item.field]"
-                                    type="date"
-                                    placeholder="选择日期"></el-date-picker>
+                                <el-date-picker v-model="formDatas[item.field]" type="date" placeholder="选择日期"></el-date-picker>
                             </el-form-item>
                         </template>
                         <template v-if="item.type == 'datePickerRange'">
-                            <el-form-item :label="item.label">
-                                <el-date-picker v-model="formDatas[item.field]"
-                                    type="daterange"
-                                    range-separator="至"
-                                    start-placeholder="开始日期"
-                                    end-placeholder="结束日期"></el-date-picker>
+                            <el-form-item v-if="disable11" :label="item.label">
+                                <el-date-picker :picker-options="pickerOptions1" v-model="formDatas[item.field]" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
+                            </el-form-item>
+                            <el-form-item v-else :label="item.label">
+                                <el-date-picker v-model="formDatas[item.field]" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
                             </el-form-item>
                         </template>
                     </el-col>
                 </template>
             </el-row>
         </el-form>
-        <el-row type="flex"
-            class="row-bg"
-            justify="end">
-            <el-button @click="reset"
-                size="mini">清空</el-button>
-            <el-button @click="search"
-                type="primary"
-                size="mini">搜索</el-button>
+        <el-row type="flex" class="row-bg" justify="end">
+            <el-button @click="reset" size="mini">清空</el-button>
+            <el-button @click="search" type="primary" size="mini">搜索</el-button>
         </el-row>
     </div>
 </template>
@@ -130,11 +111,23 @@ export default {
             default() {
                 return 'get'
             }
+        },
+        disable11: {
+            default() {
+                return false
+            }
         }
     },
     data() {
         return {
             formDatas: {},//v-model数据绑定
+            pickerOptions1: {
+                disabledDate(time) {
+                    let currentYear = (new Date()).getFullYear();
+                    let date11 = new Date(`${currentYear}-01-01`);
+                    return time.getTime() < (date11.getTime() - 86400000);
+                },
+            }
         }
     },
     methods: {
@@ -184,7 +177,8 @@ export default {
             _this.searchConfig.forEach(obj => {
                 _this.formDatas[obj.field] = '';
             })
-        }
+        },
+
     },
     mounted() {
         let _this = this;

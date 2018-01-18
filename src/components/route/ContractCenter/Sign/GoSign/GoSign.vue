@@ -3,7 +3,7 @@
         <el-row style="margin-bottom:10px;">
             <el-button size="mini" @click="save" type="primary">保存</el-button>
         </el-row>
-        <object id="PdfView" classid="CLSID:80699FE6-C4F4-44EE-BE77-9D4D10D9CB10" width="100%" height="700px">
+        <object id="PdfView" classid="CLSID:80699FE6-C4F4-44EE-BE77-9D4D10D9CB10" width="100%" height="700px" style="position: relative;z-index: 1;">
 
             <param name="enableOpen" value="true" />
 
@@ -20,18 +20,18 @@ export default {
     data() {
         return {
             objPdf: {},
-            rowObj: {}
+            rowObj: {},
+            currentHost: window.location.href.split('/terminal/')[0]
         }
     },
     methods: {
         //保存
         save() {
             let _this = this;
-            //需要判断是否ie
-            if (!_this.$util.isIE) {
-                _this.$Notify({ title: '请用ie浏览器或360浏览器', type: 'warning' });
-                return;
-            }
+            // if (!_this.$util.isIE) {
+            //     _this.$Notify({ title: '请使用ie浏览器', type: 'warning' });
+            //     return;
+            // }
 
             if (!_this.objPdf.isSigned()) {
                 _this.$Notify({ title: '请签章后再保存', type: 'warning' });
@@ -55,17 +55,17 @@ export default {
     },
     mounted() {
         let _this = this;
-        //需要判断是否ie
-        if (!_this.$util.isIE) {
-            _this.$Notify({ title: '请用ie浏览器或360浏览器', type: 'warning' });
-            return;
-        }
+        // if (!_this.$util.isIE) {
+        //     _this.$Notify({ title: '请使用ie浏览器', type: 'warning' });
+        //     return;
+        // }
         var objPdf = new BCPdfView(document.getElementById("PdfView").object);
         _this.objPdf = objPdf;
         _this.rowObj = _this.$route.params.payload;
         //存在url
         if (_this.rowObj.attachment) {
-            _this.objPdf.load(_this.rowObj.attachment);
+            debugger
+            _this.objPdf.load(`${_this.currentHost}${_this.rowObj.attachment}`);
         }
 
     }
