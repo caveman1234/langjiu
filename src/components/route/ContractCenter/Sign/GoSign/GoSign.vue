@@ -65,7 +65,7 @@ export default {
         _this.rowObj = _this.$route.params.payload;
         //存在url
         if (_this.rowObj.attachment) {
-            this.objPdf.load(_this.rowObj.attachment);
+            _this.objPdf.load(_this.rowObj.attachment);
         }
 
     }

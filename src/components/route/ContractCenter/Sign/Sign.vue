@@ -42,8 +42,9 @@
                     </el-table-column>
                     <el-table-column prop="" label="操作" width="150px">
                         <template slot-scope="scope">
-
-                            <el-button size="mini">提交</el-button>
+                            <template v-if="scope.row.signStatus !== 2 ">
+                                <el-button @click="submit(scope.row)" size="mini">提交</el-button>
+                            </template>
                             <el-button @click="goSign(scope.row)" size="mini">
                                 签章
                             </el-button>
@@ -157,6 +158,17 @@ export default {
                     payload: row
                 }
             });
+        },
+        //提交数据给oa
+        submit(row) {
+            debugger
+            let _this = this;
+            let params = row;
+            let url = '';
+            _this.$http.post(url, params)
+                .then(res => {
+                    debugger
+                });
         }
     },
     mounted() {
