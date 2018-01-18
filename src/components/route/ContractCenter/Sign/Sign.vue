@@ -3,7 +3,7 @@
         <!-- <div style="font-size:50px;font-size: 50px;color: #999999;">即将开放,敬请期待......</div> -->
         <div v-show="true">
 
-            <SearchComp ref="searchRef" :searchConfig="searchConfig" @receiveData="receiveData" serverUrl="ocm-web/api/cm/contract-mgr/search-all" method="post"></SearchComp>
+            <SearchComp ref="searchRef" :searchConfig="searchConfig" @receiveData="receiveData" serverUrl="/ocm-web/api/cm/contract-mgr/search-all" method="post"></SearchComp>
 
             <div class="tableContainer">
 
