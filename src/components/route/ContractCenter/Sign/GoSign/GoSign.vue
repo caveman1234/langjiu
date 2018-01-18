@@ -55,6 +55,10 @@ export default {
     mounted() {
         let _this = this;
         var objPdf = new BCPdfView(document.getElementById("PdfView").object);
+        if(!objPdf.load){
+            // _this.$Notify({ title: '请', type: 'warning' });
+            return;
+        }
         _this.objPdf = objPdf;
         _this.rowObj = _this.$route.params.payload;
         this.objPdf.load('http://192.168.100.58/g1/M00/00/04/wKhkOlpfIIGAEA5jAAnTXMZLGkU304.pdf ');
