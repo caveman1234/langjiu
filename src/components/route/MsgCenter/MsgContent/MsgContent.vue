@@ -62,7 +62,7 @@ export default {
     mounted() {
         let _this = this;
         _this.msgContent = _this.$route.params.msgContent;
-        _this.origin = location.protocol + "//" + location.hostname;
+        _this.origin = location.protocol + "//" + location.hostname + ':' + location.port;
     }
 }
 </script>
