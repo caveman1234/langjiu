@@ -118,7 +118,8 @@ function install(Vue) {
     axios.interceptors.request.use(function (config) {
         loadingInstance1 = Loading.service({
             fullscreen: true,
-            text: '正在拼命加载......'
+            text: '正在拼命加载......',
+            background:'rgba(0,0,0,0.1)'
         });
         let cookies = new Vue.prototype.$util.Cookies();
         if (config.method == 'get' && config.params && config.params.hasOwnProperty('customerId') && !config.params.customerId) {
@@ -147,7 +148,7 @@ function install(Vue) {
     /* response */
     axios.interceptors.response.use(function (response) {
         debugger
-        loadingInstance1.close();
+        setTimeout(_ => loadingInstance1.close(),300);
         if (response.headers["x-ocm-code"] != '1') {
             Notification.error({
                 title: decodeURIComponent(response.headers["x-ocm-message"]),
