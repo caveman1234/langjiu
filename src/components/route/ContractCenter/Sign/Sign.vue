@@ -1,7 +1,7 @@
 <template>
     <div class="Sign">
-        <div style="font-size:50px;font-size: 50px;color: #999999;">即将开放,敬请期待......</div>
-        <div v-if="true">
+        <!-- <div style="font-size:50px;font-size: 50px;color: #999999;">即将开放,敬请期待......</div> -->
+        <div v-show="true">
 
             <SearchComp ref="searchRef" :searchConfig="searchConfig" @receiveData="receiveData" serverUrl="/ocm-web/api/cm/contract-mgr/search-all" method="post"></SearchComp>
 
@@ -15,7 +15,7 @@
                             </div>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="code" label="合同编号"> </el-table-column>
+                    <el-table-column prop="code" label="合同编号" width="140px"> </el-table-column>
                     <el-table-column prop="version" label="合同版本"></el-table-column>
                     <el-table-column prop="signTime" width="100px" label="制单日期">
                         <template slot-scope="scope">
