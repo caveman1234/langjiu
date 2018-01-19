@@ -21,7 +21,7 @@ export default {
         return {
             objPdf: {},
             rowObj: {},
-            currentHost: window.location.href.split('/terminal/')[0]
+            currentHost: window.location.origin
         }
     },
     methods: {
@@ -33,10 +33,7 @@ export default {
             //     return;
             // }
 
-            if (!_this.objPdf.isSigned()) {
-                _this.$Notify({ title: '请签章后再保存', type: 'warning' });
-                return;
-            }
+           
 
 
             let base64Str = _this.objPdf.saveAsBase64();

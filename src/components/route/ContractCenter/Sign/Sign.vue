@@ -1,16 +1,23 @@
 <template>
     <div class="Sign">
         <div style="font-size:50px;font-size: 50px;color: #999999;">即将开放,敬请期待......</div>
-        <div v-show="false">
+        <div v-show="true">
 
             <SearchComp ref="searchRef" :searchConfig="searchConfig" @receiveData="receiveData" serverUrl="/ocm-web/api/cm/contract-mgr/search-all" method="post"></SearchComp>
 
             <div class="tableContainer">
 
                 <el-table :data="tableData" style="width: 100%" border>
+                    <el-table-column prop="contractTempletCode" label="事业部">
+                        <template slot-scope="scope">
+                            <div>
+                                {{scope.row.contractTempletCode | formatSyb}}
+                            </div>
+                        </template>
+                    </el-table-column>
                     <el-table-column prop="code" label="合同编号"> </el-table-column>
                     <el-table-column prop="version" label="合同版本"></el-table-column>
-                    <el-table-column prop="signTime" label="制单日期">
+                    <el-table-column prop="signTime" width="100px" label="制单日期">
                         <template slot-scope="scope">
                             <div>
                                 <div>{{scope.row.signTime | formatDate}}</div>
@@ -32,7 +39,7 @@
                             <div>{{scope.row.signStatus | formatSignStatus}}</div>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="" label="附件" width="130px">
+                    <el-table-column prop="" label="附件" width="110px">
                         <template slot-scope="scope">
                             <!-- attachment -->
                             <el-button @click="downloadFujian(scope.row)" v-if="scope.row.attachment" size="mini">
@@ -42,12 +49,10 @@
                     </el-table-column>
                     <el-table-column prop="" label="操作" width="150px">
                         <template slot-scope="scope">
-                            <template v-if="scope.row.signStatus !== 2 ">
+                            <template v-if="scope.row.cusCommitStatus == 0 && scope.row.signStatus == 1 && scope.row.invalidStatus == 0">
                                 <el-button @click="submit(scope.row)" size="mini">提交</el-button>
                             </template>
-                            <el-button @click="goSign(scope.row)" v-if="scope.row.attachment" size="mini">
-                                签章
-                            </el-button>
+                            <el-button @click="goSign(scope.row)" v-if="scope.row.attachment && scope.row.signStatus==0" size="mini">签章</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -71,8 +76,8 @@ let searchConfig = [
         field: 'cusCommitStatus',
         label: '提交状态：',
         dataSource: [
-            { label: "未审核", value: "0" },
-            { label: "已审核", value: "1" },
+            { label: "未提交", value: "0" },
+            { label: "已提交", value: "1" },
         ]
     },
     {
@@ -145,7 +150,8 @@ export default {
         },
         //下载附件
         downloadFujian(row) {
-            window.open(row.attachment);
+            debugger
+            window.open(window.location.origin + row.attachment);
         },
         //change
         handleSelectionChange(value) {
@@ -161,13 +167,34 @@ export default {
         },
         //提交数据给oa
         submit(row) {
-            debugger
+            //（郎牌事业部：1001；青花郎事业部：1002；小郎酒事业部：1003）
             let _this = this;
-            let params = row;
-            let url = '';
+            let obj = {
+                '1': '1002',
+                '2': '1001',
+                '3': '1003'
+            }
+            // let obj = {
+            //     '1': '青花郎',
+            //     '2': '郎牌特曲',
+            //     '3': '小郎酒'
+            // }
+            let params = {
+                contractId: row.id,
+                // contractId: '3e3a1c56-199f-45ce-9693-98ad22c6d106',
+                templateCode: obj[row.contractTempletCode]
+            };
+
+            let url = '/ocm-web/api/cm/contract-mgr/commit';
+            // let url = '/ocm-web/api/cm/contract-mgr/upload-contract';
             _this.$http.post(url, params)
                 .then(res => {
-                    debugger
+                    //刷新页面
+                    let params = {
+                        page: 0,
+                        size: _this.pageParams.pageSize
+                    };
+                    _this.$refs.searchRef.search(params);
                 });
         }
     },
@@ -183,8 +210,8 @@ export default {
         //格式化提交状态
         formatCommitStatus(value) {
             let obj = {
-                '0': '未审核',
-                '1': '已审核'
+                '0': '未提交',
+                '1': '已提交'
             }
             return obj[value];
         },
@@ -202,6 +229,15 @@ export default {
                 '0': '无签章',
                 '1': '单方签章',
                 '2': '双方签章'
+            }
+            return obj[value];
+        },
+        //格式化事业部
+        formatSyb(value) {
+            let obj = {
+                '1': '青花郎',
+                '2': '郎牌特曲',
+                '3': '小郎酒'
             }
             return obj[value];
         },

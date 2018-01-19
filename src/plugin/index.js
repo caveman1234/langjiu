@@ -19,7 +19,7 @@ function install(Vue) {
     Vue.prototype.$http = axios;
     Vue.prototype.$loading = Loading;
     Vue.prototype.$Notification = Notification;
-    Vue.prototype.$Notify = function({ message, type, title, offset = 90, duration = 3000 }) {
+    Vue.prototype.$Notify = function ({ message, type, title, offset = 90, duration = 3000 }) {
         Notification({
             type: type,
             title: title,
@@ -49,7 +49,7 @@ function install(Vue) {
         }
     });
     /* 格式化日期 */
-    Vue.filter('formatDate', function(value) {
+    Vue.filter('formatDate', function (value) {
         if (!value) return '';
         let date = new Date(value);
         let year = date.getFullYear();
@@ -58,7 +58,7 @@ function install(Vue) {
         let formatDate = [year, month, day];
         return formatDate.join('-');
     });
-    Vue.filter('formatPrice', function(value) {
+    Vue.filter('formatPrice', function (value) {
         if (value === null || value === '' || value === undefined) {
             return '暂无价格';
         }
@@ -70,7 +70,7 @@ function install(Vue) {
         return '¥' + str;
     });
     //收入支出格式化
-    Vue.filter('formatInOut', function(value) {
+    Vue.filter('formatInOut', function (value) {
         if (value === null || value === '' || value === undefined) {
             return '';
         }
@@ -82,7 +82,7 @@ function install(Vue) {
         return '¥' + str;
     });
     //格式化审核状态
-    Vue.filter('formatBillStatus', function(value) {
+    Vue.filter('formatBillStatus', function (value) {
         let billStatusObj = {
             0: '融资中',
             1: '融资成功',
@@ -94,7 +94,7 @@ function install(Vue) {
         return billStatusObj[value] || '暂无';
     });
     //格式化发货要求下拉框
-    Vue.filter('formatIsNoticeSend', function(value) {
+    Vue.filter('formatIsNoticeSend', function (value) {
         let billStatusObj = {
             0: '立即发货',
             1: '待通知发货'
@@ -102,7 +102,7 @@ function install(Vue) {
         return billStatusObj[value];
     });
     //格式化支付状态
-    Vue.filter('formatPaymentStatus', function(value) {
+    Vue.filter('formatPaymentStatus', function (value) {
         let billStatusObj = {
             '0': '未支付',
             '1': '支付中',
@@ -115,7 +115,7 @@ function install(Vue) {
     /* *****************************-axios-*********************************** */
     /* request */
     let loadingInstance1;
-    axios.interceptors.request.use(function(config) {
+    axios.interceptors.request.use(function (config) {
         loadingInstance1 = Loading.service({
             fullscreen: true,
             text: '正在拼命加载......'
@@ -130,8 +130,11 @@ function install(Vue) {
                 config.data.distributorIds = cookies.getCookie('customerId');
             }
         }
+        //追加一个参数,disable cache
+        config.url = `${config.url}?_=${Date.now()}`;
+
         return config;
-    }, function(error) {
+    }, function (error) {
         loadingInstance1.close();
         Notification.error({
             title: '请求错误',
@@ -142,7 +145,8 @@ function install(Vue) {
         return Promise.reject(error);
     });
     /* response */
-    axios.interceptors.response.use(function(response) {
+    axios.interceptors.response.use(function (response) {
+        debugger
         loadingInstance1.close();
         if (response.headers["x-ocm-code"] != '1') {
             Notification.error({
@@ -153,7 +157,7 @@ function install(Vue) {
             });
         }
         return response;
-    }, function(error) {
+    }, function (error) {
         loadingInstance1.close();
         Notification.error({
             title: '请求错误',

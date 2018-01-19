@@ -43,6 +43,12 @@
                     </div>
                     <div class="orderHeader">
                         <el-row>
+                            <el-col :span="2">备注：</el-col>
+                            <el-col :span="22">{{item.remark}}</el-col>
+                        </el-row>
+                    </div>
+                    <div class="orderHeader">
+                        <el-row>
                             <el-col :span="2">审核意见：</el-col>
                             <el-col :span="22">{{item.approveOpinion}}</el-col>
                         </el-row>

@@ -24,11 +24,8 @@ class Cookies {
     }
 }
 let isIE = () => {
-    if (window.ActiveXObject) {
-        return true;
-    } else {
-        return false;
-    }
+    // userAgent = navigator.userAgent.toLowerCase();
+    // return userAgent.indexOf('msie') !== -1;
 
 }
 export default {
