@@ -151,7 +151,7 @@ export default {
         //下载附件
         downloadFujian(row) {
             debugger
-            window.open(window.location.origin + row.attachment);
+            window.open(row.attachment);
         },
         //change
         handleSelectionChange(value) {

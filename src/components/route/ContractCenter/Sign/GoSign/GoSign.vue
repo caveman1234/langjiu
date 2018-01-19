@@ -21,7 +21,7 @@ export default {
         return {
             objPdf: {},
             rowObj: {},
-            currentHost: window.location.origin
+            currentHost: location.protocol + "//" + location.hostname
         }
     },
     methods: {
