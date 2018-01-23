@@ -39,7 +39,7 @@
                             <div>{{scope.row.signStatus | formatSignStatus}}</div>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="" label="附件" width="130px">
+                    <el-table-column prop="" label="附件" width="140px">
                         <template slot-scope="scope">
                             <!-- attachment -->
                             <el-button @click="downloadFujian(scope.row)" v-if="scope.row.attachment" size="mini">
