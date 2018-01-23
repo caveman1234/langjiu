@@ -39,11 +39,11 @@
                             <div>{{scope.row.signStatus | formatSignStatus}}</div>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="" label="附件" width="110px">
+                    <el-table-column prop="" label="附件" width="130px">
                         <template slot-scope="scope">
                             <!-- attachment -->
                             <el-button @click="downloadFujian(scope.row)" v-if="scope.row.attachment" size="mini">
-                                下载合同
+                                查看/下载合同
                             </el-button>
                         </template>
                     </el-table-column>

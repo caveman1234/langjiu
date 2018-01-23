@@ -1,7 +1,8 @@
 <template>
     <div class="GoSign">
         <el-row style="margin-bottom:10px;">
-            <el-button size="mini" @click="save" type="primary">保存</el-button>
+            <el-button size="mini" @click="goBack" type="plain">返回</el-button>
+            <el-button size="mini" @click="save" type="primary">提交</el-button>
         </el-row>
         <object id="PdfView" classid="CLSID:80699FE6-C4F4-44EE-BE77-9D4D10D9CB10" width="100%" height="700px" style="position: relative;z-index: 1;">
 
@@ -21,7 +22,11 @@ export default {
         return {
             objPdf: {},
             rowObj: {},
-            currentHost: location.protocol + "//" + location.hostname
+            currentHost: location.protocol + "//" + location.hostname,
+            //页面进来时的签章数量
+            inCount:0,
+            //页面提交的签章数量
+            outCount:0
         }
     },
     methods: {
@@ -48,6 +53,9 @@ export default {
                         _this.$router.push({ name: 'ContractCenter' });
                     }
                 });
+        },
+        goBack(){
+            this.$router.go(-1);
         }
     },
     mounted() {
@@ -61,7 +69,6 @@ export default {
         _this.rowObj = _this.$route.params.payload;
         //存在url
         if (_this.rowObj.attachment) {
-            debugger
             _this.objPdf.load(`${_this.currentHost}${_this.rowObj.attachment}`);
         }
 

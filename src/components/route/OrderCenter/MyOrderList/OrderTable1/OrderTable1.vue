@@ -13,7 +13,7 @@
                         <el-col :span="2">{{item.orderDate|formatDate}}</el-col>
                         <el-col :span="2">订单编号:</el-col>
                         <el-col :span="3">{{item.orderCode}}</el-col>
-                        <el-col :span="2">订单金额:</el-col>
+                        <el-col :span="2">支付金额:</el-col>
                         <el-col v-red
                             :span="3">
                             {{item.totalAmount | formatPrice}}
