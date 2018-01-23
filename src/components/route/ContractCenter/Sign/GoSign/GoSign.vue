@@ -84,7 +84,7 @@ export default {
             _this.objPdf.load(`${_this.currentHost}${_this.rowObj.attachment}`);
         }
         //存当前签章数量
-        _this.inCount = _this.objPdf.getCrrentCount();
+        // _this.inCount = _this.objPdf.getCrrentCount();
 
 
     }
