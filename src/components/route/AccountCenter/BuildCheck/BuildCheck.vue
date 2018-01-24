@@ -1,41 +1,30 @@
 <template>
     <div class="BuildCheck">
-        <SearchComp ref="searchRef"
-            :searchConfig="searchConfig"
-            @receiveData="receiveData"
-            serverUrl="/ocm-web/api/b2b/query-balance/queryFundDetail" :disable11="true"></SearchComp>
+        <SearchComp ref="searchRef" :searchConfig="searchConfig" @receiveData="receiveData" serverUrl="/ocm-web/api/b2b/query-balance/queryFundDetail" :disable11="true"></SearchComp>
         <div class="tableContainer">
             <el-table :data="tableData">
-                <el-table-column prop="dbilldate"
-                    label="日期"></el-table-column>
+                <el-table-column prop="dbilldate" label="日期"></el-table-column>
                 <!-- <el-table-column prop="syb"
-                    label="事业部编码"></el-table-column> -->
-                <el-table-column prop="sybName"
-                    label="事业部名称"></el-table-column>
-                <el-table-column prop="ctype"
-                    label="费用类型"></el-table-column>
-                <el-table-column prop="billcode" width="150px"
-                    label="单据号"></el-table-column>
-                <el-table-column prop="memo" width="200px"
-                    label="摘要"></el-table-column>
-                <el-table-column prop="income"
-                    label="收入">
+                        label="事业部编码"></el-table-column> -->
+                <el-table-column prop="sybName" label="事业部名称"></el-table-column>
+                <el-table-column prop="ctype" label="费用类型"></el-table-column>
+                <el-table-column prop="billcode" width="150px" label="单据号"></el-table-column>
+                <el-table-column prop="memo" width="200px" label="摘要"></el-table-column>
+                <el-table-column prop="income" label="收入">
                     <template slot-scope="scope">
                         <div>
                             <div>{{scope.row.income|formatInOut}}</div>
                         </div>
                     </template>
                 </el-table-column>
-                <el-table-column prop="cost"
-                    label="支出">
+                <el-table-column prop="cost" label="支出">
                     <template slot-scope="scope">
                         <div>
                             <div>{{scope.row.cost|formatInOut}}</div>
                         </div>
                     </template>
                 </el-table-column>
-                <el-table-column prop="amount"
-                    label="余额">
+                <el-table-column prop="amount" label="余额">
                     <template slot-scope="scope">
                         <div>
                             <div>{{scope.row.amount|formatInOut}}</div>
@@ -44,15 +33,15 @@
                 </el-table-column>
             </el-table>
             <!-- <el-pagination @size-change="handleSizeChange"
-                @current-change="handleCurrentChange"
-                :current-page="pageParams.pageIndex"
-                :page-sizes="[10, 20, 50, 100]"
-                :page-size="pageParams.pageSize"
-                layout="total, sizes, prev, pager, next, jumper"
-                :total="pageParams.total"
-                prev-text="上一页"
-                next-text="下一页">
-            </el-pagination> -->
+                    @current-change="handleCurrentChange"
+                    :current-page="pageParams.pageIndex"
+                    :page-sizes="[10, 20, 50, 100]"
+                    :page-size="pageParams.pageSize"
+                    layout="total, sizes, prev, pager, next, jumper"
+                    :total="pageParams.total"
+                    prev-text="上一页"
+                    next-text="下一页">
+                </el-pagination> -->
         </div>
     </div>
 </template>
@@ -62,12 +51,13 @@ let date11 = new Date(`${(new Date()).getFullYear()}-01-01`).getTime();
 let startTime = new Date().getTime() - 24 * 60 * 60 * 1000 * 30;
 let endTime = new Date();
 startTime = startTime < date11 ? new Date(date11) : new Date(startTime);
-let defaultValue = [startTime, endTime];let searchConfig = [
+let defaultValue = [startTime, endTime]; 
+let searchConfig = [
     {
         type: 'select',
         field: 'productGroupId',
         label: '事业部：',
-        dataSource: [ ]
+        dataSource: []
     },
     {
         type: 'datePickerRange',
@@ -79,14 +69,14 @@ let defaultValue = [startTime, endTime];let searchConfig = [
         type: 'select',
         field: 'ctype',
         label: '费用类型：',
-        dataSource:[
+        dataSource: [
             {
-                label:'X类',
-                value:'X'
+                label: 'X类',
+                value: 'X'
             },
             {
-                label:'非X类',
-                value:'F'
+                label: '非X类',
+                value: 'F'
             }
         ]
     }

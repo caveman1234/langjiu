@@ -4,8 +4,8 @@
             <el-button size="mini" @click="goBack" type="plain">返回</el-button>
             <el-button size="mini" @click="save" type="primary">提交</el-button>
         </el-row>
-        <div style="z-index:0;position:relative;">
-            <object id="PdfView" classid="CLSID:80699FE6-C4F4-44EE-BE77-9D4D10D9CB10" width="100%" height="700px" style="position: relative;z-index: 0;">
+        <div style="z-index:-1;position:relative;">
+            <object id="PdfView" classid="CLSID:80699FE6-C4F4-44EE-BE77-9D4D10D9CB10" width="100%" height="700px">
 
                 <param name="enableOpen" value="true" />
 
@@ -46,7 +46,7 @@ export default {
             // }
             if (!_this.objPdf.isSigned()) {
                 //判断是否有章
-                _this.$Notify({ title: '请签章后再保存', type: 'warning' });
+                _this.$Notify({ title: '请签章后再提交', type: 'warning' });
                 return;
             }
 

@@ -147,7 +147,6 @@ function install(Vue) {
     });
     /* response */
     axios.interceptors.response.use(function (response) {
-        debugger
         setTimeout(_ => loadingInstance1.close(),300);
         if (response.headers["x-ocm-code"] != '1') {
             Notification.error({

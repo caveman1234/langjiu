@@ -1,47 +1,36 @@
 <template>
-    <div class="BillDownload">
-        <!-- <div style="font-size:50px;font-size: 50px;color: #999999;">即将开放,敬请期待......</div> -->
-        <SearchComp ref="searchRef"
-            :searchConfig="searchConfig"
-            @receiveData="receiveData"
-            serverUrl="/ocm-web/api/b2b/financing-apply/list"></SearchComp>
+    <div class="NotDeliverSearch">
+        <SearchComp ref="searchRef" :searchConfig="searchConfig" @receiveData="receiveData" serverUrl="/ocm-web/api/b2b/financing-apply/list"></SearchComp>
         <el-table :data="tableData" style="width: 100%">
-            <el-table-column prop="date" label="开票时间"></el-table-column>
-            <el-table-column prop="date" label="税务发票号"></el-table-column>
-            <el-table-column prop="date" label="价税合计"></el-table-column>
-            <el-table-column prop="date" label="启运凭证号（发货单号）"></el-table-column>
-            <el-table-column prop="date" label="操作">
+            <el-table-column prop="date" label="订单号"></el-table-column>
+            <el-table-column prop="date" label="产品编码"></el-table-column>
+            <el-table-column prop="date" label="产品名称"></el-table-column>
+            <el-table-column prop="date" label="规格">
                 <template slot-scope="scope">
-                    <el-button @click="downloadFujian(scope.row)" size="mini">
-                        查看/下载合同
-                    </el-button>
+                    <div>容量：{{scope.row.standard}}ml</div>
+                    <div>度数：{{scope.row.productModel}}度</div>
                 </template>
             </el-table-column>
-
+            <el-table-column prop="date" label="未发货箱数"></el-table-column>
+            <el-table-column prop="date" label="已安排箱数"></el-table-column>
+            <el-table-column prop="date" label="未安排箱数"></el-table-column>
+            <el-table-column prop="date" label="未安排原因"></el-table-column>
         </el-table>
-        <el-pagination @size-change="handleSizeChange"
-                    @current-change="handleCurrentChange"
-                    :current-page="pageParams.pageIndex"
-                    :page-sizes="[10, 20, 50, 100]"
-                    :page-size="pageParams.pageSize"
-                    layout="total, sizes, prev, pager, next, jumper"
-                    :total="pageParams.total"
-                    prev-text="上一页"
-                    next-text="下一页">
-                </el-pagination>
+        <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="pageParams.pageIndex" :page-sizes="[10, 20, 50, 100]" :page-size="pageParams.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="pageParams.total" prev-text="上一页" next-text="下一页">
+        </el-pagination>
     </div>
 </template>
 <script>
 import SearchComp from '@/components/commonComp/SearchComp/SearchComp';
 let startTime = new Date(new Date().getTime() - 24 * 60 * 60 * 1000 * 30);
 let endTime = new Date();
-let defaultValue = [startTime, endTime]; 
+let defaultValue = [startTime, endTime];
 let searchConfig = [
     {
         type: 'datePickerRange',
         field: 'apprDate',
         label: '开票时间：',
-        defaultValue: defaultValue
+        // defaultValue: defaultValue
     },
     {
         type: 'input',
@@ -50,8 +39,8 @@ let searchConfig = [
     }
 ];
 export default {
-    name: 'BillDownload',
-    components:{SearchComp},
+    name: 'NotDeliverSearch',
+    components: { SearchComp },
     data() {
         return {
             tableData: [],
@@ -63,9 +52,8 @@ export default {
             }
         }
     },
-    methods:{
-        downloadFujian(row){},
-        receiveData(data){
+    methods: {
+        receiveData(data) {
             this.tableData = data.conent;
             this.pageParams.pageSize = data.size;//每页数量
             this.pageParams.total = data.totalElements;//总页数
@@ -97,11 +85,10 @@ export default {
             size: _this.pageParams.pageSize
         };
         _this.$refs.searchRef.search(params);
-
     }
 }
 </script>
-<style lang="scss" scoped>
-@import './BillDownload.scss';
+<style lang="scss">
+@import './NotDeliverSearch.scss';
 </style>
 
