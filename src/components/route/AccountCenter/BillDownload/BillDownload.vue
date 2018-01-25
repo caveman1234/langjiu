@@ -1,5 +1,5 @@
 <template>
-    <div class="BillDownload">
+    <div class="BillDownload" v-show="false">
         <!-- <div style="font-size:50px;font-size: 50px;color: #999999;">即将开放,敬请期待......</div> -->
         <SearchComp ref="searchRef"
             :searchConfig="searchConfig"

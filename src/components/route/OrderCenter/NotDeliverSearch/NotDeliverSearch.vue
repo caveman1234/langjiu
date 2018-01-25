@@ -1,5 +1,5 @@
 <template>
-    <div class="NotDeliverSearch">
+    <div class="NotDeliverSearch" v-show="false">
         <SearchComp ref="searchRef" :searchConfig="searchConfig" @receiveData="receiveData" serverUrl="/ocm-web/api/b2b/financing-apply/list"></SearchComp>
         <el-table :data="tableData" style="width: 100%">
             <el-table-column prop="date" label="订单号"></el-table-column>
