@@ -39,16 +39,17 @@ export default {
             //     return;
             // }
 
-            // if(_this.objPdf.getCrrentCount() == _this.inCount){
-            //     //判断是否签章
-            //     _this.$Notify({ title: '请签章后再保存', type: 'warning' });
-            //     return;
-            // }
-            if (!_this.objPdf.isSigned()) {
-                //判断是否有章
-                _this.$Notify({ title: '请签章后再提交', type: 'warning' });
+            if(_this.objPdf.removeSeal() == _this.inCount){
+                //判断是否签章
+                _this.$Notify({ title: '请签章后再保存', type: 'warning' });
                 return;
             }
+
+            // if (!_this.objPdf.isSigned()) {
+            //     //判断是否有章
+            //     _this.$Notify({ title: '请签章后再提交', type: 'warning' });
+            //     return;
+            // }
 
 
 
@@ -84,7 +85,7 @@ export default {
             _this.objPdf.load(`${_this.currentHost}${_this.rowObj.attachment}`);
         }
         //存当前签章数量
-        // _this.inCount = _this.objPdf.getCrrentCount();
+        _this.inCount = _this.objPdf.removeSeal();
 
 
     }

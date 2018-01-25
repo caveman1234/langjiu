@@ -1,124 +1,126 @@
 function BCPdfView(pdfobj) {
-
-    this.pdfObject = pdfobj;  //³õÊ¼»¯pdf¶ÔÏó
-
-}
-
-
-
-BCPdfView.prototype = {
-
-    load: function (url) {    //¼ÓÔØÎÄµµ·½·¨
-
-        this.pdfObject.load(url);
-
-    },
-
-    save: function(url){        //±£´æÎÄµµ
-
-        this.pdfObject.save(url);
-
-    },
-
-    saveAsBase64: function () {      //±£´æÎªbase64±àÂë
-
-        return this.pdfObject.save("base64");
-
-    },
-
-    signSeal: function (param) {     //¸ÇÕÂ
-
-        if (arguments.length > 0) {
-
-            this.pdfObject.stamp(param);
-
-        } else {
-
-            this.pdfObject.stamp();
-
+    
+        this.pdfObject = pdfobj;  //ï¿½ï¿½Ê¼ï¿½ï¿½pdfï¿½ï¿½ï¿½ï¿½
+    
+    }
+    
+    
+    
+    BCPdfView.prototype = {
+    
+        load: function (url) {    //ï¿½ï¿½ï¿½ï¿½ï¿½Äµï¿½ï¿½ï¿½ï¿½ï¿½
+    
+            this.pdfObject.load(url);
+    
+        },
+    
+        save: function(url){        //ï¿½ï¿½ï¿½ï¿½ï¿½Äµï¿½
+    
+            this.pdfObject.save(url);
+    
+        },
+    
+        saveAsBase64: function () {      //ï¿½ï¿½ï¿½ï¿½Îªbase64ï¿½ï¿½ï¿½ï¿½
+    
+            return this.pdfObject.save("base64");
+    
+        },
+    
+        signSeal: function (param) {     //ï¿½ï¿½ï¿½ï¿½
+    
+            if (arguments.length > 0) {
+    
+                this.pdfObject.stamp(param);
+    
+            } else {
+    
+                this.pdfObject.stamp();
+    
+            }
+    
+        },
+    
+        listSeals: function () {    //ï¿½ï¿½È¡Ó¡ï¿½ï¿½ï¿½Ð±ï¿½
+    
+            return this.pdfObject.listSeals();
+    
+        },
+    
+        setProperties: function (arrProperties) { //ï¿½ï¿½ï¿½ï¿½PDFï¿½Ð¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    
+            this.pdfObject.setProperties(arrProperties);
+    
+        },
+    
+        isSigned:function(){    //ï¿½Äµï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½Ó¡ï¿½ï¿½
+    
+            return this.pdfObject.isSigned();
+    
+        },
+    
+        print: function () {    //ï¿½ï¿½Ó¡
+    
+            this.pdfObject.print();
+    
+        },
+    
+        exPrint: function(){
+            this.pdfObject.exPrint();
+        },
+    
+        setPrintCount: function(){
+            return this.pdfObject.setControlPrintCount();
+        },
+    
+        getPageCount:function(){    //ï¿½ï¿½È¡ï¿½Äµï¿½Ò³ï¿½ï¿½
+    
+            return this.pdfObject.getPageCount();
+    
+        },
+    
+        gotoPage: function (pageIndex) {    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½pageIndexÒ³
+    
+            this.pdfObject.goToPage(pageIndex);
+    
+        },
+    
+        search: function (content) {    //ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ï¿½ï¿½
+    
+            return this.pdfObject.searchText(content);
+    
+        },
+        
+        hideMenu: function(){
+            this.pdfObject.hideMenu();
+        },
+        
+        showMenu: function(){
+            this.pdfObject.showMenu();
+        },
+        
+        multiStamp: function(){
+            this.pdfObject.multiStamp();
+        },
+        
+        keywordSearch: function(){
+            this.pdfObject.keywordSearch();
+        },
+        
+        handWritting: function(){
+            this.pdfObject.handWritting();
+        },
+        
+        verifySeal: function(){
+            this.pdfObject.verifySeal();
+        },
+        
+        removeSeal: function(){
+            return this.pdfObject.removeSeal();
+        },
+        ridingStamp: function(){
+            this.pdfObject.ridingStamp();
+        },
+        finishStamp: function(tag){
+            this.pdfObject.finishStamp(tag);
         }
-
-    },
-
-    listSeals: function () {    //»ñÈ¡Ó¡ÕÂÁÐ±í
-
-        return this.pdfObject.listSeals();
-
-    },
-
-    setProperties: function (arrProperties) { //ÉèÖÃPDFÖÐ¼ä¼þÊôÐÔ
-
-        this.pdfObject.setProperties(arrProperties);
-
-    },
-
-    isSigned:function(){    //ÎÄµµÖÐÊÇ·ñÓÐÓ¡ÕÂ
-
-        return this.pdfObject.isSigned();
-
-    },
-
-    print: function () {    //´òÓ¡
-
-        this.pdfObject.print();
-
-    },
-
-    exPrint: function(){
-        this.pdfObject.exPrint();
-    },
-
-    setPrintCount: function(){
-        return this.pdfObject.setControlPrintCount();
-    },
-
-    getPageCount:function(){    //»ñÈ¡ÎÄµµÒ³Êý
-
-        return this.pdfObject.getPageCount();
-
-    },
-
-    gotoPage: function (pageIndex) {    //µ÷Õûµ½pageIndexÒ³
-
-        this.pdfObject.goToPage(pageIndex);
-
-    },
-
-    search: function (content) {    //ËÑË÷¹Ø¼ü×Ö
-
-        return this.pdfObject.searchText(content);
-
-    },
-	
-	hideMenu: function(){
-		this.pdfObject.hideMenu();
-	},
-	
-	showMenu: function(){
-		this.pdfObject.showMenu();
-	},
-	
-	multiStamp: function(){
-		this.pdfObject.multiStamp();
-	},
-	
-	keywordSearch: function(){
-		this.pdfObject.keywordSearch();
-	},
-	
-	handWritting: function(){
-		this.pdfObject.handWritting();
-	},
-	
-	verifySeal: function(){
-		this.pdfObject.verifySeal();
-	},
-	
-	removeSeal: function(){
-		this.pdfObject.removeSeal();
-	},
-	ridingStamp: function(){
-		this.pdfObject.ridingStamp();
-	}
-
-};
+    };
