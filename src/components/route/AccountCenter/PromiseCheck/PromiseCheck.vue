@@ -58,22 +58,8 @@ let date11 = new Date(`${(new Date()).getFullYear()}-01-01`).getTime();
 let startTime = new Date().getTime() - 24 * 60 * 60 * 1000 * 30;
 let endTime = new Date();
 startTime = startTime < date11 ? new Date(date11) : new Date(startTime);
-let defaultValue = [startTime, endTime];let searchConfig = [
-    // {
-    //     type: 'select',
-    //     field: 'productGroupId',
-    //     label: '事业部：',
-    //     dataSource: [
-    //         {
-    //             label: '事业部一',
-    //             value: 1
-    //         },
-    //         {
-    //             label: '事业部二',
-    //             value: 2
-    //         }
-    //     ]
-    // },
+let defaultValue = [startTime, endTime];
+let searchConfig = [
     {
         type: 'datePickerRange',
         field: 'apprDate',

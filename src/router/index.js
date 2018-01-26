@@ -13,6 +13,7 @@ import BusinessCheck from '@/components/route/AccountCenter/BusinessCheck/Busine
 import FinancingInfo from '@/components/route/AccountCenter/FinancingInfo/FinancingInfo'
 import PaymentInfo from '@/components/route/AccountCenter/PaymentInfo/PaymentInfo'
 
+import WaitAuditCheck from '@/components/route/AccountCenter/WaitAuditCheck/WaitAuditCheck'
 import CashCheck from '@/components/route/AccountCenter/CashCheck/CashCheck'
 import CostCheck from '@/components/route/AccountCenter/CostCheck/CostCheck'
 import BuildCheck from '@/components/route/AccountCenter/BuildCheck/BuildCheck'
@@ -277,6 +278,11 @@ export default new Router({
                             path: '/PromiseCheck',
                             name: 'PromiseCheck',
                             component: PromiseCheck
+                        },
+                        {
+                            path: '/WaitAuditCheck',
+                            name: 'WaitAuditCheck',
+                            component: WaitAuditCheck
                         },
                         {
                             path: '/BillDownload',

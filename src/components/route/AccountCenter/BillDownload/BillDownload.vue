@@ -11,10 +11,10 @@
             <el-table-column prop="invoiceCode" label="税务票号"></el-table-column>
             <el-table-column prop="priceWithTax" label="价税合计"></el-table-column>
             <el-table-column prop="receiptCode" label="启运凭证号（发货单号）"></el-table-column>
-            <el-table-column prop="date" label="操作">
+            <el-table-column prop="date" label="操作" width="160px">
                 <template slot-scope="scope">
                     <el-button @click="downloadFujian(scope.row)" size="mini">
-                        查看/下载合同
+                        查看/下载电子发票
                     </el-button>
                 </template>
             </el-table-column>

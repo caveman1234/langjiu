@@ -2,6 +2,7 @@
     <div class="NotDeliverSearch">
         <SearchComp ref="searchRef" :searchConfig="searchConfig" @receiveData="receiveData" serverUrl="/ocm-web/api/b2b/unsend-goods/list"></SearchComp>
         <el-table :data="tableData" style="width: 100%">
+            <el-table-column prop="dbilldate" label="单据日期"></el-table-column>
             <el-table-column prop="billcode" label="订单号"></el-table-column>
             <el-table-column prop="invcode" label="产品编码"></el-table-column>
             <el-table-column prop="invname" label="产品名称"></el-table-column>
@@ -42,6 +43,11 @@ let searchConfig = [
         type: 'input',
         field: 'billcode',
         label: '订单号：'
+    },
+    {
+        type: 'datePickerRange',
+        field: 'dbilldate',
+        label: '单据日期：'
     }
 ];
 export default {

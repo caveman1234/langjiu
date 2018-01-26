@@ -40,6 +40,11 @@ let tabArr = [
         routeName: 'PromiseCheck'
     },
     {
+        label: '待审核费用对账',
+        name: 'WaitAuditCheck',
+        routeName: 'WaitAuditCheck'
+    },
+    {
         label: '电子发票下载',
         name: 'BillDownload',
         routeName: 'BillDownload'
