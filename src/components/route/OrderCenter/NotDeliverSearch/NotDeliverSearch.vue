@@ -1,23 +1,35 @@
 <template>
-    <div class="NotDeliverSearch" v-show="false">
-        <SearchComp ref="searchRef" :searchConfig="searchConfig" @receiveData="receiveData" serverUrl="/ocm-web/api/b2b/financing-apply/list"></SearchComp>
+    <div class="NotDeliverSearch">
+        <SearchComp ref="searchRef" :searchConfig="searchConfig" @receiveData="receiveData" serverUrl="/ocm-web/api/b2b/unsend-goods/list"></SearchComp>
         <el-table :data="tableData" style="width: 100%">
-            <el-table-column prop="date" label="订单号"></el-table-column>
-            <el-table-column prop="date" label="产品编码"></el-table-column>
-            <el-table-column prop="date" label="产品名称"></el-table-column>
-            <el-table-column prop="date" label="规格">
+            <el-table-column prop="billcode" label="订单号"></el-table-column>
+            <el-table-column prop="invcode" label="产品编码"></el-table-column>
+            <el-table-column prop="invname" label="产品名称"></el-table-column>
+            <!-- <el-table-column prop="date" label="规格">
                 <template slot-scope="scope">
                     <div>容量：{{scope.row.standard}}ml</div>
                     <div>度数：{{scope.row.productModel}}度</div>
                 </template>
+            </el-table-column> -->
+            <el-table-column prop="" label="未发货箱数(件)">
+                <template slot-scope="scope">
+                    <div>{{scope.row.nnumber - scope.row.ljcksl}}</div>
+                </template>
             </el-table-column>
-            <el-table-column prop="date" label="未发货箱数"></el-table-column>
-            <el-table-column prop="date" label="已安排箱数"></el-table-column>
-            <el-table-column prop="date" label="未安排箱数"></el-table-column>
-            <el-table-column prop="date" label="未安排原因"></el-table-column>
+            <el-table-column prop="ljcksl" label="已安排箱数(件)">
+                <template slot-scope="scope">
+                    <div>{{scope.row.ljapsl - scope.row.ljcksl}}</div>
+                </template>
+            </el-table-column>
+            <el-table-column prop="wckjs" label="未安排箱数(件)">
+                <template slot-scope="scope">
+                    <div>{{scope.row.nnumber - scope.row.ljapsl}}</div>
+                </template>
+            </el-table-column>
+            <!-- <el-table-column prop="date" label="未安排原因"></el-table-column> -->
         </el-table>
-        <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="pageParams.pageIndex" :page-sizes="[10, 20, 50, 100]" :page-size="pageParams.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="pageParams.total" prev-text="上一页" next-text="下一页">
-        </el-pagination>
+        <!-- <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="pageParams.pageIndex" :page-sizes="[10, 20, 50, 100]" :page-size="pageParams.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="pageParams.total" prev-text="上一页" next-text="下一页">
+        </el-pagination> -->
     </div>
 </template>
 <script>
@@ -27,15 +39,9 @@ let endTime = new Date();
 let defaultValue = [startTime, endTime];
 let searchConfig = [
     {
-        type: 'datePickerRange',
-        field: 'apprDate',
-        label: '开票时间：',
-        // defaultValue: defaultValue
-    },
-    {
         type: 'input',
-        field: 'ctype',
-        label: '税务票号：'
+        field: 'billcode',
+        label: '订单号：'
     }
 ];
 export default {
@@ -54,7 +60,7 @@ export default {
     },
     methods: {
         receiveData(data) {
-            this.tableData = data.conent;
+            this.tableData = data;
             this.pageParams.pageSize = data.size;//每页数量
             this.pageParams.total = data.totalElements;//总页数
             this.pageParams.pageIndex = data.number + 1;//当前页
