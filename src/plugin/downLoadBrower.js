@@ -40,7 +40,7 @@ let notSupportVersion = ["IE7", "IE8", "IE9", "IE10"];
 let currentVersion = IEVersion();
 
 if (notSupportVersion.indexOf(currentVersion) != -1) {
-    let isConfirm = window.confirm('当前浏览器版本过低，是否现在高版本浏览器？');
+    let isConfirm = window.confirm('当前浏览器版本过低，请下载IE11浏览器？');
     if (isConfirm) {
         let aTag = document.createElement('a');
         //360浏览器
@@ -48,7 +48,7 @@ if (notSupportVersion.indexOf(currentVersion) != -1) {
         //谷歌浏览器
         // aTag.href = "http://sw.bos.baidu.com/sw-search-sp/software/3b543c7b6bd21/ChromeStandalone_63.0.3239.108_Setup.exe";
         // aTag.click();
-        window.open('http://down.360safe.com/se/360se9.1.0.362.exe');
+        // window.open('http://down.360safe.com/se/360se9.1.0.362.exe');
     } else {
 
     }

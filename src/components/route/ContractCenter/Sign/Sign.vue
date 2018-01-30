@@ -39,7 +39,7 @@
                             <div>{{scope.row.signStatus | formatSignStatus}}</div>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="" label="附件" width="140px">
+                    <el-table-column prop="" label="附件" width="130px">
                         <template slot-scope="scope">
                             <!-- attachment -->
                             <el-button @click="downloadFujian(scope.row)" v-if="scope.row.attachment" size="mini">
@@ -47,18 +47,33 @@
                             </el-button>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="" label="操作" width="150px">
+                    <el-table-column prop="" label="操作" width="240px">
                         <template slot-scope="scope">
                             <template v-if="scope.row.cusCommitStatus == 0 && scope.row.signStatus == 1 && scope.row.invalidStatus == 0">
-                                <el-button @click="submit(scope.row)" size="mini">提交</el-button>
+                                <el-button @click="submit(scope.row)" size="mini" type="primary">提交</el-button>
                             </template>
-                            <el-button @click="goSign(scope.row)" v-if="scope.row.attachment && scope.row.signStatus==0" size="mini">签章</el-button>
+                            <el-button @click="goSign(scope.row)" v-if="scope.row.attachment && scope.row.signStatus==0" size="mini" type="primary">上传已签章合同</el-button>
+                            <el-button @click="goSignOnline(scope.row)" v-if="scope.row.attachment && scope.row.signStatus==0" size="mini">在线签章</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
                 <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="pageParams.pageIndex" :page-sizes="[10, 20, 50, 100]" :page-size="pageParams.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="pageParams.total" prev-text="上一页" next-text="下一页">
                 </el-pagination>
             </div>
+        </div>
+        <div class="SignDialog">
+            <el-dialog title="上传已签章合同" :visible.sync="dialogVisible" width="500px" @close="handleClose" @open="handleOpen">
+                <el-button @click="selectFileClick" type="plain" size="mini">选择合同</el-button>
+                <el-button @click="uploadFile" type="primary" size="mini">上传并提交合同</el-button>
+
+                <div v-show="false">
+                    <el-input @change="fileInpChange" type="file" id="contractCenterInput"></el-input>
+                </div>
+                <div v-show="fileInfo.name" style="margin-top:15px;">文件名称：{{fileInfo.name}}</div>
+                <div v-show="fileInfo.size">文件大小：{{fileInfo.size}}</div>
+                <div style="font-size:12px;color:#999999;margin-top:15px;">请上传已签章后的pdf文件</div>
+
+            </el-dialog>
         </div>
     </div>
 </template>
@@ -112,7 +127,14 @@ export default {
                 pageIndex: 1,
                 pageSize: 10,
                 total: 0
-            }
+            },
+            //弹框
+            dialogVisible: false,
+            file: null,
+            fileInfo: {},
+            //签章当前行数据
+            currentRow: {},
+
         }
     },
     methods: {
@@ -150,7 +172,6 @@ export default {
         },
         //下载附件
         downloadFujian(row) {
-            debugger
             window.open(row.attachment);
         },
         //change
@@ -158,6 +179,16 @@ export default {
         },
         //签章
         goSign(row) {
+            let _this = this;
+            // _this.$router.push({
+            //     name: 'GoSign', params: {
+            //         payload: row
+            //     }
+            // });
+            _this.dialogVisible = true;
+            _this.currentRow = row;
+        },
+        goSignOnline(row){
             let _this = this;
             _this.$router.push({
                 name: 'GoSign', params: {
@@ -190,12 +221,82 @@ export default {
             _this.$http.post(url, params)
                 .then(res => {
                     //刷新页面
-                    let params = {
-                        page: 0,
-                        size: _this.pageParams.pageSize
-                    };
-                    _this.$refs.searchRef.search(params);
+                    if (res.headers["x-ocm-code"] == '1') {
+                        let params = {
+                            page: _this.pageParams.pageIndex,
+                            size: _this.pageParams.pageSize
+                        };
+                        _this.$refs.searchRef.search(params);
+                    }
+
                 });
+        },
+        //弹框关闭打开回调函
+        handleClose() {
+            let _this = this;
+            let contractCenterInput = document.querySelector('#contractCenterInput');
+            //清空文件相关信息
+            // contractCenterInput.files = [];
+            _this.file = null;
+            _this.fileInfo = {};
+        },
+        handleOpen() {
+        },
+        //触发选择文件
+        selectFileClick() {
+            let contractCenterInput = document.querySelector('#contractCenterInput');
+            contractCenterInput.click();
+        },
+        //文件改变事件
+        fileInpChange() {
+            let _this = this;
+            let contractCenterInput = document.querySelector('#contractCenterInput');
+            _this.fileInfo = {
+                name: contractCenterInput.files[0].name,
+                size: `${(contractCenterInput.files[0].size / 1024).toFixed(1)}KB`
+            };
+            _this.file = contractCenterInput.files[0];
+        },
+        //上传文件
+        uploadFile() {
+            let _this = this;
+            if (_this.file == null) {
+                _this.$Notify({ title: '请选择文件后再上传', type: 'warning' });
+                return;
+            }
+            if (!_this.file.name.includes('.pdf')) {
+                _this.$Notify({ title: '必须上传pdf文件', type: 'warning' });
+                return;
+            }
+            let params = new FormData();
+            params.append('id', _this.currentRow.id);
+            params.append('file', _this.file);
+            let remoteUrl = '/ocm-web/api/cm/contract-mgr/upload-contract-file';
+            let headersWrap = {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            };
+            _this.$confirm('请确认上传文件是否为已签章合同。', '上传已签章合同', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning',
+                center: true
+            }).then(() => {
+                _this.$http.post(remoteUrl, params, headersWrap)
+                    .then(res => {
+                        //刷新页面
+                        if (res.headers["x-ocm-code"] == '1') {
+                            _this.dialogVisible = false;
+                            let params = {
+                                page: _this.pageParams.pageIndex,
+                                size: _this.pageParams.pageSize
+                            };
+                            _this.$refs.searchRef.search(params);
+                        }
+                    })
+            }).catch(() => { });
+
         }
     },
     mounted() {

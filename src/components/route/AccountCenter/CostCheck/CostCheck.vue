@@ -1,39 +1,28 @@
 <template>
     <div class="CostCheck">
-        <SearchComp ref="searchRef"
-            :searchConfig="searchConfig"
-            @receiveData="receiveData"
-            serverUrl="/ocm-web/api/b2b/query-balance/getChargeDetail" :disable11="true"></SearchComp>
+        <SearchComp ref="searchRef" :searchConfig="searchConfig" @receiveData="receiveData" serverUrl="/ocm-web/api/b2b/query-balance/getChargeDetail" :disable11="true"></SearchComp>
         <div class="tableContainer">
             <el-table :data="tableData">
-                <el-table-column prop="dbilldate"
-                    label="日期"></el-table-column>
-                <el-table-column prop="sybName"
-                    label="产品线名称"></el-table-column>
-                <el-table-column prop="ctype"
-                    label="费用类型"></el-table-column>
-                <el-table-column prop="billcode" width="150px"
-                    label="单据号"></el-table-column>
-                <el-table-column prop="memo" width="200px"
-                    label="摘要"></el-table-column>
-                <el-table-column prop="income"
-                    label="收入">
+                <el-table-column prop="dbilldate" label="日期"></el-table-column>
+                <el-table-column prop="sybName" label="产品线名称"></el-table-column>
+                <el-table-column prop="ctype" label="费用类型"></el-table-column>
+                <el-table-column prop="billcode" width="150px" label="单据号"></el-table-column>
+                <el-table-column prop="memo" width="200px" label="摘要"></el-table-column>
+                <el-table-column prop="income" label="收入">
                     <template slot-scope="scope">
                         <div>
                             <div>{{scope.row.income|formatInOut}}</div>
                         </div>
                     </template>
                 </el-table-column>
-                <el-table-column prop="cost"
-                    label="支出">
+                <el-table-column prop="cost" label="支出">
                     <template slot-scope="scope">
                         <div>
                             <div>{{scope.row.cost|formatInOut}}</div>
                         </div>
                     </template>
                 </el-table-column>
-                <el-table-column prop="amount"
-                    label="余额">
+                <el-table-column prop="amount" label="余额">
                     <template slot-scope="scope">
                         <div>
                             <div>{{scope.row.amount|formatInOut}}</div>
@@ -42,7 +31,7 @@
                 </el-table-column>
             </el-table>
             <!-- <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="pageParams.pageIndex" :page-sizes="[10, 20, 50, 100]" :page-size="pageParams.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="pageParams.total" prev-text="上一页" next-text="下一页">
-                </el-pagination> -->
+                    </el-pagination> -->
         </div>
     </div>
 </template>
