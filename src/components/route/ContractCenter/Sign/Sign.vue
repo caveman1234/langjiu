@@ -49,9 +49,9 @@
                     </el-table-column>
                     <el-table-column prop="" label="操作" width="240px">
                         <template slot-scope="scope">
-                            <template v-if="scope.row.cusCommitStatus == 0 && scope.row.signStatus == 1 && scope.row.invalidStatus == 0">
-                                <el-button @click="submit(scope.row)" size="mini" type="primary">提交</el-button>
-                            </template>
+                            <!-- <template v-if="scope.row.cusCommitStatus == 0 && scope.row.signStatus == 1 && scope.row.invalidStatus == 0">
+                                            <el-button @click="submit(scope.row)" size="mini" type="primary">提交</el-button>
+                                        </template> -->
                             <el-button @click="goSign(scope.row)" v-if="scope.row.attachment && scope.row.signStatus==0" size="mini" type="primary">上传已签章合同</el-button>
                             <el-button @click="goSignOnline(scope.row)" v-if="scope.row.attachment && scope.row.signStatus==0" size="mini">在线签章</el-button>
                         </template>
@@ -188,7 +188,7 @@ export default {
             _this.dialogVisible = true;
             _this.currentRow = row;
         },
-        goSignOnline(row){
+        goSignOnline(row) {
             let _this = this;
             _this.$router.push({
                 name: 'GoSign', params: {
@@ -215,18 +215,15 @@ export default {
                 // contractId: '3e3a1c56-199f-45ce-9693-98ad22c6d106',
                 templateCode: obj[row.contractTempletCode]
             };
+            debugger
 
             let url = '/ocm-web/api/cm/contract-mgr/commit';
             // let url = '/ocm-web/api/cm/contract-mgr/upload-contract';
-            _this.$http.post(url, params)
+            return _this.$http.post(url, params)
                 .then(res => {
                     //刷新页面
                     if (res.headers["x-ocm-code"] == '1') {
-                        let params = {
-                            page: _this.pageParams.pageIndex,
-                            size: _this.pageParams.pageSize
-                        };
-                        _this.$refs.searchRef.search(params);
+                        
                     }
 
                 });
@@ -268,6 +265,19 @@ export default {
                 _this.$Notify({ title: '必须上传pdf文件', type: 'warning' });
                 return;
             }
+
+            _this.$confirm('请确认上传文件是否为已签章合同。', '上传已签章合同', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning',
+                center: true
+            }).then(() => {
+                _this.uploadAndSubmit();
+            }).catch(() => { });
+        },
+        //异步上传文件
+        uploadFileAsync() {
+            let _this = this;
             let params = new FormData();
             params.append('id', _this.currentRow.id);
             params.append('file', _this.file);
@@ -277,26 +287,23 @@ export default {
                     'Content-Type': 'multipart/form-data'
                 }
             };
-            _this.$confirm('请确认上传文件是否为已签章合同。', '上传已签章合同', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                type: 'warning',
-                center: true
-            }).then(() => {
-                _this.$http.post(remoteUrl, params, headersWrap)
-                    .then(res => {
-                        //刷新页面
-                        if (res.headers["x-ocm-code"] == '1') {
-                            _this.dialogVisible = false;
-                            let params = {
-                                page: _this.pageParams.pageIndex,
-                                size: _this.pageParams.pageSize
-                            };
-                            _this.$refs.searchRef.search(params);
-                        }
-                    })
-            }).catch(() => { });
-
+            return _this.$http.post(remoteUrl, params, headersWrap)
+                .then(res => {
+                    //刷新页面
+                    if (res.headers["x-ocm-code"] == '1') {
+                        _this.dialogVisible = false;
+                    }
+                })
+        },
+        async uploadAndSubmit() {
+            let _this = this;
+            await _this.uploadFileAsync();
+            await _this.submit(_this.currentRow);
+            let params = {
+                page: _this.pageParams.pageIndex,
+                size: _this.pageParams.pageSize
+            };
+            _this.$refs.searchRef.search(params);
         }
     },
     mounted() {

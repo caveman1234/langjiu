@@ -1,32 +1,26 @@
 <template>
     <div class="OrderTable1">
         <template v-for="(item,index) in orderData">
-            <div class="orderWrap"
-                :key="index">
+            <div class="orderWrap" :key="index">
 
                 <div class="orderHeader">
                     <el-row>
                         <el-col :span="2">订单类型:</el-col>
-                        <el-col v-red
-                            :span="2">{{item.poTypeName}}</el-col>
+                        <el-col v-red :span="2">{{item.poTypeName}}</el-col>
                         <el-col :span="2">订单日期:</el-col>
                         <el-col :span="2">{{item.orderDate|formatDate}}</el-col>
                         <el-col :span="2">订单编号:</el-col>
                         <el-col :span="3">{{item.orderCode}}</el-col>
                         <el-col :span="2">支付金额:</el-col>
-                        <el-col v-red
-                            :span="3">
+                        <el-col v-red :span="3">
                             {{item.totalAmount | formatPrice}}
                         </el-col>
                         <el-col :span="2">订单状态:</el-col>
-                        <el-col v-red
-                            :span="2">{{item.billStatusName}}</el-col>
+                        <el-col v-red :span="2">{{item.billStatusName}}</el-col>
                         <el-col :span="2">
-                            <div @click="lookMore(item)"
-                                class="lookMore">
+                            <div @click="lookMore(item)" class="lookMore">
                                 <span class="text">{{ item.isMoreShow ? '收起' : '更多'}}</span>
-                                <i class="icon iconfont"
-                                    :class="[item.isMoreShow ? 'lj-up' :'lj-down-']"></i>
+                                <i class="icon iconfont" :class="[item.isMoreShow ? 'lj-up' :'lj-down-']"></i>
                             </div>
                         </el-col>
                     </el-row>
@@ -53,8 +47,7 @@
                             <el-col :span="22">{{item.approveOpinion}}</el-col>
                         </el-row>
                     </div>
-                    <div v-if="item.poTypeBusinessType == '03'"
-                        class="orderHeader">
+                    <div v-if="item.poTypeBusinessType == '03'" class="orderHeader">
                         <el-row>
                             <el-col :span="3">融资审批状态:</el-col>
                             <el-col :span="3">{{(item.financingStatus) | formatBillStatus}}</el-col>
@@ -79,54 +72,38 @@
                     </div>
                 </div>
                 <div class="orderHeader">
-                    <el-row type="flex"
-                        justify="end">
+                    <el-row type="flex" justify="end">
                         <el-button-group>
                             <template v-if="item.poTypeBusinessType =='03' && item.billStatusCode == '03' && item.totalRepaidAmount < item.totalRepayAmount">
-                                <el-button size="mini"
-                                    @click="goPickGoods(item)"
-                                    type="primary">去提货
+                                <el-button size="mini" @click="goPickGoods(item)" type="primary">去提货
                                 </el-button>
                             </template>
                             <template v-if="item.isNoticeSend == 1 && item.isApplySendOver == 0 && item.billStatusCode == '03' && item.poTypeBusinessType !=='03' && item.isNcConfirm ==1 ">
-                                <el-button @click="applySend(item)"
-                                    size="mini"
-                                    type="primary">申请发货
+                                <el-button @click="applySend(item)" size="mini" type="primary">申请发货
                                 </el-button>
                             </template>
 
                             <template v-if="item.isSendOver == 0 && item.isNcConfirm == 1 && item.billStatusCode == '03' ">
-                                <el-button @click="applyReturn(item)"
-                                    size="mini"
-                                    type="primary">申请退订
+                                <el-button @click="applyReturn(item)" size="mini" type="primary">申请退订
                                 </el-button>
                             </template>
                             <template v-if="item.poTypeBusinessType == '03' && item.billStatusCode == '03' && item.financingStatus == '10' ">
-                                <el-button @click="goFinancing(item)"
-                                    size="mini"
-                                    type="primary">去融资
+                                <el-button @click="goFinancing(item)" size="mini" type="primary">去融资
                                 </el-button>
                             </template>
                         </el-button-group>
                     </el-row>
                 </div>
-                <el-table :data="item.purchaseOrderItems"
-                    :span-method="spanMethod"
-                    border
-                    style="width: 100%">
-                    <el-table-column prop="productDesc"
-                        label="商品详情"
-                        width="300">
+                <el-table :data="item.purchaseOrderItems" :span-method="spanMethod" border style="width: 100%">
+                    <el-table-column prop="productDesc" label="商品详情" width="300">
                         <template slot-scope="scope">
                             <div class="detailContainer">
-                                <div :style='{"backgroundImage":`url(${scope.row.imageUrl || defaultImg})`}'
-                                    class="goodsImg"></div>
+                                <div :style='{"backgroundImage":`url(${scope.row.imageUrl || defaultImg})`}' class="goodsImg"></div>
                                 <div class="desc">{{scope.row.productDesc}}</div>
                             </div>
                         </template>
                     </el-table-column>
-                    <el-table-column prop=""
-                        label="规格">
+                    <el-table-column prop="" label="规格">
                         <template slot-scope="scope">
                             <div class="standard">
                                 <div>容量：{{scope.row.standard}}ml</div>
@@ -134,14 +111,12 @@
                             </div>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="basePrice"
-                        label="单价">
+                    <el-table-column prop="basePrice" label="单价">
                         <template slot-scope="scope">
                             <div>{{scope.row.basePrice|formatPrice}}</div>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="boxCount"
-                        label="数量">
+                    <el-table-column prop="boxCount" label="数量">
                         <template slot-scope="scope">
                             <div>
                                 <div>箱数：{{scope.row.baleQuantity}} 箱</div>
@@ -150,17 +125,17 @@
                         </template>
                     </el-table-column>
                     <!-- <el-table-column prop="" label="金额">
-                                                                                                                                    <template slot-scope="scope">
-                                                                                                                                        <div v-red>{{item.totalAmount | formatPrice}}</div>
-                                                                                                                                    </template>
-                                                                                                                                </el-table-column>
-                                                                                                                                <el-table-column prop="" label="操作">
-                                                                                                                                    <template slot-scope="scope">
-                                                                                                                                        <div>
-                                                                                                                                            <el-button size="mini" type="primary">去融资</el-button>
-                                                                                                                                        </div>
-                                                                                                                                    </template>
-                                                                                                                                </el-table-column> -->
+                                                                                                                                        <template slot-scope="scope">
+                                                                                                                                            <div v-red>{{item.totalAmount | formatPrice}}</div>
+                                                                                                                                        </template>
+                                                                                                                                    </el-table-column>
+                                                                                                                                    <el-table-column prop="" label="操作">
+                                                                                                                                        <template slot-scope="scope">
+                                                                                                                                            <div>
+                                                                                                                                                <el-button size="mini" type="primary">去融资</el-button>
+                                                                                                                                            </div>
+                                                                                                                                        </template>
+                                                                                                                                    </el-table-column> -->
                 </el-table>
             </div>
         </template>
@@ -257,17 +232,26 @@ export default {
         //去融资
         goFinancing(item) {
             let _this = this;
-            let params = {
-                mastContCode: item.id,//订单id
-                clientId: _this.$store.state.customerId//客户id
-            };
-            let url = '/ocm-web/api/cmbc/pushOrderInfoToCmbc';
-            _this.$http.post(url, params)
-                .then(res => {
-                    //改变状态
-                    item.financingStatus = '0';
-                    _this.$Notify({ title: '融资成功', type: 'success' });
-                })
+            //请确认是否与民生银行签署融资协议，如签署请点击去融资，否则点击取消，走线下融资流程
+            _this.$confirm('请确认是否与民生银行签署融资协议，如签署请点击确认，否则点击取消，走线下融资流程。', '去融资', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning',
+                center: true
+            }).then(() => {
+                let params = {
+                    mastContCode: item.id,//订单id
+                    clientId: _this.$store.state.customerId//客户id
+                };
+                let url = '/ocm-web/api/cmbc/pushOrderInfoToCmbc';
+                _this.$http.post(url, params)
+                    .then(res => {
+                        //改变状态
+                        item.financingStatus = '0';
+                        _this.$Notify({ title: '融资成功', type: 'success' });
+                    })
+            }).catch(() => { });
+
         },
         //查看更多
         lookMore(item) {
