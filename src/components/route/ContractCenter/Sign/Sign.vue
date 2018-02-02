@@ -49,9 +49,9 @@
                     </el-table-column>
                     <el-table-column prop="" label="操作" width="240px">
                         <template slot-scope="scope">
-                            <!-- <template v-if="scope.row.cusCommitStatus == 0 && scope.row.signStatus == 1 && scope.row.invalidStatus == 0">
-                                            <el-button @click="submit(scope.row)" size="mini" type="primary">提交</el-button>
-                                        </template> -->
+                            <template v-if="scope.row.cusCommitStatus == 0 && scope.row.signStatus == 1 && scope.row.invalidStatus == 0">
+                                <el-button @click="submit(scope.row)" size="mini" type="primary">提交</el-button>
+                            </template>
                             <el-button @click="goSign(scope.row)" v-if="scope.row.attachment && scope.row.signStatus==0" size="mini" type="primary">上传已签章合同</el-button>
                             <el-button @click="goSignOnline(scope.row)" v-if="scope.row.attachment && scope.row.signStatus==0" size="mini">在线签章</el-button>
                         </template>
@@ -64,7 +64,7 @@
         <div class="SignDialog">
             <el-dialog title="上传已签章合同" :visible.sync="dialogVisible" width="500px" @close="handleClose" @open="handleOpen">
                 <el-button @click="selectFileClick" type="plain" size="mini">选择合同</el-button>
-                <el-button @click="uploadFile" type="primary" size="mini">上传并提交合同</el-button>
+                <el-button @click="uploadFile" type="primary" size="mini">上传合同</el-button>
 
                 <div v-show="false">
                     <el-input @change="fileInpChange" type="file" id="contractCenterInput"></el-input>
@@ -203,7 +203,9 @@ export default {
             let obj = {
                 '1': '1002',
                 '2': '1001',
-                '3': '1003'
+                '3': '1003',
+                '4': '1004',
+                '5': '1005'
             }
             // let obj = {
             //     '1': '青花郎',
@@ -215,15 +217,17 @@ export default {
                 // contractId: '3e3a1c56-199f-45ce-9693-98ad22c6d106',
                 templateCode: obj[row.contractTempletCode]
             };
-            debugger
-
             let url = '/ocm-web/api/cm/contract-mgr/commit';
             // let url = '/ocm-web/api/cm/contract-mgr/upload-contract';
             return _this.$http.post(url, params)
                 .then(res => {
                     //刷新页面
                     if (res.headers["x-ocm-code"] == '1') {
-                        
+                        let params = {
+                            page: 0,
+                            size: _this.pageParams.pageSize
+                        };
+                        _this.$refs.searchRef.search(params);
                     }
 
                 });
@@ -298,9 +302,9 @@ export default {
         async uploadAndSubmit() {
             let _this = this;
             await _this.uploadFileAsync();
-            await _this.submit(_this.currentRow);
+            // await _this.submit(_this.currentRow);
             let params = {
-                page: _this.pageParams.pageIndex,
+                page: 0,
                 size: _this.pageParams.pageSize
             };
             _this.$refs.searchRef.search(params);
