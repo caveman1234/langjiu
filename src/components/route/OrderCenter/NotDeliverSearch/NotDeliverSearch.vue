@@ -12,17 +12,17 @@
                     <div>度数：{{scope.row.productModel}}度</div>
                 </template>
             </el-table-column> -->
-            <el-table-column prop="" label="未发货箱数(件)">
+            <el-table-column prop="" label="未发货数(瓶)">
                 <template slot-scope="scope">
                     <div>{{scope.row.nnumber - scope.row.ljcksl}}</div>
                 </template>
             </el-table-column>
-            <el-table-column prop="ljcksl" label="已安排箱数(件)">
+            <el-table-column prop="ljcksl" label="已安排数(瓶)">
                 <template slot-scope="scope">
                     <div>{{scope.row.ljapsl - scope.row.ljcksl}}</div>
                 </template>
             </el-table-column>
-            <el-table-column prop="wckjs" label="未安排箱数(件)">
+            <el-table-column prop="wckjs" label="未安排数(瓶)">
                 <template slot-scope="scope">
                     <div>{{scope.row.nnumber - scope.row.ljapsl}}</div>
                 </template>
