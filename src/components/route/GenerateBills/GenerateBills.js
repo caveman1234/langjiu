@@ -71,6 +71,7 @@ export default {
         /* 使用折扣金额 */
         CostOffEvent(calcMoney, useOffMoney, calcDataTable) {
             let _this = this;
+            debugger
             _this.calcMoney = calcMoney;
             _this.calcDataTable = calcDataTable;
             /* 
@@ -146,6 +147,7 @@ export default {
                 if (Array.isArray(this.calcMoney)) {
                     var currentObj = this.calcMoney.find(aObj => aObj.productId == v.productId);
                     var { discountAmount, dealAmount, fundAmount, fundFee, fundCash, realAmount } = currentObj;
+                    debugger
                 }
                 return {
                     productId: v.productId,
