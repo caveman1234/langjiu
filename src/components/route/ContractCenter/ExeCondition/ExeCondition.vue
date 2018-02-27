@@ -25,9 +25,12 @@
             </el-table-column>
         </el-table>
         <div style="font-size:50px;font-size: 50px;color: #999999;">即将开放,敬请期待......</div>
+        <BankList @receiveSelectedBank="receiveSelectedBank" :dialogVisible.sync="dialogVisible"></BankList>
+        <el-button @click="func">click me</el-button>
     </div>
 </template>
 <script>
+import BankList from '@/components/commonComp/BankList/BankList';
 let tableData = [
     {
         name: '小郎酒事业部',
@@ -74,12 +77,20 @@ let tableData = [
 ];
 export default {
     name: 'ExeCondition',
+    components:{BankList},
     data() {
         return {
-            tableData: tableData
+            tableData: tableData,
+            dialogVisible:false
         }
     },
     methods: {
+        func(){
+            this.dialogVisible = true;
+        },
+        receiveSelectedBank(selectedBank){
+            console.log(selectedBank);
+        },
         rowKey(data) {
             return data.index
         }
