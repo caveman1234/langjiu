@@ -116,7 +116,7 @@ export default {
                 _this.submitNormal();
             }
         },
-        //日胶普通销售订单
+        //提交普通销售订单
         submitNormal() {
             let _this = this;
             /* 验证收获地址为空 */
@@ -187,9 +187,6 @@ export default {
                     fundCash: fundCash,
                     realAmount: realAmount,
                 }
-
-
-
             });
 
             let receiveAddressId = _this.infoData.find(v => v.isSelected).id;

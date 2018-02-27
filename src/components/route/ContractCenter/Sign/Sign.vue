@@ -3,7 +3,7 @@
         <!-- <div style="font-size:50px;font-size: 50px;color: #999999;">即将开放,敬请期待......</div> -->
         <div v-show="true">
 
-            <SearchComp ref="searchRef" :searchConfig="searchConfig" @receiveData="receiveData" serverUrl="/ocm-web/api/cm/contract-mgr/search-all" method="post"></SearchComp>
+            <SearchComp ref="searchRef" :searchConfig="searchConfig" :extralParams="extralParams" @receiveData="receiveData" serverUrl="/ocm-web/api/cm/contract-mgr/search-all" method="post"></SearchComp>
 
             <div class="tableContainer">
 
@@ -29,11 +29,11 @@
                             <div>{{scope.row.cusCommitStatus | formatCommitStatus}}</div>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="invalidStatus" label="作废状态">
+                    <!-- <el-table-column prop="invalidStatus" label="作废状态">
                         <template slot-scope="scope">
                             <div>{{scope.row.invalidStatus | formatInvalidStatus}}</div>
                         </template>
-                    </el-table-column>
+                    </el-table-column> -->
                     <el-table-column prop="signStatus" label="签章状态">
                         <template slot-scope="scope">
                             <div>{{scope.row.signStatus | formatSignStatus}}</div>
@@ -95,15 +95,15 @@ let searchConfig = [
             { label: "已提交", value: "1" },
         ]
     },
-    {
-        type: 'select',
-        field: 'invalidStatus',
-        label: '作废状态：',
-        dataSource: [
-            { label: "未作废", value: "0" },
-            { label: "已作废", value: "1" },
-        ]
-    },
+    // {
+    //     type: 'select',
+    //     field: 'invalidStatus',
+    //     label: '作废状态：',
+    //     dataSource: [
+    //         { label: "未作废", value: "0" },
+    //         { label: "已作废", value: "1" },
+    //     ]
+    // },
     {
         type: 'select',
         field: 'signStatus',
@@ -134,6 +134,10 @@ export default {
             fileInfo: {},
             //签章当前行数据
             currentRow: {},
+            //搜索固定字段，搜索全部未作废数据
+            extralParams:{
+                invalidStatus:'0'
+            }
 
         }
     },

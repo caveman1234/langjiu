@@ -104,8 +104,13 @@ export default {
             case 'AccountMgr':
                 _this.currentChecked = 'AccountMgr';
                 break;
-            default:
+            case 'MyProperty':
                 _this.currentChecked = 'MyProperty';
+                break;
+            case 'WaitAuditCheck':
+                _this.currentChecked = 'WaitAuditCheck';
+                break;
+            default:
         }
     }
 }

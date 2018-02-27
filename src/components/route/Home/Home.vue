@@ -45,7 +45,7 @@
                                 <div>待审核退换货申请 </div>
                                 <i class="budge">{{budge.returnChangeOrderNum}}</i>
                             </div>
-                            <div class="right item">
+                            <div @click="willCheckFee" class="right item">
                                 <div>
                                     <i class="icon iconfont lj-daishenhe"></i>
                                 </div>
@@ -112,6 +112,10 @@ export default {
         //待退货申请
         willReturnApply() {
             this.$router.push({ name: 'ReturnWaitCheck', params: { from: 'Home' } });
+        },
+        //待审核费用
+        willCheckFee(){
+            this.$router.push({ name: 'WaitAuditCheck', params: { to: 'WaitAuditCheck' } });
         },
         //获取待审核订单数量
         fetchCount(){
