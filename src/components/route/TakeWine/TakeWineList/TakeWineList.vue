@@ -112,8 +112,6 @@ export default {
         },
         //获取选中的地址
         receiveSelectedAddress(addressId) {
-            //this.selectedItem
-            //addressId
             let _this = this;
             let sreverUrl = '/ocm-web/api/b2b/borrowwine-bills/audit';
             let params = {
@@ -124,7 +122,6 @@ export default {
             _this.$http.post(sreverUrl, params)
                 .then(res => {
                     if (res.headers["x-ocm-code"] == '1') {
-                        //成功提示
                          _this.$Notify({ title: '操作成功', type: 'success' });
                         let params = {
                             page: 0,
@@ -145,7 +142,6 @@ export default {
             _this.$http.post(sreverUrl, params)
                 .then(res => {
                     if (res.headers["x-ocm-code"] == '1') {
-                        //不成功提示
                         _this.$Notify({ title: '操作成功', type: 'success' });
                         let params = {
                             page: 0,

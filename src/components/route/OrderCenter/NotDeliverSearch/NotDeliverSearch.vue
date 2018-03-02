@@ -23,7 +23,7 @@
                     <div>{{scope.row.ljapjs}}</div>
                 </template>
             </el-table-column>
-            <el-table-column prop="" label="未发货数(件)">
+            <el-table-column prop="" label="已安排未发货(件)">
                 <template slot-scope="scope">
                     <div>{{scope.row.wckjs}}</div>
                 </template>

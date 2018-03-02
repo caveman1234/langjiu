@@ -12,7 +12,7 @@
                         <el-col :span="2">借酒金额:</el-col>
                         <el-col v-red :span="3">{{item.totalMoney | formatPrice}}</el-col>
                         <el-col :span="2">借酒状态:</el-col>
-                        <el-col :span="3"> {{item.billStatus | formatTakeWineStatus }}</el-col>
+                        <el-col v-red :span="3"> {{item.billStatus | formatTakeWineStatus }}</el-col>
                     </el-row>
                 </div>
                 <div class="orderHeader">
@@ -79,7 +79,6 @@
     </div>
 </template>
 <script>
-//amount
 export default {
     name: 'TakeWineTable',
     props: {
