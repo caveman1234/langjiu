@@ -77,302 +77,327 @@ import ChangePassword from '@/components/ChangePassword/ChangePassword.vue'
 /* 合同中心 */
 import ContractCenter from '@/components/route/ContractCenter/ContractCenter'
 import GoSign from '@/components/route/ContractCenter/Sign/GoSign/GoSign'
-
+//直投业务
+import TakeWine from '@/components/route/TakeWine/TakeWine';
+import TakeWineList from '@/components/route/TakeWine/TakeWineList/TakeWineList';
+import ReturnWineList from '@/components/route/TakeWine/ReturnWineList/ReturnWineList';
 Vue.use(Router)
 
 export default new Router({
     routes: [{
-            path: '/',
-            name: 'MainPage',
-            component: MainPage,
+        path: '/',
+        name: 'MainPage',
+        component: MainPage,
+        children: [{
+            path: '',
+            redirect: '/Login'
+        },
+        {
+            path: '/Home',
+            name: 'Home',
+            component: Home
+        },
+        {
+            path: '/GoodsCenter',
+            name: 'GoodsCenter',
+            component: GoodsCenter
+        },
+        {
+            path: '/OrderCenter',
+            component: OrderCenter,
+            name: 'OrderCenter',
             children: [{
+                path: '',
+                // component: MyOrderList
+                redirect: '/MyOrderList'
+            },
+            {
+                path: '/DeliverList',
+                name: 'DeliverList',
+                component: DeliverList,
+                children: [
+                    {
+                        path: '',
+                        redirect: '/DeliverTotal'
+                    },
+                    {
+                        path: '/DeliverCheckNotPass',
+                        name: 'DeliverCheckNotPass',
+                        component: DeliverCheckNotPass
+                    },
+                    {
+                        path: '/DeliverCheckPass',
+                        name: 'DeliverCheckPass',
+                        component: DeliverCheckPass
+                    },
+                    {
+                        path: '/DeliverComplete',
+                        name: 'DeliverComplete',
+                        component: DeliverComplete
+                    },
+                    {
+                        path: '/DeliverTotal',
+                        name: 'DeliverTotal',
+                        component: DeliverTotal
+                    },
+                    {
+                        path: '/DeliverWaitCheck',
+                        name: 'DeliverWaitCheck',
+                        component: DeliverWaitCheck
+                    },
+                ]
+            },
+            {
+                path: '/ReturnList',
+                name: 'ReturnList',
+                component: ReturnList,
+                children: [{
                     path: '',
-                    redirect: '/Login'
+                    redirect: '/ReturnTotal'
                 },
                 {
-                    path: '/Home',
-                    name: 'Home',
-                    component: Home
+                    path: '/ReturnTotal',
+                    name: 'ReturnTotal',
+                    component: ReturnTotal
                 },
                 {
-                    path: '/GoodsCenter',
-                    name: 'GoodsCenter',
-                    component: GoodsCenter
+                    path: '/ReturnWaitCheck',
+                    name: 'ReturnWaitCheck',
+                    component: ReturnWaitCheck
                 },
                 {
-                    path: '/OrderCenter',
-                    component: OrderCenter,
-                    name: 'OrderCenter',
-                    children: [{
-                            path: '',
-                            // component: MyOrderList
-                            redirect: '/MyOrderList'
-                        },
-                        {
-                            path: '/DeliverList',
-                            name: 'DeliverList',
-                            component: DeliverList,
-                            children: [{
-                                    path: '',
-                                    redirect: '/DeliverTotal'
-                                },
-                                {
-                                    path: '/DeliverCheckNotPass',
-                                    name: 'DeliverCheckNotPass',
-                                    component: DeliverCheckNotPass
-                                },
-                                {
-                                    path: '/DeliverCheckPass',
-                                    name: 'DeliverCheckPass',
-                                    component: DeliverCheckPass
-                                },
-                                {
-                                    path: '/DeliverComplete',
-                                    name: 'DeliverComplete',
-                                    component: DeliverComplete
-                                },
-                                {
-                                    path: '/DeliverTotal',
-                                    name: 'DeliverTotal',
-                                    component: DeliverTotal
-                                },
-                                {
-                                    path: '/DeliverWaitCheck',
-                                    name: 'DeliverWaitCheck',
-                                    component: DeliverWaitCheck
-                                },
-                            ]
-                        },
-                        {
-                            path: '/ReturnList',
-                            name: 'ReturnList',
-                            component: ReturnList,
-                            children: [{
-                                    path: '',
-                                    redirect: '/ReturnTotal'
-                                },
-                                {
-                                    path: '/ReturnTotal',
-                                    name: 'ReturnTotal',
-                                    component: ReturnTotal
-                                },
-                                {
-                                    path: '/ReturnWaitCheck',
-                                    name: 'ReturnWaitCheck',
-                                    component: ReturnWaitCheck
-                                },
-                                {
-                                    path: '/ReturnCheckPass',
-                                    name: 'ReturnCheckPass',
-                                    component: ReturnCheckPass
-                                },
-                                {
-                                    path: '/ReturnCheckNotPass',
-                                    name: 'ReturnCheckNotPass',
-                                    component: ReturnCheckNotPass
-                                },
-                                {
-                                    path: '/ReturnComplete',
-                                    name: 'ReturnComplete',
-                                    component: ReturnComplete
-                                },
-                            ]
-                        },
-                        {
-                            path: '/MyOrderList',
-                            component: MyOrderList,
-                            name: 'MyOrderList',
-                            children: [{
-                                    path: '',
-                                    redirect: '/TotalOrder'
-                                },
-                                {
-                                    path: '/TotalOrder',
-                                    name: 'TotalOrder',
-                                    component: TotalOrder
-                                },
-                                {
-                                    path: '/SavedOrder',
-                                    name: 'SavedOrder',
-                                    component: SavedOrder
-                                },
-                                {
-                                    path: '/CheckPass',
-                                    name: 'CheckPass',
-                                    component: CheckPass
-                                },
-                                {
-                                    path: '/Complete',
-                                    name: 'Complete',
-                                    component: Complete
-                                },
-                                {
-                                    path: '/NotCheckPass',
-                                    name: 'NotCheckPass',
-                                    component: NotCheckPass
-                                }
-
-                            ]
-                        },
-                        {
-                            path:'/NotDeliverSearch',
-                            name:'NotDeliverSearch',
-                            component:NotDeliverSearch
-                        }
-                    ]
+                    path: '/ReturnCheckPass',
+                    name: 'ReturnCheckPass',
+                    component: ReturnCheckPass
                 },
                 {
-                    path: '/AccountCenter',
-                    name: 'AccountCenter',
-                    component: AccountCenter,
-                    children: [{
-                            path: '',
-                            redirect: '/MyProperty'
-                        },
-                        {
-                            path: '/AccountMgr',
-                            name: 'AccountMgr',
-                            component: AccountMgr
-                        },
-                        {
-                            path: '/OnlineRecharge',
-                            name: 'OnlineRecharge',
-                            component: OnlineRecharge
-                        },
-                        {
-                            path: '/MyProperty',
-                            name: 'MyProperty',
-                            component: MyProperty
-                        },
-                        {
-                            path: '/BusinessCheck',
-                            name: 'BusinessCheck',
-                            component: BusinessCheck
-                        },
-                        {
-                            path: '/FinancingInfo',
-                            name: 'FinancingInfo',
-                            component: FinancingInfo
-                        },
-                        {
-                            path: '/PaymentInfo',
-                            name: 'PaymentInfo',
-                            component: PaymentInfo
-                        },
-                        {
-                            path: '/CashCheck',
-                            name: 'CashCheck',
-                            component: CashCheck
-                        },
-                        {
-                            path: '/CostCheck',
-                            name: 'CostCheck',
-                            component: CostCheck
-                        },
-                        {
-                            path: '/BuildCheck',
-                            name: 'BuildCheck',
-                            component: BuildCheck
-                        },
-                        {
-                            path: '/PromiseCheck',
-                            name: 'PromiseCheck',
-                            component: PromiseCheck
-                        },
-                        {
-                            path: '/WaitAuditCheck',
-                            name: 'WaitAuditCheck',
-                            component: WaitAuditCheck
-                        },
-                        {
-                            path: '/BillDownload',
-                            name: 'BillDownload',
-                            component: BillDownload
-                        },
-                        {
-                            path: '/LogisticsDownload',
-                            name: 'LogisticsDownload',
-                            component: LogisticsDownload
-                        },
-                        {
-                            path: '/MyInfo',
-                            name: 'MyInfo',
-                            component: MyInfo
-                        },
-                    ]
+                    path: '/ReturnCheckNotPass',
+                    name: 'ReturnCheckNotPass',
+                    component: ReturnCheckNotPass
                 },
                 {
-                    path: '/MsgCenter',
-                    name: 'MsgCenter',
-                    component: MsgCenter
+                    path: '/ReturnComplete',
+                    name: 'ReturnComplete',
+                    component: ReturnComplete
+                },
+                ]
+            },
+            {
+                path: '/MyOrderList',
+                component: MyOrderList,
+                name: 'MyOrderList',
+                children: [{
+                    path: '',
+                    redirect: '/TotalOrder'
                 },
                 {
-                    path: '/PurchaseBills',
-                    name: 'PurchaseBills',
-                    component: PurchaseBills
+                    path: '/TotalOrder',
+                    name: 'TotalOrder',
+                    component: TotalOrder
                 },
                 {
-                    path: '/GenerateBills',
-                    name: 'GenerateBills',
-                    component: GenerateBills
+                    path: '/SavedOrder',
+                    name: 'SavedOrder',
+                    component: SavedOrder
                 },
                 {
-                    path: '/GenerateBillsEdit',
-                    name: 'GenerateBillsEdit',
-                    component: GenerateBillsEdit
+                    path: '/CheckPass',
+                    name: 'CheckPass',
+                    component: CheckPass
                 },
                 {
-                    path: '/ApplySend',
-                    name: 'ApplySend',
-                    component: ApplySend
+                    path: '/Complete',
+                    name: 'Complete',
+                    component: Complete
                 },
                 {
-                    path: '/ApplyReturn',
-                    name: 'ApplyReturn',
-                    component: ApplyReturn
-                },
-                {
-                    path: '/GoPickGoods',
-                    name: 'GoPickGoods',
-                    component: GoPickGoods
-                },
-                {
-                    path: '/GoPickGoodsEdit',
-                    name: 'GoPickGoodsEdit',
-                    component: GoPickGoodsEdit
-                },
-                {
-                    path: '/ContractCenter',
-                    name: 'ContractCenter',
-                    component: ContractCenter
-                },
-                {
-                    path: '/MsgContent',
-                    name: 'MsgContent',
-                    component: MsgContent
-                },
-                {
-                    path: '/ContactUs',
-                    name: 'ContactUs',
-                    component: ContactUs
-                },
-                {
-                    path: '/GoSign',
-                    name: 'GoSign',
-                    component: GoSign
+                    path: '/NotCheckPass',
+                    name: 'NotCheckPass',
+                    component: NotCheckPass
                 }
+
+                ]
+            },
+            {
+                path: '/NotDeliverSearch',
+                name: 'NotDeliverSearch',
+                component: NotDeliverSearch
+            }
             ]
         },
         {
-            path: '/Login',
-            name: 'Login',
-            component: Login
+            path: '/AccountCenter',
+            name: 'AccountCenter',
+            component: AccountCenter,
+            children: [{
+                path: '',
+                redirect: '/MyProperty'
+            },
+            {
+                path: '/AccountMgr',
+                name: 'AccountMgr',
+                component: AccountMgr
+            },
+            {
+                path: '/OnlineRecharge',
+                name: 'OnlineRecharge',
+                component: OnlineRecharge
+            },
+            {
+                path: '/MyProperty',
+                name: 'MyProperty',
+                component: MyProperty
+            },
+            {
+                path: '/BusinessCheck',
+                name: 'BusinessCheck',
+                component: BusinessCheck
+            },
+            {
+                path: '/FinancingInfo',
+                name: 'FinancingInfo',
+                component: FinancingInfo
+            },
+            {
+                path: '/PaymentInfo',
+                name: 'PaymentInfo',
+                component: PaymentInfo
+            },
+            {
+                path: '/CashCheck',
+                name: 'CashCheck',
+                component: CashCheck
+            },
+            {
+                path: '/CostCheck',
+                name: 'CostCheck',
+                component: CostCheck
+            },
+            {
+                path: '/BuildCheck',
+                name: 'BuildCheck',
+                component: BuildCheck
+            },
+            {
+                path: '/PromiseCheck',
+                name: 'PromiseCheck',
+                component: PromiseCheck
+            },
+            {
+                path: '/WaitAuditCheck',
+                name: 'WaitAuditCheck',
+                component: WaitAuditCheck
+            },
+            {
+                path: '/BillDownload',
+                name: 'BillDownload',
+                component: BillDownload
+            },
+            {
+                path: '/LogisticsDownload',
+                name: 'LogisticsDownload',
+                component: LogisticsDownload
+            },
+            {
+                path: '/MyInfo',
+                name: 'MyInfo',
+                component: MyInfo
+            },
+            ]
         },
         {
-            path: '/ChangePassword',
-            name: 'ChangePassword',
-            component: ChangePassword
+            path: '/MsgCenter',
+            name: 'MsgCenter',
+            component: MsgCenter
+        },
+        {
+            path: '/PurchaseBills',
+            name: 'PurchaseBills',
+            component: PurchaseBills
+        },
+        {
+            path: '/GenerateBills',
+            name: 'GenerateBills',
+            component: GenerateBills
+        },
+        {
+            path: '/GenerateBillsEdit',
+            name: 'GenerateBillsEdit',
+            component: GenerateBillsEdit
+        },
+        {
+            path: '/ApplySend',
+            name: 'ApplySend',
+            component: ApplySend
+        },
+        {
+            path: '/ApplyReturn',
+            name: 'ApplyReturn',
+            component: ApplyReturn
+        },
+        {
+            path: '/GoPickGoods',
+            name: 'GoPickGoods',
+            component: GoPickGoods
+        },
+        {
+            path: '/GoPickGoodsEdit',
+            name: 'GoPickGoodsEdit',
+            component: GoPickGoodsEdit
+        },
+        {
+            path: '/ContractCenter',
+            name: 'ContractCenter',
+            component: ContractCenter
+        },
+        {
+            path: '/MsgContent',
+            name: 'MsgContent',
+            component: MsgContent
+        },
+        {
+            path: '/ContactUs',
+            name: 'ContactUs',
+            component: ContactUs
+        },
+        {
+            path: '/GoSign',
+            name: 'GoSign',
+            component: GoSign
+        },
+        {
+            path: '/TakeWine',
+            name: 'TakeWine',
+            component: TakeWine,
+            children: [
+                {
+                    path: '',
+                    redirect: '/TakeWineList'
+                },
+                {
+                    path: '/TakeWineList',
+                    name: 'TakeWineList',
+                    component: TakeWineList
+                },
+                {
+                    path: '/ReturnWineList',
+                    name: 'ReturnWineList',
+                    component: ReturnWineList
+                }
+            ]
         }
+        ]
+    },
+    {
+        path: '/Login',
+        name: 'Login',
+        component: Login
+    },
+    {
+        path: '/ChangePassword',
+        name: 'ChangePassword',
+        component: ChangePassword
+    }
 
     ],
     scrollBehavior(to, from, savedPosition) {

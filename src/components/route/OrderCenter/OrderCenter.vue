@@ -3,14 +3,13 @@
         <div class="leftList">
             <el-tabs @tab-click="tabClick" tab-position="left" v-model="currentCheck">
                 <el-tab-pane label="我的订单列表" name="TotalOrder"></el-tab-pane>
-                <el-tab-pane label="发货申请列表" name="DeliverList"></el-tab-pane>
+                <el-tab-pane label="发货通知列表" name="DeliverList"></el-tab-pane>
                 <el-tab-pane label="退订申请列表" name="ReturnList"></el-tab-pane>
                 <el-tab-pane label="未出货明细查询" name="notDeliverSearch"></el-tab-pane>
             </el-tabs>
         </div>
         <div class="orderContainer">
-            <router-view></router-view>
-
+            <router-view @receiveCurrentCheck="receiveCurrentCheck"></router-view>
         </div>
     </div>
 </template>
@@ -45,7 +44,10 @@ export default {
             this.orderStatus = '0';
             this.orderDateRange = '';
         },
-        searchData() { }
+        searchData() { },
+        receiveCurrentCheck(currentCheck){
+            this.currentCheck = currentCheck;
+        }
     },
     mounted() {
         this.$store.commit('changeCurrentNav', { hash: '/OrderCenter' });

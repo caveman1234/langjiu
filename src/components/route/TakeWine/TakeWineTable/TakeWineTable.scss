@@ -1,0 +1,36 @@
+@import 'src/css/colors';
+.TakeWineTable {
+    .orderWrap {
+        margin-top: 20px;
+        .orderHeader {
+            min-height: 30px;
+            line-height: 30px;
+            background: $bgColor;
+            padding-left: 10px;
+            padding-right: 10px;
+            border-top: 1px solid $borderColor;
+            border-left: 1px solid $borderColor;
+            border-right: 1px solid $borderColor;
+        }
+        .el-table {
+            .detailContainer {
+                display: flex;
+                .goodsImg {
+                    flex: 0 0 62px;
+                    height: 62px;
+                    border: $borderColor;
+                    background-repeat: no-repeat;
+                    background-size: contain;
+                }
+                .desc {
+                    flex: 1;
+                    padding: 0 20px 0 10px;
+                }
+            }
+            th,
+            td {
+                padding: 3px 0;
+            }
+        }
+    }
+}

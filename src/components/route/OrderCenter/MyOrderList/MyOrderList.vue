@@ -56,9 +56,11 @@ export default {
     mounted() {
         let _this = this;
         let from = _this.$route.params.from;
+        
         switch (from) {
             case 'Home':
                 _this.currentChecked = 'waitCheck';
+                // _this.$emit('receiveCurrentCheck','DeliverList');
                 break;
             default:
                 _this.currentChecked = 'total';

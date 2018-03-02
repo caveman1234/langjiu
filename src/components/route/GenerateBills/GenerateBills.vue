@@ -25,8 +25,8 @@
                         </el-col>
                         <el-col :span="5" style="margin-top: 3px;">
                             <el-radio-group @change="isNoticeChange" v-model="isNotice" :disabled="isNoticeDisable" size="mini">
-                                <el-radio  :label="0">立即发货</el-radio>
-                                <el-radio  :label="1">待通知发货</el-radio>
+                                <el-radio :label="0">立即发货</el-radio>
+                                <el-radio :label="1">待通知发货</el-radio>
                             </el-radio-group>
                         </el-col>
                     </el-row>
@@ -181,7 +181,7 @@
                                     <el-col :span="8">
                                         <span class="gray">其中：货款 {{billFooger.dealAmount | formatPrice}}</span>
                                     </el-col>
-                                    <el-col  :span="8">
+                                    <el-col :span="8">
                                         <span class="gray">计提X类共建基金 {{billFooger.xType | formatPrice}}</span>
                                     </el-col>
                                 </el-col>
@@ -202,13 +202,19 @@
                             <div class="calcRightName">
                                 <el-button @click="edit" size="mini">修改</el-button>
                                 <el-button @click="submit" size="mini" type="primary">提交</el-button>
-                                <!-- <el-button v-show="financingChecked" @click="payOnline" size="mini" type="primary">在线支付</el-button> -->
+                                <!-- <template v-if="currentPay > billFooger.cashRest">
+                                    <el-button @click="payOnline" size="mini" type="primary">在线支付</el-button>
+                                </template>
+                                <template v-else>
+                                    <el-button @click="submit" size="mini" type="primary">提交</el-button>
+                                </template> -->
                             </div>
                         </el-col>
                     </div>
                 </el-col>
             </el-row>
         </div>
+        <BankList @receiveSelectedBank="receiveSelectedBank" :dialogVisible.sync="dialogVisible"></BankList>
     </div>
 </template>
 <script>

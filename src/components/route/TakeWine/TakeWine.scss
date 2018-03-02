@@ -1,0 +1,42 @@
+@import 'src/css/colors.scss';
+.TakeWine {
+    min-height: 800px;
+    background: white;
+    box-sizing: border-box;
+    display: flex;
+    .leftList {
+        flex: 0 0 200px;
+        background: white;
+        .el-tabs--left {
+            position: relative;
+            min-height: 100%;
+            .el-tabs__header {
+                position: absolute;
+                right: -9px;
+                .el-tabs__item {
+                    padding-right: 35px;
+                    font-weight: 400;
+                    color: $color333;
+                    &:hover {
+                        color: $redColor;
+                    }
+                }
+                .is-active {
+                    color: $redColor;
+                    font-size: 14px;
+                    font-weight: 400;
+                }
+                .el-tabs__active-bar {
+                    background-color: $redColor;
+                }
+            }
+        }
+    }
+    .orderContainer {
+        flex: 1;
+        background: white;
+        min-height: 800px;
+        margin-left: 15px;
+        padding: 10px;
+    }
+}

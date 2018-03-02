@@ -94,7 +94,7 @@
                         </el-button-group>
                     </el-row>
                 </div>
-                <el-table :data="item.purchaseOrderItems" :span-method="spanMethod" border style="width: 100%">
+                <el-table :data="item.purchaseOrderItems" border style="width: 100%">
                     <el-table-column prop="productDesc" label="商品详情" width="300">
                         <template slot-scope="scope">
                             <div class="detailContainer">
@@ -116,7 +116,7 @@
                             <div>{{scope.row.basePrice|formatPrice}}</div>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="boxCount" label="数量">
+                    <el-table-column prop="boxCount" label="数量" min-width="110">
                         <template slot-scope="scope">
                             <div>
                                 <div>箱数：{{scope.row.baleQuantity}} 箱</div>
@@ -124,18 +124,38 @@
                             </div>
                         </template>
                     </el-table-column>
-                    <!-- <el-table-column prop="" label="金额">
-                                                                                                                                        <template slot-scope="scope">
-                                                                                                                                            <div v-red>{{item.totalAmount | formatPrice}}</div>
-                                                                                                                                        </template>
-                                                                                                                                    </el-table-column>
-                                                                                                                                    <el-table-column prop="" label="操作">
-                                                                                                                                        <template slot-scope="scope">
-                                                                                                                                            <div>
-                                                                                                                                                <el-button size="mini" type="primary">去融资</el-button>
-                                                                                                                                            </div>
-                                                                                                                                        </template>
-                                                                                                                                    </el-table-column> -->
+                    <template v-if="item.poTypeCode !== '03'">
+                        <el-table-column prop="applyedQuantity" label="累计申请发货数量" min-width="120">
+                            <template slot-scope="scope">
+                                <div v-if="item.isNoticeSend == 1">
+                                    <!-- 待通知发货 -->
+                                    <div>箱数：{{scope.row.applyedQuantity/scope.row.packageNum}} 箱</div>
+                                    <div>瓶数：{{scope.row.applyedQuantity}} 瓶</div>
+                                </div>
+                                <div v-else>
+                                    <!-- 立即发货 -->
+                                    <div>箱数：{{scope.row.baleQuantity}} 箱</div>
+                                    <div>瓶数：{{scope.row.baseQuantity}} 瓶</div>
+                                </div>
+                            </template>
+                        </el-table-column>
+                        <el-table-column prop="sendedQuantity" label="累计发货数量" min-width="110">
+                            <template slot-scope="scope">
+                                <div>
+                                    <div>箱数：{{scope.row.sendedQuantity/scope.row.packageNum}} 箱</div>
+                                    <div>瓶数：{{scope.row.sendedQuantity}} 瓶</div>
+                                </div>
+                            </template>
+                        </el-table-column>
+                        <el-table-column prop="backedQuantity" label="累计退货数量" min-width="110">
+                            <template slot-scope="scope">
+                                <div>
+                                    <div>箱数：{{scope.row.backedQuantity/scope.row.packageNum}} 箱</div>
+                                    <div>瓶数：{{scope.row.backedQuantity}} 瓶</div>
+                                </div>
+                            </template>
+                        </el-table-column>
+                    </template>
                 </el-table>
             </div>
         </template>

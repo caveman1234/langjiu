@@ -12,22 +12,23 @@
                     <div>度数：{{scope.row.productModel}}度</div>
                 </template>
             </el-table-column> -->
-            <el-table-column prop="" label="未发货数(瓶)">
+            
+            <el-table-column prop="wckjs" label="未安排数(件)">
                 <template slot-scope="scope">
-                    <div>{{scope.row.nnumber - scope.row.ljcksl}}</div>
+                    <div>{{scope.row.npacknumber - scope.row.ljapjs}}</div>
                 </template>
             </el-table-column>
-            <el-table-column prop="ljcksl" label="已安排数(瓶)">
+            <el-table-column prop="ljapjs" label="已安排数(件)">
                 <template slot-scope="scope">
-                    <div>{{scope.row.ljapsl - scope.row.ljcksl}}</div>
+                    <div>{{scope.row.ljapjs}}</div>
                 </template>
             </el-table-column>
-            <el-table-column prop="wckjs" label="未安排数(瓶)">
+            <el-table-column prop="" label="未发货数(件)">
                 <template slot-scope="scope">
-                    <div>{{scope.row.nnumber - scope.row.ljapsl}}</div>
+                    <div>{{scope.row.wckjs}}</div>
                 </template>
             </el-table-column>
-            <!-- <el-table-column prop="date" label="未安排原因"></el-table-column> -->
+            
         </el-table>
         <!-- <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="pageParams.pageIndex" :page-sizes="[10, 20, 50, 100]" :page-size="pageParams.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="pageParams.total" prev-text="上一页" next-text="下一页">
         </el-pagination> -->

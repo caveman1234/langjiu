@@ -1,10 +1,10 @@
 import DeliveryInfo from './DeliveryInfo/DeliveryInfo.vue';
 import AddNewGoods from './AddNewGoods/AddNewGoods';
 import CostOff from './CostOff/CostOff';
-
+import BankList from '@/components/commonComp/BankList/BankList';
 export default {
     name: 'GenerateBills',
-    components: { DeliveryInfo, AddNewGoods, CostOff },
+    components: { DeliveryInfo, AddNewGoods, CostOff,BankList },
     data() {
         return {
             /* 产品线 */
@@ -44,7 +44,9 @@ export default {
                 dealAmount: 0, //货款金额
             },
             /* 订单类型，融资订单是否被选中 */
-            financingChecked: true
+            financingChecked: true,
+            //选择银行弹框
+            dialogVisible:false
         }
     },
     methods: {
@@ -429,6 +431,15 @@ export default {
             if (value == 1) {
                 // _this.$Notify({ title: '待通知发货', type: 'warning' });
             }
+        },
+        //支付逻辑
+        payOnline(){
+            let _this = this;
+            _this.dialogVisible = true;
+        },
+        //接收选中的银行
+        receiveSelectedBank(selectedBank){
+            debugger
         }
     },
     computed: {
