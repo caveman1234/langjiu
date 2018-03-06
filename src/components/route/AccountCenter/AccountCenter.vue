@@ -20,6 +20,11 @@ let tabArr = [
         routeName: 'MyProperty'
     },
     {
+        label: '账户管理',
+        name: 'AccountMgr',
+        routeName: 'AccountMgr'
+    },
+    {
         label: '现金对账',
         name: 'CashCheck',
         routeName: 'CashCheck'
@@ -69,16 +74,12 @@ let tabArr = [
         name: 'PaymentInfo',
         routeName: 'PaymentInfo'
     },
-    {
-        label: '账户管理',
-        name: 'AccountMgr',
-        routeName: 'AccountMgr'
-    },
-    {
-        label: '我的信息',
-        name: 'MyInfo',
-        routeName: 'MyInfo'
-    },
+    
+    // {
+    //     label: '我的信息',
+    //     name: 'MyInfo',
+    //     routeName: 'MyInfo'
+    // },
 ];
 export default {
     name: 'AccountCenter',

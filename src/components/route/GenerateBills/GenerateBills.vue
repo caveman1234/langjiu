@@ -207,7 +207,7 @@
                                 </template>
                                 <template v-else>
                                     <template v-if="currentPay > billFooger.cashRest">
-                                        <el-button @click="payOnline" size="mini" type="primary">在线支付</el-button>
+                                        <el-button @click="payOnline" size="mini" type="primary" :loading="isPayOnlineLoading">在线支付</el-button>
                                     </template>
                                     <template v-else>
                                         <el-button @click="submit" size="mini" type="primary">提交</el-button>

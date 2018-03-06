@@ -44,8 +44,8 @@
                 <span>账户管理：</span>
             </div>
             <div>
-                <el-button @click="goMgr" size="small" type="primary">民生银行账户管理</el-button>
-                <el-button size="small" type="primary">农业银行账户管理</el-button>
+                <el-button @click="goMgr" size="mini" type="primary">民生银行账户管理</el-button>
+                <el-button size="mini" type="primary">农业银行账户管理</el-button>
             </div>
         </el-card>
         <el-card>
@@ -53,11 +53,10 @@
                 <span>在线充值：</span>
             </div>
             <div>
-                <el-button @click="recharge" size="small" type="primary">去充值</el-button>
+                <el-button @click="recharge" size="mini" type="primary">去充值</el-button>
             </div>
         </el-card>
         <BankList @receiveSelectedBank="receiveSelectedBank" :dialogVisible.sync="dialogVisible"></BankList>
-
 
     </div>
 </template>
@@ -65,7 +64,7 @@
 import BankList from '@/components/commonComp/BankList/BankList';
 export default {
     name: 'AccountMgr',
-    components:{BankList},
+    components: { BankList },
     data() {
         return {
             bankImg: require('../../../../assets/bank.png'),
@@ -82,7 +81,7 @@ export default {
             bindAccountName: '',//绑定开户名
             bindBankCard: '',//绑定银行卡
             tableData: [],
-            dialogVisible:false
+            dialogVisible: false
         }
     },
     methods: {
@@ -143,19 +142,29 @@ export default {
                     _this.bankAccount = res.data.bankAccount;
                     _this.telephone = res.data.telephone;
                     _this.receiveAddresslist = res.data.receiveAddresslist;
-                    _this.personalAccountName = res.data.personalAccountName;
-                    _this.personalAccountCode = res.data.personalAccountCode;
-                    _this.personalAccountBank = res.data.personalAccountBank;
+
                     _this.bindAccountName = res.data.bindAccountName;
                     _this.bindBankCard = res.data.bindBankCard;
+                    _this.personalAccountBank = res.data.personalAccountBank;
+                    _this.personalAccountName = res.data.personalAccountName;
+                    _this.personalAccountCode = res.data.personalAccountCode;
+                    _this.tableData = [
+                        {
+                            bindAccountName: res.data.bindAccountName,
+                            bindBankCard: res.data.bindBankCard,
+                            personalAccountBank: res.data.personalAccountBank,
+                            personalAccountName: res.data.personalAccountName,
+                            personalAccountCode: res.data.personalAccountCode,
+                        }
+                    ]
                 });
         },
         //在线充值
-        recharge(){
+        recharge() {
             this.dialogVisible = true;
         },
         //选中的银行
-        receiveSelectedBank(selectedBank){}
+        receiveSelectedBank(selectedBank) { }
     },
     mounted() {
         // this.$store.commit('changeCurrentNav', { hash: '/AccountMgr' });

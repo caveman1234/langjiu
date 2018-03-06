@@ -47,7 +47,9 @@ export default {
             /* 订单类型，融资订单是否被选中 */
             financingChecked: true,
             //选择银行弹框
-            dialogVisible: false
+            dialogVisible: false,
+            //在线支付loading状态
+            isPayOnlineLoading:false
         }
     },
     methods: {
@@ -241,26 +243,26 @@ export default {
                 "billNO": billNO,//订单号       (非空)
                 "dealerNO": dealerNO,//经销商编号         (非空)
                 "dealerName": dealerName,//经销商名称         (非空)
-                "totalAmount": totalAmount,//总金额              (非空)
+                "totalAmount": parseFloat(totalAmount),//总金额              (非空)
                 "settlementAmount": '',//订单金额       (可空)
                 "contactTel": contactTel,//联系电话   (非空)
                 "contact": contact,//联系人               (非空)
-                "productData": [//                      (可空)
-                    {
-                        "price": '',//价格
-                        "no": "",//商品编号
-                        "name": "",//商品名称
-                        "totalAmount": '',//商品总价
-                        "quantity": '',//商品数量
-                        "uomName": ""//商品单位
-                    }
-                ]
+                // "productData": [//                      (可空)
+                //     {
+                //         "price": '',//价格
+                //         "no": "",//商品编号
+                //         "name": "",//商品名称
+                //         "totalAmount": '',//商品总价
+                //         "quantity": '',//商品数量
+                //         "uomName": ""//商品单位
+                //     }
+                // ]
             };
             let sreverUrl = '/ocm-web/api/abc/quickPay';
             _this.$http.post(sreverUrl, params)
                 .then(res => {
                     if (res.headers["x-ocm-code"] == '1') {
-                        window.href = res.data;
+                        window.location.href = res.data.value.payUrl;
                     }
                 });
         },
@@ -270,7 +272,7 @@ export default {
         async receiveSelectedBank(selectedBank) {
             let _this = this;
             let billNO = await _this.saveOrderPrePay();
-            debugger
+            _this.isPayOnlineLoading = true;
             switch (selectedBank) {
                 // 农行
                 case 'abc':
