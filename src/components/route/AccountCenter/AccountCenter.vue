@@ -70,7 +70,7 @@ let tabArr = [
         routeName: 'PaymentInfo'
     },
     {
-        label: '民生银行账户管理',
+        label: '账户管理',
         name: 'AccountMgr',
         routeName: 'AccountMgr'
     },

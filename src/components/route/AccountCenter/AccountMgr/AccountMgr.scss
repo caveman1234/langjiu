@@ -1,38 +1,27 @@
+@import 'src/css/colors.scss';
 .AccountMgr {
     box-sizing: border-box;
     min-height: 800px;
     background: white;
-    .imgContainer {
-        height: 400px;
-        background: white;
-        position: relative;
-        .titleImg {
-            display: flex;
-            justify-content: space-between;
-            box-sizing: border-box;
-            padding: 20px;
-            .bank {
-                width: 130px;
-                height: 130px;
-                background-repeat: no-repeat;
-                background-size: contain;
-            }
-            .lang {
-                width: 150px;
-                height: 150px;
-                background-repeat: no-repeat;
-                background-size: contain;
-            }
-        }
-        .text {
-            text-align: center;
-            font-size: 25px;
+    padding: 10px;
+    .title {
+        font-size: 16px;
+        margin-top: 15px;
+    }
+    .content {
+        margin-top: 15px;
+    }
+    .el-card {
+        margin-bottom: 10px;
+        .el-card__header {
+            padding: 10px 10px;
+            background: $bgColor;
+            font-size: 14px;
             font-weight: bold;
         }
-        .btn {
-            position: absolute;
-            right: 30px;
-            bottom: 20px;
-        }
+    }
+    .rowItem {
+        // margin-top: 10px;
+        line-height: 25px;
     }
 }

@@ -2,7 +2,7 @@
     <div class="BankList">
         <el-dialog title="请选择银行" @close="close" @open="open" :visible.sync="dialogVisible1" width="700px">
             <el-radio-group v-model="selectedBank" size="mini">
-                <el-radio v-for="(item,index) in bankDataSource" :key="index" :label="item.label" border>{{item.name}}</el-radio>
+                <el-radio v-for="(item,index) in bankDataSource" :key="index" :label="item.label" border :disabled="item.disabled">{{item.name}}</el-radio>
             </el-radio-group>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="cancel" size="mini">取 消</el-button>
@@ -15,13 +15,19 @@
 let bankGong = require('./bankImg/bank_gong.png');
 let bankDataSource = [
     {
-        name: "民生银行",
-        label: '1'
+        name: "中国农业银行",
+        label: 'abc',
+        disabled:false
     },
     {
-        name: "农业银行",
-        label: '2'
+        name: "中国民生银行",
+        label: 'cmbc',
+        disabled:true
     }
+    // {
+    //     name: "中国建设银行",
+    //     label: 'ccb'
+    // }
 ];
 export default {
     name: 'BankList',

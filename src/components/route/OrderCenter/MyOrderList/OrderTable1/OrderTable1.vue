@@ -91,6 +91,10 @@
                                 <el-button @click="goFinancing(item)" size="mini" type="primary">去融资
                                 </el-button>
                             </template>
+                            <template v-if="item.billStatusCode == '01' && item.poTypeBusinessType == '01'  ">
+                                <el-button @click="payOnline(item)" size="mini" type="primary">在线支付
+                                </el-button>
+                            </template>
                         </el-button-group>
                     </el-row>
                 </div>
@@ -160,6 +164,8 @@
                 </el-table>
             </div>
         </template>
+        <BankList @receiveSelectedBank="receiveSelectedBank" :dialogVisible.sync="dialogVisible"></BankList>
+
     </div>
 </template>
 <script>
@@ -200,9 +206,10 @@ isSendOver 发货未完成
 // Financing("03", "融资订单", null),
 // Repaid("04", "填仓订单", null),
 // SendApply("05", "发货申请订单", null);
-
+import BankList from '@/components/commonComp/BankList/BankList';
 export default {
     name: 'OrderTable1',
+    components: { BankList },
     props: {
         orderData: {
             default() {
@@ -213,6 +220,8 @@ export default {
     data() {
         return {
             defaultImg: require('../../../../../assets/defaultimg.png'),
+            dialogVisible: false,
+            selectedItem: {}
         }
     },
     methods: {
@@ -311,7 +320,108 @@ export default {
                     debugger
                     _this.$router.push({ name: 'ApplyReturn', params: { infoData: res.data } });
                 })
-        }
+        },
+        //在线支付
+        payOnline(item) {
+            this.dialogVisible = true;
+            this.selectedItem = item;
+        },
+        async receiveSelectedBank(selectedBank) {
+            let _this = this;
+            debugger
+            switch (selectedBank) {
+                // 农业银行
+                case 'abc':
+                    await _this.payOnlineAbc();
+                    break;
+                //民生银行
+                case 'cmbc':
+                    await _this.payOnlineCmbc();
+                    break;
+            }
+        },
+        //农行在线支付
+        payOnlineAbc() {
+
+            /* 
+                {
+                    "billNO": "2017122712214",//订单号       (非空)
+                    "dealerNO": "614391",//经销商编号         (非空)
+                    "dealerName": "测试",//经销商名称         (非空)
+                    "totalAmount": 100,//总金额              (非空)
+                    "settlementAmount": 100,//订单金额       (可空)
+                    "contactTel": "15893712779",//联系电话   (非空)
+                    "contact": "测试",//联系人               (非空)
+                    "productData": [//                      (可空)
+                        {
+                            "price": 100,//价格
+                            "no": "20171221008",//商品编号
+                            "name": "测试",//商品名称
+                            "totalAmount": 1001,//商品总价
+                            "quantity": 1,//商品数量
+                            "uomName": "测试"//商品单位
+                        }
+                    ]
+                }
+            */
+            let _this = this;
+            //获取现金余额
+            let paramsWrap = {
+                params: {
+                    customerId: this.$store.state.customerId
+                }
+            };
+            _this.$http.get('/ocm-web/api/b2b/query-balance/getCashReserve', paramsWrap)
+                .then(res => {
+                    let item = _this.selectedItem;
+                    let billNO = item.orderCode;
+                    let dealerNO = _this.$store.state.username;
+                    let dealerName = _this.$store.state.userloginName;
+                    //总金额
+                    let currentPay = item.totalAmount;
+                    let cashRest = res.data;//现金余额
+                    let totalAmount = 0;
+                    if (cashRest < 0) {
+                        totalAmount = currentPay;
+                    } else {
+                        totalAmount = currentPay - cashRest;
+                    }
+                    //获取联系人电话
+                    let contactTel = item.firstReceiverPhone;
+                    let contact = item.firstReceiver;
+                    let params = {
+                        "billNO": billNO,//订单号       (非空)
+                        "dealerNO": dealerNO,//经销商编号         (非空)
+                        "dealerName": dealerName,//经销商名称         (非空)
+                        "totalAmount": totalAmount,//总金额              (非空)
+                        "settlementAmount": '',//订单金额       (可空)
+                        "contactTel": contactTel,//联系电话   (非空)
+                        "contact": contact,//联系人               (非空)
+                        "productData": [//                      (可空)
+                            {
+                                "price": '',//价格
+                                "no": "",//商品编号
+                                "name": "",//商品名称
+                                "totalAmount": '',//商品总价
+                                "quantity": '',//商品数量
+                                "uomName": ""//商品单位
+                            }
+                        ]
+                    };
+                    let sreverUrl = '/ocm-web/api/abc/quickPay';
+                    debugger
+                    _this.$http.post(sreverUrl, params)
+                        .then(res => {
+                            if (res.headers["x-ocm-code"] == '1') {
+                                window.href = res.data;
+                            }
+                        });
+                });
+
+
+        },
+        //民生在线支付
+        payOnlineCmbc() { },
     },
     mounted() {
     }

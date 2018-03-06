@@ -74,7 +74,6 @@ export default {
         /* 使用折扣金额 */
         CostOffEvent(calcMoney, useOffMoney, calcDataTable) {
             let _this = this;
-            debugger
             _this.calcMoney = calcMoney;
             _this.calcDataTable = calcDataTable;
             /* 
@@ -98,7 +97,7 @@ export default {
             _this.fetchCashRest().then(cashRest => _this.billFooger.cashRest = Number(cashRest).toFixed(2));
         },
         /* 在线支付 */
-        async payOnline() {
+        payOnline() {
             let _this = this;
             /* 验证收获地址为空 */
             if (_this.infoData.length == 0) {
@@ -115,16 +114,92 @@ export default {
                 _this.$Notify({ title: '发货要求不能为空', type: 'warning' });
                 return;
             }
-            // //保存
-            // await let billNO = _this.saveOrderPrePay();
-            // //支付
-            // await _this.payOnlineNow(billNO);
-            await _this.payOnlineNow();//暂时
+            _this.dialogVisible = true;
         },
         //支付前保存
-        saveOrderPrePay() { },
+        saveOrderPrePay() {
+            let _this = this;
+            /* 使用费用表格 */
+            let calcDataTable = this.calcDataTable.map(v => v.currentMoney);
+            let purchaseOrderItems = this.goodsData.map(v => {
+                var discountAmount = '';
+                var dealAmount = '';
+                var fundAmount = '';
+                var fundFee = '';
+                var fundCash = '';
+                var realAmount = '';
+                if (Array.isArray(this.calcMoney)) {
+                    var currentObj = this.calcMoney.find(aObj => aObj.productId == v.productId);
+                    var { discountAmount, dealAmount, fundAmount, fundFee, fundCash, realAmount } = currentObj;
+                }
+                return {
+                    productId: v.productId,
+                    productCode: v.productCode,
+                    productName: v.productName,
+                    productDesc: v.productDesc,
+                    standard: v.standard,
+                    productModel: v.productModel,
+                    materialGroupId: v.materialGroupId,
+                    materialGroupCode: v.materialGroupCode,
+                    materialGroupName: v.materialGroupName,
+                    productGroupId: v.productGroupId,
+                    productGroupCode: v.productGroupCode,
+                    productGroupName: v.productGroupName,
+                    baseUnitId: v.baseUnitId,
+                    baseUnitCode: v.baseUnitCode,
+                    baseUnitName: v.baseUnitName,
+                    baseQuantity: v.baseQuantity,
+                    baleUnitId: v.baleUnitId,
+                    baleUnitCode: v.baleUnitCode,
+                    baleUnitName: v.baleUnitName,
+                    baleQuantity: v.baleQuantity,
+                    packageNum: v.packageNum,
+                    basePrice: v.basePrice,
+                    fundPrice: v.fundPrice,
+                    dealPrice: v.dealPrice,
+                    basePrice: v.basicPrice,
+                    // fundAmount: v.fundAmount,
+                    // realAmount: v.realAmount,
+                    // dealAmount: v.dealAmount,
+                    // discountAmount: v.discountAmount,
+                    // fundFee: v.fundFee,
+                    // fundCash: v.fundCash,
+                    /* 使用费用 */
+                    discountAmount: discountAmount,
+                    dealAmount: dealAmount,
+                    fundAmount: fundAmount,
+                    fundFee: fundFee,
+                    fundCash: fundCash,
+                    realAmount: realAmount,
+                }
+            });
+
+            let receiveAddressId = _this.infoData.find(v => v.isSelected).id;
+            let params = {
+                saleChannelCode: '00',
+                distributorId: _this.$store.state.customerId, //经销商id
+                receiveAddressId: receiveAddressId, //收获地址
+                isNoticeSend: this.isNotice, //是否通知
+                sendDate: this.arriveDate && this.arriveDate.getTime(), //期望发货日期
+                remark: _this.remark, //备注
+                poTypeId: this.carriageMethod,
+                eFeeUsedAmount: calcDataTable[0],
+                qFeeUsedAmount: calcDataTable[1],
+                fFeeUsedAmount: calcDataTable[2],
+                purchaseOrderItems: purchaseOrderItems
+            };
+            params.persistStatus = "new";
+            //销售订单请求地址
+            let sreverUrl = '/ocm-web/api/b2b/purchase-orders';
+            return _this.$http.post(sreverUrl, params)
+                .then(res => {
+                    if (res.headers["x-ocm-code"] == '1') {
+                        return res.data.orderCode;
+                    }
+                });
+        },
         //调用农行接口支付
-        payOnlineNow(billNO) {
+        payOnlineAbc(billNO) {
             /* 
                 {
                     "billNO": "2017122712214",//订单号       (非空)
@@ -148,14 +223,14 @@ export default {
             */
             let _this = this;
             let dealerNO = _this.$store.state.username;
-            let dealerName = _this.$store.state.customerName;
+            let dealerName = _this.$store.state.userloginName;
             //总金额
             let currentPay = parseFloat(_this.currentPay).toFixed(2);
             let cashRest = parseFloat(_this.billFooger.cashRest).toFixed(2);
             let totalAmount = 0;
-            if(cashRest < 0){
+            if (cashRest < 0) {
                 totalAmount = currentPay;
-            }else{
+            } else {
                 totalAmount = currentPay - cashRest;
             }
             //获取联系人电话
@@ -181,18 +256,31 @@ export default {
                     }
                 ]
             };
-            debugger
             let sreverUrl = '/ocm-web/api/abc/quickPay';
             _this.$http.post(sreverUrl, params)
                 .then(res => {
                     if (res.headers["x-ocm-code"] == '1') {
-                        // _this.$Notify({ title: '成功', type: 'success' });
+                        window.href = res.data;
                     }
                 });
         },
+        //调用民生银行接口支付
+        payOnlineCmbc() { },
         //接收选中的银行
-        receiveSelectedBank(selectedBank) {
-            this.payOnline();
+        async receiveSelectedBank(selectedBank) {
+            let _this = this;
+            let billNO = await _this.saveOrderPrePay();
+            debugger
+            switch (selectedBank) {
+                // 农行
+                case 'abc':
+                    await _this.payOnlineAbc(billNO);
+                    break;
+                //民生银行
+                case 'cmbc':
+                    await _this.payOnlineCmbc(billNO);
+                    break;
+            }
         },
         //去融资
         goFinancing() { },
@@ -242,7 +330,6 @@ export default {
                 if (Array.isArray(this.calcMoney)) {
                     var currentObj = this.calcMoney.find(aObj => aObj.productId == v.productId);
                     var { discountAmount, dealAmount, fundAmount, fundFee, fundCash, realAmount } = currentObj;
-                    debugger
                 }
                 return {
                     productId: v.productId,
@@ -527,8 +614,8 @@ export default {
                 // _this.$Notify({ title: '待通知发货', type: 'warning' });
             }
         },
-        
-        
+
+
     },
     computed: {
         /* 订单总金额 */

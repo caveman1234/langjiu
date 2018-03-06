@@ -26,7 +26,7 @@
         </el-table>
         <div style="font-size:50px;font-size: 50px;color: #999999;">即将开放,敬请期待......</div>
         <BankList @receiveSelectedBank="receiveSelectedBank" :dialogVisible.sync="dialogVisible"></BankList>
-        <el-button @click="func">click me</el-button>
+        <el-button v-show="false" @click="func">click me</el-button>
     </div>
 </template>
 <script>
