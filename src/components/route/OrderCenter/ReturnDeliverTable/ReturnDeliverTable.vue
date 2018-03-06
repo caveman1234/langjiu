@@ -44,6 +44,7 @@
                             <div v-red>{{scope.row.realAmount | formatPrice}}</div>
                         </template>
                     </el-table-column>
+                    <el-table-column prop="srcBillCode" label="来源单据号"></el-table-column>
                 </el-table>
             </div>
         </template>

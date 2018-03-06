@@ -95,7 +95,7 @@
                     </el-row>
                 </div>
                 <el-table :data="item.purchaseOrderItems" border style="width: 100%">
-                    <el-table-column prop="productDesc" label="商品详情" width="300">
+                    <el-table-column prop="productDesc" label="商品详情" width="200">
                         <template slot-scope="scope">
                             <div class="detailContainer">
                                 <div :style='{"backgroundImage":`url(${scope.row.imageUrl || defaultImg})`}' class="goodsImg"></div>
@@ -103,7 +103,7 @@
                             </div>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="" label="规格">
+                    <el-table-column prop="" label="规格" min-width="90">
                         <template slot-scope="scope">
                             <div class="standard">
                                 <div>容量：{{scope.row.standard}}ml</div>
@@ -155,6 +155,7 @@
                                 </div>
                             </template>
                         </el-table-column>
+                        <el-table-column prop="srcBillCode" label="来源单据号" v-if="item.poTypeCode == '04'"></el-table-column>
                     </template>
                 </el-table>
             </div>
@@ -266,9 +267,12 @@ export default {
                 let url = '/ocm-web/api/cmbc/pushOrderInfoToCmbc';
                 _this.$http.post(url, params)
                     .then(res => {
-                        //改变状态
-                        item.financingStatus = '0';
-                        _this.$Notify({ title: '融资成功', type: 'success' });
+                        if (res.headers["x-ocm-code"] == '1') {
+                            //改变状态
+                            item.financingStatus = '0';
+                            _this.$Notify({ title: '融资成功', type: 'success' });
+                        }
+
                     })
             }).catch(() => { });
 

@@ -51,7 +51,7 @@ export default {
         let _this = this;
         let from = _this.$route.params.from;
         //首页跳进来
-        if(from == 'Home'){
+        if(from == 'DeliverList'){
             _this.currentChecked = 'waitCheck';
         }
     }

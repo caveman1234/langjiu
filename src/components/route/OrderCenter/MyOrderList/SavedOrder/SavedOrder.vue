@@ -82,7 +82,7 @@ export default {
             /* 获取订单类型 */
             return _this.$http.get('/ocm-web/api/b2b/po-types/get-common')
                 .then(res => {
-                    return res.data.map(v => ({ label: v.name, value: v.id }));
+                    return res.data.filter(v=>v.code!=='04').map(v => ({ label: v.name, value: v.id }));;
                 });
         }
     },

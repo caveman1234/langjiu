@@ -2,9 +2,10 @@
     <div class="OrderCenter">
         <div class="leftList">
             <el-tabs @tab-click="tabClick" tab-position="left" v-model="currentCheck">
-                <el-tab-pane label="我的订单列表" name="TotalOrder"></el-tab-pane>
-                <el-tab-pane label="发货通知列表" name="DeliverList"></el-tab-pane>
-                <el-tab-pane label="退订申请列表" name="ReturnList"></el-tab-pane>
+                <el-tab-pane label="我的订单" name="TotalOrder"></el-tab-pane>
+                <el-tab-pane label="填仓提货单" name="AddPickOrder"></el-tab-pane>
+                <el-tab-pane label="发货通知单" name="DeliverList"></el-tab-pane>
+                <el-tab-pane label="退订申请单" name="ReturnList"></el-tab-pane>
                 <el-tab-pane label="未出货明细查询" name="notDeliverSearch"></el-tab-pane>
             </el-tabs>
         </div>
@@ -29,12 +30,15 @@ export default {
                     this.$router.push({ path: '/MyOrderList' });
                     break;
                 case '1':
-                    this.$router.push({ path: '/DeliverList' });
+                    this.$router.push({ path: '/AddPickOrder' });
                     break;
                 case '2':
-                    this.$router.push({ path: '/ReturnList' });
+                    this.$router.push({ path: '/DeliverList' });
                     break;
                 case '3':
+                    this.$router.push({ path: '/ReturnList' });
+                    break;
+                case '4':
                     this.$router.push({ path: '/NotDeliverSearch' });
                     break;
             }

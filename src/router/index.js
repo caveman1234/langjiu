@@ -54,6 +54,7 @@ import ReturnComplete from '@/components/route/OrderCenter/ReturnList/ReturnComp
 
 
 import MyOrderList from '@/components/route/OrderCenter/MyOrderList/MyOrderList'
+import AddPickOrder from '@/components/route/OrderCenter/AddPickOrder/AddPickOrder'
 import NotDeliverSearch from '@/components/route/OrderCenter/NotDeliverSearch/NotDeliverSearch'
 //去提货 eidt--
 import GoPickGoods from '@/components/route/OrderCenter/GoPickGoods/GoPickGoods.vue'
@@ -222,6 +223,11 @@ export default new Router({
                 path: '/NotDeliverSearch',
                 name: 'NotDeliverSearch',
                 component: NotDeliverSearch
+            },
+            {
+                path: '/AddPickOrder',
+                name: 'AddPickOrder',
+                component: AddPickOrder
             }
             ]
         },

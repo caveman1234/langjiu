@@ -52,6 +52,9 @@ export default {
         if(from == 'Home'){
             _this.currentChecked = 'waitCheck';
         }
+        if(from == 'ReturnList'){
+            _this.currentChecked = 'waitCheck';
+        }
     }
 }
 </script>

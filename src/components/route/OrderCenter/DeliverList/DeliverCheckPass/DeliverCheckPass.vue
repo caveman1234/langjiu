@@ -25,6 +25,11 @@ let searchConfig = [
         type: 'input',
         field: 'orderCode',
         label: '订单编号：'
+    },
+    {
+        type: 'input',
+        field: 'srcBillCode',
+        label: '来源单据号：'
     }
 ];
 export default {

@@ -31,6 +31,11 @@ let searchConfig = [
         type: 'input',
         field: 'orderCode',
         label: '订单编号：'
+    },
+    {
+        type: 'input',
+        field: 'srcBillCode',
+        label: '来源单据号：'
     }
 ];
 export default {
@@ -82,7 +87,7 @@ export default {
         fetchOrderType() {
             let _this = this;
             /* 获取订单类型 */
-            return _this.$http.get('/ocm-web/api/b2b/po-types/get-common')
+            return _this.$http.get('/ocm-web/api/b2b/po-types/get-ruturnchange')
                 .then(res => {
                     return res.data.map(v => ({ label: v.name, value: v.id }));
                 });

@@ -4,7 +4,7 @@ import CostOff from './CostOff/CostOff';
 import BankList from '@/components/commonComp/BankList/BankList';
 export default {
     name: 'GenerateBills',
-    components: { DeliveryInfo, AddNewGoods, CostOff,BankList },
+    components: { DeliveryInfo, AddNewGoods, CostOff, BankList },
     data() {
         return {
             /* 产品线 */
@@ -19,6 +19,7 @@ export default {
             remark: '',
             /* 订单类型 */
             carriageMethodCombo: [],
+            businessTypeCode: '',//'01'销售订单, '03'融资订单
             /* 地址信息 */
             infoData: [],
             /* 表格数据 */
@@ -46,7 +47,7 @@ export default {
             /* 订单类型，融资订单是否被选中 */
             financingChecked: true,
             //选择银行弹框
-            dialogVisible:false
+            dialogVisible: false
         }
     },
     methods: {
@@ -96,13 +97,105 @@ export default {
             _this.billFooger.deductionMoney = calcMoney.reduce((acc, v) => (acc + v.discountAmount), 0).toFixed(2);
             _this.fetchCashRest().then(cashRest => _this.billFooger.cashRest = Number(cashRest).toFixed(2));
         },
-        /* 在线支付(去融资) */
-        payOnline() {
-
-
+        /* 在线支付 */
+        async payOnline() {
+            let _this = this;
+            /* 验证收获地址为空 */
+            if (_this.infoData.length == 0) {
+                _this.$Notify({ title: '收货地址不能为空', type: 'warning' });
+                return;
+            }
+            /* 验证 商品为空 */
+            if (_this.goodsData.length == 0) {
+                _this.$Notify({ title: '商品不能为空', type: 'warning' });
+                return;
+            }
+            //检查发货要求
+            if (_this.isNotice === '') {
+                _this.$Notify({ title: '发货要求不能为空', type: 'warning' });
+                return;
+            }
+            // //保存
+            // await let billNO = _this.saveOrderPrePay();
+            // //支付
+            // await _this.payOnlineNow(billNO);
+            await _this.payOnlineNow();//暂时
+        },
+        //支付前保存
+        saveOrderPrePay() { },
+        //调用农行接口支付
+        payOnlineNow(billNO) {
+            /* 
+                {
+                    "billNO": "2017122712214",//订单号       (非空)
+                    "dealerNO": "614391",//经销商编号         (非空)
+                    "dealerName": "测试",//经销商名称         (非空)
+                    "totalAmount": 100,//总金额              (非空)
+                    "settlementAmount": 100,//订单金额       (可空)
+                    "contactTel": "15893712779",//联系电话   (非空)
+                    "contact": "测试",//联系人               (非空)
+                    "productData": [//                      (可空)
+                        {
+                            "price": 100,//价格
+                            "no": "20171221008",//商品编号
+                            "name": "测试",//商品名称
+                            "totalAmount": 1001,//商品总价
+                            "quantity": 1,//商品数量
+                            "uomName": "测试"//商品单位
+                        }
+                    ]
+                }
+            */
+            let _this = this;
+            let dealerNO = _this.$store.state.username;
+            let dealerName = _this.$store.state.customerName;
+            //总金额
+            let currentPay = parseFloat(_this.currentPay).toFixed(2);
+            let cashRest = parseFloat(_this.billFooger.cashRest).toFixed(2);
+            let totalAmount = 0;
+            if(cashRest < 0){
+                totalAmount = currentPay;
+            }else{
+                totalAmount = currentPay - cashRest;
+            }
+            //获取联系人电话
+            let addressObj = _this.infoData.find(v => v.isSelected);
+            let contactTel = addressObj.firstReceiverPhone;
+            let contact = addressObj.firstReceiver;
+            let params = {
+                "billNO": billNO,//订单号       (非空)
+                "dealerNO": dealerNO,//经销商编号         (非空)
+                "dealerName": dealerName,//经销商名称         (非空)
+                "totalAmount": totalAmount,//总金额              (非空)
+                "settlementAmount": '',//订单金额       (可空)
+                "contactTel": contactTel,//联系电话   (非空)
+                "contact": contact,//联系人               (非空)
+                "productData": [//                      (可空)
+                    {
+                        "price": '',//价格
+                        "no": "",//商品编号
+                        "name": "",//商品名称
+                        "totalAmount": '',//商品总价
+                        "quantity": '',//商品数量
+                        "uomName": ""//商品单位
+                    }
+                ]
+            };
+            debugger
+            let sreverUrl = '/ocm-web/api/abc/quickPay';
+            _this.$http.post(sreverUrl, params)
+                .then(res => {
+                    if (res.headers["x-ocm-code"] == '1') {
+                        // _this.$Notify({ title: '成功', type: 'success' });
+                    }
+                });
+        },
+        //接收选中的银行
+        receiveSelectedBank(selectedBank) {
+            this.payOnline();
         },
         //去融资
-        goFinancing() {},
+        goFinancing() { },
 
         /* 修改 */
         edit() {
@@ -222,7 +315,7 @@ export default {
                             _this.$router.push({ name: 'TotalOrder' });
                         }
                     });
-            }).catch(() => {});
+            }).catch(() => { });
         },
         //提交融资订单
         submigFinancing() {
@@ -329,7 +422,7 @@ export default {
                             _this.$router.push({ name: 'TotalOrder' });
                         }
                     });
-            }).catch(() => {});
+            }).catch(() => { });
         },
         /* 获取收货地址 */
         fetchAddress() {
@@ -393,6 +486,8 @@ export default {
                 /* 融资订单状态 */
                 this.financingChecked = false;
             }
+            let businessTypeCode = this.carriageMethodCombo.find(v => v.value == value).businessTypeCode;
+            this.businessTypeCode = businessTypeCode;
         },
         /* 合计 */
         getSummaries(params) {
@@ -432,15 +527,8 @@ export default {
                 // _this.$Notify({ title: '待通知发货', type: 'warning' });
             }
         },
-        //支付逻辑
-        payOnline(){
-            let _this = this;
-            _this.dialogVisible = true;
-        },
-        //接收选中的银行
-        receiveSelectedBank(selectedBank){
-            debugger
-        }
+        
+        
     },
     computed: {
         /* 订单总金额 */

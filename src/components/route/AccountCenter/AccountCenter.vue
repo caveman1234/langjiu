@@ -49,11 +49,11 @@ let tabArr = [
         name: 'BillDownload',
         routeName: 'BillDownload'
     },
-    {
-        label: '物流码下载',
-        name: 'LogisticsDownload',
-        routeName: 'LogisticsDownload'
-    },
+    // {
+    //     label: '物流码下载',
+    //     name: 'LogisticsDownload',
+    //     routeName: 'LogisticsDownload'
+    // },
     {
         label: '融资信息',
         name: 'FinancingInfo',
