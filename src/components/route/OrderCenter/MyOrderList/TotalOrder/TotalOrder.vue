@@ -70,7 +70,10 @@ export default {
     methods: {
         receiveData(data) {
             this.orderData = data.content.map(v=>{
+                //展示更多
                 v.isMoreShow = false;
+                //支付loading
+                v.isPayOnlineLoading = false;
                 return v;
             });
             this.pageParams.pageSize = data.size;//每页数量

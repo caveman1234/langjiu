@@ -2,7 +2,15 @@
     <div class="BankList">
         <el-dialog title="请选择银行" @close="close" @open="open" :visible.sync="dialogVisible1" width="700px">
             <el-radio-group v-model="selectedBank" size="mini">
-                <el-radio v-for="(item,index) in bankDataSource" :key="index" :label="item.label" border :disabled="item.disabled">{{item.name}}</el-radio>
+                <!-- <el-radio v-for="(item,index) in bankDataSource" :key="index" :label="item.label" border :disabled="item.disabled">{{item.name}}</el-radio> -->
+
+
+                <el-radio v-for="(item,index) in bankDataSource" :key="index" :label="item.label" border :disabled="item.disabled">
+                    <div :style='{backgroundImage:`url(${item.imgUrl})`}' class="radioImg"></div>
+                </el-radio>
+
+
+
             </el-radio-group>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="cancel" size="mini">取 消</el-button>
@@ -12,23 +20,6 @@
     </div>
 </template>
 <script>
-let bankGong = require('./bankImg/bank_gong.png');
-let bankDataSource = [
-    {
-        name: "中国农业银行",
-        label: 'abc',
-        disabled:false
-    },
-    {
-        name: "中国民生银行",
-        label: 'cmbc',
-        disabled:true
-    }
-    // {
-    //     name: "中国建设银行",
-    //     label: 'ccb'
-    // }
-];
 export default {
     name: 'BankList',
     props: {
@@ -36,14 +27,35 @@ export default {
             default() {
                 return false;
             }
+        },
+        bankDataSource1: {
+            default() {
+                return [
+                    {
+                        name: "中国农业银行",
+                        label: 'abc',
+                        disabled: false,
+                        imgUrl: require('./bankImg/bank_nong.png')
+                    },
+                    {
+                        name: "中国民生银行",
+                        label: 'cmbc',
+                        disabled: true,
+                        imgUrl: require('./bankImg/bank_min.png')
+                    }
+                    // {
+                    //     name: "中国建设银行",
+                    //     label: 'ccb'
+                    // }
+                ];
+            }
         }
     },
     data() {
         return {
             dialogVisible1: this.dialogVisible,
             selectedBank: '',//选中的银行
-            bankDataSource: bankDataSource,
-            bankGong: bankGong
+            bankDataSource: this.bankDataSource1
         }
     },
     methods: {

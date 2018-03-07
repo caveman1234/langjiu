@@ -56,12 +56,30 @@
                 <el-button @click="recharge" size="mini" type="primary">去充值</el-button>
             </div>
         </el-card>
-        <BankList @receiveSelectedBank="receiveSelectedBank" :dialogVisible.sync="dialogVisible"></BankList>
+        <BankList @receiveSelectedBank="receiveSelectedBank" :dialogVisible.sync="dialogVisible" :bankDataSource1="bankDataSource1"></BankList>
 
     </div>
 </template>
 <script>
 import BankList from '@/components/commonComp/BankList/BankList';
+let bankDataSource1 = [
+    {
+        name: "中国农业银行",
+        label: 'abc',
+        disabled: true,
+        imgUrl: require('../../../commonComp/BankList/bankImg/bank_nong.png')
+    },
+    {
+        name: "中国民生银行",
+        label: 'cmbc',
+        disabled: true,
+        imgUrl: require('../../../commonComp/BankList/bankImg/bank_min.png')
+    }
+    // {
+    //     name: "中国建设银行",
+    //     label: 'ccb'
+    // }
+];
 export default {
     name: 'AccountMgr',
     components: { BankList },
@@ -81,7 +99,8 @@ export default {
             bindAccountName: '',//绑定开户名
             bindBankCard: '',//绑定银行卡
             tableData: [],
-            dialogVisible: false
+            dialogVisible: false,
+            bankDataSource1: bankDataSource1
         }
     },
     methods: {

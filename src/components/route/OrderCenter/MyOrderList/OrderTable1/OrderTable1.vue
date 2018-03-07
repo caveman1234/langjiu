@@ -92,7 +92,7 @@
                                 </el-button>
                             </template>
                             <template v-if="item.billStatusCode == '01' && item.poTypeBusinessType == '01'  ">
-                                <el-button @click="payOnline(item)" size="mini" type="primary">在线支付
+                                <el-button @click="payOnline(item)" size="mini" type="primary" :loading="item.isPayOnlineLoading">在线支付
                                 </el-button>
                             </template>
                         </el-button-group>
@@ -329,6 +329,8 @@ export default {
         },
         async receiveSelectedBank(selectedBank) {
             let _this = this;
+            //支付loading
+            _this.selectedItem.isPayOnlineLoading = true;
             switch (selectedBank) {
                 // 农业银行
                 case 'abc':

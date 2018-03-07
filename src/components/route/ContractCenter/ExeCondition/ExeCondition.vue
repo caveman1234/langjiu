@@ -25,7 +25,7 @@
             </el-table-column>
         </el-table>
         <div style="font-size:50px;font-size: 50px;color: #999999;">即将开放,敬请期待......</div>
-        <BankList @receiveSelectedBank="receiveSelectedBank" :dialogVisible.sync="dialogVisible"></BankList>
+        <BankList :bankDataSource1="bankDataSource1" @receiveSelectedBank="receiveSelectedBank" :dialogVisible.sync="dialogVisible"></BankList>
         <el-button v-show="false" @click="func">click me</el-button>
     </div>
 </template>
@@ -75,13 +75,30 @@ let tableData = [
         ]
     }
 ];
+let bankDataSource1 = [
+    {
+        name: "中国农业银行",
+        label: 'abc',
+        disabled:false
+    },
+    {
+        name: "中国民生银行",
+        label: 'cmbc',
+        disabled:true
+    }
+    // {
+    //     name: "中国建设银行",
+    //     label: 'ccb'
+    // }
+];
 export default {
     name: 'ExeCondition',
     components:{BankList},
     data() {
         return {
             tableData: tableData,
-            dialogVisible:false
+            dialogVisible:false,
+            bankDataSource1:bankDataSource1
         }
     },
     methods: {
