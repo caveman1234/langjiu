@@ -62,7 +62,7 @@ export default {
             searchConfig: searchConfig,
             //搜索额外字段
             extralParams: {
-                poTypeBusinessType: "01,03,04",
+                poTypeBusinessType: "01,03",
                 distributorIds: this.$store.state.customerId,
             }
         }

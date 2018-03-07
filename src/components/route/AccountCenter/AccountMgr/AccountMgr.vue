@@ -45,10 +45,10 @@
             </div>
             <div>
                 <el-button @click="goMgr" size="mini" type="primary">民生银行账户管理</el-button>
-                <el-button size="mini" type="primary">农业银行账户管理</el-button>
+                <el-button v-show="false" size="mini" type="primary" disabled>农业银行账户管理</el-button>
             </div>
         </el-card>
-        <el-card>
+        <el-card v-show="false">
             <div slot="header" class="clearfix">
                 <span>在线充值：</span>
             </div>

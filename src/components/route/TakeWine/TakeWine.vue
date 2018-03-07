@@ -2,12 +2,14 @@
     <div class="TakeWine">
         <div class="leftList">
             <el-tabs @tab-click="tabClick" tab-position="left" v-model="currentCheck">
-                <el-tab-pane label="借酒列表" name="takeWineList"></el-tab-pane>
-                <el-tab-pane label="还酒列表" name="returnWineList"></el-tab-pane>
+                <el-tab-pane label="借酒单" name="takeWineList"></el-tab-pane>
+                <el-tab-pane label="还酒单" name="returnWineList"></el-tab-pane>
             </el-tabs>
         </div>
         <div class="orderContainer">
-            <router-view></router-view>
+            <keep-alive :include="['ReturnWineEdit']">
+                <router-view/>
+            </keep-alive>
         </div>
     </div>
 </template>
@@ -32,6 +34,9 @@ export default {
                     break;
             }
         }
+    },
+    mounted(){
+        this.$store.commit('changeCurrentNav', { hash: '/TakeWine' });
     }
 }
 </script>

@@ -1,0 +1,46 @@
+$borderColor: #E6E6E6;
+$redColor: #E7442E;
+$color333: #333;
+$color666: #666;
+$bgColor: #F5F5F5;
+.ReturnWineEdit {
+    .goodsInfo {
+        background: white;
+        margin-top: 20px;
+        padding: 15px;
+        .detailContainer {
+            display: flex;
+            .goodsImg {
+                flex: 0 0 62px;
+                border: 1px solid $borderColor;
+                height: 62px;
+                background-size: contain;
+                background-repeat: no-repeat;
+            }
+            .desc {
+                flex: 1;
+                padding: 0 20px 0 10px;
+            }
+        }
+        .goodsContent {
+            .handle {
+                i {
+                    font-size: 18px;
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+    .handle {
+        height: 50px;
+        margin-top: 10px;
+        display: flex;
+        align-items: center;
+        .handleWrap {
+            .opacity0 {
+                opacity: 0;
+            }
+            width: 100%;
+        }
+    }
+}

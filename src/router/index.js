@@ -82,6 +82,8 @@ import GoSign from '@/components/route/ContractCenter/Sign/GoSign/GoSign'
 import TakeWine from '@/components/route/TakeWine/TakeWine';
 import TakeWineList from '@/components/route/TakeWine/TakeWineList/TakeWineList';
 import ReturnWineList from '@/components/route/TakeWine/ReturnWineList/ReturnWineList';
+import ReturnWineEdit from '@/components/route/TakeWine/ReturnWineList/ReturnWineEdit/ReturnWineEdit';
+import ReturnWineOrder from '@/components/route/TakeWine/ReturnWineList/ReturnWineOrder/ReturnWineOrder';
 Vue.use(Router)
 
 export default new Router({
@@ -389,6 +391,16 @@ export default new Router({
                     path: '/ReturnWineList',
                     name: 'ReturnWineList',
                     component: ReturnWineList
+                },
+                {
+                    path: '/ReturnWineEdit',
+                    name: 'ReturnWineEdit',
+                    component: ReturnWineEdit
+                },
+                {
+                    path: '/ReturnWineOrder',
+                    name: 'ReturnWineOrder',
+                    component: ReturnWineOrder
                 }
             ]
         }
