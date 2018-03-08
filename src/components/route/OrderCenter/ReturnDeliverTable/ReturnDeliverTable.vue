@@ -11,10 +11,11 @@
                         <el-col :span="2">订单编号:</el-col>
                         <el-col :span="3">{{item.orderCode}}</el-col>
                         <el-col :span="2">订单状态:</el-col>
-                        <el-col :span="2">{{item.billStatusName}}</el-col>
+                        <el-col :span="2" v-red>{{item.billStatusName}}</el-col>
                     </el-row>
                 </div>
-                <el-table :data="item.purchaseOrderItems" border style="width: 100%">
+                <el-table :data="item.purchaseOrderItems" border style="width: 100%" border>
+                    <el-table-column prop="srcBillCode" label="来源单据号"></el-table-column>
                     <el-table-column prop="productDesc" label="商品详情" width="300">
                         <template slot-scope="scope">
                             <div class="detailContainer">
@@ -44,7 +45,6 @@
                             <div v-red>{{scope.row.realAmount | formatPrice}}</div>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="srcBillCode" label="来源单据号"></el-table-column>
                 </el-table>
             </div>
         </template>

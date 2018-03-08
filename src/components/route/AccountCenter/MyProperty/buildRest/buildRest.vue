@@ -1,7 +1,7 @@
 <template>
     <div class="buildRest">
         <div class="title">共建基金余额明细</div>
-        <el-table :data="tableDataArr">
+        <el-table :data="tableDataArr" border>
             <el-table-column prop="sybName" label="事业部">
                 <template slot-scope="scope">
                     <div>

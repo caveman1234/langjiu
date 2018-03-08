@@ -1,7 +1,7 @@
 <template>
     <div class="NotdeliverMoney">
         <div class="title">终审订单未发货明细</div>
-        <el-table :data="tableDataArr">
+        <el-table :data="tableDataArr" border>
             <el-table-column prop="orderDate"
                 label="订单日期" width="100px">
                 <template slot-scope="scope">

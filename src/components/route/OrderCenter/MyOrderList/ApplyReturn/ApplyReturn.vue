@@ -10,15 +10,8 @@
                 </el-col>
                 <el-col :span="4">
                     <!-- <div class="desc">{{infoData.poTypeName}}</div> -->
-                    <el-select size="mini"
-                        v-model="carriageMethod"
-                        placeholder="请选择"
-                        style="width:100%;"
-                        disabled>
-                        <el-option v-for="item in carriageMethodCombo"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
+                    <el-select size="mini" v-model="carriageMethod" placeholder="请选择" style="width:100%;" disabled>
+                        <el-option v-for="item in carriageMethodCombo" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
                     </el-select>
                 </el-col>
@@ -37,44 +30,35 @@
             </el-row>
         </div>
         <div class="ApplySendBody">
-            <el-table :data="infoData.purchaseOrderItems"
-                style="width: 100%">
-                <el-table-column prop="productDesc"
-                    label="商品详情"
-                    width="300">
+            <el-table :data="infoData.purchaseOrderItems" style="width: 100%" border>
+                <el-table-column prop="productDesc" label="商品详情" width="300">
                     <template slot-scope="scope">
                         <div class="detailContainer">
-                            <div :style='{"backgroundImage":`url(${scope.row.imageUrl || defaultImg})`}'
-                                class="goodsImg"></div>
+                            <div :style='{"backgroundImage":`url(${scope.row.imageUrl || defaultImg})`}' class="goodsImg"></div>
                             <div class="desc">{{scope.row.productDesc}}</div>
                         </div>
                     </template>
                 </el-table-column>
-                <el-table-column prop="volume"
-                    label="规格">
+                <el-table-column prop="volume" label="规格">
                     <template slot-scope="scope">
                         <p>容量: {{ scope.row.standard }}ml</p>
                         <p>度数: {{ scope.row.productModel }}度</p>
                     </template>
                 </el-table-column>
-                <el-table-column prop="originOrderNum"
-                    label="订单数量">
+                <el-table-column prop="originOrderNum" label="订单数量">
                     <template slot-scope="scope">
                         <p>{{ scope.row.originOrderNum }}件</p>
                     </template>
                 </el-table-column>
-                <el-table-column prop="baleQuantity"
-                    label="可退订数量">
+                <el-table-column prop="baleQuantity" label="可退订数量">
                     <template slot-scope="scope">
                         <p>{{ Math.abs(scope.row.baleQuantity) }}件</p>
                     </template>
                 </el-table-column>
-                <el-table-column prop=""
-                    label="操作">
+                <el-table-column prop="" label="操作">
                     <template slot-scope="scope">
                         <div class="handle">
-                            <i @click="delOneRow(scope.row)"
-                                class="el-icon-delete"></i>
+                            <i @click="delOneRow(scope.row)" class="el-icon-delete"></i>
                         </div>
                     </template>
                 </el-table-column>
@@ -83,9 +67,7 @@
         </div>
         <div class="ApplySendFooter">
             <el-row>
-                <el-button @click="submitApply"
-                    size="mini"
-                    type="primary">申请退订</el-button>
+                <el-button @click="submitApply" size="mini" type="primary">申请退订</el-button>
             </el-row>
         </div>
     </div>
@@ -105,7 +87,7 @@ export default {
         }
     },
     methods: {
-        
+
         //申请发货数量change
         handleChange(row) {
             let _this = this;
@@ -120,7 +102,7 @@ export default {
         },
         submitApply() {
             let _this = this;
-            if(_this.infoData.purchaseOrderItems.length == 0){
+            if (_this.infoData.purchaseOrderItems.length == 0) {
                 _this.$Notify({ title: '产品不能为空', type: 'warning' });
                 return;
             }
@@ -137,7 +119,7 @@ export default {
             params.poTypeId = _this.carriageMethod;
             let url = '/ocm-web/api/b2b/purchase-orders/returnChange-submit';
             let defaultMsg = '<div>此操作不可逆，是否提交？</div>';
-            if(_this.calcTotalMoney() < 200000){
+            if (_this.calcTotalMoney() < 200000) {
                 // defaultMsg = '<div>此操作不可逆，是否提交？</div><div>200000元不承担运费</div>';
             }
             _this.$confirm(defaultMsg, '提交', {
@@ -145,12 +127,12 @@ export default {
                 cancelButtonText: '取消',
                 type: 'warning',
                 center: true,
-                dangerouslyUseHTMLString:true
+                dangerouslyUseHTMLString: true
             }).then(() => {
                 _this.$http.post(url, params)
                     .then(res => {
-                        if(res.headers["x-ocm-code"] == '1'){
-                            _this.$router.push({ name: 'DeliverTotal' ,params:{from:'ApplyReturn'}});
+                        if (res.headers["x-ocm-code"] == '1') {
+                            _this.$router.push({ name: 'DeliverTotal', params: { from: 'ApplyReturn' } });
                         }
                     });
             }).catch(() => { });
@@ -176,10 +158,10 @@ export default {
                 })
         },
         //计算总金额
-        calcTotalMoney(){
-            return this.infoData.purchaseOrderItems.reduce((acc,v)=>{
+        calcTotalMoney() {
+            return this.infoData.purchaseOrderItems.reduce((acc, v) => {
                 return acc + v.realAmount;
-            },0);
+            }, 0);
         }
     },
     computed: {
@@ -200,7 +182,7 @@ export default {
         _this.$route.params.infoData.purchaseOrderItems.forEach(v => {
             // v.originOrderNum = (v.applyedQuantity / v.packageNum) + v.baleQuantity
             //（累计发货数量+ 累计退货数量 + 本次退订数量）/包装数量
-            v.originOrderNum = (v.sendedQuantity + v.backedQuantity - v.baseQuantity)/v.packageNum;
+            v.originOrderNum = (v.sendedQuantity + v.backedQuantity - v.baseQuantity) / v.packageNum;
         });
         _this.infoData = _this.$route.params.infoData;
     }

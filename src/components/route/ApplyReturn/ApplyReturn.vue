@@ -36,7 +36,7 @@
 
         </div>
         <div class="ApplyReturnTable">
-            <el-table :data="infoData.goodsList" style="width: 100%">
+            <el-table :data="infoData.goodsList" border style="width: 100%">
                 <el-table-column prop="productDesc" label="商品详情" width="400">
                     <template slot-scope="scope">
                         <div class="detailContainer">

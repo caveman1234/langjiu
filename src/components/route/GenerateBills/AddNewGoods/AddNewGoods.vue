@@ -11,7 +11,7 @@
                 </div>
             </div>
             <div class="dialogContainer">
-                <el-table @selection-change="selectChange" :data="searchData" ref="multipleTable" height="400" style="width: 100%">
+                <el-table @selection-change="selectChange" :data="searchData" ref="multipleTable" height="400" border style="width: 100%">
                     <el-table-column type="selection" width="55"></el-table-column>
                     <el-table-column prop="productDesc" label="产品名称"></el-table-column>
                     <el-table-column prop="" label="规格">

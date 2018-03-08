@@ -41,7 +41,7 @@
         </div>
         <div class="goodsInfo">
             <div class="goodsContent">
-                <el-table :data="goodsData" :summary-method="getSummaries" show-summary style="width: 100%">
+                <el-table :data="goodsData" :summary-method="getSummaries" show-summary border style="width: 100%">
                     <el-table-column prop="" label="商品详情" width="400">
                         <template slot-scope="scope">
                             <div class="detailContainer">

@@ -2,7 +2,7 @@
     <div class="BuildCheck">
         <SearchComp ref="searchRef" :searchConfig="searchConfig" @receiveData="receiveData" serverUrl="/ocm-web/api/b2b/query-balance/queryFundDetail" :disable11="true"></SearchComp>
         <div class="tableContainer">
-            <el-table :data="tableData">
+            <el-table :data="tableData" border>
                 <el-table-column prop="dbilldate" label="日期"></el-table-column>
                 <!-- <el-table-column prop="syb"
                         label="事业部编码"></el-table-column> -->

@@ -1,7 +1,7 @@
 <template>
     <div class="NotDeliverSearch">
         <SearchComp ref="searchRef" :searchConfig="searchConfig" @receiveData="receiveData" serverUrl="/ocm-web/api/b2b/unsend-goods/list"></SearchComp>
-        <el-table :data="tableData" style="width: 100%">
+        <el-table :data="tableData" style="width: 100%" border>
             <el-table-column prop="dbilldate" label="单据日期"></el-table-column>
             <el-table-column prop="billcode" label="订单号"></el-table-column>
             <el-table-column prop="invcode" label="产品编码"></el-table-column>

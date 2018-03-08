@@ -3,23 +3,16 @@
         <div class="goodsInfo">
             <AddNewGoods @receiveData="receiveData"></AddNewGoods>
             <div class="goodsContent">
-                <el-table :data="goodsData"
-                    :summary-method="getSummaries"
-                    show-summary
-                    style="width: 100%">
-                    <el-table-column prop="productDesc"
-                        label="商品详情"
-                        width="300">
+                <el-table :data="goodsData" :summary-method="getSummaries" show-summary style="width: 100%" border>
+                    <el-table-column prop="productDesc" label="商品详情" width="300">
                         <template slot-scope="scope">
                             <div class="detailContainer">
-                                <div :style='{"backgroundImage":`url(${scope.row.imageUrl || defaultImg})`}'
-                                    class="goodsImg"></div>
+                                <div :style='{"backgroundImage":`url(${scope.row.imageUrl || defaultImg})`}' class="goodsImg"></div>
                                 <div class="desc">{{scope.row.productDesc}}</div>
                             </div>
                         </template>
                     </el-table-column>
-                    <el-table-column prop=""
-                        label="规格">
+                    <el-table-column prop="" label="规格">
                         <template slot-scope="scope">
                             <div class="standard">
                                 <div>容量：{{scope.row.standard}}ml</div>
@@ -27,8 +20,7 @@
                             </div>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="basePrice"
-                        label="单价">
+                    <el-table-column prop="basePrice" label="单价">
                         <template slot-scope="scope">
                             <div class="price">
                                 <div>价格：{{scope.row.basePrice | formatPrice}}</div>
@@ -36,34 +28,25 @@
                             </div>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="baleQuantity"
-                        label="箱数"
-                        width="180">
+                    <el-table-column prop="baleQuantity" label="箱数" width="180">
                         <template slot-scope="scope">
-                            <el-input-number @change="baleQuantityChange(scope.row)"
-                                v-model="scope.row.baleQuantity"
-                                :min="1"
-                                size="mini"></el-input-number>
+                            <el-input-number @change="baleQuantityChange(scope.row)" v-model="scope.row.baleQuantity" :min="1" size="mini"></el-input-number>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="baseQuantity"
-                        label="瓶数">
+                    <el-table-column prop="baseQuantity" label="瓶数">
                         <template slot-scope="scope">
                             <div>{{scope.row.baseQuantity}} </div>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="paymentTotalMoney"
-                        label="货款金额" width="180px">
+                    <el-table-column prop="paymentTotalMoney" label="货款金额" width="180px">
                         <template slot-scope="scope">
                             <div>{{scope.row.paymentTotalMoney | formatPrice}}</div>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="handle"
-                        label="操作">
+                    <el-table-column prop="handle" label="操作">
                         <template slot-scope="scope">
                             <div class="handle">
-                                <i @click="delOneItem(scope.row)"
-                                    class="el-icon-delete"></i>
+                                <i @click="delOneItem(scope.row)" class="el-icon-delete"></i>
                             </div>
                         </template>
                     </el-table-column>
@@ -78,9 +61,7 @@
                         <div class="opacity0">1</div>
                     </el-col>
                     <el-col :span="2">
-                        <el-button @click="confirm"
-                            type="primary"
-                            size="mini">确定</el-button>
+                        <el-button @click="confirm" type="primary" size="mini">确定</el-button>
                     </el-col>
                 </el-row>
             </div>

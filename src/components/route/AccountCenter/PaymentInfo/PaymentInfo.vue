@@ -5,7 +5,7 @@
             serverUrl="/ocm-web/api/b2b/payment-bill/list"
             @receiveData="receiveData"></SearchComp>
         <div class="tableContainer">
-            <el-table :data="tableData">
+            <el-table :data="tableData" border>
                 <el-table-column prop="paymentTime"
                     label="支付日期"
                     width="100px">

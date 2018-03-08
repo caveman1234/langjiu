@@ -1,6 +1,6 @@
 <template>
     <div class="AddRetrunWineOrder">
-        <el-button @click="add" size="mini" type="primary">新增还酒单</el-button>
+        <el-button @click="add" size="mini" type="primary" icon="el-icon-plus">新增还酒单</el-button>
         <el-dialog :visible.sync="dialogVisible" width="1000" @close="handleClose" @open="handleOpen">
             <div class="AddNewGoodsTitle" slot="title">
                 <h2 class="title">新增还酒单</h2>
@@ -11,7 +11,7 @@
                 </div>
             </div>
             <div class="dialogContainer">
-                <el-table @selection-change="selectChange" :data="searchData" ref="multipleTable" height="400" style="width: 100%">
+                <el-table @selection-change="selectChange" :data="searchData" ref="multipleTable" height="400" style="width: 100%" border>
                     <el-table-column type="selection" width="55"></el-table-column>
                     <el-table-column prop="productDesc" label="产品名称" width="300">
                         <template slot-scope="scope">

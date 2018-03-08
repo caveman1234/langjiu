@@ -1,7 +1,7 @@
 <template>
     <div class="costOff">
         <div class="title">费用余额明细</div>
-        <el-table :data="tableDataArr">
+        <el-table :data="tableDataArr" border>
             <el-table-column prop="sybName" label="产品线"></el-table-column>
             <el-table-column prop="eReserve" label="E类">
                 <template slot-scope="scope">

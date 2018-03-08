@@ -2,7 +2,7 @@
     <div class="BillDownload">
         <!-- <div style="font-size:50px;font-size: 50px;color: #999999;">即将开放,敬请期待......</div> -->
         <SearchComp ref="searchRef" :searchConfig="searchConfig" @receiveData="receiveData" serverUrl="/ocm-web/api/base/invoice"></SearchComp>
-        <el-table :data="tableData" style="width: 100%">
+        <el-table :data="tableData" border style="width: 100%">
             <el-table-column prop="invoiceDate" label="开票时间">
                 <template slot-scope="scope">
                     <div>{{scope.row.invoiceDate | formatDate}}</div>

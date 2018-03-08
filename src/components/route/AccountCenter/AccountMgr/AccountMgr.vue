@@ -31,7 +31,7 @@
             <div slot="header" class="clearfix">
                 <span>签约账户：</span>
             </div>
-            <el-table :data="tableData">
+            <el-table :data="tableData" border>
                 <el-table-column prop="bindAccountName" label="绑定开户名"></el-table-column>
                 <el-table-column prop="bindBankCard" label="绑定银行卡"></el-table-column>
                 <el-table-column prop="personalAccountBank" label="专属账号开户行"></el-table-column>

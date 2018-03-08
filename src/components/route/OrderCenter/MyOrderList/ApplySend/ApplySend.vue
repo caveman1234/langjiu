@@ -40,7 +40,7 @@
             <el-table :data="infoData.purchaseOrderItems"
                 :summary-method="getSummaries"
                 show-summary
-                style="width: 100%">
+                style="width: 100%" border>
                 <el-table-column prop="productDesc"
                     label="商品详情"
                     width="300">

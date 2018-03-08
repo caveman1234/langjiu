@@ -99,6 +99,7 @@
                     </el-row>
                 </div>
                 <el-table :data="item.purchaseOrderItems" border style="width: 100%">
+                    <el-table-column prop="srcBillCode" label="来源单据号" v-if="item.poTypeCode == '04'"></el-table-column>
                     <el-table-column prop="productDesc" label="商品详情" width="200">
                         <template slot-scope="scope">
                             <div class="detailContainer">
@@ -159,13 +160,12 @@
                                 </div>
                             </template>
                         </el-table-column>
-                        <el-table-column prop="srcBillCode" label="来源单据号" v-if="item.poTypeCode == '04'"></el-table-column>
                     </template>
                 </el-table>
             </div>
         </template>
-        <BankList @receiveSelectedBank="receiveSelectedBank" :dialogVisible.sync="dialogVisible"></BankList>
-
+        <BankList :bankDataSource1="bankDataSource1" @receiveSelectedBank="receiveSelectedBank" :dialogVisible.sync="dialogVisible"></BankList>
+        <BankList1 :bankDataSource1="bankDataSource2" @receiveSelectedBank="receiveSelectedBank2" :dialogVisible.sync="dialogVisible2"></BankList1>
     </div>
 </template>
 <script>
@@ -207,9 +207,10 @@ isSendOver 发货未完成
 // Repaid("04", "填仓订单", null),
 // SendApply("05", "发货申请订单", null);
 import BankList from '@/components/commonComp/BankList/BankList';
+import BankList1 from '@/components/commonComp/BankList/BankList';
 export default {
     name: 'OrderTable1',
-    components: { BankList },
+    components: { BankList,BankList1 },
     props: {
         orderData: {
             default() {
@@ -221,7 +222,50 @@ export default {
         return {
             defaultImg: require('../../../../../assets/defaultimg.png'),
             dialogVisible: false,
+            //去支付 选中的订单数据
             selectedItem: {},
+            //去融资 选中的订单信息
+            goFinancingItem:{},
+            bankDataSource1: [
+                {
+                    name: "中国农业银行",
+                    label: 'abc',
+                    disabled: false,
+                    imgUrl: require('../../../../commonComp/BankList/bankImg/bank_nong.png')
+                },
+                {
+                    name: "中国民生银行",
+                    label: 'cmbc',
+                    disabled: true,
+                    imgUrl: require('../../../../commonComp/BankList/bankImg/bank_min.png')
+                }
+                // {
+                //     name: "中国建设银行",
+                //     label: 'ccb'
+                // }
+            ],
+            bankDataSource2: [
+                // {
+                //     name: "中国农业银行",
+                //     label: 'abc',
+                //     disabled: true,
+                //     imgUrl: require('../../../../commonComp/BankList/bankImg/bank_nong.png')
+                // },
+                {
+                    name: "中国民生银行",
+                    label: 'cmbc',
+                    disabled: false,
+                    imgUrl: require('../../../../commonComp/BankList/bankImg/bank_min.png')
+                },
+                {
+                    name: "中国建设银行",
+                    label: 'ccb',
+                    disabled: true,
+                    imgUrl: require('../../../../commonComp/BankList/bankImg/bank_jian.png')
+                }
+            ],
+            //融资银行弹窗
+            dialogVisible2:false
         }
     },
     methods: {
@@ -260,7 +304,13 @@ export default {
             }
         },
         //去融资
-        goFinancing(item) {
+        goFinancing(item){
+            //缓存当前订单数据
+            this.goFinancingItem = item;
+            this.dialogVisible2 = true;
+        },
+        //去融资 民生银行
+        goFinancingMin(item) {
             let _this = this;
             //请确认是否与民生银行签署融资协议，如签署请点击去融资，否则点击取消，走线下融资流程
             _this.$confirm('请确认是否与民生银行签署融资协议，如签署请点击确认，否则点击取消，走线下融资流程。', '去融资', {
@@ -269,7 +319,7 @@ export default {
                 type: 'warning',
                 center: true
             }).then(() => {
-                
+
                 let params = {
                     mastContCode: item.id,//订单id
                     clientId: _this.$store.state.customerId//客户id
@@ -286,6 +336,10 @@ export default {
                     })
             }).catch(() => { });
 
+        },
+        //去融资 建设银行
+        goFinancingJian(item){
+            //待开发
         },
         //查看更多
         lookMore(item) {
@@ -367,7 +421,7 @@ export default {
                 }
             */
             let _this = this;
-            
+
             //获取现金余额
             let paramsWrap = {
                 params: {
@@ -424,6 +478,20 @@ export default {
         },
         //民生在线支付
         payOnlineCmbc() { },
+        //融资弹窗确定按钮
+        receiveSelectedBank2(selectedBank){
+            let _this = this;
+            switch (selectedBank) {
+                // 建设银行
+                case 'ccb':
+                    _this.goFinancingJian(_this.goFinancingItem);
+                    break;
+                //民生银行
+                case 'cmbc':
+                    _this.goFinancingMin(_this.goFinancingItem);
+                    break;
+            }
+        }
     },
     mounted() {
     }

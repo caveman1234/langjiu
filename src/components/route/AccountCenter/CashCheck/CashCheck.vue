@@ -2,7 +2,7 @@
     <div class="CashCheck">
         <SearchComp ref="searchRef" :searchConfig="searchConfig" serverUrl="/ocm-web/api/b2b/query-balance/queryCashDetail" @receiveData="receiveData" :disable11="true"></SearchComp>
         <div class="tableContainer">
-            <el-table :data="tableData">
+            <el-table :data="tableData" border>
 
                 <el-table-column prop="dbilldate" label="日期"></el-table-column>
                 <el-table-column prop="billcode" label="单据编号"></el-table-column>

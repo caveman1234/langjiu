@@ -6,7 +6,7 @@
             serverUrl="/ocm-web/api/b2b/financing-apply/list"></SearchComp>
         <div class="tableContainer">
             <el-table :data="tableData"
-                style="width: 100%">
+                style="width: 100%" border>
                 <el-table-column prop="applyDate"
                     label="申请日期">
                     <template slot-scope="scope">
