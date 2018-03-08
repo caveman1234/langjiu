@@ -1,19 +1,13 @@
 <template>
     <div class="MyOrderList">
         <div class="topList">
-            <el-tabs @tab-click="tabClick"
-                tab-position="top"
-                v-model="currentChecked">
-                <el-tab-pane label="全部订单"
-                    name="total"></el-tab-pane>
-                <el-tab-pane label="待审核订单"
-                    name="waitCheck"></el-tab-pane>
-                <el-tab-pane label="审核通过"
-                    name="checkPass"></el-tab-pane>
-                <el-tab-pane label="审核不通过"
-                    name="notCheckPass"></el-tab-pane>
-                <el-tab-pane label="已完成"
-                    name="complete"></el-tab-pane>
+            <el-tabs @tab-click="tabClick" tab-position="top" v-model="currentChecked">
+                <el-tab-pane label="全部订单" name="total"></el-tab-pane>
+                <el-tab-pane label="未提交" name="NotSubmitOrder"></el-tab-pane>
+                <el-tab-pane label="待审核订单" name="waitCheck"></el-tab-pane>
+                <el-tab-pane label="审核通过" name="checkPass"></el-tab-pane>
+                <el-tab-pane label="审核不通过" name="notCheckPass"></el-tab-pane>
+                <el-tab-pane label="已完成" name="complete"></el-tab-pane>
             </el-tabs>
         </div>
         <div class="searchBox">
@@ -37,15 +31,18 @@ export default {
                     this.$router.push({ path: '/TotalOrder' });
                     break;
                 case '1':
-                    this.$router.push({ path: '/SavedOrder' });
+                    this.$router.push({ path: '/NotSubmitOrder' });
                     break;
                 case '2':
-                    this.$router.push({ path: '/CheckPass' });
+                    this.$router.push({ path: '/SavedOrder' });
                     break;
                 case '3':
-                    this.$router.push({ path: '/NotCheckPass' });
+                    this.$router.push({ path: '/CheckPass' });
                     break;
                 case '4':
+                    this.$router.push({ path: '/NotCheckPass' });
+                    break;
+                case '5':
                     this.$router.push({ path: '/Complete' });
                     break;
                 default:
@@ -56,7 +53,7 @@ export default {
     mounted() {
         let _this = this;
         let from = _this.$route.params.from;
-        
+
         switch (from) {
             case 'Home':
                 _this.currentChecked = 'waitCheck';

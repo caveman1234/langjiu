@@ -12,13 +12,13 @@ module.exports = {
         assetsPublicPath: '/',
         proxyTable: {
             '/ocm-web': {
-                target: 'http://192.168.100.58', //测试
+                // target: 'http://192.168.100.58', //测试
                 // target: 'http://10.18.2.37:8081', //qiong
                 // target: 'http://10.18.3.205:8080', //简称波
                 // target: 'http://10.18.1.239', //代凯
 
                 // target: 'http://10.18.0.210:8080',
-                // target: 'http://182.150.55.64:8013', //在线
+                target: 'http://182.150.55.64:8013', //在线
                 // target: 'http://c.langjiu.cn', //正式
                 // target: 'http://10.18.3.87:8080', //庆鹏
                 changeOrigin: true,

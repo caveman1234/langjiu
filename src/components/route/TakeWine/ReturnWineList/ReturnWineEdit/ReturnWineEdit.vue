@@ -2,7 +2,7 @@
     <div class="ReturnWineEdit">
         <div class="goodsInfo">
             <div class="goodsContent">
-                <el-table :data="goodsData" :summary-method="getSummaries" show-summary style="width: 100%">
+                <el-table :data="goodsData" :summary-method="getSummaries" show-summary border style="width: 100%">
                     <el-table-column prop="productDesc" label="商品详情" width="200">
                         <template slot-scope="scope">
                             <div class="detailContainer">
@@ -74,6 +74,7 @@ export default {
         return {
             goodsData: [],
             defaultImg: require('../../../../../assets/defaultimg.png'),
+            tFee: 10000
         }
     },
     methods: {
@@ -117,8 +118,13 @@ export default {
         },
         /* 确定 */
         confirm() {
+            let totalMoney = this.goodsData.reduce((acc, v) => acc + v.paymentTotalMoney, 0)
             if (this.goodsData.length > 0) {
-                this.$router.push({ name: 'ReturnWineOrder', params: { selectedData: this.goodsData } });
+                if (this.tFee < totalMoney) {
+                    this.$Notify({ title: `T类费用(¥${String(this.tFee.toFixed(2)).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")})不足`, type: 'warning' });
+                } else {
+                    this.$router.push({ name: 'ReturnWineOrder', params: { selectedData: this.goodsData, tFee: this.tFee } });
+                }
             } else {
                 this.$Notify({ title: '商品不能为空', type: 'warning' });
             }
@@ -142,6 +148,20 @@ export default {
                 }
             })
             return arr;
+        },
+        //获取t类费用
+        fetchTFee() {
+            let _this = this;
+            let paramsWrap = {
+                params: {
+                    customerId: this.$store.state.customerId
+                }
+            };
+            let serverUrl = '';
+            _this.$http.get(url, params)
+                .then(res => {
+                    _this.tFee = res.data;
+                });
         }
     },
     computed: {
@@ -160,6 +180,8 @@ export default {
 
     },
     activated() {
+        //获取t类费用
+        // this.fetchTFee();
         if (this.$route.params.selectedData) {
             this.goodsData = this.$route.params.selectedData.map(v => {
                 //baleQuantity 箱数

@@ -1,1 +1,41 @@
-.ReturnWineOrder {}
+@import 'src/css/colors.scss';
+.ReturnWineOrder {
+    .itemTitle {
+        font-size: 14px;
+        color: $color333;
+        line-height: 35px;
+        font-weight: bold;
+    }
+    .realTotal {
+        height: 50px;
+        background: $bgColor;
+        display: flex;
+        align-items: center;
+    }
+    .el-table {
+        .detailContainer {
+            display: flex;
+            .goodsImg {
+                flex: 0 0 62px;
+                height: 62px;
+                border: 1px solid $borderColor;
+                background-repeat: no-repeat;
+                background-size: contain;
+            }
+            .desc {
+                flex: 1;
+                padding: 0 20px 0 10px;
+            }
+        }
+        th,
+        td {
+            padding: 3px 0;
+        }
+    }
+    .opacity0 {
+        opacity: 0;
+    }
+    .gray {
+        color: #a59c9cfa;
+    }
+}

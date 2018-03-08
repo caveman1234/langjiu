@@ -11,26 +11,27 @@ import ReturnDeliverTable from '../../ReturnDeliverTable/ReturnDeliverTable';
 import SearchComp from '@/components/commonComp/SearchComp/SearchComp';
 let searchConfig = [
     {
+        type: 'input',
+        field: 'srcBillCode',
+        label: '来源单据号：'
+    },
+    {
         type: 'select',
         field: 'poTypeId',
-        label: '订单类型：',
+        label: '单据类型：',
         dataSource: []
     },
     {
         type: 'datePickerRange',
         field: 'orderDate',
-        label: '订单日期：'
+        label: '单据日期：'
     },
     {
         type: 'input',
         field: 'orderCode',
-        label: '订单编号：'
+        label: '单据编号：'
     },
-    {
-        type: 'input',
-        field: 'srcBillCode',
-        label: '来源单据号：'
-    }
+    
 ];
 export default {
     name:'DeliverComplete',

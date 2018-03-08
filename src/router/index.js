@@ -68,6 +68,7 @@ import TotalOrder from '@/components/route/OrderCenter/MyOrderList/TotalOrder/To
 import CheckPass from '@/components/route/OrderCenter/MyOrderList/CheckPass/CheckPass'
 import Complete from '@/components/route/OrderCenter/MyOrderList/Complete/Complete'
 import NotCheckPass from '@/components/route/OrderCenter/MyOrderList/NotCheckPass/NotCheckPass'
+import NotSubmitOrder from '@/components/route/OrderCenter/MyOrderList/NotSubmitOrder/NotSubmitOrder'
 
 
 import MainPage from '@/components/MainPage/MainPage'
@@ -217,6 +218,11 @@ export default new Router({
                     path: '/NotCheckPass',
                     name: 'NotCheckPass',
                     component: NotCheckPass
+                },
+                {
+                    path: '/NotSubmitOrder',
+                    name: 'NotSubmitOrder',
+                    component: NotSubmitOrder
                 }
 
                 ]

@@ -6,7 +6,8 @@
                 <el-tab-pane label="填仓提货单" name="AddPickOrder"></el-tab-pane>
                 <el-tab-pane label="发货通知单" name="DeliverList"></el-tab-pane>
                 <el-tab-pane label="退订申请单" name="ReturnList"></el-tab-pane>
-                <el-tab-pane label="未出货明细查询" name="notDeliverSearch"></el-tab-pane>
+                <!-- <el-tab-pane label="未出货明细查询" name="notDeliverSearch"></el-tab-pane> -->
+                
             </el-tabs>
         </div>
         <div class="orderContainer">

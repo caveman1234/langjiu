@@ -53,7 +53,7 @@ export default {
         searchUrl: {
             default() {
                 return "/ocm-web/api/base/prod/search-for-purchase-order"
-                
+
             }
         }
     },
@@ -109,7 +109,7 @@ export default {
         },
         searchGoodsInfo(params) {/* 异步获取表格数据 */
             let _this = this;
-            let url = this.searchUrl;
+            let url = "/ocm-web/api/base/prod/search-for-purchase-order";
             _this.$http.get(url, params)
                 .then(res => {
                     let data = res.data;
@@ -142,7 +142,8 @@ export default {
             _this.$http.get(serverUrl, paramsWrap)
                 .then(res => {
                     let data = res.data;
-                    let smallWineProdGroupId = data.find(v => v.code === '022102').id;
+                    let findObj = data.find(v => v.code === '022102');
+                    let smallWineProdGroupId = findObj ? findObj.id : '';
                     _this.prodGroupId = smallWineProdGroupId;
                 });
         }

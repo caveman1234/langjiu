@@ -1,53 +1,34 @@
 <template>
-    <div class="AddPickOrder">
-        <SearchComp ref="searchRef"
-            :searchConfig="searchConfig"
-            @receiveData="receiveData"
-            :extralParams="extralParams"
-            method="post"
-            serverUrl="/ocm-web/api/b2b/purchase-orders/search-all-orders">
-        </SearchComp>
+    <div class="NotSubmitOrder">
+        <SearchComp ref="searchRef" :searchConfig="searchConfig" @receiveData="receiveData" :extralParams="extralParams" method="post" serverUrl="/ocm-web/api/b2b/purchase-orders/search-all-orders"></SearchComp>
         <OrderTable1 :orderData="orderData"></OrderTable1>
-        <el-pagination @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
-            :current-page="pageParams.pageIndex"
-            :page-sizes="[10, 20, 50, 100]"
-            :page-size="pageParams.pageSize"
-            layout="total, sizes, prev, pager, next, jumper"
-            :total="pageParams.total"
-            prev-text="上一页"
-            next-text="下一页">
+        <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="pageParams.pageIndex" :page-sizes="[10, 20, 50, 100]" :page-size="pageParams.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="pageParams.total" prev-text="上一页" next-text="下一页">
         </el-pagination>
     </div>
 </template>
 <script>
-import OrderTable1 from '../MyOrderList/OrderTable1/OrderTable1';
+import OrderTable1 from '../OrderTable1/OrderTable1';
 import SearchComp from '@/components/commonComp/SearchComp/SearchComp';
 let searchConfig = [
     {
-        type: 'input',
-        field: 'srcBillCode',
-        label: '来源单据号：'
-    },
-    {
         type: 'select',
-        field: 'billStatusCode',
-        label: '单据状态：',
+        field: 'poTypeId',
+        label: '订单类型：',
         dataSource: []
     },
     {
         type: 'datePickerRange',
         field: 'orderDate',
-        label: '单据日期：'
+        label: '订单日期：'
     },
     {
         type: 'input',
         field: 'orderCode',
-        label: '单据编号：'
+        label: '订单编号：'
     }
 ];
 export default {
-    name:'AddPickOrder',
+    name:'Complete',
     components: { SearchComp, OrderTable1 },
     data() {
         return {
@@ -58,12 +39,12 @@ export default {
                 pageSize: 10,
                 total: 0
             },
-            searchConfig: searchConfig,
+            searchConfig:searchConfig,
             //搜索额外字段
-            extralParams: {
-                poTypeBusinessType: "01,03,04",
+            extralParams:{
+                billStatusCode:'01',
+                poTypeBusinessType: "01,03",
                 distributorIds: this.$store.state.customerId,
-                poTypeId:''
             }
         }
     },
@@ -95,24 +76,12 @@ export default {
             };
             _this.$refs.searchRef.search(params);
         },
-        fetchOrderType() {
+        fetchOrderType(){
             let _this = this;
             /* 获取订单类型 */
             return _this.$http.get('/ocm-web/api/b2b/po-types/get-common')
                 .then(res => {
-                    //将订单类型固定成填仓提货订单
-                    let dataSource = res.data.map(v => ({ label: v.name, value: v.id,code:v.code }));
-                    let AddPickId = dataSource.find(v=>v.code == '04').value;
-                    _this.extralParams.poTypeId = AddPickId;
-                    return dataSource;
-                });
-        },
-        fetchOrderStatus() {
-            let _this = this;
-            /* 获取订单状态 */
-            return _this.$http.get('/ocm-web/api/b2b/billstatus/getAll')
-                .then(res => {
-                    return res.data.map(v => ({ label: v.name, value: v.value }));
+                    return res.data.filter(v=>v.code!=='04').map(v => ({ label: v.name, value: v.id }));
                 });
         }
     },
@@ -122,21 +91,13 @@ export default {
             page: 0,
             size: _this.pageParams.pageSize
         };
-        
-        //获取订单类型下拉框
-        _this.fetchOrderType().then(res => {
+        _this.$refs.searchRef.search(params);
+        _this.fetchOrderType().then(res=>{
             _this.searchConfig[0].dataSource = res;
-            //页面初始化搜索
-            _this.$refs.searchRef.search(params);
-        });
-        //获取订单状态下拉框
-        _this.fetchOrderStatus().then(res => {
-            _this.searchConfig[1].dataSource = res;
-        });
+        })
     }
-
 }
 </script>
-<style lang="scss">
-@import './AddPickOrder.scss';
+<style lang="scss" scoped>
+@import './NotSubmitOrder.scss';
 </style>
