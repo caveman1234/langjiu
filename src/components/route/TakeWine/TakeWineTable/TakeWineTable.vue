@@ -24,9 +24,9 @@
                 <div class="orderHeader">
                     <el-row type="flex" justify="end">
                         <template v-if="item.billStatus == 0">
-                            <el-button @click="checkPass(item)" size="mini" type="primary">通过</el-button>
+                            <el-button @click="checkPass(item)" size="mini" type="primary">同意</el-button>
                             <div style="opacity:0;">1</div>
-                            <el-button @click="checkNotPass(item)" size="mini" type="primary">驳回</el-button>
+                            <el-button @click="checkNotPass(item)" size="mini" type="primary">不同意</el-button>
                         </template>
 
                     </el-row>

@@ -2,7 +2,7 @@
     <div class="ReturnWineList">
         <SearchComp ref="searchRef" :searchConfig="searchConfig" @receiveData="receiveData" serverUrl="/ocm-web/api/b2b/returnwine-bills/search"></SearchComp>
         <el-row>
-            <AddRetrunWineOrder @receiveSearchData="receiveSearchData"></AddRetrunWineOrder>
+            <!-- <AddRetrunWineOrder @receiveSearchData="receiveSearchData"></AddRetrunWineOrder> -->
         </el-row>
         <ReturnWineTable :tableData="tableData"></ReturnWineTable>
         <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="pageParams.pageIndex" :page-sizes="[10, 20, 50, 100]" :page-size="pageParams.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="pageParams.total" prev-text="上一页" next-text="下一页">
