@@ -233,12 +233,12 @@ export default {
                     disabled: false,
                     imgUrl: require('../../../../commonComp/BankList/bankImg/bank_nong.png')
                 },
-                {
-                    name: "中国民生银行",
-                    label: 'cmbc',
-                    disabled: true,
-                    imgUrl: require('../../../../commonComp/BankList/bankImg/bank_min.png')
-                }
+                // {
+                //     name: "中国民生银行",
+                //     label: 'cmbc',
+                //     disabled: true,
+                //     imgUrl: require('../../../../commonComp/BankList/bankImg/bank_min.png')
+                // }
                 // {
                 //     name: "中国建设银行",
                 //     label: 'ccb'
@@ -257,12 +257,12 @@ export default {
                     disabled: false,
                     imgUrl: require('../../../../commonComp/BankList/bankImg/bank_min.png')
                 },
-                {
-                    name: "中国建设银行",
-                    label: 'ccb',
-                    disabled: true,
-                    imgUrl: require('../../../../commonComp/BankList/bankImg/bank_jian.png')
-                }
+                // {
+                //     name: "中国建设银行",
+                //     label: 'ccb',
+                //     disabled: true,
+                //     imgUrl: require('../../../../commonComp/BankList/bankImg/bank_jian.png')
+                // }
             ],
             //融资银行弹窗
             dialogVisible2:false

@@ -49,7 +49,25 @@ export default {
             //选择银行弹框
             dialogVisible: false,
             //在线支付loading状态
-            isPayOnlineLoading:false
+            isPayOnlineLoading:false,
+            bankDataSource1: [
+                {
+                    name: "中国农业银行",
+                    label: 'abc',
+                    disabled: false,
+                    imgUrl: require('../../commonComp/BankList/bankImg/bank_nong.png')
+                },
+                // {
+                //     name: "中国民生银行",
+                //     label: 'cmbc',
+                //     disabled: true,
+                //     imgUrl: require('../../commonComp/BankList/bankImg/bank_min.png')
+                // }
+                // {
+                //     name: "中国建设银行",
+                //     label: 'ccb'
+                // }
+            ],
         }
     },
     methods: {

@@ -221,7 +221,7 @@
                 </el-col>
             </el-row>
         </div>
-        <BankList @receiveSelectedBank="receiveSelectedBank" :dialogVisible.sync="dialogVisible"></BankList>
+        <BankList :bankDataSource1="bankDataSource1" @receiveSelectedBank="receiveSelectedBank" :dialogVisible.sync="dialogVisible"></BankList>
     </div>
 </template>
 <script>
