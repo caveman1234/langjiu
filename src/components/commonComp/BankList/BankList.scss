@@ -1,13 +1,17 @@
+@import 'src/css/colors.scss';
 .BankList {
     .radioImg {
         display: inline-block;
-        width: 130px;
-        height: 26px;
+        width: 148px;
+        height: 36px;
         position: relative;
-        top: -6px;
+        top: -12px;
         right: 6px;
         vertical-align: top;
         background-size: contain;
         background-repeat: no-repeat;
+    }
+    .el-dialog__header {
+        border-bottom: 1px dashed $borderColor;
     }
 }

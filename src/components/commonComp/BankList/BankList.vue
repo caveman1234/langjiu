@@ -1,7 +1,7 @@
 <template>
     <div class="BankList">
         <el-dialog title="请选择银行" @close="close" @open="open" :visible.sync="dialogVisible1" width="700px">
-            <el-radio-group v-model="selectedBank" size="mini">
+            <el-radio-group v-model="selectedBank" size="large">
                 <!-- <el-radio v-for="(item,index) in bankDataSource" :key="index" :label="item.label" border :disabled="item.disabled">{{item.name}}</el-radio> -->
 
 
