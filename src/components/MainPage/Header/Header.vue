@@ -5,6 +5,9 @@
                 <div class="left">
                     全国统一客服热线：400-806-6969
                 </div>
+                <!-- <i @click="openMask" class="icon iconfont lj-msg headerMessage" >
+                    <span class="innerNum">22</span>
+                </i> -->
                 <div class="right">
                     <span>欢迎:{{$store.state.userloginName}}</span>
                     <a @click="logOut">注销</a>
@@ -15,44 +18,42 @@
         <div class="headerBottom">
             <div class="content clearfix">
                 <div class="logo">
-                    <img :src="logoImg"
-                        alt="">
+                    <img :src="logoImg" alt="">
                 </div>
 
                 <div class="nav">
                     <ul>
                         <template v-for="(item,index) in navList">
-                            <router-link :to="item.routeTo"
-                                :key="index">
-                                <li @click="headerClick(index)"
-                                    :class="[item.hasSelected?'navItemSelected':'']">{{item.name}}</li>
+                            <router-link :to="item.routeTo" :key="index">
+                                <li @click="headerClick(index)" :class="[item.hasSelected?'navItemSelected':'']">{{item.name}}</li>
                             </router-link>
                         </template>
                     </ul>
                 </div>
             </div>
         </div>
-        <form v-show="false"
-            id="bankForm"
-            method="post"
-            action="http://111.205.207.144:7003/ecp/htmlMhtInFwd/forward">
-            <button id="bankFormSubmit"
-                type="submit">提交</button>
+        <form v-show="false" id="bankForm" method="post" action="http://111.205.207.144:7003/ecp/htmlMhtInFwd/forward">
+            <button id="bankFormSubmit" type="submit">提交</button>
         </form>
         <CheckCustomerInfo></CheckCustomerInfo>
+        <div v-show="messageMaskVisiable" class="msgFullMask">
+            <!-- <Chat @closeMask="closeMask"></Chat> -->
+        </div>
     </div>
 </template>
 <script>
 import { mapState, mapMutations, mapGetters } from 'Vuex';
 import CheckCustomerInfo from './CheckCustomerInfo/CheckCustomerInfo.vue';
+import Chat from './Chat/Chat';
 export default {
     name: 'Header',
-    components: { CheckCustomerInfo },
+    components: { CheckCustomerInfo,Chat },
     data() {
         return {
             searchInfo: "",
             logoImg: require('../../../assets/logo.jpg'),
-            state: this.$store.state
+            state: this.$store.state,
+            messageMaskVisiable:false,//聊天层是否可见
         }
     },
     methods: {
@@ -99,11 +100,11 @@ export default {
                 .then(res => {
                     if (res.data.isSign === 0) {
                         //未签约
-                        _this.$store.commit('isSign',false);
+                        _this.$store.commit('isSign', false);
                         _this.$store.commit('CheckCustomerInfoIsVisiable', true)
                         _this.$router.push({ name: 'AccountMgr', params: { to: 'AccountMgr' } });
-                    }else{
-                        _this.$store.commit('isSign',true);
+                    } else {
+                        _this.$store.commit('isSign', true);
                     }
                 });
         },
@@ -116,7 +117,7 @@ export default {
             //     duration: 0,
             //     offset: 90
             // });
-            
+
             _this.$confirm('你还没有与银行签约，是否去签约?', '未签约', {
                 confirmButtonText: '是',
                 cancelButtonText: '否',
@@ -165,13 +166,19 @@ export default {
 
                 });
         },
+        //打开聊天遮罩
+        openMask(){
+            this.messageMaskVisiable = true;
+        },
+        //关闭聊天遮罩 
+        closeMask(e){
+            this.messageMaskVisiable = false;
+        }
 
     },
     computed: {
         ...mapState({
-            purchaseCount(state) {
-                return state.purchaseCount;
-            },
+
             navList(state) {
                 return state.navList
             }

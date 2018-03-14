@@ -287,6 +287,7 @@ export default {
         uploadFileAsync() {
             let _this = this;
             let params = new FormData();
+            params.append('customerId', _this.$store.state.customerId);
             params.append('id', _this.currentRow.id);
             params.append('file', _this.file);
             let remoteUrl = '/ocm-web/api/cm/contract-mgr/upload-contract-file';
