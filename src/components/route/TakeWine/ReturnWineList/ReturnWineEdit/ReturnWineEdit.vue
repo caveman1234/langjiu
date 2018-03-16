@@ -2,7 +2,7 @@
     <div class="ReturnWineEdit">
         <div class="goodsInfo">
             <div class="goodsContent">
-                <el-table :data="goodsData" :summary-method="getSummaries" show-summary border style="width: 100%" border>
+                <el-table :data="goodsData" :summary-method="getSummaries" show-summary border style="width: 100%">
                     <el-table-column prop="productDesc" label="商品详情" width="200">
                         <template slot-scope="scope">
                             <div class="detailContainer">

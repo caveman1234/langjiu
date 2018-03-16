@@ -14,7 +14,7 @@
                         <el-col :span="2" v-red>{{item.billStatusName}}</el-col>
                     </el-row>
                 </div>
-                <el-table :data="item.purchaseOrderItems" border style="width: 100%" border>
+                <el-table :data="item.purchaseOrderItems" border style="width: 100%">
                     <el-table-column prop="srcBillCode" label="来源单据号"></el-table-column>
                     <el-table-column prop="productDesc" label="商品详情" width="300">
                         <template slot-scope="scope">

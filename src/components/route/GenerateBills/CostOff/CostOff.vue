@@ -36,7 +36,7 @@
 
                     </el-form>
                 </el-row>
-                <el-table :data="searchData" show-summary sum-text="合计" border style="width: 100%" border>
+                <el-table :data="searchData" show-summary sum-text="合计" border style="width: 100%">
                     <el-table-column prop="ctype" label="费用类型"></el-table-column>
                     <el-table-column prop="reserve" label="可用余额"></el-table-column>
                     <el-table-column prop="currentMoney" label="本次使用金额">

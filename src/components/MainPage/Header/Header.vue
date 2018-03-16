@@ -5,7 +5,7 @@
                 <div class="left">
                     全国统一客服热线：400-806-6969
                 </div>
-                <!-- <i @click="openMask" class="icon iconfont lj-msg headerMessage" >
+                <!-- <i @click="openMask" class="icon iconfont lj-msg headerMessage">
                     <span class="innerNum">22</span>
                 </i> -->
                 <div class="right">
@@ -44,16 +44,16 @@
 <script>
 import { mapState, mapMutations, mapGetters } from 'Vuex';
 import CheckCustomerInfo from './CheckCustomerInfo/CheckCustomerInfo.vue';
-import Chat from './Chat/Chat';
+import Chat from './Chat/Chat.vue';
 export default {
     name: 'Header',
-    components: { CheckCustomerInfo,Chat },
+    components: { CheckCustomerInfo, Chat },
     data() {
         return {
             searchInfo: "",
             logoImg: require('../../../assets/logo.jpg'),
             state: this.$store.state,
-            messageMaskVisiable:false,//聊天层是否可见
+            messageMaskVisiable: false,//聊天层是否可见
         }
     },
     methods: {
@@ -167,11 +167,11 @@ export default {
                 });
         },
         //打开聊天遮罩
-        openMask(){
+        openMask() {
             this.messageMaskVisiable = true;
         },
         //关闭聊天遮罩 
-        closeMask(e){
+        closeMask(e) {
             this.messageMaskVisiable = false;
         }
 

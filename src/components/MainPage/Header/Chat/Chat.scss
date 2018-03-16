@@ -8,4 +8,44 @@
             right: 0;
         }
     }
+    .chatBody {
+        padding: 10px;
+        .chatBodyContainer {
+            width: 900px;
+            margin: 0 auto;
+            // height: 600px;
+            .productRadio {
+                .el-badge__content.is-fixed {
+                    position: absolute;
+                    top: -12px;
+                    transform: translateY(-50%) translateX(100%);
+                }
+            }
+            .chatTite {
+                border: 1px solid $borderColor;
+                line-height: 30px;
+                text-align: center;
+                margin-top: 10px;
+                font-size: 18px;
+                position: relative;
+                .close {
+                    position: absolute;
+                    right: 0;
+                    top: -2px;
+                }
+            }
+            .chatContent {
+                border: 1px solid $borderColor;
+                height: 500px;
+                overflow: auto;
+            }
+            .chatSendMsg {
+                border: 1px solid $borderColor;
+            }
+            .sendMsg {
+                border: 1px solid $borderColor;
+                height: 30px;
+            }
+        }
+    }
 }

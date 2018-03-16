@@ -17,7 +17,7 @@ let searchConfig = [
     {
         type: 'input',
         field: 'orderCode',
-        label: '订单号：'
+        label: '单据号：'
     },
     {
         type: 'select',
