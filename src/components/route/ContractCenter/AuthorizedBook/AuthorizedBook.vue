@@ -1,7 +1,7 @@
 <template>
     <div class="AuthorizedBook">
         <SearchComp ref="searchRef" :searchConfig="searchConfig" :extralParams="extralParams" @receiveData="receiveData" serverUrl="/ocm-web/api/cm/authorization-mgr"></SearchComp>
-        <el-table :data="tableData" style="width: 100%" border>
+        <el-table :data="tableData" style="width: 100%;margin-top:10px;" border>
             <el-table-column prop="contractCode" label="来源合同号"></el-table-column>
             <el-table-column prop="code" label="授权书编码"></el-table-column>
             <el-table-column prop="typeCode" label="授权书类型">
@@ -95,7 +95,7 @@ export default {
             _this.$refs.searchRef.search(params);
         },
         download(row) {
-            let url = row.url;
+            let url = row.attachment;
             window.open(url);
         }
     },
