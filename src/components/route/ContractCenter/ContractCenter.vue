@@ -3,6 +3,7 @@
         <div class="leftList">
             <el-tabs @tab-click="tabClick" tab-position="left" v-model="tabModel">
                 <el-tab-pane label="合同签订" name="Sign"></el-tab-pane>
+                <el-tab-pane label="授权书列表" name="AuthorizedBook"></el-tab-pane>
                 <el-tab-pane label="合同执行情况" name="ExeCondition"></el-tab-pane>
             </el-tabs>
         </div>
@@ -14,6 +15,7 @@
 <script>
 import ExeCondition from './ExeCondition/ExeCondition';
 import Sign from './Sign/Sign';
+import AuthorizedBook from './AuthorizedBook/AuthorizedBook';
 export default {
     name: 'ContractCenter',
     data() {
@@ -31,6 +33,9 @@ export default {
                     _this.comp = Sign;
                     break;
                 case '1':
+                    _this.comp = AuthorizedBook;
+                    break;
+                case '2':
                     _this.comp = ExeCondition;
                     break;
             }
