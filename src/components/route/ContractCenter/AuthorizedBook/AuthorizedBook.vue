@@ -11,7 +11,7 @@
             </el-table-column>
             <el-table-column prop="" label="操作" width="140px">
                 <template slot-scope="scope">
-                    <el-button @click="download(scope.row)" type="primary" size="mini">查看/下载</el-button>
+                    <el-button @click="download(scope.row)" size="mini">查看/下载</el-button>
                 </template>
             </el-table-column>
         </el-table>

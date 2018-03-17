@@ -6,7 +6,7 @@
                     <el-col style="width:303px;" :span="8" :key="index" class="clearfix">
                         <template v-if="item.type == 'input'">
                             <el-form-item :label="item.label">
-                                <el-input v-model="formDatas[item.field]"></el-input>
+                                <el-input @keyup.enter.native="inputEnter" v-model="formDatas[item.field]"></el-input>
                             </el-form-item>
                         </template>
                         <template v-if="item.type == 'select'">
@@ -178,6 +178,9 @@ export default {
                 _this.formDatas[obj.field] = '';
             })
         },
+        inputEnter(e){
+            this.search(e)
+        }
 
     },
     mounted() {
