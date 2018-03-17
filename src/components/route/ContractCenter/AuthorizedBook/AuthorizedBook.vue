@@ -29,7 +29,7 @@ let searchConfig = [
     },
     {
         type: 'select',
-        field: 'typecode',
+        field: 'typeCode',
         label: '授权书类型：',
         dataSource: [
             { label: "青花郎授权书", value: "1" },
