@@ -167,6 +167,38 @@ function install(Vue) {
         });
         return Promise.reject(error);
     });
+    //jquery ajax
+    $.ajaxSetup({
+        timeout: 30 * 1000,
+        cache: false,
+        beforeSend: function(xhr) {
+            loadingInstance1 = Loading.service({
+                fullscreen: true,
+                text: '正在拼命加载......',
+                background:'rgba(0,0,0,0.1)'
+            });
+        },
+        complete: function(xhr, status,x,y) {
+            setTimeout(_ => loadingInstance1.close(),300);
+            // if(status == 'error'){
+            //     let msg = JSON.parse(xhr.responseText).msg;
+            //     Notification.error({
+            //         title: msg,
+            //         // message: errorThrown,
+            //         offset: 90,
+            //         duration: 3000
+            //     });
+            // }
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) { //对错误进行统一处理
+            Notification.error({
+                title: textStatus,
+                message: (JSON.parse(XMLHttpRequest.responseText)||{}).msg,
+                offset: 90,
+                duration: 3000
+            });
+        }
+    });
 }
 export default {
     install

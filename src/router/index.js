@@ -75,6 +75,7 @@ import MainPage from '@/components/MainPage/MainPage'
 
 import Login from '@/components/Login/Login.vue'
 import ChangePassword from '@/components/ChangePassword/ChangePassword.vue'
+import FindPassword from '@/components/FindPassword/FindPassword.vue'
 
 /* 合同中心 */
 import ContractCenter from '@/components/route/ContractCenter/ContractCenter'
@@ -421,6 +422,11 @@ export default new Router({
         path: '/ChangePassword',
         name: 'ChangePassword',
         component: ChangePassword
+    },
+    {
+        path: '/FindPassword',
+        name: 'FindPassword',
+        component: FindPassword
     }
 
     ],
