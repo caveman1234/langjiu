@@ -193,7 +193,7 @@ function install(Vue) {
         error: function(XMLHttpRequest, textStatus, errorThrown) { //对错误进行统一处理
             Notification.error({
                 title: textStatus,
-                message: (JSON.parse(XMLHttpRequest.responseText)||{}).msg,
+                message: errorThrown,
                 offset: 90,
                 duration: 3000
             });
