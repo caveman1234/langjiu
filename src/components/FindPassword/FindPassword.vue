@@ -54,7 +54,7 @@
 </template>
 <script>
 //配置验证码失效时间（秒）
-let securitySecondsConfig = 5;
+let securitySecondsConfig = 300;
 export default {
     name: 'FindPassword',
     data() {
@@ -144,14 +144,15 @@ export default {
                     let params = {
                         code: _this.loginForm.securityCode,
                         hash: _this.loginForm.hash,
-                        tamp: _this.loginForm.tamp
+                        tamp: _this.loginForm.tamp,
                     };
                     $.ajax({
                         type: "POST",
                         url: url,
                         data: JSON.stringify(params),
-                        contentType: "application/json",
+                        contentType: 'application/json',
                         success(res) {
+                            debugger
                             switch (res.result) {
                                 case 0:
                                     _this.$Notify({ title: "验证不通过", type: "warning" });
@@ -166,15 +167,23 @@ export default {
                                         username: _this.loginForm.username,
                                         password: _this.loginForm.password
                                     };
+                                    let formData = new FormData();
+                                    formData.append('username', _this.loginForm.username);
+                                    formData.append('password', _this.loginForm.password);
                                     $.ajax({
                                         type: "POST",
                                         url: url,
-                                        data: JSON.stringify(params),
-                                        contentType: "application/json",
+                                        data: formData,
+                                        processData: false,
+                                        contentType: false,
+
                                         success(res) {
-                                            _this.$Notify({ title: "修改密码成功,请重新登陆", type: "success" });
-                                            clearInterval(_this.timer);
-                                            _this.$router.push({ name: 'Login' });
+                                            debugger
+                                            if (res.result == 1) {
+                                                _this.$Notify({ title: "修改密码成功,请重新登陆", type: "success" });
+                                                clearInterval(_this.timer);
+                                                _this.$router.push({ name: 'Login' });
+                                            }
                                         }
                                     })
                                     break;
@@ -219,22 +228,26 @@ export default {
             });
         },
         resetForm(formName) {
-            this.$refs[formName].resetFields();
+            // this.$refs[formName].resetFields();
+            this.loginForm.password = '';
+            this.loginForm.rePassword = '';
+            this.loginForm.securityCode = '';
         },
         //获取验证码
         fetchSecurityCode() {
             let _this = this;
             let url = "/ocm-web/api/account/sendVerificationCode";
-            let params = {
-                phoneNum: _this.loginForm.phoneNum
-            };
+            let formData = new FormData();
+            formData.append('phoneNum', _this.loginForm.phoneNum);
             $.ajax({
                 type: "POST",
                 url: url,
-                data: JSON.stringify(params),
-                contentType: "application/json",
+                data: formData,
+                processData: false,
+                contentType: false,
                 success(res) {
                     if (res.result == 1) {
+                        debugger
                         _this.loginForm.code = res.code;
                         _this.loginForm.hash = res.hash;
                         _this.loginForm.tamp = res.tamp;
@@ -256,7 +269,7 @@ export default {
             });
             //==============================
             // 
-            
+
 
             //==============================
         },

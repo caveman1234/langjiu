@@ -1,5 +1,5 @@
 function mounted() {
-    // window[this.$options.name || "anonymous"] = this;
+    window[this.$options.name || "anonymous"] = this;
 }
 
 function myFun(funcName) {

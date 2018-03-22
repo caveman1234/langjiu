@@ -179,16 +179,16 @@ function install(Vue) {
             });
         },
         complete: function(xhr, status,x,y) {
+            debugger
+            if(xhr.getResponseHeader('x-ocm-code') != 1){
+                Notification.error({
+                    title: decodeURIComponent(xhr.getResponseHeader('x-ocm-message')),
+                    // message: decodeURI(response.headers["x-ocm-message"]),
+                    offset: 90,
+                    duration: 3000
+                });
+            }
             setTimeout(_ => loadingInstance1.close(),300);
-            // if(status == 'error'){
-            //     let msg = JSON.parse(xhr.responseText).msg;
-            //     Notification.error({
-            //         title: msg,
-            //         // message: errorThrown,
-            //         offset: 90,
-            //         duration: 3000
-            //     });
-            // }
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) { //对错误进行统一处理
             Notification.error({

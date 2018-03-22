@@ -91,10 +91,10 @@
                                 <el-button @click="goFinancing(item)" size="mini" type="primary">去融资
                                 </el-button>
                             </template>
-                            <!-- <template  v-if="item.billStatusCode == '01' && item.poTypeBusinessType == '01'  " >
+                            <template  v-if="item.billStatusCode == '01' && item.poTypeBusinessType == '01'  " >
                                 <el-button v-show="true" @click="payOnline(item)" size="mini" type="primary" :loading="item.isPayOnlineLoading">在线支付
                                 </el-button>
-                            </template> -->
+                            </template>
                         </el-button-group>
                     </el-row>
                 </div>
@@ -164,7 +164,9 @@
                 </el-table>
             </div>
         </template>
+        <!-- 在线支付 -->
         <BankList :bankDataSource1="bankDataSource1" @receiveSelectedBank="receiveSelectedBank" :dialogVisible.sync="dialogVisible"></BankList>
+        <!-- 融资 -->
         <BankList1 :bankDataSource1="bankDataSource2" @receiveSelectedBank="receiveSelectedBank2" :dialogVisible.sync="dialogVisible2"></BankList1>
     </div>
 </template>
@@ -210,7 +212,7 @@ import BankList from '@/components/commonComp/BankList/BankList';
 import BankList1 from '@/components/commonComp/BankList/BankList';
 export default {
     name: 'OrderTable1',
-    components: { BankList,BankList1 },
+    components: { BankList, BankList1 },
     props: {
         orderData: {
             default() {
@@ -225,7 +227,7 @@ export default {
             //去支付 选中的订单数据
             selectedItem: {},
             //去融资 选中的订单信息
-            goFinancingItem:{},
+            goFinancingItem: {},
             bankDataSource1: [
                 {
                     name: "中国农业银行",
@@ -265,7 +267,7 @@ export default {
                 // }
             ],
             //融资银行弹窗
-            dialogVisible2:false
+            dialogVisible2: false
         }
     },
     methods: {
@@ -304,7 +306,7 @@ export default {
             }
         },
         //去融资
-        goFinancing(item){
+        goFinancing(item) {
             //缓存当前订单数据
             this.goFinancingItem = item;
             this.dialogVisible2 = true;
@@ -313,32 +315,46 @@ export default {
         goFinancingMin(item) {
             let _this = this;
             //请确认是否与民生银行签署融资协议，如签署请点击去融资，否则点击取消，走线下融资流程
-            _this.$confirm('请确认是否与民生银行签署融资协议，如签署请点击确认，否则点击取消，走线下融资流程。', '去融资', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                type: 'warning',
-                center: true
-            }).then(() => {
+            // _this.$confirm('请确认是否与民生银行签署融资协议，如签署请点击确认，否则点击取消，走线下融资流程。', '去融资', {
+            //     confirmButtonText: '确定',
+            //     cancelButtonText: '取消',
+            //     type: 'warning',
+            //     center: true
+            // }).then(() => {
 
-                let params = {
-                    mastContCode: item.id,//订单id
-                    clientId: _this.$store.state.customerId//客户id
-                };
-                let url = '/ocm-web/api/cmbc/pushOrderInfoToCmbc';
-                _this.$http.post(url, params)
-                    .then(res => {
-                        if (res.headers["x-ocm-code"] == '1') {
-                            //改变状态
-                            item.financingStatus = '0';
-                            _this.$Notify({ title: '融资成功', type: 'success' });
-                        }
+            //     let params = {
+            //         mastContCode: item.id,//订单id
+            //         clientId: _this.$store.state.customerId//客户id
+            //     };
+            //     let url = '/ocm-web/api/cmbc/pushOrderInfoToCmbc';
+            //     _this.$http.post(url, params)
+            //         .then(res => {
+            //             if (res.headers["x-ocm-code"] == '1') {
+            //                 //改变状态
+            //                 item.financingStatus = '0';
+            //                 _this.$Notify({ title: '融资成功', type: 'success' });
+            //             }
 
-                    })
-            }).catch(() => { });
+            //         })
+            // }).catch(() => { });
+            let params = {
+                mastContCode: item.id,//订单id
+                clientId: _this.$store.state.customerId//客户id
+            };
+            let url = '/ocm-web/api/cmbc/pushOrderInfoToCmbc';
+            _this.$http.post(url, params)
+                .then(res => {
+                    if (res.headers["x-ocm-code"] == '1') {
+                        //改变状态
+                        item.financingStatus = '0';
+                        _this.$Notify({ title: '融资成功', type: 'success' });
+                    }
+
+                })
 
         },
         //去融资 建设银行
-        goFinancingJian(item){
+        goFinancingJian(item) {
             //待开发
         },
         //查看更多
@@ -381,18 +397,18 @@ export default {
             this.dialogVisible = true;
             this.selectedItem = item;
         },
-        async receiveSelectedBank(selectedBank) {
+        receiveSelectedBank(selectedBank) {
             let _this = this;
             //支付loading
             _this.selectedItem.isPayOnlineLoading = true;
             switch (selectedBank) {
                 // 农业银行
                 case 'abc':
-                    await _this.payOnlineAbc();
+                    _this.payOnlineAbc();
                     break;
                 //民生银行
                 case 'cmbc':
-                    await _this.payOnlineCmbc();
+                    _this.payOnlineCmbc();
                     break;
             }
         },
@@ -439,7 +455,7 @@ export default {
                     let cashRest = res.data;//现金余额
                     let totalAmount = 0;
                     if (cashRest < 0) {
-                        totalAmount = currentPay;
+                        totalAmount = currentPay - cashRest;
                     } else {
                         totalAmount = currentPay - cashRest;
                     }
@@ -479,7 +495,7 @@ export default {
         //民生在线支付
         payOnlineCmbc() { },
         //融资弹窗确定按钮
-        receiveSelectedBank2(selectedBank){
+        receiveSelectedBank2(selectedBank) {
             let _this = this;
             switch (selectedBank) {
                 // 建设银行
@@ -498,5 +514,5 @@ export default {
 }
 </script>
 <style lang="scss">
-@import './OrderTable1.scss';
+@import "./OrderTable1.scss";
 </style>

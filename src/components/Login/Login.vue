@@ -145,15 +145,18 @@ export default {
                 } else {
                     //检查通过
                     let url = "/ocm-web/api/account/getPhoneNum";
-                    let params = {
-                        username: _this.loginForm.username
-                    };
+                    let formData = new FormData();
+                    formData.append('username',_this.loginForm.username);
+                    debugger
                     $.ajax({
                         type: "POST",
                         url: url,
-                        data: JSON.stringify(params),
-                        contentType: "application/json",
+                        data: formData,
+                        processData : false,
+                        contentType:false,
                         success(res) {
+                            //x-ocm-code
+                            debugger
                             let phoneNum = res;
                             let reg = /^\d{11}$/;
                             if (reg.test(phoneNum)) {
@@ -164,7 +167,7 @@ export default {
                                     params: { username: username, phoneNum: _this.phoneNum }
                                 });
                             } else {
-                                _this.$Notify({ title: `手机号码号码：${_this.phoneNum}不正确,请联系客服修改`, type: "warning" });
+                                // _this.$Notify({ title: `手机号码：${_this.phoneNum || "暂无"},不正确,请联系客服修改`, type: "warning" });
                             }
                         }
                     });

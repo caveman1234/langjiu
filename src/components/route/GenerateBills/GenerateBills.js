@@ -249,7 +249,7 @@ export default {
             let cashRest = parseFloat(_this.billFooger.cashRest).toFixed(2);
             let totalAmount = 0;
             if (cashRest < 0) {
-                totalAmount = currentPay;
+                totalAmount = currentPay - cashRest;
             } else {
                 totalAmount = currentPay - cashRest;
             }
