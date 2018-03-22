@@ -24,7 +24,7 @@
                             </el-form-item>
                             <el-form-item>
                                 <el-checkbox @change="remenberPwdChange" v-model="remenberPwd">记住密码</el-checkbox>
-                                <span @click="findPassword" class="findPassword">找回密码</span>
+                                <!-- <span @click="findPassword" class="findPassword">找回密码</span> -->
                             </el-form-item>
                             <el-form-item class="formBottom">
                                 <el-button type="primary" @click="submitForm('ruleForm2')">登陆</el-button>
