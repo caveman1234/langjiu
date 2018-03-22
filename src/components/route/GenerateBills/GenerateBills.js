@@ -276,6 +276,7 @@ export default {
                 //     }
                 // ]
             };
+            debugger
             let sreverUrl = '/ocm-web/api/abc/quickPay';
             _this.$http.post(sreverUrl, params)
                 .then(res => {

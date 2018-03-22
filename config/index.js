@@ -12,8 +12,8 @@ module.exports = {
         assetsPublicPath: '/',
         proxyTable: {
             '/ocm-web': {
-                target: 'http://192.168.100.58', //测试
-                // target: 'http://10.18.2.37:8081', //qiong
+                // target: 'http://192.168.100.58', //测试
+                target: 'http://10.18.2.37:8081', //qiong
                 // target: 'http://10.18.3.205:8080', //简称波
                 // target: 'http://10.18.1.239', //代凯
 

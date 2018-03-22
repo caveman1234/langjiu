@@ -177,13 +177,14 @@ export default {
                                         processData: false,
                                         contentType: false,
 
-                                        success(res) {
+                                        success(res, status, xhr) {
                                             debugger
-                                            if (res.result == 1) {
+                                            if (xhr.getResponseHeader('x-ocm-code') == 1) {
                                                 _this.$Notify({ title: "修改密码成功,请重新登陆", type: "success" });
                                                 clearInterval(_this.timer);
                                                 _this.$router.push({ name: 'Login' });
                                             }
+
                                         }
                                     })
                                     break;
