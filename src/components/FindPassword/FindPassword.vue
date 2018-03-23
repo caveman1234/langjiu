@@ -151,16 +151,17 @@ export default {
                         url: url,
                         data: JSON.stringify(params),
                         contentType: 'application/json',
-                        success(res) {
+                        success(res, status, xhr) {
                             debugger
-                            switch (res.result) {
-                                case 0:
-                                    _this.$Notify({ title: "验证不通过", type: "warning" });
+                            let result = xhr.getResponseHeader('x-ocm-code');
+                            switch (result) {
+                                case '0':
+                                    // _this.$Notify({ title: "验证不通过", type: "warning" });
                                     break;
-                                case 2:
-                                    _this.$Notify({ title: "验证超时", type: "warning" });
+                                case '2':
+                                    // _this.$Notify({ title: "验证超时", type: "warning" });
                                     break;
-                                case 1:
+                                case '1':
                                     //重置密码
                                     let url = "/ocm-web/api/account/resetPassword";
                                     let params = {
