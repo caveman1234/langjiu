@@ -58,8 +58,18 @@
                 </div>
                 <div class="chatContainer">
                     <div class="chatWrap">
-                        <div class="chatHeader"></div>
-                        <div class="chatBody"></div>
+                        <div class="chatHeader">
+                            <span>当前客服：</span><span>{{currentMsg.userName}}</span>
+                        </div>
+                        <div class="chatBody">
+                            <template v-for="(item,i) in currentMsg.msgList">
+                                <div class="msgItem" :key="i">
+                                    <Mine :msgItem="item" v-if="item.isMine"></Mine>
+                                    <Others :msgItem="item" v-else></Others>
+                                </div>
+                            </template>
+                            
+                        </div>
                         <div class="handle">
                             <el-button type="plain" size="mini"><i class="el-icon-picture"></i>发送图片</el-button>
                             <el-button type="plain" size="mini"><i class="el-icon-document"></i>发送文件</el-button>
@@ -75,9 +85,6 @@
                     </div>
                 </div>
             </div>
-            
-            
-            
         </el-dialog>
     </div>
 </template>
