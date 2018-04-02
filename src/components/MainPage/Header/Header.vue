@@ -5,9 +5,9 @@
                 <div class="left">
                     全国统一客服热线：400-806-6969
                 </div>
-                <!-- <i @click="openMask" class="icon iconfont lj-msg headerMessage">
+                <i @click="openMask" class="icon iconfont lj-msg headerMessage">
                     <span class="innerNum">22</span>
-                </i> -->
+                </i>
                 <div class="right">
                     <span>欢迎:{{$store.state.userloginName}}</span>
                     <a @click="logOut">注销</a>
@@ -36,9 +36,7 @@
             <button id="bankFormSubmit" type="submit">提交</button>
         </form>
         <CheckCustomerInfo></CheckCustomerInfo>
-        <div v-show="messageMaskVisiable" class="msgFullMask">
-            <!-- <Chat @closeMask="closeMask"></Chat> -->
-        </div>
+        <Chat :dialogVisible.sync="messageMaskVisiable"></Chat>
     </div>
 </template>
 <script>

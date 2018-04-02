@@ -1,0 +1,27 @@
+@import 'src/css/colors.scss';
+.CheckDialog {
+    .el-dialog__header {
+        border-bottom: 1px dashed $borderColor;
+    }
+    .content {
+        .text {
+            line-height: 25px;
+        }
+        .title {
+            font-weight: bold;
+        }
+        .textIndent {
+            text-indent: 2em;
+        }
+        .textCenter {
+            text-align: center;
+        }
+        .margin-top-10 {
+            margin-top: 10px;
+        }
+        .table {
+            margin: 10px 0 10px 0;
+        }
+        .expain {}
+    }
+}

@@ -9,10 +9,11 @@ import store from './store/root.index.js';
 Vue.use(ElementUI);
 Vue.use(plugin);
 /* eslint-disable no-new */
-new Vue({
+let rootApp = new Vue({
     el: '#app',
     router,
     store,
     template: '<App/>',
     components: { App }
 })
+export default rootApp;

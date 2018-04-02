@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
+
 import Home from '@/components/route/Home/Home'
 import ContactUs from '@/components/route/ContactUs/ContactUs'
 import GoodsCenter from '@/components/route/GoodsCenter/GoodsCenter'
@@ -14,6 +15,7 @@ import FinancingInfo from '@/components/route/AccountCenter/FinancingInfo/Financ
 import PaymentInfo from '@/components/route/AccountCenter/PaymentInfo/PaymentInfo'
 
 import WaitAuditCheck from '@/components/route/AccountCenter/WaitAuditCheck/WaitAuditCheck'
+import CheckBills from '@/components/route/AccountCenter/CheckBills/CheckBills.vue'
 import CashCheck from '@/components/route/AccountCenter/CashCheck/CashCheck'
 import CostCheck from '@/components/route/AccountCenter/CostCheck/CostCheck'
 import BuildCheck from '@/components/route/AccountCenter/BuildCheck/BuildCheck'
@@ -88,7 +90,7 @@ import ReturnWineEdit from '@/components/route/TakeWine/ReturnWineList/ReturnWin
 import ReturnWineOrder from '@/components/route/TakeWine/ReturnWineList/ReturnWineOrder/ReturnWineOrder';
 Vue.use(Router)
 
-export default new Router({
+let router = new Router({
     routes: [{
         path: '/',
         name: 'MainPage',
@@ -304,6 +306,11 @@ export default new Router({
                 component: WaitAuditCheck
             },
             {
+                path: '/CheckBills',
+                name: 'CheckBills',
+                component: CheckBills
+            },
+            {
                 path: '/BillDownload',
                 name: 'BillDownload',
                 component: BillDownload
@@ -433,4 +440,10 @@ export default new Router({
     scrollBehavior(to, from, savedPosition) {
         return { x: 0, y: 0 }
     }
-})
+});
+
+
+
+
+
+export default router;

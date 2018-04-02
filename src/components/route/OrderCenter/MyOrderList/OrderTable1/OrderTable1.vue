@@ -25,6 +25,12 @@
                         </el-col>
                     </el-row>
                 </div>
+                <div class="orderHeader">
+                    <el-row>
+                        <el-col :span="2">审核意见：</el-col>
+                        <el-col :span="22">{{item.approveOpinion}}</el-col>
+                    </el-row>
+                </div>
 
                 <div v-show="item.isMoreShow">
                     <div class="orderHeader">
@@ -41,12 +47,7 @@
                             <el-col :span="22">{{item.remark}}</el-col>
                         </el-row>
                     </div>
-                    <div class="orderHeader">
-                        <el-row>
-                            <el-col :span="2">审核意见：</el-col>
-                            <el-col :span="22">{{item.approveOpinion}}</el-col>
-                        </el-row>
-                    </div>
+                    
                     <div v-if="item.poTypeBusinessType == '03'" class="orderHeader">
                         <el-row>
                             <el-col :span="3">融资审批状态:</el-col>
@@ -91,10 +92,10 @@
                                 <el-button @click="goFinancing(item)" size="mini" type="primary">去融资
                                 </el-button>
                             </template>
-                            <!-- <template  v-if="item.billStatusCode == '01' && item.poTypeBusinessType == '01'  " >
-                                <el-button v-show="true" @click="payOnline(item)" size="mini" type="primary" :loading="item.isPayOnlineLoading">在线支付
-                                </el-button>
-                            </template> -->
+                            <template  v-if="item.billStatusCode == '01' && item.poTypeBusinessType == '01'  " >
+                                <!-- <el-button v-show="true" @click="payOnline(item)" size="mini" type="primary" :loading="item.isPayOnlineLoading">在线支付
+                                </el-button> -->
+                            </template>
                         </el-button-group>
                     </el-row>
                 </div>
@@ -259,12 +260,12 @@ export default {
                     disabled: false,
                     imgUrl: require('../../../../commonComp/BankList/bankImg/bank_min.png')
                 },
-                // {
-                //     name: "中国建设银行",
-                //     label: 'ccb',
-                //     disabled: true,
-                //     imgUrl: require('../../../../commonComp/BankList/bankImg/bank_jian.png')
-                // }
+                {
+                    name: "中国建设银行",
+                    label: 'ccb',
+                    disabled: false,
+                    imgUrl: require('../../../../commonComp/BankList/bankImg/bank_jian.png')
+                }
             ],
             //融资银行弹窗
             dialogVisible2: false
@@ -274,6 +275,7 @@ export default {
         /* 去提货 */
         goPickGoods(data) {
             let _this = this;
+            debugger
             _this.$router.push({ name: 'GoPickGoodsEdit', params: { selectedData: data } });
         },
         /* table合并列 */
@@ -356,6 +358,19 @@ export default {
         //去融资 建设银行
         goFinancingJian(item) {
             //待开发
+            let _this = this;
+            let params = {
+                orderid: item.id
+            };
+            let url = '/ocm-web/api/ccb/pushOrderInfoToCcb';
+            _this.$http.post(url, params)
+                .then(res => {
+                    if (res.headers["x-ocm-code"] == '1') {
+                        //改变状态
+                        item.financingStatus = '0';
+                        _this.$Notify({ title: '融资成功', type: 'success' });
+                    }
+                })
         },
         //查看更多
         lookMore(item) {
@@ -482,6 +497,7 @@ export default {
                         // ]
                     };
                     let sreverUrl = '/ocm-web/api/abc/quickPay';
+                    debugger
                     _this.$http.post(sreverUrl, params)
                         .then(res => {
                             if (res.headers["x-ocm-code"] == '1') {

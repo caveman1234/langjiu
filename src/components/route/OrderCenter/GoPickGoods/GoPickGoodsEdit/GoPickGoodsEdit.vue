@@ -129,11 +129,47 @@ export default {
         },
         /* 确定 */
         confirm() {
-            if (this.goodsData.length > 0) {
-                this.$router.push({ name: 'GoPickGoods', params: { selectedData: this.goodsData, billHeader: this.selectedObj } });
+            let _this = this;
+            if (_this.goodsData.length > 0) {
+                _this.calcBasePrice()
+                    .then(res => {
+                        if (res.headers["x-ocm-code"] == '1') {
+                            _this.$router.push({ name: 'GoPickGoods', params: { selectedData: _this.goodsData, billHeader: _this.selectedObj } });
+                        }
+                    })
             } else {
-                this.$Notify({ title: '商品不能为空', type: 'warning' });
+                _this.$Notify({ title: '商品不能为空', type: 'warning' });
             }
+        },
+        //计算共建基金baseprice
+        calcBasePrice() {
+            let headerId = this.selectedObj.id;
+            let childIds = this.selectedObj.purchaseOrderItems.map(v => v.id);
+            let idsArr = [headerId, ...childIds];
+            let ids = idsArr.toString();
+            let params = `ids=${ids}`;
+            let url = '/ocm-web/api/b2b/purchase-orders/getAllFundPrice';
+            debugger
+            return this.$http.post(url, params)
+                .then(res => {
+                    debugger
+                    let data = res.data;
+                    let dataEntries = Object.entries(data);
+
+                    this.selectedObj.purchaseOrderItems.forEach(v => {
+                        let exist = dataEntries.find(arr => arr[0] == v.id);
+                        if (exist) {
+                            v.fundPrice = exist[1];
+                        }
+                    })
+                    this.goodsData.forEach(v=>{
+                        let exist = dataEntries.find(arr => arr[0] == v.id);
+                        if (exist) {
+                            v.fundPrice = exist[1];
+                        }
+                    });
+                    return res;
+                })
         },
         getSummaries(params) {
             let _this = this;
@@ -171,6 +207,7 @@ export default {
     },
     activated() {
         //mounted
+        debugger
         if (this.$route.params.selectedData) {
             this.selectedObj = this.$route.params.selectedData;
             //设置产品线
@@ -197,5 +234,5 @@ export default {
 }
 </script>
 <style lang="scss">
-@import './GoPickGoodsEdit.scss';
+@import "./GoPickGoodsEdit.scss";
 </style>

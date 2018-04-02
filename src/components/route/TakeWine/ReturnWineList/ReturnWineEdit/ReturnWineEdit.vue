@@ -37,7 +37,7 @@
                             <div>{{scope.row.baseQuantity}} </div>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="paymentTotalMoney" label="货款金额" width="180px">
+                    <el-table-column prop="paymentTotalMoney" label="还酒金额" width="180px">
                         <template slot-scope="scope">
                             <div>{{scope.row.paymentTotalMoney|formatPrice}}</div>
                         </template>
@@ -74,7 +74,7 @@ export default {
         return {
             goodsData: [],
             defaultImg: require('../../../../../assets/defaultimg.png'),
-            tFee: 10000
+            tFee: 0
         }
     },
     methods: {
@@ -118,17 +118,29 @@ export default {
         },
         /* 确定 */
         confirm() {
-            let totalMoney = this.goodsData.reduce((acc, v) => acc + v.paymentTotalMoney, 0)
-            if (this.goodsData.length > 0) {
-                if (this.tFee < totalMoney) {
-                    this.$Notify({ title: `T类费用(¥${String(this.tFee.toFixed(2)).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")})不足`, type: 'warning' });
-                } else {
-                    this.$router.push({ name: 'ReturnWineOrder', params: { selectedData: this.goodsData, tFee: this.tFee } });
-                }
-            } else {
+            if (this.goodsData.length == 0) {
                 this.$Notify({ title: '商品不能为空', type: 'warning' });
+                return;
             }
+            let totalMoney = this.goodsData.reduce((acc, v) => acc + v.paymentTotalMoney, 0)
+
+            let _this = this;
+            let paramsWrap = {
+                params: {
+                    customerId: this.$store.state.customerId,
+                    amount: totalMoney
+                }
+            };
+            let serverUrl = '/ocm-web/api/b2b/returnwine-bills/checktfee';
+            _this.$http.get(serverUrl, paramsWrap)
+                .then(res => {
+                    if (res.headers["x-ocm-code"] == '1') {
+                        _this.tFee = res.data;
+                        this.$router.push({ name: 'ReturnWineOrder', params: { selectedData: this.goodsData,tFee:res.data } });
+                    }
+                });
         },
+
         //表格合计
         getSummaries(params) {
             let _this = this;
@@ -141,7 +153,7 @@ export default {
                         let total = totalArr.reduce((acc, a) => (acc + a), 0);
                         let value = String(Number(total).toFixed(2));
                         var str = value.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
-                        arr[i] = `货款总金额:¥${str}`;
+                        arr[i] = `还酒总金额:¥${str}`;
                         break;
                     default:
                         arr[i] = null;
@@ -149,20 +161,6 @@ export default {
             })
             return arr;
         },
-        //获取t类费用
-        fetchTFee() {
-            let _this = this;
-            let paramsWrap = {
-                params: {
-                    customerId: this.$store.state.customerId
-                }
-            };
-            let serverUrl = '';
-            _this.$http.get(url, params)
-                .then(res => {
-                    _this.tFee = res.data;
-                });
-        }
     },
     computed: {
         /* 订单总金额 */
@@ -180,8 +178,6 @@ export default {
 
     },
     activated() {
-        //获取t类费用
-        // this.fetchTFee();
         if (this.$route.params.selectedData) {
             this.goodsData = this.$route.params.selectedData.map(v => {
                 //baleQuantity 箱数
@@ -203,5 +199,5 @@ export default {
 }
 </script>
 <style lang="scss">
-@import './ReturnWineEdit.scss';
+@import "./ReturnWineEdit.scss";
 </style>

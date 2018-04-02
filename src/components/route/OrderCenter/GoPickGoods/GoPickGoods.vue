@@ -103,23 +103,6 @@
                         </div>
                     </el-col>
                 </el-row>
-                <el-row v-show="financingChecked" v-if="(Number(billFooger.xType) + Number(billFooger.notXtype)).toFixed(2)">
-                    <el-col :span="5">
-                        <div class="calcLeft">1</div>
-                    </el-col>
-                    <el-col :span="19">
-                        <div class="calcRight">
-                            <el-col :span="7">
-                                <div class="calcRightName">计提共建基金总额：</div>
-                            </el-col>
-                            <el-col :span="17">
-                                <el-col :span="5">
-                                    <div class="calcRightMoney">{{(Number(billFooger.xType) + Number(billFooger.notXtype)) | formatPrice}}</div>
-                                </el-col>
-                            </el-col>
-                        </div>
-                    </el-col>
-                </el-row>
                 <el-row v-show="financingChecked">
                     <el-col :span="5">
                         <div class="calcLeft">1</div>
@@ -147,6 +130,41 @@
                         </div>
                     </el-col>
                 </el-row>
+                <el-row v-show="financingChecked" v-if="(Number(billFooger.xType) + Number(billFooger.notXtype)).toFixed(2)">
+                    <el-col :span="5">
+                        <div class="calcLeft">1</div>
+                    </el-col>
+                    <el-col :span="19">
+                        <div class="calcRight">
+                            <el-col :span="7">
+                                <div class="calcRightName">计提共建基金总额：</div>
+                            </el-col>
+                            <el-col :span="17">
+                                <el-col :span="5">
+                                    <div class="calcRightMoney">{{(Number(billFooger.xType) + Number(billFooger.notXtype)) | formatPrice}}</div>
+                                </el-col>
+                            </el-col>
+                        </div>
+                    </el-col>
+                </el-row>
+                <el-row v-show="financingChecked" v-if="(Number(billFooger.xType) + Number(billFooger.notXtype)).toFixed(2)">
+                    <el-col :span="5">
+                        <div class="calcLeft">1</div>
+                    </el-col>
+                    <el-col :span="19">
+                        <div class="calcRight">
+                            <el-col :span="7">
+                                <div class="calcRightName">可用融资余额：</div>
+                            </el-col>
+                            <el-col :span="17">
+                                <el-col :span="5">
+                                    <div class="calcRightMoney">{{(Number(billHeader.totalRepayAmount) - Number(billHeader.totalRepaidAmount)) | formatPrice}}</div>
+                                </el-col>
+                            </el-col>
+                        </div>
+                    </el-col>
+                </el-row>
+                
                 <el-row v-show="financingChecked">
                     <el-col :span="5">
                         <div class="calcLeft">1</div>
@@ -169,27 +187,25 @@
                         <div class="calcLeft">1</div>
                     </el-col>
                     <el-col :span="19">
-                        <div class="calcRight ">
+                        <div class="calcRight">
                             <el-col :span="7">
-                                <div class="calcRightName">本次应付金额：</div>
+                                <div class="calcRightName">本次使用融资额度：</div>
                             </el-col>
-                            <el-col :span="17">
+                            <el-col :span="7">
                                 <el-col :span="5">
-                                    <span class="calcRightMoney calcRightMoneyTotal">{{currentPay | formatPrice}}</span>
+                                    <div class="calcRightMoney calcRightMoneyTotal">{{(Number(totalMoney) - Number(useOffMoney)) | formatPrice}}</div>
                                 </el-col>
-                                <el-col v-if="parseInt(billFooger.dealAmount)&&parseInt(billFooger.xType)" :span="19">
-                                    <el-col :span="8">
-                                        <span class="gray">其中：货款 {{billFooger.dealAmount | formatPrice}}</span>
-                                    </el-col>
-                                    <el-col  :span="8">
-                                        <span class="gray">计提X类共建基金 {{billFooger.xType | formatPrice}}</span>
-                                    </el-col>
-                                </el-col>
-
+                            </el-col>
+                            <el-col :span="7">本次使用现金金额：</el-col>
+                            <el-col :span="3">
+                                <div class="calcRightMoney calcRightMoneyTotal">{{Number(billFooger.xType)|formatPrice}}</div>
                             </el-col>
                         </div>
                     </el-col>
                 </el-row>
+
+                
+
             </template>
 
             <el-row class="charge">
@@ -201,13 +217,22 @@
                         <el-col :span="24">
                             <div class="calcRightName">
                                 <el-button @click="edit" size="mini">修改</el-button>
-                                <el-button @click="submitNormal" size="mini" type="primary">提交</el-button>
+                                <!-- <el-button @click="submitNormal" size="mini" type="primary">提交</el-button> -->
+                                <!-- 在线支付 -->
+                                <template v-if="parseFloat(currentPay) > parseFloat(billFooger.cashRest)">
+                                    <el-button @click="payOnline" size="mini" type="primary" :loading="isPayOnlineLoading">在线支付</el-button>
+                                </template>
+                                <template v-else>
+                                    <el-button @click="submitNormal" size="mini" type="primary">提交</el-button>
+                                </template>
                             </div>
                         </el-col>
                     </div>
                 </el-col>
             </el-row>
         </div>
+        <BankList :bankDataSource1="bankDataSource1" @receiveSelectedBank="receiveSelectedBank" :dialogVisible.sync="dialogVisible"></BankList>
+
     </div>
 </template>
 <script>
@@ -215,5 +240,5 @@ import GoPickGoods from './GoPickGoods.js';
 export default GoPickGoods;
 </script>
 <style lang="scss">
-@import './GoPickGoods.scss';
+@import "./GoPickGoods.scss";
 </style>

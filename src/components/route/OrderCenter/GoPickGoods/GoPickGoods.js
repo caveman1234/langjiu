@@ -1,13 +1,14 @@
 import DeliveryInfo from '@/components/route/GenerateBills/DeliveryInfo/DeliveryInfo.vue';
 import AddNewGoods from '@/components/route/GenerateBills/AddNewGoods/AddNewGoods';
 import CostOff from '@/components/route/GenerateBills/CostOff/CostOff';
-
+import BankList from '@/components/commonComp/BankList/BankList';
 export default {
     name: 'GoPickGoods',
     components: {
         DeliveryInfo,
         AddNewGoods,
-        CostOff
+        CostOff,
+        BankList
     },
     data() {
         return {
@@ -52,7 +53,28 @@ export default {
             //收货地址
             addressObj: {},
             //订单头
-            billHeader: {}
+            billHeader: {},
+            //支付loading状态
+            isPayOnlineLoading:false,
+            dialogVisible:false,
+            bankDataSource1: [
+                {
+                    name: "中国农业银行",
+                    label: 'abc',
+                    disabled: false,
+                    imgUrl: require('../../../commonComp/BankList/bankImg/bank_nong.png')
+                },
+                // {
+                //     name: "中国民生银行",
+                //     label: 'cmbc',
+                //     disabled: true,
+                //     imgUrl: require('../../../commonComp/BankList/bankImg/bank_min.png')
+                // }
+                // {
+                //     name: "中国建设银行",
+                //     label: 'ccb'
+                // }
+            ],
         }
     },
     methods: {
@@ -102,11 +124,195 @@ export default {
             _this.billFooger.deductionMoney = calcMoney.reduce((acc, v) => (acc + v.discountAmount), 0).toFixed(2);
             _this.fetchCashRest().then(cashRest => _this.billFooger.cashRest = Number(cashRest).toFixed(2));
         },
+        //支付前保存
+        saveOrderPrePay() {
+            let _this = this;
+            /* 使用费用表格 */
+            let calcDataTable = this.calcDataTable.map(v => v.currentMoney);
+            let purchaseOrderItems = this.goodsData.map(v => {
+                var discountAmount = '';
+                var dealAmount = '';
+                var fundAmount = '';
+                var fundFee = '';
+                var fundCash = '';
+                var realAmount = '';
+                if (Array.isArray(this.calcMoney)) {
+                    var currentObj = this.calcMoney.find(aObj => aObj.productId == v.productId);
+                    var { discountAmount, dealAmount, fundAmount, fundFee, fundCash, realAmount } = currentObj;
+                }
+                return {
+                    productId: v.productId,
+                    productCode: v.productCode,
+                    productName: v.productName,
+                    productDesc: v.productDesc,
+                    standard: v.standard,
+                    productModel: v.productModel,
+                    materialGroupId: v.materialGroupId,
+                    materialGroupCode: v.materialGroupCode,
+                    materialGroupName: v.materialGroupName,
+                    productGroupId: v.productGroupId,
+                    productGroupCode: v.productGroupCode,
+                    productGroupName: v.productGroupName,
+                    baseUnitId: v.baseUnitId,
+                    baseUnitCode: v.baseUnitCode,
+                    baseUnitName: v.baseUnitName,
+                    baseQuantity: v.baseQuantity,
+                    baleUnitId: v.baleUnitId,
+                    baleUnitCode: v.baleUnitCode,
+                    baleUnitName: v.baleUnitName,
+                    baleQuantity: v.baleQuantity,
+                    packageNum: v.packageNum,
+                    basePrice: v.basePrice,
+                    fundPrice: v.fundPrice,
+                    dealPrice: v.dealPrice,
+                    basePrice: v.basicPrice,
+                    // fundAmount: v.fundAmount,
+                    // realAmount: v.realAmount,
+                    // dealAmount: v.dealAmount,
+                    // discountAmount: v.discountAmount,
+                    // fundFee: v.fundFee,
+                    // fundCash: v.fundCash,
+                    /* 使用费用 */
+                    discountAmount: discountAmount,
+                    dealAmount: dealAmount,
+                    fundAmount: fundAmount,
+                    fundFee: fundFee,
+                    fundCash: fundCash,
+                    realAmount: realAmount,
+                }
+            });
+
+            let receiveAddressId = _this.infoData.find(v => v.isSelected).id;
+            let params = {
+                saleChannelCode: '00',
+                distributorId: _this.$store.state.customerId, //经销商id
+                receiveAddressId: receiveAddressId, //收获地址
+                isNoticeSend: this.isNotice, //是否通知
+                sendDate: this.arriveDate && this.arriveDate.getTime(), //期望发货日期
+                remark: _this.remark, //备注
+                poTypeId: this.carriageMethod,
+                eFeeUsedAmount: calcDataTable[0],
+                qFeeUsedAmount: calcDataTable[1],
+                fFeeUsedAmount: calcDataTable[2],
+                purchaseOrderItems: purchaseOrderItems
+            };
+            params.persistStatus = "new";
+            //销售订单请求地址
+            let sreverUrl = '/ocm-web/api/b2b/purchase-orders';
+            return _this.$http.post(sreverUrl, params)
+                .then(res => {
+                    if (res.headers["x-ocm-code"] == '1') {
+                        return res.data.orderCode;
+                    }
+                });
+        },
+        //接收选中的银行
+        async receiveSelectedBank(selectedBank) {
+            let _this = this;
+            // let billNO = await _this.saveOrderPrePay();
+            let billNO = _this.billHeader.orderCode;
+            _this.isPayOnlineLoading = true;
+            switch (selectedBank) {
+                // 农行
+                case 'abc':
+                    await _this.payOnlineAbc(billNO);
+                    break;
+                //民生银行
+                case 'cmbc':
+                    await _this.payOnlineCmbc(billNO);
+                    break;
+            }
+        },
         /* 在线支付(去融资) */
         payOnline() {
-
+            let _this = this;
+            /* 验证收获地址为空 */
+            if (_this.infoData.length == 0) {
+                _this.$Notify({ title: '收货地址不能为空', type: 'warning' });
+                return;
+            }
+            /* 验证 商品为空 */
+            if (_this.goodsData.length == 0) {
+                _this.$Notify({ title: '商品不能为空', type: 'warning' });
+                return;
+            }
+            //检查发货要求
+            if (_this.isNotice === '') {
+                _this.$Notify({ title: '发货要求不能为空', type: 'warning' });
+                return;
+            }
+            _this.dialogVisible = true;
 
         },
+        //调用农行接口支付
+        payOnlineAbc(billNO) {
+            /* 
+                {
+                    "billNO": "2017122712214",//订单号       (非空)
+                    "dealerNO": "614391",//经销商编号         (非空)
+                    "dealerName": "测试",//经销商名称         (非空)
+                    "totalAmount": 100,//总金额              (非空)
+                    "settlementAmount": 100,//订单金额       (可空)
+                    "contactTel": "15893712779",//联系电话   (非空)
+                    "contact": "测试",//联系人               (非空)
+                    "productData": [//                      (可空)
+                        {
+                            "price": 100,//价格
+                            "no": "20171221008",//商品编号
+                            "name": "测试",//商品名称
+                            "totalAmount": 1001,//商品总价
+                            "quantity": 1,//商品数量
+                            "uomName": "测试"//商品单位
+                        }
+                    ]
+                }
+            */
+            let _this = this;
+            let dealerNO = _this.$store.state.username;
+            let dealerName = _this.$store.state.userloginName;
+            //总金额
+            let currentPay = parseFloat(_this.currentPay).toFixed(2);
+            let cashRest = parseFloat(_this.billFooger.cashRest).toFixed(2);
+            let totalAmount = 0;
+            if (cashRest < 0) {
+                totalAmount = currentPay - cashRest;
+            } else {
+                totalAmount = currentPay - cashRest;
+            }
+            //获取联系人电话
+            let addressObj = _this.infoData.find(v => v.isSelected);
+            let contactTel = addressObj.firstReceiverPhone;
+            let contact = addressObj.firstReceiver;
+            let params = {
+                "billNO": billNO,//订单号       (非空)
+                "dealerNO": dealerNO,//经销商编号         (非空)
+                "dealerName": dealerName,//经销商名称         (非空)
+                "totalAmount": parseFloat(totalAmount),//总金额              (非空)
+                "settlementAmount": '',//订单金额       (可空)
+                "contactTel": contactTel,//联系电话   (非空)
+                "contact": contact,//联系人               (非空)
+                // "productData": [//                      (可空)
+                //     {
+                //         "price": '',//价格
+                //         "no": "",//商品编号
+                //         "name": "",//商品名称
+                //         "totalAmount": '',//商品总价
+                //         "quantity": '',//商品数量
+                //         "uomName": ""//商品单位
+                //     }
+                // ]
+            };
+            debugger
+            let sreverUrl = '/ocm-web/api/abc/quickPay';
+            _this.$http.post(sreverUrl, params)
+                .then(res => {
+                    if (res.headers["x-ocm-code"] == '1') {
+                        window.location.href = res.data.value.payUrl;
+                    }
+                });
+        },
+        //调用民生银行接口支付
+        payOnlineCmbc(billNO) { },
         //去融资
         goFinancing() {},
 

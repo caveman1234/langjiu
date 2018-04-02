@@ -50,6 +50,11 @@ let tabArr = [
         routeName: 'WaitAuditCheck'
     },
     {
+        label: '对账单',
+        name: 'CheckBills',
+        routeName: 'CheckBills'
+    },
+    {
         label: '电子发票下载',
         name: 'BillDownload',
         routeName: 'BillDownload'

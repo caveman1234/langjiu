@@ -28,7 +28,7 @@
             </el-table-column>
             <el-table-column prop="baleQuantity" label="箱数"></el-table-column>
             <el-table-column prop="baseQuantity" label="瓶数"></el-table-column>
-            <el-table-column prop="paymentTotalMoney" label="货款金额" width="180px">
+            <el-table-column prop="paymentTotalMoney" label="还酒金额" width="180px">
                 <template slot-scope="scope">
                     <div>{{scope.row.paymentTotalMoney|formatPrice}}</div>
                 </template>
@@ -51,7 +51,7 @@
                 <el-col :span="3">
                     <div class="opacity0">1</div>
                 </el-col>
-                <el-col :span="3" class="gray">货款总金额：</el-col>
+                <el-col :span="3" class="gray">还酒总金额：</el-col>
                 <el-col :span="3" class="gray">{{totalMoney | formatInOut}}</el-col>
             </el-row>
             <el-row>
@@ -65,7 +65,7 @@
                 <el-col :span="3">
                     <div class="opacity0">1</div>
                 </el-col>
-                <el-col :span="3">本次应付金额：</el-col>
+                <el-col :span="3">本次使用费用金额：</el-col>
                 <el-col :span="3" v-red style="font-size:20px;">{{totalMoney | formatInOut}}</el-col>
             </el-row>
         </el-row>
@@ -104,7 +104,7 @@ export default {
                         let total = totalArr.reduce((acc, a) => (acc + a), 0);
                         let value = String(Number(total).toFixed(2));
                         var str = value.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
-                        arr[i] = `货款总金额:¥${str}`;
+                        arr[i] = `还酒总金额:¥${str}`;
                         break;
                     default:
                         arr[i] = null;
@@ -154,15 +154,67 @@ export default {
         submit() {
             let _this = this;
             //校验
+            /* 验证收获地址为空 */
+            if (_this.infoData.length == 0) {
+                _this.$Notify({ title: '收货地址不能为空', type: 'warning' });
+                return;
+            }
+            /* 验证 商品为空 */
+            if (_this.goodsData.length == 0) {
+                _this.$Notify({ title: '商品不能为空', type: 'warning' });
+                return;
+            }
+            let remark = _this.remark;
+            let receiveAddressId = _this.infoData.find(v => v.isSelected).id;
+            let returnWineBillItems = _this.goodsData.map(v => ({
+                productId: v.productId,
+                productCode: v.productCode,
+                productName: v.productName,
+                productDesc: v.productDesc,
+                standard: v.standard,
+                productModel: v.productModel,
+                materialGroupId: v.materialGroupId,
+                materialGroupCode: v.materialGroupCode,
+                materialGroupName: v.materialGroupName,
+                productGroupId: v.productGroupId,
+                productGroupCode: v.productGroupCode,
+                productGroupName: v.productGroupName,
+                baseUnitId: v.baseUnitId,
+                baseUnitCode: v.baseUnitCode,
+                baseUnitName: v.baseUnitName,
+                baseQuantity: v.baseQuantity,
+                baleUnitId: v.baleUnitId,
+                basePrice: v.basicPrice,
+                baleUnitCode: v.baleUnitCode,
+                baleUnitName: v.baleUnitName,
+                baleQuantity: v.baleQuantity,
+                packageNum: v.packageNum,
+                discountAmount: v.discountAmount,
+                dealAmount: v.paymentTotalMoney,
+                fundAmount: v.fundAmount,
+                fundFee: v.fundFee,
+                fundCash: v.fundCash,
+                realAmount: v.realAmount,
+                fundPrice: v.fundPrice,
+
+            }));
+            let totalAmount = _this.totalMoney;
             let params = {
-                receiveAddressId: _this.infoData.find(v => v.isSelected).id,
-                customerId: this.$store.state.customerId
+                remark: remark,
+                distributorId: this.$store.state.customerId,
+                receiveAddressId: receiveAddressId,
+                totalAmount: totalAmount,
+                saleChannelCode: '00',
+                productGroupId: _this.goodsData[0].productGroupId,
+                returnWineBillItems: returnWineBillItems,
             };
-            let serverUrl = '/api/b2b/returnwine-bills/submit';
+            let serverUrl = '/ocm-web/api/b2b/returnwine-bills/submit';
+            debugger
             _this.$http.post(serverUrl, params)
                 .then(res => {
                     if (res.headers["x-ocm-code"] == '1') {
-                        // _this.$router.push({name:''});
+                        debugger
+                        _this.$router.push({ name: 'ReturnWineList' });
                     }
                 });
         }
@@ -178,5 +230,5 @@ export default {
 }
 </script>
 <style lang="scss">
-@import './ReturnWineOrder.scss';
+@import "./ReturnWineOrder.scss";
 </style>

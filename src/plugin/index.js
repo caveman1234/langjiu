@@ -4,7 +4,6 @@ import interfaceAddress from './interfaceAddress.js';
 import util from './util.js';
 import mixins from './mixins.js';
 import './downLoadBrower.js';
-import store from '@/store/root.index.js';
 
 function install(Vue) {
     window.log = window.console.log;

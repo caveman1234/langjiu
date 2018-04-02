@@ -1,3 +1,4 @@
+
 function mounted() {
     window[this.$options.name || "anonymous"] = this;
 }

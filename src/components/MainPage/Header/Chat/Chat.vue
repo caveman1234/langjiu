@@ -1,53 +1,84 @@
 <template>
     <div class="Chat">
-        <div class="chatBody">
-            <div class="chatBodyContainer">
-                <div class="productRadio">
-                    <el-radio-group v-model="productLine" size="small">
-                        <template v-for="(item,index) in productLineDataSource">
-                            <el-radio :label="item.chatId" :key="index" border>
-                                <!-- <el-badge :value="msgArr.find(v=>v.from == item.chatId).notReadCount ? msgArr.find(v=>v.from == item.chatId).notReadCount : 0"> -->
-                                    <span>{{item.name}}</span>
-                                <!-- </el-badge> -->
-                            </el-radio>
-                        </template>
+        <el-dialog 
+            title="在线客服" 
+            @close="close" 
+            @open="open" 
+            :visible.sync="dialogVisible1" 
+            :close-on-click-modal="false"
+            fullscreen
+        >   
+            <div class="chatDialogWrap">
+                <div class="questionCategory">
+                    <el-radio-group v-model="selectedUser">
+                        <el-collapse v-model="activeNames">
+                            <el-collapse-item name="1">
+                                <template slot="title">
+                                    <div class="categoryTitle_disable">质量问题<i class="header-icon el-icon-info"></i></div>
+                                </template>
+                                <div class="productLine">
+                                    <el-badge :value="1">
+                                        <el-radio label="270122" size="mini" border>小郎酒</el-radio>
+                                    </el-badge>
+                                    <el-badge>
+                                        <el-radio label="270123" size="mini" border>郎牌特曲</el-radio>
+                                    </el-badge>
+                                    <el-badge>
+                                        <el-radio label="270124" size="mini" border>青花郎</el-radio>
+                                    </el-badge>
+                                </div>
+                            </el-collapse-item>
+                            <el-collapse-item title="退货问题" name="2">
+                                <div class="productLine">
+                                    <el-badge>
+                                        <el-radio label="270125" size="mini" border>小郎酒4</el-radio>
+                                    </el-badge>
+                                    <el-badge>
+                                        <el-radio label="270126" size="mini" border>郎牌特曲5</el-radio>
+                                    </el-badge>
+                                    <el-badge>
+                                        <el-radio label="270127" size="mini" border>青花郎6</el-radio>
+                                    </el-badge>
+                                    <el-badge>
+                                        <el-radio label="270128" size="mini" border>青花郎6</el-radio>
+                                    </el-badge>
+                                    <el-badge>
+                                        <el-radio label="270129" size="mini" border>青花郎6</el-radio>
+                                    </el-badge>
+                                </div>
+                            </el-collapse-item>
+                            <el-collapse-item title="发货问题" name="3">
+                                3
+                            </el-collapse-item>
+                            <el-collapse-item title="运输问题" name="4">
+                                4
+                            </el-collapse-item>
+                        </el-collapse>
                     </el-radio-group>
-                    <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=2847046608&site=qq&menu=yes"><img border="0" src="http://wpa.qq.com/pa?p=2:2847046608:51" alt="点击这里给我发消息" title="点击这里给我发消息"/></a>
                 </div>
-                <div class="chatTite">
-                    {{currentMsgObj.userName}}
-                    <div class="close">
-                        <el-button class="closeBtn" @click="closeMask" type="primary" size="mini">
-                            <i class="el-icon-close"></i>关闭
-                        </el-button>
+                <div class="chatContainer">
+                    <div class="chatWrap">
+                        <div class="chatHeader"></div>
+                        <div class="chatBody"></div>
+                        <div class="handle">
+                            <el-button type="plain" size="mini"><i class="el-icon-picture"></i>发送图片</el-button>
+                            <el-button type="plain" size="mini"><i class="el-icon-document"></i>发送文件</el-button>
+                        </div>
+                        <div class="chatMsg">
+                            <el-input :rows="5" resize="none" type="textarea"></el-input>
+                        </div>
+                        <div class="chatBtn">
+                            <el-row type="flex" justify="end">
+                                    <el-button type="primary" size="mini">发送</el-button>
+                            </el-row>
+                        </div>
                     </div>
-
-                </div>
-                <div class="chatContent">
-                    <template v-if="currentMsgObj.from == chatId">
-                        <!-- 是自己 -->
-                        <template v-for="(item,index) in currentMsgObj.msgList">
-                            <Myself :itemData="item" :key="index"></Myself>
-                        </template>
-                    </template>
-                    <template v-else>
-                        <!-- 不是自己 -->
-                        <template v-for="(item,index) in currentMsgObj.msgList">
-                            <Other :itemData="item" :key="index"></Other>
-                        </template>
-                    </template>
-
-                </div>
-                <div class="chatSendMsg">
-                    <el-input v-model="sendMsgText" type="textarea" :rows="5"></el-input>
-                </div>
-                <div class="sendMsg">
-                    <el-row type="flex" justify="end">
-                        <el-button @click="sendMsg" size="mini" type="primary">发送</el-button>
-                    </el-row>
                 </div>
             </div>
-        </div>
+            
+            
+            
+        </el-dialog>
     </div>
 </template>
 <script>
@@ -55,5 +86,5 @@ import Chat from './Chat.js';
 export default Chat;
 </script>
 <style lang="scss">
-@import './Chat.scss';
+@import "./Chat.scss";
 </style>
