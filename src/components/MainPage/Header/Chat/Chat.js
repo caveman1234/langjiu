@@ -9,7 +9,9 @@ let totalMsg = [
         customerId: 'sdfsdafdsdf',//经销商id
         msgList: [
             {
-                time: 123123234324,//
+                time: 1522653439361,//
+                userName: '小郎酒事业部',//用户名
+                headImgUrl: '',//用户头像
                 message: '消息11111',//消息内容
                 imgUrl: 'http://www.img.com',//图片地址
                 fileUrl: 'http://www.file.com',//文件地址
@@ -19,7 +21,9 @@ let totalMsg = [
                 isMine: false//是否是自己的消息
             },
             {
-                time: 123123234324,//
+                time: 1522653439361,//
+                userName: '小郎酒事业部',//用户名
+                headImgUrl: '',//用户头像
                 message: '消息22222',//消息内容
                 imgUrl: 'http://www.img.com',//图片地址
                 fileUrl: 'http://www.file.com',//文件地址
