@@ -36,7 +36,7 @@
             <button id="bankFormSubmit" type="submit">提交</button>
         </form>
         <CheckCustomerInfo></CheckCustomerInfo>
-        <Chat :dialogVisible.sync="messageMaskVisiable"></Chat>
+        <!-- <Chat :dialogVisible.sync="messageMaskVisiable"></Chat> -->
     </div>
 </template>
 <script>

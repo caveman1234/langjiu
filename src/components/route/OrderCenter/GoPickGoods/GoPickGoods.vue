@@ -217,14 +217,14 @@
                         <el-col :span="24">
                             <div class="calcRightName">
                                 <el-button @click="edit" size="mini">修改</el-button>
-                                <!-- <el-button @click="submitNormal" size="mini" type="primary">提交</el-button> -->
+                                <el-button @click="submitNormal" size="mini" type="primary">提交</el-button>
                                 <!-- 在线支付 -->
-                                <template v-if="parseFloat(currentPay) > parseFloat(billFooger.cashRest)">
+                                <!-- <template v-if="parseFloat(currentPay) > parseFloat(billFooger.cashRest)">
                                     <el-button @click="payOnline" size="mini" type="primary" :loading="isPayOnlineLoading">在线支付</el-button>
                                 </template>
                                 <template v-else>
                                     <el-button @click="submitNormal" size="mini" type="primary">提交</el-button>
-                                </template>
+                                </template> -->
                             </div>
                         </el-col>
                     </div>
