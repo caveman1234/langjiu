@@ -62,7 +62,7 @@
                                     <el-button size="mini" @click="download(scope.row)">下载</el-button>
                                 </template>
                                 <template v-if="scope.row.replystateCode == 3 && scope.row.resultCode != null">
-                                    <el-button @click="replyLetter(scope.row)" size="mini">回函</el-button>
+                                    <el-button @click="replyLetter(scope.row)" size="mini">上传回函</el-button>
                                 </template>
                             </template>
                             <template v-else>
@@ -73,7 +73,7 @@
                                     <el-button @click="feeCheck(scope.row)" size="mini" type="primary">费用对账</el-button>
                                 </template>
                                 <el-button size="mini" @click="download(scope.row)">下载</el-button>
-                                <el-button @click="replyLetter(scope.row)" size="mini">回函</el-button>
+                                <el-button @click="replyLetter(scope.row)" size="mini">上传回函</el-button>
                             </template>
                         </div>
                     </template>

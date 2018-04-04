@@ -160,7 +160,8 @@ function install(Vue) {
     /* response */
     axios.interceptors.response.use(function (response) {
         setTimeout(_ => loadingInstance1.close(),300);
-        if (response.headers["x-ocm-code"] != '1') {
+        let url = response.config.url;
+        if (response.headers["x-ocm-code"] != '1' && !url.includes('/ism')) {
             Notification.error({
                 title: decodeURIComponent(response.headers["x-ocm-message"]),
                 // message: decodeURI(response.headers["x-ocm-message"]),
@@ -191,7 +192,6 @@ function install(Vue) {
             });
         },
         complete: function(xhr, status,x,y) {
-            debugger
             if(xhr.getResponseHeader('x-ocm-code') != 1){
                 Notification.error({
                     title: decodeURIComponent(xhr.getResponseHeader('x-ocm-message')),

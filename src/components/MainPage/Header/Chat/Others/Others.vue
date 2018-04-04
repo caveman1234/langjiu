@@ -7,7 +7,7 @@
     </div>
     <div class="userRight">
       <div class="userRightTitle">
-        <span style="margin-right:15px;">客服：{{msgItem.userName}}</span>
+        <span style="margin-right:15px;">名称：{{msgItem.userName}}</span>
         <span>时间：{{msgItem.time | formatDateTime}}</span>
       </div>
       <div class="userRightContent">

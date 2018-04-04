@@ -201,9 +201,9 @@
                         <el-col :span="24">
                             <div class="calcRightName">
                                 <el-button @click="edit" size="mini">修改</el-button>
-                                <el-button @click="submit" size="mini" type="primary">提交</el-button>
+                                <!-- <el-button @click="submit" size="mini" type="primary">提交</el-button> -->
                                 <!-- 融资订单只能提交，普通订单可用余额大于应付金额才能提交否则在线支付 -->
-                                <!-- <template v-if="businessTypeCode == '03'">
+                                <template v-if="businessTypeCode == '03'">
                                     <el-button @click="submit" size="mini" type="primary">提交</el-button>
                                 </template>
                                 <template v-else>
@@ -213,7 +213,7 @@
                                     <template v-else>
                                         <el-button @click="submit" size="mini" type="primary">提交</el-button>
                                     </template>
-                                </template> -->
+                                </template>
 
                             </div>
                         </el-col>
