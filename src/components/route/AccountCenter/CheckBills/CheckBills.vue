@@ -10,7 +10,7 @@
                         </div>
                     </template>
                 </el-table-column>
-                <el-table-column prop="endDate" label="截止日期">
+                <el-table-column prop="endDate" label="对账截止日期">
                     <template slot-scope="scope">
                         <div>
                             <div>{{scope.row.endDate | formatDate}}</div>

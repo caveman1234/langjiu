@@ -1,0 +1,24 @@
+
+<div class="dialog-content apply-detail">
+    <div>
+        <span>派工编号:<span><%=data.data.DISPATCHID%></span></span>
+        <span>登记编号:<span><%=data.data.REGID%></span></span>
+        <span>派工人员:<span><%=data.data.DISPATCHUSERNAME%></span></span>
+        <span>派工时间:<span class="right-align"><%= data.data.DISPATCHDATE.substr(0,10) %></span></span>
+        <span>处理人员:<span><%= data.data.HANDLEUSERNAME %></span></span>
+        <span>是否加急:<span><%= data.data.ISURGENT=="2"?"是":"否" %></span></span>
+        <span>是否处理:<span class="right-align"><%= data.data.HANDLESTATUS=="2"?"已处理":"未处理" %></span></span>
+        <span>截止时间:<span class="right-align">
+                <%= data.data.HANDLESTOPDATE?data.data.HANDLESTOPDATE.substr(0,10):"" %></span>
+        </span>
+    </div>
+
+    <div>
+        <span>派工描述:</span><span><%= data.data.REQUEST %> </span>
+    </div>
+
+    <div>
+        <span>问题描述:</span><span><%= data.data.DISPATCHREQUEST %></span>
+    </div>
+
+</div>

@@ -135,8 +135,8 @@ export default {
             _this.$http.get(serverUrl, paramsWrap)
                 .then(res => {
                     if (res.headers["x-ocm-code"] == '1') {
-                        _this.tFee = res.data;
-                        this.$router.push({ name: 'ReturnWineOrder', params: { selectedData: this.goodsData,tFee:res.data } });
+                        _this.tFee = res.data.tFee;
+                        this.$router.push({ name: 'ReturnWineOrder', params: { selectedData: this.goodsData,tFee:res.data.tFee } });
                     }
                 });
         },

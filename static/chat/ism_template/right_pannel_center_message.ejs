@@ -1,0 +1,24 @@
+<% if(data.hint_time){ %>
+<p class="hinttime"><%= new Date(data.hint_time).format("yyyy-MM-dd hh:mm:ss") %></p>
+<% } %>
+<% if (data.chat_from ) { %>
+<div class="message another">
+    <img src="<%=data.avstar%>">
+
+    <div>
+        <span class="trangle-right"></span>
+        <p><%= data.message %></p>
+    </div>
+</div>
+
+<% } else { %>
+<div class="message">
+    <img src="<%=data.avstar%>">
+
+    <div>
+        <span class="trangle-left"></span>
+        <p><%= data.message %></p>
+    </div>
+</div>
+
+<% } %>

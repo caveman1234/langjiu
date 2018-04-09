@@ -1,0 +1,16 @@
+<% list.forEach(function(data, index){  var newid = new Date().getTime();%>
+<tr>
+    <td>
+        <span><%= index+1 %></span>
+        <span class="avastar"><img src="<%=data.photo%>"> </span>
+    </td>
+    <td><%= data.nickname %></td>
+    <td><%= data.username %></td>
+    <td><%= data.realname %></td>
+    <td><%= data.gender %></td>
+    <td><%= data.telephone %></td>
+    <td><%= data.rolename %></td>
+    <td class="assigning" userid="<%=data.userid%>" userindex="<%=index%>">分配办事处</td>
+</tr>
+<% }) %>
+

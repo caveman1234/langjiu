@@ -1,0 +1,45 @@
+<% if(data.hint_time){ %>
+<p class="hinttime"><%= data.hint_time %></p>
+<% } %>
+<% if (data.chat_from ) { %>
+<div class="message another">
+    <img src="<%=data.avstar%>">
+    <div>
+        <span class="trangle-right"></span>
+        <p><a href="<%=data.path%>"><img src="<%=data.img%>" width="50" height="50"></a> </p>
+
+        <div>
+            <span class="chat-file-name"><%= data.filename %></span>
+            <span class="chat-file-size"><%= data.size %></span>
+        </div>
+
+        <div id="<%= data.time.getTime() %>" class="chat-file-progress-hide">
+            <div class="chat-file-progress">
+                <div class="chat-file-progress-inner"></div>
+            </div>
+            <span class="chat-file-progress-text"></span>
+        </div>
+
+    </div>
+
+
+
+</div>
+
+
+
+<% } else { %>
+<div class="message">
+    <img src="<%=data.avstar%>">
+
+    <div>
+        <span class="trangle-left"></span>
+        <p><a href="<%=data.path%>"><img src="<%=data.img%>" width="50" height="50"></a> </p>
+        <div>
+            <span class="chat-file-name"><%= data.filename %></span>
+            <span class="chat-file-size"><%= data.size %></span>
+        </div>
+    </div>
+</div>
+
+<% } %>

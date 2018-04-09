@@ -146,14 +146,12 @@ export default {
                         hash: _this.loginForm.hash,
                         tamp: _this.loginForm.tamp,
                     };
-                    $.ajax({
-                        type: "POST",
-                        url: url,
-                        data: JSON.stringify(params),
-                        contentType: 'application/json',
-                        success(res, status, xhr) {
+                    _this.$http.post(url, params)
+                        .then(res => {
+
                             debugger
-                            let result = xhr.getResponseHeader('x-ocm-code');
+                            let result = res.headers["x-ocm-code"];
+                            res = res.data;
                             switch (result) {
                                 case '0':
                                     // _this.$Notify({ title: "验证不通过", type: "warning" });
@@ -171,27 +169,69 @@ export default {
                                     let formData = new FormData();
                                     formData.append('username', _this.loginForm.username);
                                     formData.append('password', _this.loginForm.password);
-                                    $.ajax({
-                                        type: "POST",
-                                        url: url,
-                                        data: formData,
-                                        processData: false,
-                                        contentType: false,
-
-                                        success(res, status, xhr) {
-                                            debugger
-                                            if (xhr.getResponseHeader('x-ocm-code') == 1) {
+                                    let headersWrap = {
+                                        headers: {
+                                            'Content-Type': 'multipart/form-data'
+                                        }
+                                    };
+                                    debugger
+                                    _this.$http.post(url, formData, headersWrap)
+                                        .then(res=>{
+                                            if (res.headers["x-ocm-code"] == 1) {
                                                 _this.$Notify({ title: "修改密码成功,请重新登陆", type: "success" });
                                                 clearInterval(_this.timer);
                                                 _this.$router.push({ name: 'Login' });
                                             }
-
-                                        }
-                                    })
+                                        })
                                     break;
                             }
-                        }
-                    })
+                        })
+                    // $.ajax({
+                    //     type: "POST",
+                    //     url: url,
+                    //     data: JSON.stringify(params),
+                    //     contentType: 'application/json',
+                    //     success(res, status, xhr) {
+                    //         debugger
+                    //         let result = xhr.getResponseHeader('x-ocm-code');
+                    //         switch (result) {
+                    //             case '0':
+                    //                 // _this.$Notify({ title: "验证不通过", type: "warning" });
+                    //                 break;
+                    //             case '2':
+                    //                 // _this.$Notify({ title: "验证超时", type: "warning" });
+                    //                 break;
+                    //             case '1':
+                    //                 //重置密码
+                    //                 let url = "/ocm-web/api/account/resetPassword";
+                    //                 let params = {
+                    //                     username: _this.loginForm.username,
+                    //                     password: _this.loginForm.password
+                    //                 };
+                    //                 let formData = new FormData();
+                    //                 formData.append('username', _this.loginForm.username);
+                    //                 formData.append('password', _this.loginForm.password);
+                    //                 $.ajax({
+                    //                     type: "POST",
+                    //                     url: url,
+                    //                     data: formData,
+                    //                     processData: false,
+                    //                     contentType: false,
+
+                    //                     success(res, status, xhr) {
+                    //                         debugger
+                    //                         if (xhr.getResponseHeader('x-ocm-code') == 1) {
+                    //                             _this.$Notify({ title: "修改密码成功,请重新登陆", type: "success" });
+                    //                             clearInterval(_this.timer);
+                    //                             _this.$router.push({ name: 'Login' });
+                    //                         }
+
+                    //                     }
+                    //                 })
+                    //                 break;
+                    //         }
+                    //     }
+                    // })
                 } else {
                     console.log('error submit!!');
                     return false;
@@ -241,13 +281,15 @@ export default {
             let url = "/ocm-web/api/account/sendVerificationCode";
             let formData = new FormData();
             formData.append('phoneNum', _this.loginForm.phoneNum);
-            $.ajax({
-                type: "POST",
-                url: url,
-                data: formData,
-                processData: false,
-                contentType: false,
-                success(res) {
+            let headersWrap = {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            };
+            debugger
+            _this.$http.post(url, formData, headersWrap)
+                .then(res => {
+                    res = res.data;
                     if (res.result == 1) {
                         debugger
                         _this.loginForm.code = res.code;
@@ -267,8 +309,35 @@ export default {
                     } else {
                         _this.$Notify({ title: `发送验证码失败`, type: "warning" });
                     }
-                }
-            });
+                })
+            // $.ajax({
+            //     type: "POST",
+            //     url: url,
+            //     data: formData,
+            //     processData: false,
+            //     contentType: false,
+            //     success(res) {
+            //         if (res.result == 1) {
+            //             debugger
+            //             _this.loginForm.code = res.code;
+            //             _this.loginForm.hash = res.hash;
+            //             _this.loginForm.tamp = res.tamp;
+            //             _this.securityCodeIng = true;//正在输入验证码状态
+            //             _this.timer = setInterval(() => {
+            //                 if (_this.securitySeconds == 1) {
+            //                     clearInterval(_this.timer);
+            //                     _this.securityCodeIng = false;
+            //                     _this.securitySeconds = securitySecondsConfig;
+            //                     _this.$refs['ruleForm2'].resetFields();
+            //                 } else {
+            //                     _this.securitySeconds--;
+            //                 }
+            //             }, 1000);
+            //         } else {
+            //             _this.$Notify({ title: `发送验证码失败`, type: "warning" });
+            //         }
+            //     }
+            // });
             //==============================
             // 
 

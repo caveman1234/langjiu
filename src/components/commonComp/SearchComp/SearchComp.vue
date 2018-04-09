@@ -3,7 +3,7 @@
         <el-form label-position="right" label-width="100px" :model="formDatas" size="mini">
             <el-row>
                 <template v-for="(item,index) in searchConfig">
-                    <el-col style="width:303px;" :span="8" :key="index" class="clearfix">
+                    <el-col style="width:315px;" :span="8" :key="index" class="clearfix">
                         <template v-if="item.type == 'input'">
                             <el-form-item :label="item.label">
                                 <el-input @keyup.enter.native="inputEnter" v-model="formDatas[item.field]"></el-input>

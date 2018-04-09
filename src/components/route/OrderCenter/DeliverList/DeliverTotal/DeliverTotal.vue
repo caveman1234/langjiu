@@ -37,7 +37,7 @@ let searchConfig = [
         field: 'orderCode',
         label: '单据编号：'
     },
-    
+
 ];
 export default {
     name: 'DeliverTotal',
@@ -62,7 +62,7 @@ export default {
     },
     methods: {
         receiveData(data) {
-            this.orderData = data.content;
+            this.orderData = data.content.map(v => ({ ...v, isMoreShow: false }));
             this.pageParams.pageSize = data.size;//每页数量
             this.pageParams.total = data.totalElements;//总页数
             this.pageParams.pageIndex = data.number + 1;//当前页
@@ -122,5 +122,5 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-@import './DeliverTotal.scss';
+@import "./DeliverTotal.scss";
 </style>

@@ -1,0 +1,129 @@
+
+<div class="search_option">
+    <div class="search_option-item item-large">
+        <span>登记时间:</span>
+        <span class="date-containner">
+                <input type="text" id="search_register_timestart" readonly>
+                <img src="/ism/chat/img/ism_img/date.png">
+        </span>
+        <span>至</span>
+        <span class="date-containner">
+
+               <input type="text" id="search_register_timeend" readonly>
+            <img src="/ism/chat/img/ism_img/date.png">
+            </span>
+
+    </div>
+    <div class="search_option-item newhack">
+        <span>&emsp;登记人:</span>
+        <div>
+            <input type="text" id="search_register_person">
+        </div>
+    </div>
+    <div class="search_option-item newhack">
+        <span>派工状态:</span>
+        <div>
+            <select id="search_register_applystatus">
+                <option value="">全部</option>
+                <option value="1">未派工</option>
+                <option value="2">已派工</option>
+            </select>
+            <img  class="icon-replacedown" src="/ism/chat/img/ism_img/icon-down.png">
+        </div>
+    </div>
+</div>
+
+
+
+<div class="search_option">
+    <div class="search_option-item item-large">
+        <span>处理时间:</span>
+        <span class="date-containner">
+                <input type="text" id="search_deal_timestart" readonly>
+                <img src="/ism/chat/img/ism_img/date.png">
+        </span>
+        <span>至</span>
+        <span class="date-containner">
+
+               <input type="text" id="search_deal_timeend" readonly>
+            <img src="/ism/chat/img/ism_img/date.png">
+            </span>
+
+    </div>
+    <div class="search_option-item newhack">
+        <span>&emsp;处理人:</span>
+        <div>
+            <input type="text" id="search_deal_person">
+        </div>
+    </div>
+    <div class="search_option-item newhack">
+        <span>处理状态:</span>
+        <div>
+            <select id="search_register_dealstatus">
+                <option value="">全部</option>
+                <option value="1">未处理</option>
+                <option value="2">已处理</option>
+            </select>
+            <img  class="icon-replacedown" src="/ism/chat/img/ism_img/icon-down.png">
+        </div>
+    </div>
+
+</div>
+<div class="search_option_button">
+       <button class="button-searh button-searh-match">搜索</button>
+       <button class="button-reset">重置</button>
+</div>
+
+<div class="dialog-content match-list">
+
+    <% list.forEach(function(data, index) { %>
+    <div class="card" regid="<%= data.REGID %>">
+        <div class="card-head pd">
+            <div class=" sort-card-head-left">
+                <span>来源:</span>
+                <span><%= data.REQUIRENAME %></span>
+            </div>
+
+            <img class="sort-card-head-right apply-status button mc-mr" flag="checkplan" data-toggle="tooltip"
+                 title="查看方案"  src="/ism/chat/img/ism_img/checkplan.png">
+            <span class="clearfix"></span>
+
+
+        </div>
+        <div class="card-content pd">
+            <div class="card-line apply-status">
+			
+			    <div class="card-line-col">
+                    <span>检索关键字:</span>
+                    <span><%= data.KEYWORD %></span>
+                </div>
+               
+                <div class="card-line-col">
+                    <span>分类名称:</span>
+                    <span><%= data.CLSNAME %></span>
+                </div>
+               
+				 <div class="card-line-col">
+                    <span>状态:</span>
+                <span><%= data.ISDISPATCH == "1" ? "未派工" : "已派工" %>
+                    /<%= data.HANDLESTATUS == "2" ? "已处理" : "未处理" %></span>
+                </div>
+
+            </div>
+            <div class="card-line">
+                <div class="card-line-col"><span>登记人员:</span><span><%= data.USERNAME %></span></div>
+                <div class="card-line-col"><span>处理人员:</span><span><%= data.HANDLEUSERNAME %></span></div>
+                <div class="card-line-col"><span>处理时间:</span><span><%= data.HANDLEDATE ? data.HANDLEDATE.substr(0, 10) : "" %></span></div>
+            </div>
+            <div class="card-line">
+                <span>问题描述:</span>
+                <span><%= data.REQUEST ? data.REQUEST.trim().replace("<br>", "") : "" %></span>
+            </div>
+
+
+        </div>
+    </div>
+    <% }) %>
+
+</div>
+

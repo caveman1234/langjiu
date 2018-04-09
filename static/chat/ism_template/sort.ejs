@@ -1,0 +1,129 @@
+<div class="dialog-content sort-search-pannel">
+    <div class="sort-left">
+        <% list_left.forEach(function(data, index){ %>
+        <div class="sort-item">
+            <div class="sort-item-head">
+
+
+                <% if(data.type == 0){ %>
+                <span class="trangle"></span>
+                <div>
+                    <input type="checkbox" id="<%= data.CLSCODE %>" class="chk_1">
+                    <label for="<%= data.CLSCODE %>"></label>
+                </div>
+                <% }else{ %>
+                <span class="trangle trangle-hidden"></span>
+                <div>
+                    <input type="checkbox"  id="<%= data.CLSCODE %>" class="chk_1">
+                    <label for="<%= data.CLSCODE %>"></label>
+                </div>
+                <% } %>
+
+                <label for="<%= data.CLSCODE %>"><%= data.CLSNAME %></label>
+            </div>
+
+            <div class="sort-item-list"></div>
+        </div>
+        <% }) %>
+    </div>
+
+    <div class="sort-right">
+        <div class="search_option">
+            <div class="search_option-item item-large">
+                <span>登记时间:</span>
+        <span class="date-containner">
+                <input type="text" id="search_register_timestart" readonly>
+                <img src="/ism/chat/img/ism_img/date.png">
+        </span>
+                <span>至</span>
+        <span class="date-containner">
+
+               <input type="text" id="search_register_timeend" readonly>
+            <img src="/ism/chat/img/ism_img/date.png">
+            </span>
+
+            </div>
+
+            <div class="search_option-item newhack flr mc-item30">
+                <span>&emsp;登记人:</span>
+                <div>
+                    <input type="text" id="search_register_person" maxlength="8">
+                </div>
+            </div>
+
+        </div>
+
+        <div class="search_option">
+            <div class="search_option-item item-large">
+                <span>处理时间:</span>
+        <span class="date-containner">
+                <input type="text" id="search_deal_timestart" readonly>
+                <img src="/ism/chat/img/ism_img/date.png">
+        </span>
+                <span>至</span>
+        <span class="date-containner">
+
+               <input type="text" id="search_deal_timeend" readonly>
+            <img src="/ism/chat/img/ism_img/date.png">
+            </span>
+
+            </div>
+            <div class="search_option-item newhack flr mc-item30">
+                <span>&emsp;处理人:</span>
+                <div>
+                    <input type="text" id="search_deal_person" maxlength="8">
+                </div>
+            </div>
+        </div>
+
+        <div class="search_option_button">
+            <button class=" button-searh button-searh-lib">搜索</button>
+            <button class="button-reset">重置</button>
+        </div>
+
+        <div class="dialog-content lib-list">
+
+            <% list_right.forEach(function(data, index) { %>
+            <div class="card" regid="<%=data.REGID%>">
+                <div class="card-head pd">
+                    <div class=" card-head-left">
+                        <span>来源:</span>
+                        <span><%= data.REQUIRENAME %></span>
+                    </div>
+                    <div class="card-head-right mc-mg14">
+                        <img class=" apply-status button" flag="lib-checkplan" data-toggle="tooltip"
+                             title="查看方案"   src="/ism/chat/img/ism_img/checkplan.png">
+                    </div>
+                    <span class="clearfix"></span>
+
+                </div>
+                <div class="card-content pd">
+
+
+
+                    <div class="card-line">
+                        <div class="card-line-col"><span>登记时间:</span><span><%= data.REGDATE?data.REGDATE.substr(0, 10):"" %></span></div>
+                        <div class="card-line-col"><span>登记人员:</span><span><%=data.USERNAME %></span></div>
+                        <div class="card-line-col"><span>处理时间:&emsp;</span><span><%= data.HANDLEDATE.substr(0,10) %></span></div>
+                    </div>
+                    <div class="card-line">
+                       
+					    <div class="card-line-col"><span>检索关键字:</span><span><%=data.KEYWORD %></span></div>
+                        <div class="card-line-col"><span>分类名称:</span><span><%=data.CLSNAME %></span></div>
+						<div class="card-line-col"><span>处理人员:</span><span><%=data.HANDLEUSERNAME %></span></div>
+
+                    </div>
+                    <div class="card-line">
+                        <span>问题描述:</span>
+                        <span><%= data.REQUEST ? data.REQUEST.replace(/<br>/g, "") : "" %></span>
+                    </div>
+
+                </div>
+            </div>
+            <% }) %>
+        </div>
+
+    </div>
+</div>
+
+

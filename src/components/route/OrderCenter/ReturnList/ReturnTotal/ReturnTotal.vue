@@ -62,7 +62,7 @@ export default {
     },
     methods: {
         receiveData(data) {
-            this.orderData = data.content;
+            this.orderData = data.content.map(v=>({...v,isMoreShow:false}));
             this.pageParams.pageSize = data.size;//每页数量
             this.pageParams.total = data.totalElements;//总页数
             this.pageParams.pageIndex = data.number + 1;//当前页

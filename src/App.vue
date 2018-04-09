@@ -25,7 +25,7 @@ export default {
             _this.$nextTick(() => {
                 _this.$store.commit('userloginName', cookies.getCookie('customerName'));
             });
-        }
+        },
     },
     mounted() {
         this.initUsername();

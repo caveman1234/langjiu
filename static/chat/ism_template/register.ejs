@@ -1,0 +1,172 @@
+
+<div class="search_option">
+    <div class="search_option-item item-large">
+        <span>登记时间:</span>
+        <span class="date-containner">
+                <input type="text" id="search_register_timestart" readonly>
+                <img src="/ism/chat/img/ism_img/date.png">
+        </span>
+        <span>至</span>
+        <span class="date-containner">
+
+               <input type="text" id="search_register_timeend" readonly>
+            <img src="/ism/chat/img/ism_img/date.png">
+            </span>
+
+    </div>
+    <div class="search_option-item newhack">
+        <span>&emsp;登记人:</span>
+        <div>
+            <input type="text" id="search_register_person" maxlength="8">
+        </div>
+    </div>
+    <div class="search_option-item newhack">
+        <span>派工状态:</span>
+        <div>
+            <select id="search_register_applystatus">
+                <option value="">全部</option>
+                <option value="1">未派工</option>
+                <option value="2">已派工</option>
+            </select>
+            <img  class="icon-replacedown" src="/ism/chat/img/ism_img/icon-down.png">
+        </div>
+
+    </div>
+</div>
+
+<div class="search_option">
+    <div class="search_option-item item-large">
+        <span>处理时间:</span>
+        <span class="date-containner">
+                <input type="text" id="search_deal_timestart" readonly>
+                <img src="/ism/chat/img/ism_img/date.png">
+        </span>
+        <span>至</span>
+        <span class="date-containner">
+
+               <input type="text" id="search_deal_timeend" readonly>
+            <img src="/ism/chat/img/ism_img/date.png">
+            </span>
+
+    </div>
+    <div class="search_option-item newhack">
+        <span>&emsp;处理人:</span>
+        <div>
+            <input type="text" id="search_deal_person" maxlength="8">
+        </div>
+    </div>
+    <div class="search_option-item newhack">
+        <span>处理状态:</span>
+        <div>
+            <select id="search_register_dealstatus">
+                <option value="">全部</option>
+                <option value="1">未处理</option>
+                <option value="2">已处理</option>
+            </select>
+            <img  class="icon-replacedown" src="/ism/chat/img/ism_img/icon-down.png">
+        </div>
+    </div>
+
+</div>
+<div class="search_option_button">
+    <button class=" button-searh button-searh-register">搜索</button>
+    <button class="button-reset">重置</button>
+</div>
+
+
+<div class="dialog-content register-list">
+
+    <% list.forEach(function(data, index) { %>
+    <div class="card" flagid="<%= data.REGID %>">
+        <div class="card-head pd">
+            <div class="card-head-left">
+                <span>登记编号:</span>
+                <span><%= data.REGID %></span>
+
+            </div>
+
+            <div class="card-head-right">
+                <% if((flag_user != data.USERID) || (data.HANDLESTATUS == "2")||(data.ISDISPATCH==2)){ %>
+                <img src="/ism/chat/img/ism_img/edit_disabled.png" class="apply-status button button-disabled" data-toggle="tooltip"
+                     title="编辑" >
+                <% }else{ %>
+                <img src="/ism/chat/img/ism_img/edit.png" class="apply-status button" data-toggle="tooltip"
+                     title="编辑" flag='register_edit'>
+                <% } %>
+
+                <%if(flag_user == data.USERID){ %>
+                <img src="/ism/chat/img/ism_img/finish.png" class="apply-status button" data-toggle="tooltip"
+                     title="完工" flag="register_finish">
+                <%}else{%>
+                <img src="/ism/chat/img/ism_img/finish_disabled.png" class="apply-status button button-disabled" data-toggle="tooltip"
+                     title="完工" >
+                <%}%>
+
+
+                <% if(flag_user == data.USERID&&data.HANDLESTATUS != "2" && data.ISDISPATCH != "2"){ %>
+                <img src="/ism/chat/img/ism_img/applying.png" class="apply-status button" data-toggle="tooltip"
+                     title="派工" flag='register_apply'>
+                <% }else{ %>
+                <img src="/ism/chat/img/ism_img/applying_disabled.png" class="apply-status button button-disabled" data-toggle="tooltip"
+                     title="派工" >
+                <% } %>
+
+                <% if(flag_user == data.USERID&&data.HANDLESTATUS == "2"){ %>
+                <img src="/ism/chat/img/ism_img/sort.png" class="apply-status button" data-toggle="tooltip"
+                     title="归档" flag='register_sort'>
+                <% }else{ %>
+                <img src="/ism/chat/img/ism_img/sort_disabled.png" class="apply-status button button-disabled" data-toggle="tooltip"
+                     title="归档" >
+                <% } %>
+
+                <img src="/ism/chat/img/ism_img/checkplan.png" class="apply-status button" data-toggle="tooltip"
+                     title="查看方案" flag='register_checkplan'>
+
+                <% if(flag_user == data.USERID&&data.HANDLESTATUS != "2" && data.ISDISPATCH != "2"){ %>
+                <img src="/ism/chat/img/ism_img/delete.png" class="apply-status button" data-toggle="tooltip"
+                     title="删除" flag='register_delete'>
+                <% }else{ %>
+                <img src="/ism/chat/img/ism_img/delete_disabled.png" class="apply-status button button-disabled" data-toggle="tooltip"
+                     title="删除" >
+                <% } %>
+
+            </div>
+            <span class="clearfix"></span>
+
+        </div>
+        <div class="card-content pd">
+            <div class="card-line apply-status">
+                <div class="card-line-col">
+                    <span>检索关键字:</span>
+                    <span><%= data.KEYWORD %></span>
+                </div>
+				
+                <div class="card-line-col">
+                    <span>分类名称:</span>
+                    <span><%= data.CLSNAME %></span>
+                </div>
+               
+				<div class="card-line-col">
+                    <span>状态:</span>
+                <span><%= data.ISDISPATCH == "1" ? "未派工" : "已派工" %>
+                    /<%= data.HANDLESTATUS == "2" ? "已处理" : "未处理" %></span>
+                </div>
+
+            </div>
+
+            <div class="card-line">
+			    <div class="card-line-col"><span>问题来源:</span><span><%= data.REQUIRENAME %></span></div>
+                <div class="card-line-col"><span>登记人:</span><span><%= data.USERNAME %></span></div>
+				<div class="card-line-col"><span>登记时间:</span><span><%= data.REGDATE?data.REGDATE.substr(0, 10):"" %></span></div>
+                
+            </div>
+
+            <div class="card-line">
+                <span>问题描述:</span>
+                <span><%= data.REQUEST ? data.REQUEST.trim().replace(/<br>/g, "") : "" %></span>
+            </div>
+
+        </div>
+    </div>
+    <% }) %>
+</div>

@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title></title>
+
+</head>
+
+<body>
+    <div id="test">
+
+    </div>
+
+</body>
+
+</html>
+<script type="text/javascript" src="../js/webim_ejs.js"></script>
+<script type="text/javascript" src="../js/webim_ejstemplate.js"></script>
+<script>
+    var data = {
+        "list": [{
+            "name": "张三",
+            "age": 20
+        }, {
+            "name": "李四",
+            "age": 21
+        }]
+    };
+
+    var html = EJSObj.e_templateHtml("template.ejs", "../template/webim_template.ejs", data);
+    document.getElementById("test").innerHTML = html;
+</script>

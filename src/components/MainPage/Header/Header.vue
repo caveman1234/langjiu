@@ -6,8 +6,13 @@
                     全国统一客服热线：400-806-6969
                 </div>
                 <!-- <i @click="openMask" class="icon iconfont lj-msg headerMessage">
-                    <span class="innerNum">22</span>
                 </i> -->
+                <!-- <span id="operation"></span> -->
+                <!-- <a id="operation" title="运维消息" href="javascript:void (0);" class="navbar-avatar">
+                    <div class="u-badge" data-badge="0">
+                        <i class="icon iconfont lj-msg headerMessage"></i>
+                    </div>
+                </a>            -->
                 <div class="right">
                     <span>欢迎:{{$store.state.userloginName}}</span>
                     <a @click="logOut">注销</a>
@@ -36,16 +41,14 @@
             <button id="bankFormSubmit" type="submit">提交</button>
         </form>
         <CheckCustomerInfo></CheckCustomerInfo>
-        <!-- <Chat :dialogVisible.sync="messageMaskVisiable"></Chat> -->
     </div>
 </template>
 <script>
 import { mapState, mapMutations, mapGetters } from 'Vuex';
 import CheckCustomerInfo from './CheckCustomerInfo/CheckCustomerInfo.vue';
-import Chat from './Chat/Chat.vue';
 export default {
     name: 'Header',
-    components: { CheckCustomerInfo, Chat },
+    components: { CheckCustomerInfo },
     data() {
         return {
             searchInfo: "",
@@ -71,6 +74,8 @@ export default {
         },
         logOut() {
             let _this = this;
+            $('#chat-pannel').css('right', '-210px');
+            $('#chat-dialog').hide();
 
             //清空cookies
             let cookies = new this.$util.Cookies();
@@ -166,11 +171,39 @@ export default {
         },
         //打开聊天遮罩
         openMask() {
-            this.messageMaskVisiable = true;
+            // let isHide = $('#chat-pannel').css('right') === '0px' ? false : true;
+            $('.hidden-toolbar').trigger('click');
+            $('#empty-panel').show();
         },
         //关闭聊天遮罩 
         closeMask(e) {
             this.messageMaskVisiable = false;
+        },
+        //初始化，登陆聊天
+        initChat() {
+            let scripts = `<script src="./static/chat/webim_require.js" />
+                <script src="./static/chat/jquery.js"/>
+
+                <script src="./static/chat/jquery.json.js"/>
+
+                <script src="./static/chat/jquery-ui.js"/>
+                <script type="text/javascript" src="./static/chat/jquery.mousewheel.min.js"/>
+                <script type="text/javascript" src="./static/chat/jquery.iviewer.min.js"/>
+                <script src="./static/chat/YYIMSDK.js"/>
+                <script src="./static/chat/webim_chat.js" async/>`;
+            if($('script[src="./static/chat/webim_require.js"]').length === 0){
+                $('body').append(scripts);
+            }else{
+                $('script[src="./static/chat/webim_require.js"]').remove();
+                $('script[src="./static/chat/jquery.js"]').remove();
+                $('script[src="./static/chat/jquery.json.js"]').remove();
+                $('script[src="./static/chat/jquery-ui.js"]').remove();
+                $('script[src="./static/chat/./static/chat/jquery.mousewheel.min.js"]').remove();
+                $('script[src="./static/chat/jquery.iviewer.min.js"]').remove();
+                $('script[src="./static/chat/YYIMSDK.js"]').remove();
+                $('script[src="./static/chat/webim_chat.js"]').remove();
+                 $('body').append(scripts);
+            }
         }
 
     },
@@ -191,6 +224,7 @@ export default {
         this.$store.commit('changeUsername', cookies.getCookie('username'));
         //检查是否签约过
         _this.checkIsNotSign();
+        // _this.initChat();
     }
 
 }

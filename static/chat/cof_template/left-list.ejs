@@ -1,0 +1,25 @@
+<% list.forEach(function(data, index){ var newid= new Date().getTime()%>
+<div class="sort-item">
+    <div class="sort-item-head">
+
+
+        <% if(data.type == 0){ %>
+        <span class="trangle"></span>
+        <div>
+            <input type="checkbox"  id="<%= newid+index %>" class="chk_2">
+            <label for="<%= newid+index %>"></label>
+        </div>
+        <% }else{ %>
+        <span class="trangle trangle-hidden"></span>
+        <div>
+            <input type="radio" name="radio" id="<%= newid+index %>" code="<%=data.CLSCODE%>" class="chk_1">
+            <label for="<%= newid+index %>"></label>
+        </div>
+        <% } %>
+
+        <label for="<%= newid+index %>"><%= data.CLSNAME %></label>
+    </div>
+
+    <div class="sort-item-list"></div>
+</div>
+<% }) %>

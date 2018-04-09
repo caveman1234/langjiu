@@ -1,0 +1,34 @@
+<% list.forEach(function(data, index) { %>
+<div class="card" regid="<%=data.REGID%>">
+    <div class="card-head pd">
+        <div class=" card-head-left">
+            <span>来源:</span>
+            <span><%= data.REQUIRENAME %></span>
+        </div>
+        <div class="card-head-right mc-mg14">
+            <img class=" apply-status button" flag="lib-checkplan" data-toggle="tooltip"
+                 title="查看方案"   src="/ism/chat/img/ism_img/checkplan.png">
+        </div>
+        <span class="clearfix"></span>
+
+    </div>
+    <div class="card-content pd">
+
+        <div class="card-line">
+            <div class="card-line-col"><span>登记时间:</span><span><%= data.REGDATE?data.REGDATE.substr(0, 10):"" %></span></div>
+            <div class="card-line-col"><span>登记人员:</span><span><%=data.USERNAME %></span></div>
+            <div class="card-line-col"><span>处理时间:&emsp;</span><span><%= data.HANDLEDATE?data.HANDLEDATE.substr(0,10):"" %></span></div>
+        </div>
+        <div class="card-line">
+            <div class="card-line-col"><span>检索关键字:</span><span><%=data.KEYWORD %></span></div>
+            <div class="card-line-col"><span>分类名称:</span><span><%=data.CLSNAME %></span></div>
+		    <div class="card-line-col"><span>处理人员:</span><span><%=data.HANDLEUSERNAME %></span></div>
+        </div>
+        <div class="card-line">
+            <span>问题描述:</span>
+            <span><%= data.REQUEST ? data.REQUEST.replace(/<br>/g, "") : "" %></span>
+        </div>
+
+    </div>
+</div>
+<% }) %>

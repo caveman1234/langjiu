@@ -1,0 +1,27 @@
+<% if(data.hint_time){ %>
+<p class="hinttime"><%= data.hint_time %></p>
+<% } %>
+<% if (data.chat_from ) { %>
+<div class="message another">
+    <img src="<%=data.avstar%>">
+    <div>
+        <span class="trangle-right"></span>
+        <p><img class="message-picture" src="<%=data.src%>" width="50" height="50"> </p>
+    </div>
+
+
+</div>
+
+
+
+<% } else { %>
+<div class="message">
+    <img src="<%=data.avstar%>">
+
+    <div>
+        <span class="trangle-left"></span>
+        <p><img class="message-picture" src="<%=data.src%>" width="50" height="50"> </p>
+    </div>
+</div>
+
+<% } %>

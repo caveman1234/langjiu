@@ -1,0 +1,20 @@
+<tr>
+    <td>序号</td>
+    <td>问题</td>
+    <td>登记人</td>
+    <td>登记时间</td>
+    <td>处理人</td>
+    <td>处理时间</td>
+</tr>
+<% list.forEach(function(data, index) { %>
+<tr>
+    <td><%=index+1%></td>
+    <td > <span class="hint-question" regid="<%=data.REGID%>"><%=data.REQUEST.replace(/<br>/g,"")%></span></td>
+    <td><%=data.USERNAME%></td>
+    <td><%=data.REGDATE.substr(0,10)%></td>
+    <td><%=data.HANDLEUSERNAME%></td>
+    <td><%=data.HANDLEDATE?data.HANDLEDATE.substr(0,10):""%></td>
+</tr>
+<% }) %>
+
+

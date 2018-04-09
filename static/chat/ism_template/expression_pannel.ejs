@@ -1,0 +1,6 @@
+<% pics.forEach(function(pic, index){ %>
+<li class="face-pic" flagindex="<%= index %>">
+    <img class="face-p" src="/ism/chat/img/face/<%= pic.url %>"
+         alt="<%= pic.actionKey %>"/>
+</li>
+<% }) %>

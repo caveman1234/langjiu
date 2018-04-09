@@ -1,0 +1,12 @@
+<% list.forEach(function(data, index){ %>
+<div class="person" flagid="<%= data.id %>" endVersion="<%=data.endVersion%>">
+    <img src="/ism/chat/img/avastar.png">
+
+    <div class="person-info">
+        <b><%= data.name %></b>
+        <small><%= data.lastmessage %></small>
+        <span class="hidden_department"><%=data.department%></span>
+    </div>
+    <span class="badge">0</span>
+</div>
+<% }) %>

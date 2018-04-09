@@ -1,0 +1,159 @@
+<!--<div class="dialog-header">-->
+<!--<span>解决方案</span>-->
+<!--<img src="/ism/chat/img/svg/close.svg">-->
+<!--</div>-->
+
+<div class="dialog-content apply-detail">
+    <div class="col-containner">
+        <div class="line-col">
+            <span>登记编号:</span>
+            <span><%= data.data.REGID %></span>
+        </div>
+        <div class="line-col">
+            <span>登记人员:</span>
+            <span><%= data.data.USERNAME %></span>
+        </div>
+        <div class="line-col">
+            <span>登记时间:</span>
+            <span> <%= data.data.REGDATE ? data.data.REGDATE.substr(0, 10) : "" %> </span>
+        </div>
+
+        <div class="line-col">
+            <span>处理时间:</span>
+            <span><%= data.data.HANDLEDATE ? data.data.HANDLEDATE.substr(0, 10) : "" %></span>
+        </div>
+
+        <div class="line-col">
+            <span>处理人员:</span>
+            <span><%= data.data.HANDLEUSERNAME %></span>
+        </div>
+        <div class="line-col">
+            <span>处理状态:</span>
+            <span><%= data.data.HANDLESTATUS == "2" ? "已处理" : "未处理" %></span>
+        </div>
+
+        <div class="line-col">
+            <span>分类名称:</span>
+            <span><%= data.data.CLSNAME %></span>
+        </div>
+        <div class="line-col">
+            <span>检索关键字:</span>
+            <span><%= data.data.KEYWORD %></span>
+        </div>
+		<div class="line-col">
+            <span>问题来源:</span>
+            <span><%= data.data.REQUIRENAME %></span>
+        </div>
+
+		
+    </div>
+
+    <!--<div>-->
+    <!--<span>登记编号:<span><%= data.data.REGID %></span></span>-->
+    <!--<span>登记人员:<span><%= data.data.USERNAME %></span></span>-->
+    <!--<span>登记时间:<span><%= data.data.REGDATE ? data.data.REGDATE.substr(0, 10) : "" %></span></span>-->
+
+    <!--<span>处理时间:<span><%= data.data.HANDLEDATE ? data.data.HANDLEDATE.substr(0, 10) : "" %></span></span>-->
+    <!--<span>处理人员:<span><%= data.data.HANDLEUSERNAME %></span></span>-->
+    <!--<span>处理状态:<span><%= data.data.HANDLESTATUS == "2" ? "已处理" : "未处理" %></span></span>-->
+
+    <!--<span>来&emsp;&emsp;源:<span><%= data.data.REQUIRENAME %></span></span>-->
+    <!--<span>截止时间:<span><%= data.data.HANDLESTOPDATE %></span></span>-->
+    <!--</div>-->
+
+    <!--<div>-->
+    <!--<span>问题描述:</span><span class="mc-height"><%= data.data.REQUEST %> </span>-->
+    <!--</div>-->
+
+    <div class="line-row">
+        <span>问题描述:</span>
+        <span class="disabled-area">
+            <div class="question-detail-1" serialnum="<%= data.data.PROJECTID %>" flag="<%= data.data.flag %>"
+                 dispatchid="<%= data.data.DISPATCHID %>"
+                 regid="<%= data.data.REGID %>" id="input_questionsummary">
+                <%= data.data.REQUEST %>
+            </div>
+        </span>
+    </div>
+
+
+    <!--<div class="register-detail-filelist noborder">-->
+    <!--<span>查看附件:</span>-->
+    <!--<% data.attachment.forEach(function(data, index){ %>-->
+    <!--<div onselectstart='return false'>-->
+
+    <!--<div>-->
+    <!--<a href="<%= data.HTTPURL %>"><%= data.ATTACHMENTNAME %></a>-->
+    <!--</div>-->
+
+    <!--</div>-->
+
+    <!--<% }) %>-->
+    <!--</div>-->
+    <div class="register-detail-filelist-1 noborder">
+        <div class="check_file-containner">
+            <span class="check_file">
+                <img class="icon-down" src="/ism/chat/img/ism_img/down.png"> 查看附件
+            </span>
+        </div>
+
+        <% data.attachment.forEach(function(data, index){ %>
+        <div class="attachmentfile" id="<%= data.ATTACHMENTID %>">
+            <% var arr = data.ATTACHMENTNAME.split(".");  if(arr[arr.length - 1] == "png"
+                    || arr[arr.length - 1] == "jpg" || arr[arr.length - 1] == "gif"){ %>
+            <img src="/ism/chat/img/ism_img/pic.png">
+            <% }else{ %>
+            <img src="/ism/chat/img/svg/file.svg">
+            <% } %>
+            <a href="<%= data.HTTPURL %>"><%= data.ATTACHMENTNAME %></a>
+        </div>
+
+        <% }) %>
+
+    </div>
+
+    <div class=" line-row">
+        <span>处理方案:</span>
+        <span id="resolve_plan" class="disabled-area changeline"><%= data.data.PROJECTCONTENT %></span>
+    </div>
+
+    <div>
+        <div class="mc-mg">方案附件：</div>
+        <div class="mc-contain">
+            <% if(data.attachmentproject){
+                    data.attachmentproject.forEach(function(data, index){ %>
+
+            <div class="attachmentfile" id="<%= data.ATTACHMENTID %>">
+                <% var arr = data.ATTACHMENTNAME.split(".");  if(arr[arr.length - 1] == "png"
+                        || arr[arr.length - 1] == "jpg" || arr[arr.length - 1] == "gif"){ %>
+                <img src="/ism/chat/img/ism_img/pic.png">
+                <% }else{ %>
+                <img src="/ism/chat/img/svg/file.svg">
+                <% } %>
+                <a href="<%= data.HTTPURL %>"><%= data.ATTACHMENTNAME %></a>
+            </div>
+
+            <% })} %>
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="dialog-footer">
+    <%if(data.data.HANDLESTATUS == "2"){ %>
+        <button id="quickreply">快速回复</button>
+    <%}else{ %>
+        <button class="mc-disable disabled_button " id="quickreply">快速回复</button>
+    <%}%>
+</div>
+
+
+
+
+
+
+
+
+

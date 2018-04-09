@@ -1,0 +1,49 @@
+
+<div class="dialog-content register-detail">
+    <div class="register-detail-head">
+
+        <div>
+            <span>登记编号:</span>
+            <span><%= data.data.REGID %></span>
+        </div>
+        <div>
+            <span>状&emsp;&emsp;态:</span>
+            <span><%= data.data.ISDISPATCH=="1"?"未派工":"已派工" %></span>
+        </div>
+        <div>
+            <span>登记人员:</span>
+            <span><%= data.data.USERNAME %></span>
+        </div>
+        <div>
+            <span>登记时间:</span>
+            <span><%= data.data.REGDATE.substr(0,10) %></span>
+        </div>
+        <div>
+            <span>问题来源:</span>
+            <span><%= data.data.REQUIRENAME %></span>
+        </div>
+
+    </div>
+    <div class="register-detail-center">
+        <span>问题描述:</span>
+        <span><%= data.data.REQUEST %></span>
+    </div>
+    <div class="register-detail-foot">
+        <div>
+            <span>附件:</span>
+        </div>
+        <div class="register-detail-filelist">
+            <% data.attachment.forEach(function(data, index){ %>
+            <div onselectstart= 'return false'>
+                <div>
+                    <a href="<%=data.HTTPURL%>">
+                        <%= data.ATTACHMENTNAME %>
+                    </a>
+                </div>
+
+            </div>
+
+            <% }) %>
+        </div>
+    </div>
+</div>

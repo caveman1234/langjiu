@@ -37,6 +37,42 @@
                 </div>
 
             </div>
+            <div @click="cashRestDetail"
+                class="cashRest MypropertyLeftItem">
+                <div class="main">
+                    <el-row>
+                        <el-col :span="7">
+                            <div class="text">融资:</div>
+                        </el-col>
+                        <el-col :span="10">
+                            <div class="money"></div>
+                        </el-col>
+                    </el-row>
+                </div>
+                <div class="brief">
+                    <el-row>
+                        <el-col :span="7"
+                            style="text-align:right;">
+                            <div class="text">账面余额:</div>
+                        </el-col>
+                        <el-col :span="17">
+                            <div class="text"
+                                v-red>{{finatialReserve|formatPropertyMoney}}</div>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :span="7"
+                            style="text-align:right;">
+                            <div class="text">可用余额:</div>
+                        </el-col>
+                        <el-col :span="17">
+                            <div class="text"
+                                v-red>{{finatialBalance|formatPropertyMoney}}</div>
+                        </el-col>
+                    </el-row>
+                </div>
+
+            </div>
             <div @click="promiseRestDetail"
                 class="promiseRest MypropertyLeftItem">
                 <div class="main">
@@ -104,6 +140,7 @@
                 </div>
 
             </div>
+            
             <div class="buildRest MypropertyLeftItem">
                 <div class="main">
                     <el-row>
@@ -173,6 +210,42 @@
                     </el-row>
                 </div>
             </div>
+            <div @click="cashRestDetail"
+                class="cashRest MypropertyLeftItem">
+                <div class="main">
+                    <el-row>
+                        <el-col :span="7">
+                            <div class="text">借酒:</div>
+                        </el-col>
+                        <el-col :span="10">
+                            <div class="money"></div>
+                        </el-col>
+                    </el-row>
+                </div>
+                <div class="brief">
+                    <el-row>
+                        <el-col :span="7"
+                            style="text-align:right;">
+                            <div class="text">账面余额:</div>
+                        </el-col>
+                        <el-col :span="17">
+                            <div class="text"
+                                v-red>{{takeWineReserve|formatPropertyMoney}}</div>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :span="7"
+                            style="text-align:right;">
+                            <div class="text">可用余额:</div>
+                        </el-col>
+                        <el-col :span="17">
+                            <div class="text"
+                                v-red>{{takeWineBalance|formatPropertyMoney}}</div>
+                        </el-col>
+                    </el-row>
+                </div>
+
+            </div>
 
         </div>
         <div class="MyPropertyRight">
@@ -199,8 +272,8 @@ export default {
             tableDataArr: [],
             notDeliver: 0,//未发货金额
             unSendAmountFinal: 0,//未终审
-            costOffRemaining:0,//费用余额
-            cashRemaining:0,//现金可用余额
+            costOffRemaining: 0,//费用余额
+            cashRemaining: 0,//现金可用余额
             //缓存表格明细信息
             cacheTableDataArr: {
                 //现金余额
@@ -270,7 +343,7 @@ export default {
                     }
                 },
                 //费用余额，可用余额
-                costOffRemainingInfo:{
+                costOffRemainingInfo: {
                     url: '/ocm-web/api/b2b/query-balance/getTwoChargeReserve',
                     paramsWrap: {
                         params: {
@@ -279,7 +352,7 @@ export default {
                     }
                 },
                 //现金可用余额
-                cashRemainingInfo:{
+                cashRemainingInfo: {
                     url: '/ocm-web/api/b2b/query-balance/getCashReserve',
                     paramsWrap: {
                         params: {
@@ -287,7 +360,15 @@ export default {
                         }
                     }
                 }
-            }
+            },
+            //融资账面余额
+            finatialReserve: 0,
+            //融资可用余额
+            finatialBalance: 0,
+            //借酒账面余额
+            takeWineReserve: 0,
+            //借酒可用余额
+            takeWineBalance: 0,
         }
     },
     methods: {
@@ -395,7 +476,7 @@ export default {
                 })
         },
         //获取费用余额
-        fetchCostOffRemaining(){
+        fetchCostOffRemaining() {
             let _this = this;
             //costOffRemainingInfo
             let { url, paramsWrap } = _this.paramsInfo.costOffRemainingInfo;
@@ -408,13 +489,26 @@ export default {
                 })
         },
         //获取现金可用余额
-        fetchCashRemaining(){
+        fetchCashRemaining() {
             let _this = this;
             let { url, paramsWrap } = _this.paramsInfo.cashRemainingInfo;
             return _this.$http.get(url, paramsWrap)
                 .then(res => {
                     return res.data;
                 })
+        },
+        async fetchFinatialTakeWine() {
+            let params = {
+                customerId: this.$store.state.customerId
+            };
+            let finatialUrl = "/ocm-web/api/b2b/query-balance/queryFinancingReserve"
+            let takeWinUrl = "/ocm-web/api/b2b/query-balance/queryBorrowWineReserve";
+            let finatialRes = await this.$http.get(finatialUrl, { params });
+            let takeWinRes = await this.$http.get(takeWinUrl, { params });
+            this.finatialReserve = finatialRes.data.reserve;
+            this.finatialBalance = finatialRes.data.balance;
+            this.takeWineReserve = takeWinRes.data.reserve;
+            this.takeWineBalance = takeWinRes.data.balance;
         }
     },
     mounted() {
@@ -443,10 +537,24 @@ export default {
         });
         _this.fetchUnSendAmount().then(res => _this.unSendAmountFinal = res);
         _this.fetchCostOffRemaining().then(res => _this.costOffRemaining = res);
-        _this.fetchCashRemaining().then(res=>_this.cashRemaining = res);
+        _this.fetchCashRemaining().then(res => _this.cashRemaining = res);
+        this.fetchFinatialTakeWine();
+    },
+    filters: {
+        formatPropertyMoney(value) {
+            if (value === null || value === '' || value === undefined) {
+                return '¥0.00';
+            }
+            if (value === 0) {
+                return '¥0.00';
+            }
+            value = String(Number(value).toFixed(2));
+            var str = value.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+            return '¥' + str;
+        }
     }
 }
 </script>
 <style lang="scss" scoped>
-@import './MyProperty';
+@import "./MyProperty";
 </style>

@@ -30,6 +30,11 @@ let tabArr = [
         routeName: 'CashCheck'
     },
     {
+        label: '融资对账',
+        name: 'FinatialCheck',
+        routeName: 'FinatialCheck'
+    },
+    {
         label: '费用对账',
         name: 'CostCheck',
         routeName: 'CostCheck'
@@ -43,6 +48,11 @@ let tabArr = [
         label: '保证金对账',
         name: 'PromiseCheck',
         routeName: 'PromiseCheck'
+    },
+    {
+        label: '借酒对账',
+        name: 'TakeWineCheck',
+        routeName: 'TakeWineCheck'
     },
     {
         label: '待审核费用对账',

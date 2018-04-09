@@ -1,0 +1,122 @@
+<div class="dialog-content apply-detail">
+    <div class="noborder">
+        <div class="col-containner">
+            <% if(data.data.disable){ %>
+            <div class="line-col">
+                <span>派工单号:</span>
+                <span id="apply_dispatchid"><%= data.data.DISPATCHID %></span>
+            </div>
+            <div class="line-col">
+                <span>处理状态:</span>
+                <span><%= data.data.HANDLESTATUS == "2" ? "已处理" : "未处理" %></span>
+            </div>
+            <div class="line-col">
+                <span>派工人员:</span>
+                <span><%= data.data.DISPATCHUSERNAME %></span>
+            </div>
+            <div class="line-col">
+                <span>派工时间:</span>
+            <span>
+                <%= data.data.DISPATCHDATE ? data.data.DISPATCHDATE.substr(0, 10) : "" %>
+            </span>
+            </div>
+            <div class="line-col">
+                <span>处理人员:</span>
+                <span>
+                    <input type="text" placeholder="处理人员" value="<%= data.data.HANDLEUSERNAME %>"
+                           maxlength="10" id="apply_edit_dealer">
+                </span>
+            </div>
+            <div class="line-col">
+                <span>截止时间:</span>
+            <span class="date-containner">
+               <input type="text" id="apply_endtime" readonly
+                      value="<%= data.data.HANDLESTOPDATE ? data.data.HANDLESTOPDATE.substr(0, 10) : "" %>">
+                <img src="/ism/chat/img/ism_img/date.png">
+            </span>
+            </div>
+            <div class="line-col">
+                <span>是否加急:</span>
+                <span>
+                    <select id="isurgent">
+                        <option value="1" <%= ("1" == data.data.ISURGENT ? "selected" : "") %>>否</option>
+                        <option value="2" <%= ("2" == data.data.ISURGENT ? "selected" : "") %>>是</option>
+                    </select>
+                    <img  class="icon-replacedown-l" src="/ism/chat/img/ism_img/icon-down.png">
+                </span>
+            </div>
+
+            <% }else{ %>
+
+            <div class="line-col">
+                <span>派工人员:</span>
+                <span id="dispatchusername"><%= data.data.dispatchusername %></span>
+            </div>
+            <div class="line-col">
+                <span>派工时间:</span>
+            <span>
+                <%= data.data.applytime %>
+            </span>
+            </div>
+            <div class="line-col">
+                <!--<span>处理人员:</span>-->
+                <!--<span id="handleusername"><%= data.data.handleusername %></span>-->
+                <span>处理人员:</span>
+                <span>
+                    <input type="text" placeholder="处理人员" value="<%= data.data.handleusername %>"
+                           maxlength="10" id="handleusername">
+                </span>
+            </div>
+            <div class="line-col">
+                <span>截止时间:</span>
+            <span class="date-containner">
+               <input type="text" id="handlestopdate" readonly>
+                <img src="/ism/chat/img/ism_img/date.png">
+            </span>
+            </div>
+            <div class="line-col">
+                <span>是否加急:</span>
+            <span>
+                <select id="isurgent">
+                    <option value="1">否</option>
+                    <option value="2">是</option>
+                </select>
+                <img  class="icon-replacedown-l" src="/ism/chat/img/ism_img/icon-down.png">
+            </span>
+            </div>
+            <% } %>
+        </div>
+
+    </div>
+
+    <div class="line-row">
+        <span>派工描述:</span>
+           <span>
+        <div contenteditable="true" class="apply-detail-summary" id="input_applysummary"
+             regid="<%= data.data.REGID %>">
+            <%= data.data.DISPATCHREQUEST %>
+        </div>
+           </span>
+    </div>
+
+    <div class="line-row">
+        <span>问题描述:</span>
+        <span class="disabled-area">
+            <div class="question-detail-1">
+                <%= data.data.REQUEST %>
+            </div>
+        </span>
+    </div>
+
+
+</div>
+
+<div class="dialog-footer">
+    <% if(data.data.disable){ %>
+    <button class="button-ensure" id="apply_edit_ensure">提交</button>
+    <% }else{ %>
+    <button class="button-ensure" id="apply_detail_ensure">提交</button>
+    <% } %>
+
+    <button class="button-cancel" id="apply_detail_cancel">取消</button>
+</div>

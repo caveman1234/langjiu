@@ -1,0 +1,8 @@
+<div class="quick_resolveplan">
+    <%= dealplan %>
+</div>
+<ul class="qiuck_filelist">
+    <% list.forEach(function(data, index){ %>
+       <li><a href="<%=data.fileurl%>"><%=data.filename%></a></li>
+    <% }) %>
+</ul>

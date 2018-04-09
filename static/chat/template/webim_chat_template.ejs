@@ -1,0 +1,39 @@
+<div class="chat-dy_hidden " flagid="<%= data.id %>">
+    <div class="header">
+        <div class="left">
+            <!--<img src="/ism/chat/img/avastar.png">-->
+            <span><%= data.name %></span>
+            <!--<span><%= data.intro %></span>-->
+        </div>
+
+    </div>
+
+    <div class="chat-inner">
+        <div class="chat-inner-history"><span>历史消息</span></div>
+        <div class="inner">
+
+
+        </div>
+    </div>
+
+
+    <div class="footer">
+        <div class="footer-toolbar">
+            <span id="emotion"><img src="/ism/chat/img/icon-emotion.png" title="添加表情"></span>
+            <span id="picture"><img src="/ism/chat/img/icon-picture.png" title="发送图片"></span>
+            <span id="file"><img src="/ism/chat/img/icon-file.png" title="发送文件"></span>
+            <span id="screenshot"><img src="/ism/chat/img/screenshot.png" title="截图"></span>
+            <span class="footer-toolbar-hint-text">Enter键换行,Ctrl+Enter发送</span>
+        </div>
+        <div class="footer-input">
+
+            <div class="edit" contenteditable="true" spellcheck="false"></div>
+        </div>
+        <div class="footer-button">
+            <a href="">请点击此处下载安装截图插件</a>
+            <button id="sendMessage" flagid="<%= data.id %>">发&nbsp;送</button>
+        </div>
+    </div>
+</div>
+
+

@@ -1,0 +1,19 @@
+<% list.forEach(function(data, index){  var newid = new Date().getTime();%>
+<tr>
+    <td>
+        <div class="mc-checkbox">
+            <input type="checkbox" name="radio" id="<%= newid+index %>" class="chk_1">
+            <label for="<%= newid+index %>"></label>
+        </div>
+
+        <span><%= index+1 %></span> <span>头像</span>
+    </td>
+    <td><%= data.nickname %></td>
+    <td><%= data.username %></td>
+    <td><%= data.name %></td>
+    <td><%= data.sex %></td>
+    <td><%= data.tel %></td>
+    <td><%= data.rolename %></td>
+</tr>
+<% }) %>
+

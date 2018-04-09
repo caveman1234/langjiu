@@ -1,0 +1,119 @@
+<div class="dialog-content register-detail-edit">
+    <div class="register-detail-head noborder">
+
+        <% if(data.data.show_ect){ %>
+        <div>
+            <span>登记编号:</span>
+            <span><%= data.data.REGID %></span>
+
+        </div>
+        <div>
+            <span>状&emsp;&emsp;态:</span>
+            <span><%= data.data.ISDISPATCH == "1" ? "未派工" : "已派工" %></span>
+
+        </div>
+        <div>
+            <span>登记人员:</span>
+            <span><%= data.data.USERNAME %></span>
+
+        </div>
+        <div>
+            <span>登记时间:</span>
+            <span><%= data.data.REGDATE.substr(0, 10) %></span>
+
+        </div>
+        <div>
+            <span>问题来源:</span>
+            <span><%= data.data.REQUIRENAME %></span>
+
+        </div>
+        <% }else{ %>
+        <div>
+            <span>登记人员:</span>
+            <span id="input_register"><%= data.data.name %></span>
+        </div>
+       
+        <div>
+            <span>问题来源:</span>
+            <span id="input_origin"><%= data.data.origin %></span>
+        </div>
+		
+		 <div>
+            <span>登记时间:</span>
+            <span id="register_time"><%= data.data.time %></span>
+        </div>
+        <% } %>
+
+    </div>
+    <div class="register-detail-center">
+        <span>问题描述:</span>
+        <% if(data.data.flag == "add"){ %>
+        <div class="question-detail-containner extra-pr">
+        <%}else{%>
+        <div class="question-detail-containner">
+        <%}%>
+
+            <div contenteditable="true" class="question-detail"
+                 id="input_questionsummary"><%= data.data.REQUEST %></div>
+
+            <% if(data.data.flag == "add"){ %>
+            <img src="/ism/chat/img/svg/search_btn.svg" id="register_matchproblem">
+
+        </div>
+
+        <div class="hint-text">相关问题： <span>查看更多</span></div>
+
+        <div class="mc-register-add">
+
+
+            <table class="mc-table">
+                <tr>
+                    <td>序号</td>
+                    <td>问题</td>
+                    <td>登记人</td>
+                    <td>登记时间</td>
+                    <td>处理人</td>
+                    <td>处理时间</td>
+                </tr>
+
+
+            </table>
+        </div>
+
+        <% }else{ %>
+    </div>
+    <% } %>
+
+</div>
+<div class="register-detail-foot">
+    <div>
+        <span>附件:</span>
+
+        <span id="addfile">新增</span>
+    </div>
+    <div class="register-detail-filelist">
+        <% data.attachment.forEach(function(data, index){ %>
+
+        <div class="attachmentfile" id="<%= data.ATTACHMENTID %>">
+            <% var arr = data.ATTACHMENTNAME.split(".");  if(arr[arr.length - 1] == "png"
+                    || arr[arr.length - 1] == "jpg" || arr[arr.length - 1] == "gif"){ %>
+            <img src="/ism/chat/img/ism_img/pic.png">
+            <% }else{ %>
+            <img src="/ism/chat/img/svg/file.svg">
+            <% } %>
+
+            <a href="<%= data.HTTPURL %>"><%= data.ATTACHMENTNAME %></a>
+            <span>删除</span>
+        </div>
+
+        <% }) %>
+    </div>
+</div>
+</div>
+
+<div class="dialog-footer">
+    <button id="register_add_apply">派工</button>
+    <button id="register_add_ensure">保存</button>
+    <button id="register_add_cancel">取消</button>
+
+</div>

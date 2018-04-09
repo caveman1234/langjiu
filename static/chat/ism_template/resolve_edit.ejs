@@ -1,0 +1,168 @@
+<div class="dialog-content apply-detail">
+    <div class="col-containner">
+        <div class="line-col">
+
+            <span>登记人员:</span>
+            <span><%= data.data.USERNAME %></span>
+        </div>
+
+        <!--<input type="text" placeholder="登记人员" maxlength="10" value="<%= data.data.USERNAME %>"-->
+        <!--disabled></span></span>-->
+        <div class="line-col">
+            <span>登记时间:</span>
+            <span><%= data.data.REGDATE.substr(0, 10) %></span>
+        </div>
+        <!--<input type="text" placeholder="登记时间" maxlength="10"-->
+        <!--value="<%= data.data.REGDATE.substr(0, 10) %>" disabled></span></span>-->
+        <div class="line-col">
+            <span>问题来源:</span>
+            <span><%= data.data.REQUIRENAME %></span>
+
+        </div>
+
+        <!--<input type="text" placeholder="来源" maxlength="10"-->
+        <!--value="<%= data.data.REQUIRENAME %>" disabled></span></span>-->
+        <div class="line-col">
+            <span>处理时间:</span>
+            <span class="date-containner">
+               <input type="text" id="resolve_starttime" placeholder="处理时间" maxlength="10"
+                      value="<%= data.data.HANDLEDATE?data.data.HANDLEDATE.substr(0,10):"" %>" readonly>
+                <img src="/ism/chat/img/ism_img/date.png">
+            </span>
+
+
+        </div>
+        <div class="line-col">
+            <span>处理人员:</span>
+            <input type="text" placeholder="处理人员" maxlength="10" id="resolve_person"
+                   value="<%= data.data.HANDLEUSERNAME %>"
+                   HANDLEUSERID="<%= data.data.HANDLEUSERID %>">
+        </div>
+
+        <% if(data.data.ISDISPATCH == '2'){ %>
+
+        <div class="line-col">
+            <span>截止时间:</span>
+            <span><%= data.data.HANDLESTOPDATE.substr(0, 10) %></span>
+            <!--<span class="date-containner">-->
+               <!--<input type="text" id="resolve_endtime" placeholder="处理时间" maxlength="10"-->
+                      <!--value="<%= data.data.HANDLESTOPDATE %>" readonly>-->
+                <!--<img src="/ism/chat/img/ism_img/date.png">-->
+            <!--</span>-->
+        </div>
+
+        <!--<span> 截止时间:<span> < input type = "text" id = "resolve_endtime" placeholder = "截止时间" maxlength = "10"-->
+        <!--value = "<%= data.data.HANDLESTOPDATE %> "></span></span>-->
+        <% } %>
+
+    </div>
+
+    <div class="line-row">
+        <span>问题描述:</span>
+        <span class="disabled-area">
+            <div class="question-detail-1" serialnum="<%= data.data.PROJECTID %>" flag="<%= data.data.flag %>"
+                 dispatchid="<%= data.data.DISPATCHID %>"
+                 regid="<%= data.data.REGID %>" id="input_questionsummary">
+                <%= data.data.REQUEST %>
+            </div>
+        </span>
+    </div>
+
+    <% if(data.data.DISPATCHREQUEST){ %>
+    <div class="line-row">
+        <span>派工描述:</span>
+        <span class="disabled-area">
+            <div class="question-detail" id="input_applysummary"><%= data.data.DISPATCHREQUEST %></div>
+        </span>
+    </div>
+    <% } %>
+
+    <div class="register-detail-filelist-1 noborder">
+        <div class="check_file-containner">
+            <span class="check_file">
+                <img class="icon-down" src="/ism/chat/img/ism_img/down.png"> 查看附件
+            </span>
+        </div>
+
+        <% data.attachment.forEach(function(data, index){ %>
+        <div class="attachmentfile" id="<%= data.ATTACHMENTID %>">
+            <% var arr = data.ATTACHMENTNAME.split(".");  if(arr[arr.length - 1] == "png"
+                    || arr[arr.length - 1] == "jpg" || arr[arr.length - 1] == "gif"){ %>
+            <img src="/ism/chat/img/ism_img/pic.png">
+            <% }else{ %>
+            <img src="/ism/chat/img/svg/file.svg">
+            <% } %>
+            <a href="<%= data.HTTPURL %>"><%= data.ATTACHMENTNAME %></a>
+        </div>
+
+        <% }) %>
+
+    </div>
+
+    <div class="border_topbottom mc-content-item">
+
+        <div class="line-row">
+            <span>处理方案:</span>
+        <span>
+            <div contenteditable="true" class="question-detail"
+                 id="input_dealsummary"><%= data.data.PROJECTCONTENT %></div>
+        </span>
+        </div>
+
+
+        <!--<span>处理方案:</span><span><div contenteditable="true" class="question-detail"-->
+        <!--id="input_dealsummary"><%= data.data.PROJECTCONTENT %></div></span>-->
+
+        <div>
+            <span>方案附件:</span>
+            <span id="addfile_rosolve">新增</span>
+
+            <!--<span id="addfile_rosolve">新增</span>-->
+            <!--<span id="deletefile_rosolve">删除</span>-->
+        </div>
+
+        <div class="register-detail-filelist ">
+            <% if(data.attachmentproject){
+                    data.attachmentproject.forEach(function(data, index){ %>
+            <div class="attachmentfile" id="<%= data.ATTACHMENTID %>">
+                <% var arr = data.ATTACHMENTNAME.split(".");  if(arr[arr.length - 1] == "png"
+                        || arr[arr.length - 1] == "jpg" || arr[arr.length - 1] == "gif"){ %>
+                <img src="/ism/chat/img/ism_img/pic.png">
+                <% }else{ %>
+                <img src="/ism/chat/img/svg/file.svg">
+                <% } %>
+                <a href="<%= data.HTTPURL %>"><%= data.ATTACHMENTNAME %></a>
+            </div>
+
+            <!--<div>-->
+            <!--<div class="mc-contain-left">-->
+            <!--<input type="checkbox" id="<%= data.ATTACHMENTID %>" class="chk_1">-->
+            <!--<label for="<%= data.ATTACHMENTID %>"></label>-->
+            <!--</div>-->
+
+            <!--<div class="mc-pd"><a href="<%= data.HTTPURL %>"><%= data.ATTACHMENTNAME %></a></div>-->
+
+            <!--</div>-->
+            <% })} %>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+<div class="dialog-footer">
+
+    <button id="resolve_edit_sort">归档</button>
+
+
+    <button class="button-ensure" id="resolve_edit_ensure">完工</button>
+    <button class="button-cancel" id="resolve_edit_cancel">取消</button>
+</div>
+
+
+
+
+
+

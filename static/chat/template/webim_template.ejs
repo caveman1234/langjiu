@@ -1,0 +1,44 @@
+﻿<div class="chat-pannel-containner">
+
+    <!--      隐藏toolbar mini                 -->
+    <div class="hidden-toolbar">
+          <span class="trangle-right"></span>
+    </div>
+
+
+    <div class="tabbar">
+        <a class="tabbar-item active" flagindex="1">
+            <div class="list-item-container">
+                <img src="/ism/chat/img/chat.png">
+                <span class="tabbar-item-badge"></span>
+            </div>
+        </a>
+        <a class="tabbar-item" flagindex="2">
+            <img src="/ism/chat/img/person.png">
+        </a>
+        <!--<a class="tabbar-item">-->
+            <!--<img src="/ism/chat/img/svg/square.svg">-->
+        <!--</a>-->
+    </div>
+
+    <div class="list-content">
+        <div class="list">
+            <% list.forEach(function(data, index){ %>
+            <div class="list-item" flagid="<%= data.id %>" endVersion="<%=data.endVersion%>">
+                <span class="list-item-badge">0</span>
+                <img src="/ism/chat/img/avastar.png">
+
+                <div class="list-item-content">
+                    <span><%= data.title %></span>
+                    <span><%= data.lastmessage %></span>
+                </div>
+            </div>
+            <% }) %>
+
+        </div>
+
+        <div class="org-list">
+
+        </div>
+    </div>
+</div>

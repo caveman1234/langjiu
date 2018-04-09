@@ -1,0 +1,22 @@
+
+<% if (data.chat_from ) { %>
+<div class="inner-chat">
+    <p>我 <span><%=data.time.getHours() %>:
+            <%=data.time.getMinutes()>=10?data.time.getMinutes():'0'+data.time.getMinutes() %>:
+            <%=data.time.getSeconds()>=10?data.time.getSeconds(): '0'+data.time.getSeconds() %></span></p>
+
+    <p><%= data.message %></p>
+</div>
+
+<% } else { %>
+<div class="inner-chat">
+    <p class="p-color">
+        <%= data.name %>
+        <span><%=data.time.getHours() %>:
+            <%=data.time.getMinutes()>=10?data.time.getMinutes():'0'+data.time.getMinutes() %>:
+            <%=data.time.getSeconds()>=10?data.time.getSeconds(): '0'+data.time.getSeconds() %></span>
+    </p>
+
+    <p><%= data.message %></p>
+</div>
+<% } %>

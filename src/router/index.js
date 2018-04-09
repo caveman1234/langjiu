@@ -24,6 +24,9 @@ import BillDownload from '@/components/route/AccountCenter/BillDownload/BillDown
 import LogisticsDownload from '@/components/route/AccountCenter/LogisticsDownload/LogisticsDownload'
 import MyInfo from '@/components/route/AccountCenter/MyInfo/MyInfo'
 
+import TakeWineCheck from '@/components/route/AccountCenter/TakeWineCheck/TakeWineCheck'
+import FinatialCheck from '@/components/route/AccountCenter/FinatialCheck/FinatialCheck'
+
 
 import MsgCenter from '@/components/route/MsgCenter/MsgCenter'
 import MsgContent from '@/components/route/MsgCenter/MsgContent/MsgContent'
@@ -284,6 +287,16 @@ let router = new Router({
                 path: '/CashCheck',
                 name: 'CashCheck',
                 component: CashCheck
+            },
+            {
+                path: '/TakeWineCheck',
+                name: 'TakeWineCheck',
+                component: TakeWineCheck
+            },
+            {
+                path: '/FinatialCheck',
+                name: 'FinatialCheck',
+                component: FinatialCheck
             },
             {
                 path: '/CostCheck',

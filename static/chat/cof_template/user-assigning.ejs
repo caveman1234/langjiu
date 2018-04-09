@@ -1,0 +1,24 @@
+<div class="dialog-header">
+    <span>分配办事处</span>
+    <img src="chat/img/close.png">
+</div>
+<div class="dialog-content normallize">
+    <div class="office-list">
+        <% list.forEach(function(data, index){  var newid= new Date().getTime() %>
+          <span>
+              <div class="mc-checkbox">
+                  <input type="checkbox"  id="<%= newid + index %>" class="chk_1"
+                          <%=data.CHECK=="true"?"checked":""%>
+                          code="<%=data.ID%>">
+                  <label for="<%= newid + index %>"></label>
+              </div>
+              <label for="<%= newid+index %>"><%= data.NAME %></label>
+          </span>
+        <% }) %>
+
+    </div>
+</div>
+<div class="dialog-footer">
+    <button id="dialog-cancel">取消</button>
+    <button id="dialog-ensure">确认</button>
+</div>

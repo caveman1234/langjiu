@@ -192,14 +192,15 @@ function install(Vue) {
             });
         },
         complete: function(xhr, status,x,y) {
-            if(xhr.getResponseHeader('x-ocm-code') != 1){
-                Notification.error({
-                    title: decodeURIComponent(xhr.getResponseHeader('x-ocm-message')),
-                    // message: decodeURI(response.headers["x-ocm-message"]),
-                    offset: 90,
-                    duration: 3000
-                });
-            }
+            debugger
+            // if(xhr.getResponseHeader('x-ocm-code') != 1){
+            //     Notification.error({
+            //         title: decodeURIComponent(xhr.getResponseHeader('x-ocm-message')),
+            //         // message: decodeURI(response.headers["x-ocm-message"]),
+            //         offset: 90,
+            //         duration: 3000
+            //     });
+            // }
             setTimeout(_ => loadingInstance1.close(),300);
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) { //对错误进行统一处理
