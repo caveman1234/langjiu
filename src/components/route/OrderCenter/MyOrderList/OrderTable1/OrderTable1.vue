@@ -260,12 +260,12 @@ export default {
                     disabled: false,
                     imgUrl: require('../../../../commonComp/BankList/bankImg/bank_min.png')
                 },
-                {
-                    name: "中国建设银行",
-                    label: 'ccb',
-                    disabled: false,
-                    imgUrl: require('../../../../commonComp/BankList/bankImg/bank_jian.png')
-                }
+                // {
+                //     name: "中国建设银行",
+                //     label: 'ccb',
+                //     disabled: false,
+                //     imgUrl: require('../../../../commonComp/BankList/bankImg/bank_jian.png')
+                // }
             ],
             //融资银行弹窗
             dialogVisible2: false
