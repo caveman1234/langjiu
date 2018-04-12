@@ -19,7 +19,7 @@
                     </div>
                 </div>
                 <div class="wait">
-                    <div class="title">待办事项</div>
+                    <div class="title">待审事项</div>
                     <div class="waitItems">
                         <div class="row1">
                             <div @click="willCheckOrder" class="left item">

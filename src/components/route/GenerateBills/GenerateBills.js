@@ -49,7 +49,7 @@ export default {
             //选择银行弹框
             dialogVisible: false,
             //在线支付loading状态
-            isPayOnlineLoading:false,
+            isPayOnlineLoading: false,
             bankDataSource1: [
                 {
                     name: "中国农业银行",
@@ -672,6 +672,8 @@ export default {
         _this.$nextTick(() => {
             //藏品产品线为空，不计算费用
             if (_this.$store.state.prodGroupId) {
+                _this.$refs.costOffRef.confirm(true);
+            } else {
                 _this.$refs.costOffRef.confirm(true);
             }
         });

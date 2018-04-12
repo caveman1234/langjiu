@@ -28,6 +28,7 @@ import TakeWineCheck from '@/components/route/AccountCenter/TakeWineCheck/TakeWi
 import FinatialCheck from '@/components/route/AccountCenter/FinatialCheck/FinatialCheck'
 
 
+import Inquiry from '@/components/route/Inquiry/Inquiry'
 import MsgCenter from '@/components/route/MsgCenter/MsgCenter'
 import MsgContent from '@/components/route/MsgCenter/MsgContent/MsgContent'
 
@@ -344,6 +345,11 @@ let router = new Router({
             path: '/MsgCenter',
             name: 'MsgCenter',
             component: MsgCenter
+        },
+        {
+            path: '/Inquiry',
+            name: 'Inquiry',
+            component: Inquiry
         },
         {
             path: '/PurchaseBills',

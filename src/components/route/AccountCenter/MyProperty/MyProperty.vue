@@ -215,7 +215,7 @@
                 <div class="main">
                     <el-row>
                         <el-col :span="7">
-                            <div class="text">借酒:</div>
+                            <div class="text">直投:</div>
                         </el-col>
                         <el-col :span="10">
                             <div class="money"></div>

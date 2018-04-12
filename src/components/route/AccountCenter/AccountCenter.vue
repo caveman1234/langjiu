@@ -50,7 +50,7 @@ let tabArr = [
         routeName: 'PromiseCheck'
     },
     {
-        label: '借酒对账',
+        label: '直投对账',
         name: 'TakeWineCheck',
         routeName: 'TakeWineCheck'
     },

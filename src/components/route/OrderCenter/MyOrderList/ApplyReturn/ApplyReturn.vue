@@ -132,7 +132,7 @@ export default {
                 _this.$http.post(url, params)
                     .then(res => {
                         if (res.headers["x-ocm-code"] == '1') {
-                            _this.$router.push({ name: 'DeliverTotal', params: { from: 'ApplyReturn' } });
+                            _this.$router.push({ name: 'ReturnTotal', params: { from: 'ApplyReturn' } });
                         }
                     });
             }).catch(() => { });

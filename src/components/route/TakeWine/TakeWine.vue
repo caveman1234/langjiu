@@ -2,8 +2,8 @@
     <div class="TakeWine">
         <div class="leftList">
             <el-tabs @tab-click="tabClick" tab-position="left" v-model="currentCheck">
-                <el-tab-pane label="借酒单" name="takeWineList"></el-tab-pane>
-                <el-tab-pane label="还酒单" name="returnWineList"></el-tab-pane>
+                <el-tab-pane label="借出单" name="takeWineList"></el-tab-pane>
+                <el-tab-pane label="还入单" name="returnWineList"></el-tab-pane>
             </el-tabs>
         </div>
         <div class="orderContainer">

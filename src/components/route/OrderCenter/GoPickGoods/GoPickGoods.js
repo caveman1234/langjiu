@@ -547,6 +547,8 @@ export default {
             //藏品产品线为空，不计算费用
             if (_this.$store.state.prodGroupId) {
                 _this.$refs.costOffRef.confirm(true);
+            }else{
+                _this.$refs.costOffRef.confirm(true);
             }
         });
         //收货地址

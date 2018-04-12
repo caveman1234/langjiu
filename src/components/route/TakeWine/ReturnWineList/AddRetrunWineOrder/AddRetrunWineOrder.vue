@@ -1,6 +1,6 @@
 <template>
     <div class="AddRetrunWineOrder">
-        <el-button @click="add" size="mini" type="primary" icon="el-icon-plus">新增还酒单</el-button>
+        <el-button @click="add" size="mini" type="primary" icon="el-icon-plus">新增还入单</el-button>
         <el-dialog :visible.sync="dialogVisible" width="1000" @close="handleClose" @open="handleOpen">
             <div class="AddNewGoodsTitle" slot="title">
                 <h2 class="title">新增还酒单</h2>
