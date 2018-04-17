@@ -26,7 +26,7 @@
                         <el-col :span="2" v-red>{{item.baleQuantity}}箱</el-col>
                         <el-col :span="2">订单金额：</el-col>
                         <el-col :span="3" v-red>{{item.orderAmount|formatPrice}}</el-col>
-                        <el-col :span="3">货款抵扣金额：</el-col>
+                        <el-col :span="3">费用抵货款金额：</el-col>
                         <el-col :span="3" v-red>{{item.discountAmount|formatPrice}}</el-col>
                         <el-col :span="3">X类共建基金：</el-col>
                         <el-col :span="2" v-red>{{item.fundCash|formatPrice}}</el-col>
