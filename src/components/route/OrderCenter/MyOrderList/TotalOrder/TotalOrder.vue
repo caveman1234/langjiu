@@ -69,7 +69,15 @@ export default {
     },
     methods: {
         receiveData(data) {
-            this.orderData = data.content.map(v=>{
+            this.orderData = data.content.map(v => {
+                //件数量
+                v.baleQuantity = v.purchaseOrderItems.reduce((acc, acc_v) => acc + acc_v.baleQuantity, 0);
+                //订单金额
+                v.orderAmount = v.purchaseOrderItems.reduce((acc, acc_v) => acc + acc_v.dealAmount + acc_v.discountAmount, 0);
+                //费用抵扣金额
+                v.discountAmount = v.purchaseOrderItems.reduce((acc, acc_v) => acc + acc_v.discountAmount, 0);
+                //X类共建基金
+                v.fundCash = v.purchaseOrderItems.reduce((acc, acc_v) => acc + acc_v.fundCash, 0);
                 //展示更多
                 v.isMoreShow = false;
                 //支付loading
@@ -103,7 +111,7 @@ export default {
             /* 获取订单类型 */
             return _this.$http.get('/ocm-web/api/b2b/po-types/get-common')
                 .then(res => {
-                    return res.data.filter(v=>v.code!=='04').map(v => ({ label: v.name, value: v.id }));
+                    return res.data.filter(v => v.code !== '04').map(v => ({ label: v.name, value: v.id }));
                 });
         },
         fetchOrderStatus() {
@@ -135,6 +143,6 @@ export default {
 }
 </script>
 <style lang="scss">
-@import './TotalOrder.scss';
+@import "./TotalOrder.scss";
 </style>
 

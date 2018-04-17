@@ -4,7 +4,41 @@
             <div class="accountInfo">
                 <div class="accountTitle">收货人信息</div>
                 <div class="accountContent">
-                    <DeliveryInfo @addressClick="addressClick" v-for="(item,index) in infoData" :key="index" :infoData="item" class="accountItem"></DeliveryInfo>
+                    <!-- <template v-for="(item,index) in infoData" >
+                        <template v-if="index < 1">
+                            <DeliveryInfo 
+                                @addressClick="addressClick" 
+                                :key="index" 
+                                :infoData="item" 
+                                class="accountItem"
+                            ></DeliveryInfo>
+                        </template>
+                        <template v-else>
+                            <DeliveryInfo 
+                                @addressClick="addressClick" 
+                                :key="index" 
+                                :infoData="item" 
+                                class="accountItem"
+                                v-show="isAddressShow"
+                            ></DeliveryInfo>
+                        </template>
+                    </template>
+                    <el-row @click.native="isAddressShow=!isAddressShow" class="DeliverInfoIcon">
+                        <template v-if="isAddressShow">
+                            <i  class="icon iconfont lj-up" style="vertical-align: middle;"></i><i>收起</i>
+                        </template>
+                        <template v-else>
+                            <i class="icon iconfont lj-down-" style="vertical-align: middle;"></i>更多<i></i>
+                        </template>
+                    </el-row> -->
+
+                    <DeliveryInfo 
+                        v-for="(item,index) in infoData"
+                        @addressClick="addressClick" 
+                        :key="index" 
+                        :infoData="item" 
+                        class="accountItem"
+                    ></DeliveryInfo>
                 </div>
             </div>
             <div class="notice">
@@ -310,5 +344,5 @@ import GenerateBills from './GenerateBills.js';
 export default GenerateBills;
 </script>
 <style lang="scss">
-@import './GenerateBills.scss';
+@import "./GenerateBills.scss";
 </style>

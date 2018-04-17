@@ -7,6 +7,8 @@ export default {
     components: { DeliveryInfo, AddNewGoods, CostOff, BankList },
     data() {
         return {
+            //地址不显示
+            isAddressShow:false,
             /* 产品线 */
             prodGroupId: '',
             /* 发货通知 */

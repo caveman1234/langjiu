@@ -30,7 +30,10 @@
                 <el-button @click="look(scope.row)" size="mini">查看</el-button>
               </template>
               <template v-else>
-                <el-button :disabled="fillDisabled" @click="fillIn(scope.row)" size="mini">填报</el-button>
+                <el-button  @click="fillIn(scope.row)" size="mini">填报</el-button>
+              </template>
+              <template v-if="scope.row.fillState == 1 && new Date().getTime() < scope.row.endDate">
+                <el-button @click="edit(scope.row)" size="mini">编辑</el-button>
               </template>
           </div>
         </template>
@@ -66,7 +69,7 @@ export default {
         pageSize: 10,
         total: 0
       },
-      fillDisabled:false
+      fillDisabled: false
     }
   },
   methods: {
@@ -95,7 +98,15 @@ export default {
       };
       _this.$refs.searchRef.search(params);
     },
-    //查看|填报
+    //编辑
+    edit(row){
+      let dataId = row.dataid;
+      let templateId = row.templateId;
+      let url = "https://pro.formtalk.net/w.do";
+      let openUrl = `${url}?f=${templateId}&d=${dataId}&v=EDIT`;
+      window.open(openUrl);
+    },
+    //查看
     look(row) {
       let dataId = row.dataid;
       let templateId = row.templateId;
@@ -108,13 +119,27 @@ export default {
       let templateId = row.templateId;
       let url = "https://pro.formtalk.net/w.do";
       let id = row.id;
+      
+      let agencyCode = row.agencyCode;//办事处编码
+      let agencyName = row.agencyName;//办事处名称
+      let cityCode = row.cityCode;//城市编码
+      let cityName = row.cityName;//城市名称
+      let divisionCode = row.divisionCode;//事业部编码
+      let divisionName = row.divisionName;//事业部名称
       let data4Display = {
-        tempId: id
+        tempId: id,
+        agencyCode,
+        agencyName,
+        cityCode,
+        cityName,
+        divisionCode,
+        divisionName,
       };
+      debugger
       let openUrl = `${url}?f=${templateId}&data4Display=${JSON.stringify(data4Display)}`;
       window.open(openUrl);
     },
-    getUrlParam(url,name) {
+    getUrlParam(url, name) {
       var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i"),
         r = decodeURIComponent(url).substr(1).match(reg);
       return r != null ? decodeURI(r[2]) : null;

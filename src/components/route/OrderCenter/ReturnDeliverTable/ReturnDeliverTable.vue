@@ -5,19 +5,33 @@
                 <div class="orderHeader">
                     <el-row>
                         <el-col :span="2">订单类型:</el-col>
-                        <el-col v-red :span="3">{{item.poTypeName}}</el-col>
+                        <el-col v-red :span="2">{{item.poTypeName}}</el-col>
                         <el-col :span="2">订单时间:</el-col>
                         <el-col :span="3">{{item.orderDate|formatDate}}</el-col>
                         <el-col :span="2">订单编号:</el-col>
                         <el-col :span="4">{{item.orderCode}}</el-col>
                         <el-col :span="3">订单状态:</el-col>
                         <el-col :span="3" v-red>{{item.billStatusName}}</el-col>
-                        <el-col v-if="item.poTypeBusinessType != '05'" :span="2">
+                        <el-col v-if="item.poTypeBusinessType != '05'" :span="2" push="1">
                             <div @click="lookMore(item)" class="lookMore">
                                 <span class="text">{{ item.isMoreShow ? '收起' : '更多'}}</span>
                                 <i class="icon iconfont" :class="[item.isMoreShow ? 'lj-up' :'lj-down-']"></i>
                             </div>
                         </el-col>
+                    </el-row>
+                </div>
+                <div class="orderHeader">
+                    <el-row>
+                        <el-col :span="2">订单箱数：</el-col>
+                        <el-col :span="2">{{item.baleQuantity}}箱</el-col>
+                        <el-col :span="2">订单金额：</el-col>
+                        <el-col :span="3" v-red>{{item.orderAmount|formatPrice}}</el-col>
+                        <el-col :span="3">货款抵扣金额：</el-col>
+                        <el-col :span="3" v-red>{{item.discountAmount|formatPrice}}</el-col>
+                        <el-col :span="3">X类共建基金：</el-col>
+                        <el-col :span="2" v-red>{{item.fundCash|formatPrice}}</el-col>
+                        <el-col :span="2">支付金额:</el-col>
+                        <el-col v-red :span="2">{{item.totalAmount | formatPrice}}</el-col>
                     </el-row>
                 </div>
                 <template v-if="item.poTypeBusinessType == '05'">

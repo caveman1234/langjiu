@@ -19,7 +19,7 @@ module.exports = {
                 // target: 'http://10.18.0.203:8080', //朱瑾
                 // target: 'http://10.18.1.239', //代凯
                 // target: 'http://10.18.0.210:8080',//尚玉杰
-                // target: 'http://10.18.3.87:8080', //庆鹏
+                // target: 'http://10.18.3.87:8080', //孔庆鹏
                 // target: 'http://c.langjiu.cn', //正式
                 changeOrigin: true,
                 pathRewrite: {
