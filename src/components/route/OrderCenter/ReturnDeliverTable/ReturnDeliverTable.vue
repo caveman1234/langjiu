@@ -23,7 +23,7 @@
                 <div class="orderHeader">
                     <el-row>
                         <el-col :span="2">订单箱数：</el-col>
-                        <el-col :span="2">{{item.baleQuantity}}箱</el-col>
+                        <el-col :span="2" v-red>{{item.baleQuantity}}箱</el-col>
                         <el-col :span="2">订单金额：</el-col>
                         <el-col :span="3" v-red>{{item.orderAmount|formatPrice}}</el-col>
                         <el-col :span="3">货款抵扣金额：</el-col>
