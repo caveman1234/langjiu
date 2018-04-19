@@ -7,8 +7,8 @@ function getCookie(name) {
 }
 
 var account = {
-    // userName: getCookie("userId"),    //jxs2test   userwith2roles
-    userName: "44b1052e90684e67b2ed8ae9aeda72e8",    //jxs2test   userwith2roles
+    userName: getCookie("userId"),    //jxs2test   userwith2roles
+    // userName: "44b1052e90684e67b2ed8ae9aeda72e8",    //jxs2test   userwith2roles
     passworld: "12345678"
 };
 

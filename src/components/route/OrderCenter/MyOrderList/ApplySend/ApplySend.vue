@@ -78,7 +78,7 @@
                         <el-input-number v-model="scope.row.baleQuantity"
                             @change="handleChange(scope.row)"
                             :min="1"
-                            :max="scope.row.originOrderNum - scope.row.applyedQuantity / scope.row.packageNum"
+                            :max="scope.row.originOrderNum - Math.abs(scope.row.applyedQuantity / scope.row.packageNum) - Math.abs(scope.row.backedQuantity / scope.row.packageNum)"
                             size="mini"
                             label="描述文字"></el-input-number>件
                     </template>

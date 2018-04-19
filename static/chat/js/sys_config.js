@@ -2,10 +2,10 @@
     var config = {
         ApiBaseUrl: "/ism/",
         ImInfo: {
-            appId: "quanyouism",
-            etpId: "quanyou",
-            clientId: "0f43e7007a9fa8e6483683133d481fc6",
-            clientSecret: "F61975633AEBC6819C25D2B174AA6F54"
+            appId: "imtest01",
+            etpId: "yonyou",
+            clientId: "d16e1aafc7b2d59e9e5d4dbd811f80ba",
+            clientSecret: "8DDF3BCFEA186E0A9574261A65E38625"
         }
     };
 

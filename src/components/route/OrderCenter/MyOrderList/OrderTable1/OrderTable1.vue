@@ -14,7 +14,7 @@
                         
                         <el-col :span="3">订单状态:</el-col>
                         <el-col v-red :span="2">{{item.billStatusName}}</el-col>
-                        <el-col :span="2" push="2">
+                        <el-col :span="2" :push="2">
                             <div @click="lookMore(item)" class="lookMore">
                                 <span class="text">{{ item.isMoreShow ? '收起' : '更多'}}</span>
                                 <i class="icon iconfont" :class="[item.isMoreShow ? 'lj-up' :'lj-down-']"></i>
@@ -399,7 +399,10 @@ export default {
             let url = decodeURI('/ocm-web/api/b2b/purchase-orders/get-sendapply-order-push-detail');
             _this.$http.get(url, paramsWrap)
                 .then(res => {
-                    _this.$router.push({ name: 'ApplySend', params: { infoData: res.data } });
+                    if (res.headers["x-ocm-code"] == '1') {
+                        debugger
+                        _this.$router.push({ name: 'ApplySend', params: { infoData: res.data } });
+                    }
                 })
 
         },
@@ -415,7 +418,22 @@ export default {
             _this.$http.get(url, paramsWrap)
                 .then(res => {
                     debugger
-                    _this.$router.push({ name: 'ApplyReturn', params: { infoData: res.data } });
+                    if (res.headers["x-ocm-code"] == '1') {
+                        let purchaseOrderItems = res.data.purchaseOrderItems.map(v => {
+                            //可退货数量=订单数量-累计申请发货数量-累计退货数量
+                            debugger
+                            return {
+                                ...v,
+                                baleQuantity: Math.abs(v.baleQuantity) - Math.abs(v.applyedQuantity) / v.packageNum - Math.abs(v.backedQuantity) / v.packageNum
+                            }
+                        }).filter(v => v.baleQuantity)
+                        res.data.purchaseOrderItems = purchaseOrderItems;
+                        if (purchaseOrderItems.length > 0) {
+                            _this.$router.push({ name: 'ApplyReturn', params: { infoData: res.data } });
+                        } else {
+                            this.$Notify({ title: '没有可退订的商品', type: 'warning' });
+                        }
+                    }
                 })
         },
         //在线支付
