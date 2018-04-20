@@ -411,6 +411,7 @@ export default {
                 purchaseOrderItems: purchaseOrderItems
             };
             params.persistStatus = "new";
+            debugger
             //销售订单请求地址
             let sreverUrl = '/ocm-web/api/b2b/purchase-orders/submit';
             _this.$confirm('此操作不可逆，是否提交？', '提交', {
