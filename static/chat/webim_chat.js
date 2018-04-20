@@ -7,23 +7,23 @@ function getCookie(name) {
 }
 
 var account = {
-    userName: getCookie("userId"),    //jxs2test   userwith2roles
+    userName: getCookie("username"),    //jxs2test   userwith2roles
     // userName: "44b1052e90684e67b2ed8ae9aeda72e8",    //jxs2test   userwith2roles
     passworld: "12345678"
 };
 
 require.config({
     paths: {
-        "sys_config": "/ism/chat/js/sys_config",
-        "login": "/ism/chat/js/webim_login",
-        "EJS": "/ism/chat/js/webim_ejs",
-        "EJSObj": "/ism/chat/js/webim_ejstemplate",
-        "ejs_template": "/ism/chat/js/ejs_template",
-        "webim_template": "/ism/chat/js/templatejs/webim_template",
-        "webim_chat_template": "/ism/chat/js/templatejs/webim_chat_template",
-        "emotion": "/ism/chat/data/emotion",
-        "org": "/ism/chat/js/org",
-        "niuniucapture": "/ism/chat/niuniucapture"
+        "sys_config": "/static/chat/js/sys_config",
+        "login": "/static/chat/js/webim_login",
+        "EJS": "/static/chat/js/webim_ejs",
+        "EJSObj": "/static/chat/js/webim_ejstemplate",
+        "ejs_template": "/static/chat/js/ejs_template",
+        "webim_template": "/static/chat/js/templatejs/webim_template",
+        "webim_chat_template": "/static/chat/js/templatejs/webim_chat_template",
+        "emotion": "/static/chat/data/emotion",
+        "org": "/static/chat/js/org",
+        "niuniucapture": "/static/chat/niuniucapture"
 
     },
     shim: {

@@ -192,7 +192,7 @@ function install(Vue) {
             });
         },
         complete: function(xhr, status,x,y) {
-            debugger
+            // debugger
             // if(xhr.getResponseHeader('x-ocm-code') != 1){
             //     Notification.error({
             //         title: decodeURIComponent(xhr.getResponseHeader('x-ocm-message')),

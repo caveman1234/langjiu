@@ -8,11 +8,11 @@
                 <!-- <i @click="openMask" class="icon iconfont lj-msg headerMessage">
                 </i> -->
                 <!-- <span id="operation"></span> -->
-                <!-- <a id="operation" title="运维消息" href="javascript:void (0);" class="navbar-avatar">
+                <a id="operation" title="运维消息" href="javascript:void (0);" class="navbar-avatar">
                     <div class="u-badge" data-badge="0">
                         <i class="icon iconfont lj-msg headerMessage"></i>
                     </div>
-                </a>            -->
+                </a>           
                 <div class="right">
                     <span>欢迎:{{$store.state.userloginName}}</span>
                     <a @click="logOut">注销</a>
@@ -181,6 +181,7 @@ export default {
         },
         //初始化，登陆聊天
         initChat() {
+            debugger
             let scripts = `<script src="./static/chat/webim_require.js" />
                 <script src="./static/chat/jquery.js"/>
 
@@ -224,7 +225,7 @@ export default {
         this.$store.commit('changeUsername', cookies.getCookie('username'));
         //检查是否签约过
         _this.checkIsNotSign();
-        // _this.initChat();
+        _this.initChat();
     }
 
 }

@@ -424,7 +424,7 @@ export default {
                             debugger
                             return {
                                 ...v,
-                                baleQuantity: Math.abs(v.baleQuantity) - Math.abs(v.applyedQuantity) / v.packageNum - Math.abs(v.backedQuantity) / v.packageNum
+                                baleQuantity: -(Math.abs(v.baleQuantity) - Math.abs(v.applyedQuantity) / v.packageNum - Math.abs(v.backedQuantity) / v.packageNum)
                             }
                         }).filter(v => v.baleQuantity)
                         res.data.purchaseOrderItems = purchaseOrderItems;
