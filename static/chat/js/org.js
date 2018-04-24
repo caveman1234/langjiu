@@ -20,7 +20,14 @@ define(['sys_config', "EJS", "EJSObj","webim_chat_template"], function (sys_conf
 				//隐藏聊天div
 				$("#empty-panel").hide();
 				return;
-			}
+            }
+            // result.data.roles = result.data.roles.map(function(v){
+            //     var entrys = Object.entries(v);
+            //     return {
+            //         rolecode:entrys[0][0],
+            //         rolename:entrys[0][1]
+            //     }
+            // })
 
             getOrgs(result.data.roles);
 			

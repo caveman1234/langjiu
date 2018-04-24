@@ -28,7 +28,7 @@
                             <i  class="icon iconfont lj-up" style="vertical-align: middle;"></i><i>收起</i>
                         </template>
                         <template v-else>
-                            <i class="icon iconfont lj-down-" style="vertical-align: middle;"></i>更多<i></i>
+                            <i class="icon iconfont lj-down-" style="vertical-align: middle;top:8px;"></i>更多<i></i>
                         </template>
                     </el-row> -->
 

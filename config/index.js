@@ -27,8 +27,8 @@ module.exports = {
                 }
             },
             '/ism': {
-                // target: 'http://10.18.1.82:8092/', //小平
-                target: 'http://192.168.100.58', //测试
+                // target: 'http://192.168.100.58', //测试
+                target: 'http://182.150.55.64:8013', //测试在线
                 changeOrigin: true,
                 pathRewrite: {
                     '^/ism': '/ism'

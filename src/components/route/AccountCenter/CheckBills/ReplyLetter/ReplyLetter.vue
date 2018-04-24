@@ -89,22 +89,22 @@ export default {
                 return;
             }
             if (_this.replyMethod == 1 && _this.file == null) {
-                _this.$Notify({ title: '请选择回涵的pdf文件', type: 'warning' });
+                _this.$Notify({ title: '请选择回函的pdf文件', type: 'warning' });
                 return;
             }
             if (_this.replyMethod == 1 && _this.suffix != 'pdf') {
-                _this.$Notify({ title: '请选择回涵的pdf文件', type: 'warning' });
+                _this.$Notify({ title: '请选择回函的pdf文件', type: 'warning' });
                 return;
             }
-            if (_this.replyMethod == 2 && _this.suffix == 'pdf') {
-                _this.$Notify({ title: '请选择回涵的图片', type: 'warning' });
-                return;
-            }
+            // if (_this.replyMethod == 2 && _this.suffix == 'pdf') {
+            //     _this.$Notify({ title: '请选择回函的图片', type: 'warning' });
+            //     return;
+            // }
             debugger
             let params = new FormData();
             params.append('id', _this.currentId);
             params.append('file', _this.file);
-            params.append('type', _this.suffix);
+            params.append('type', _this.replyMethod);
             let remoteUrl = '/ocm-web/api/b2b/reconciliation/upload-reconciliation-file';
             let headersWrap = {
                 headers: {

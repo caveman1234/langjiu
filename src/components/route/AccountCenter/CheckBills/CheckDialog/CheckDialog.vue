@@ -136,6 +136,10 @@ export default {
         },
         confirm() {
             let _this = this;
+            if(_this.result == 2 && _this.resultRemark == ''){
+                this.$Notify({ title: '差异数据说明不能为空', type: 'warning' });
+                return;
+            }
             if (_this.result != '') {
                 let params = {
                     id: this.itemDetail.id,

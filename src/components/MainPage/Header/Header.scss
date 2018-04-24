@@ -60,6 +60,17 @@
                     }
                 }
             }
+            #operation {
+                position: relative;
+                width: 30px;
+                height: 30px;
+                display: inline-block;
+                i:after {
+                    position: absolute;
+                    top: 3px;
+                    left: 36px;
+                }
+            }
         }
     }
     .headerBottom {

@@ -15,7 +15,7 @@
                         <el-col v-if="item.poTypeBusinessType != '05'" :span="2" push="1">
                             <div @click="lookMore(item)" class="lookMore">
                                 <span class="text">{{ item.isMoreShow ? '收起' : '更多'}}</span>
-                                <i class="icon iconfont" :class="[item.isMoreShow ? 'lj-up' :'lj-down-']"></i>
+                                <i class="icon iconfont" :class="[item.isMoreShow ? 'lj-up' :'lj-down-']" style="top:8px;"></i>
                             </div>
                         </el-col>
                     </el-row>
