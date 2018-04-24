@@ -55,7 +55,7 @@
                         </el-table-column>
                     </el-table>
                 </template>
-                <p class="text">注：1、以上余额如为负数，代表我公司欠贵公司；如为正数，代表贵公司欠我公司。</p>
+                <p class="text">注：1、以上余额如为正数，代表我公司欠贵公司；如为负数，代表贵公司欠我公司。</p>
                 <p class="text textIndent">2、如贵公司需要查看明细，请登陆我公司crm系统查询。</p>
                 <p class="text textIndent">3、本函仅为复核账目之用，烦请贵公司认真核对，并及时回函。</p>
                 <p class="text textCenter margin-top-10">
