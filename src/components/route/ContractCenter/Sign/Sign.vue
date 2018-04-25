@@ -54,7 +54,12 @@
                             </template>
                             <el-button @click="goSign(scope.row)" v-if="scope.row.attachment && scope.row.signStatus==0" size="mini" type="primary">上传已签章合同</el-button>
                             <el-button @click="goSignOnline(scope.row)" v-if="scope.row.attachment && scope.row.signStatus==0" size="mini">在线签章</el-button>
+
                         </template>
+                        
+
+
+
                     </el-table-column>
                 </el-table>
                 <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="pageParams.pageIndex" :page-sizes="[10, 20, 50, 100]" :page-size="pageParams.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="pageParams.total" prev-text="上一页" next-text="下一页">
@@ -135,8 +140,8 @@ export default {
             //签章当前行数据
             currentRow: {},
             //搜索固定字段，搜索全部未作废数据
-            extralParams:{
-                invalidStatus:'0'
+            extralParams: {
+                invalidStatus: '0'
             }
 
         }
@@ -362,5 +367,5 @@ export default {
 }
 </script>
 <style lang="scss">
-@import './Sign.scss';
+@import "./Sign.scss";
 </style>

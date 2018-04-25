@@ -181,37 +181,14 @@ export default {
         },
         //初始化，登陆聊天
         initChat() {
-            console.log('header---initchat----');
-            debugger
-            let scripts = `<script src="./static/chat/webim_require.js" />
-                <script src="./static/chat/jquery.js"/>
-
-                <script src="./static/chat/jquery.json.js"/>
-
-                <script src="./static/chat/jquery-ui.js"/>
-                <script type="text/javascript" src="./static/chat/jquery.mousewheel.min.js"/>
-                <script type="text/javascript" src="./static/chat/jquery.iviewer.min.js"/>
-                <script src="./static/chat/YYIMSDK.js"/>
-                <script src="./static/chat/webim_chat.js" async/>`;
-            if($('script[src="./static/chat/webim_require.js"]').length === 0){
+            let scripts = $(`<script src="./static/chat/webim_chat.js" async/>`);
+            if($('script[src="./static/chat/webim_chat.js"]').length === 0){
                 $('body').append(scripts);
-            }else{
-                $('script[src="./static/chat/webim_require.js"]').remove();
-                $('script[src="./static/chat/jquery.js"]').remove();
-                $('script[src="./static/chat/jquery.json.js"]').remove();
-                $('script[src="./static/chat/jquery-ui.js"]').remove();
-                $('script[src="./static/chat/./static/chat/jquery.mousewheel.min.js"]').remove();
-                $('script[src="./static/chat/jquery.iviewer.min.js"]').remove();
-                $('script[src="./static/chat/YYIMSDK.js"]').remove();
-                $('script[src="./static/chat/webim_chat.js"]').remove();
-                 $('body').append(scripts);
             }
         }
-
     },
     computed: {
         ...mapState({
-
             navList(state) {
                 return state.navList
             }

@@ -1,3 +1,4 @@
+var isServer = window.isServer;
 function getCookie(name) {
     var arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
     if (arr = document.cookie.match(reg))
@@ -14,16 +15,16 @@ var account = {
 
 require.config({
     paths: {
-        "sys_config": "/static/chat/js/sys_config",
-        "login": "/static/chat/js/webim_login",
-        "EJS": "/static/chat/js/webim_ejs",
-        "EJSObj": "/static/chat/js/webim_ejstemplate",
-        "ejs_template": "/static/chat/js/ejs_template",
-        "webim_template": "/static/chat/js/templatejs/webim_template",
-        "webim_chat_template": "/static/chat/js/templatejs/webim_chat_template",
-        "emotion": "/static/chat/data/emotion",
-        "org": "/static/chat/js/org",
-        "niuniucapture": "/static/chat/niuniucapture"
+        "sys_config": `${isServer ? "/terminal" : ''}/static/chat/js/sys_config`,
+        "login": `${isServer ? "/terminal" : ''}/static/chat/js/webim_login`,
+        "EJS": `${isServer ? "/terminal" : ''}/static/chat/js/webim_ejs`,
+        "EJSObj": `${isServer ? "/terminal" : ''}/static/chat/js/webim_ejstemplate`,
+        "ejs_template": `${isServer ? "/terminal" : ''}/static/chat/js/ejs_template`,
+        "webim_template": `${isServer ? "/terminal" : ''}/static/chat/js/templatejs/webim_template`,
+        "webim_chat_template": `${isServer ? "/terminal" : ''}/static/chat/js/templatejs/webim_chat_template`,
+        "emotion": `${isServer ? "/terminal" : ''}/static/chat/data/emotion`,
+        "org": `${isServer ? "/terminal" : ''}/static/chat/js/org`,
+        "niuniucapture": `${isServer ? "/terminal" : ''}/static/chat/niuniucapture`
 
     },
     shim: {
