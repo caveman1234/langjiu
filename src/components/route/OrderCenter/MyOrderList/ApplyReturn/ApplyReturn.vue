@@ -180,8 +180,9 @@ export default {
         _this.fetchOrderType();
         //计算原单数量
         _this.$route.params.infoData.purchaseOrderItems.forEach(v => {
-            //（累计发货数量+ 累计退货数量 + 本次退订数量）/包装数量
+            //（累计申请数量+ 累计退货数量 + 本次退订数量）/包装数量
             // v.originOrderNum = (v.sendedQuantity + v.backedQuantity - v.baseQuantity) / v.packageNum;
+            debugger
             v.originOrderNum = (v.applyedQuantity + v.backedQuantity - v.baseQuantity) / v.packageNum;
         });
         _this.infoData = _this.$route.params.infoData;

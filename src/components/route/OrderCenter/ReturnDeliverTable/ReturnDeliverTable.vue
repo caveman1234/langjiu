@@ -12,7 +12,7 @@
                         <el-col :span="4">{{item.orderCode}}</el-col>
                         <el-col :span="3">订单状态:</el-col>
                         <el-col :span="3" v-red>{{item.billStatusName}}</el-col>
-                        <el-col v-if="item.poTypeBusinessType != '05'" :span="2" push="1">
+                        <el-col v-if="item.poTypeBusinessType != '05'" :span="2" :push="1">
                             <div @click="lookMore(item)" class="lookMore">
                                 <span class="text">{{ item.isMoreShow ? '收起' : '更多'}}</span>
                                 <i class="icon iconfont" :class="[item.isMoreShow ? 'lj-up' :'lj-down-']" style="top:8px;"></i>
