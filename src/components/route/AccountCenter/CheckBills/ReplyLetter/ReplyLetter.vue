@@ -105,6 +105,7 @@ export default {
             params.append('id', _this.currentId);
             params.append('file', _this.file);
             params.append('type', _this.replyMethod);
+            params.append('filetype', _this.suffix);
             let remoteUrl = '/ocm-web/api/b2b/reconciliation/upload-reconciliation-file';
             let headersWrap = {
                 headers: {
