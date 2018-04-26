@@ -8,11 +8,11 @@
                 <!-- <i @click="openMask" class="icon iconfont lj-msg headerMessage">
                 </i> -->
                 <!-- <span id="operation"></span> -->
-                <a id="operation" title="运维消息" href="javascript:void (0);" class="navbar-avatar">
+                <!-- <a id="operation" title="运维消息" href="javascript:void (0);" class="navbar-avatar">
                     <div class="u-badge" data-badge="0">
                         <i class="icon iconfont lj-msg headerMessage"></i>
                     </div>
-                </a>           
+                </a>            -->
                 <div class="right">
                     <span>欢迎:{{$store.state.userloginName}}</span>
                     <a @click="logOut">注销</a>
