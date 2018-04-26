@@ -419,20 +419,20 @@ export default {
                 .then(res => {
                     debugger
                     if (res.headers["x-ocm-code"] == '1') {
-                        let purchaseOrderItems = res.data.purchaseOrderItems.map(v => {
-                            //可退货数量=订单数量-累计申请发货数量-累计退货数量
-                            debugger
-                            return {
-                                ...v,
-                                baleQuantity: -(Math.abs(v.baleQuantity) - Math.abs(v.applyedQuantity) / v.packageNum - Math.abs(v.backedQuantity) / v.packageNum)
-                            }
-                        }).filter(v => v.baleQuantity)
-                        res.data.purchaseOrderItems = purchaseOrderItems;
-                        if (purchaseOrderItems.length > 0) {
+                        // let purchaseOrderItems = res.data.purchaseOrderItems.map(v => {
+                        //     //可退货数量=订单数量-累计申请发货数量-累计退货数量
+                        //     debugger
+                        //     return {
+                        //         ...v,
+                        //         baleQuantity: -(Math.abs(v.baleQuantity) - Math.abs(v.applyedQuantity) / v.packageNum - Math.abs(v.backedQuantity) / v.packageNum)
+                        //     }
+                        // }).filter(v => v.baleQuantity)
+                        // res.data.purchaseOrderItems = purchaseOrderItems;
+                        // if (purchaseOrderItems.length > 0) {
                             _this.$router.push({ name: 'ApplyReturn', params: { infoData: res.data } });
-                        } else {
-                            this.$Notify({ title: '没有可退订的商品', type: 'warning' });
-                        }
+                        // } else {
+                        //     this.$Notify({ title: '没有可退订的商品', type: 'warning' });
+                        // }
                     }
                 })
         },

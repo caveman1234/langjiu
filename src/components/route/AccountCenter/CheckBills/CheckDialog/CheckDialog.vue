@@ -12,7 +12,9 @@
             <div class="content">
                 <p class="text title">至：{{itemDetail.customerName}}</p>
                 <p class="text textIndent">首先感谢贵公司一直以来对郎酒的支持与关爱！</p>
-                <p class="text textIndent">为使贵我双方费用账目清晰，我公司对截止日期:{{itemDetail.endDate | formatDate}}的费用账余额与贵公司进行核对。如与贵公司记录相符，请在账结论处选择“相符”。</p>
+                <p v-if="itemDetail.typeCode == 1" class="text textIndent">为使贵我双方往来账目清晰，我公司对截止日期:{{itemDetail.endDate | formatDate}}的往来账余额与贵公司进行核对。如与贵公司记录相符，请在账结论处选择“相符”。</p>
+                
+                <p v-else class="text textIndent">为使贵我双方费用账目清晰，我公司对截止日期:{{itemDetail.endDate | formatDate}}的费用账余额与贵公司进行核对。如与贵公司记录相符，请在账结论处选择“相符”。</p>
                 <p class="text textIndent">如与贵公司记录不符，请选择“不符”，并注明不符事项。</p>
                 <p class="text textIndent">收件人地址：{{itemDetail.address}}</p>
                 <p class="text textIndent">收件人姓名：{{itemDetail.userName}}</p>
