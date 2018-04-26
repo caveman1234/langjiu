@@ -1,5 +1,15 @@
 <template>
     <div class="ReturnWineOrder">
+        <el-row>
+            <div class="itemTitle">请选择收货地址：</div>
+            <div>
+                <DeliveryInfo @addressClick="addressClick" v-for="(item,index) in infoData" :key="index" :infoData="item" class="accountItem"></DeliveryInfo>
+            </div>
+        </el-row>
+        <el-row>
+            <div class="itemTitle">订单备注：</div>
+            <el-input size="mini" v-model="remark"></el-input>
+        </el-row>
         <div class="itemTitle">商品信息：</div>
         <el-table :data="goodsData" :summary-method="getSummaries" show-summary border style="width: 100%">
             <el-table-column prop="productDesc" label="商品详情" width="200">
@@ -35,16 +45,7 @@
             </el-table-column>
         </el-table>
 
-        <el-row>
-            <div class="itemTitle">请选择收货地址：</div>
-            <div>
-                <DeliveryInfo @addressClick="addressClick" v-for="(item,index) in infoData" :key="index" :infoData="item" class="accountItem"></DeliveryInfo>
-            </div>
-        </el-row>
-        <el-row>
-            <div class="itemTitle">订单备注：</div>
-            <el-input size="mini" v-model="remark"></el-input>
-        </el-row>
+        
         <el-row style="line-height:25px;">
             <div class="itemTitle">订单结算：</div>
             <el-row>
@@ -200,6 +201,7 @@ export default {
             }));
             let totalAmount = _this.totalMoney;
             let params = {
+                isNoticeSend:0,
                 remark: remark,
                 distributorId: this.$store.state.customerId,
                 receiveAddressId: receiveAddressId,

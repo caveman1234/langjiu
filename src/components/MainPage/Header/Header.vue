@@ -203,7 +203,7 @@ export default {
         this.$store.commit('changeUsername', cookies.getCookie('username'));
         //检查是否签约过
         _this.checkIsNotSign();
-        _this.initChat();
+        // _this.initChat();
     }
 
 }

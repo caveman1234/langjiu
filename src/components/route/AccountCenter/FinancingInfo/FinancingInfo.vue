@@ -20,7 +20,7 @@
                 <el-table-column prop="orderCode"
                     label="订单号"></el-table-column>
                 <el-table-column prop="orderMny"
-                    label="现金余额">
+                    label="融资金额">
                     <template slot-scope="scope">
                         <div>
                             <div>{{scope.row.orderMny|formatPrice}}</div>
