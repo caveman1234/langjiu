@@ -1,6 +1,6 @@
 <template>
     <div class="AddRetrunWineOrder">
-        <el-button @click="add" size="mini" type="primary" icon="el-icon-plus">新增还入单</el-button>
+        <el-button v-show="showAdd" @click="add" size="mini" type="primary" icon="el-icon-plus">新增还入单</el-button>
         <el-dialog :visible.sync="dialogVisible" width="1000" @close="handleClose" @open="handleOpen">
             <div class="AddNewGoodsTitle" slot="title">
                 <h2 class="title">新增还酒单</h2>
@@ -59,6 +59,7 @@ export default {
     },
     data() {
         return {
+            showAdd: true,//若没小郎酒产品线，不显示
             dialogVisible: false,
             searchName: '',/* 搜索条件名字 */
             searchData: [],/* 搜索的数据 */
@@ -143,7 +144,13 @@ export default {
                 .then(res => {
                     let data = res.data;
                     let findObj = data.find(v => v.code === '022102');
-                    let smallWineProdGroupId = findObj ? findObj.id : '';
+                    let smallWineProdGroupId = '';
+                    if(findObj){
+                        smallWineProdGroupId = findObj.id;
+                    }else{
+                        smallWineProdGroupId = '';
+                         _this.showAdd = false;
+                    }
                     _this.prodGroupId = smallWineProdGroupId;
                 });
         }
@@ -154,6 +161,6 @@ export default {
 }
 </script>
 <style lang="scss">
-@import './AddRetrunWineOrder.scss';
+@import "./AddRetrunWineOrder.scss";
 </style>
 

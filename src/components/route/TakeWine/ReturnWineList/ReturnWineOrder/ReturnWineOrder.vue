@@ -197,6 +197,8 @@ export default {
                 fundCash: v.fundCash,
                 realAmount: v.realAmount,
                 fundPrice: v.fundPrice,
+                //折后价
+                dealPrice:v.basicPrice
 
             }));
             let totalAmount = _this.totalMoney;

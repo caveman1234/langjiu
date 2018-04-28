@@ -429,7 +429,7 @@ export default {
                         // }).filter(v => v.baleQuantity)
                         // res.data.purchaseOrderItems = purchaseOrderItems;
                         // if (purchaseOrderItems.length > 0) {
-                            _this.$router.push({ name: 'ApplyReturn', params: { infoData: res.data } });
+                        _this.$router.push({ name: 'ApplyReturn', params: { infoData: res.data } });
                         // } else {
                         //     this.$Notify({ title: '没有可退订的商品', type: 'warning' });
                         // }
@@ -554,7 +554,43 @@ export default {
             }
         }
     },
+    computed: {
+        // orderDataCopmued() {
+        //     debugger
+        //     return this.orderData.map(item => {
+        //         var _canApply = false;
+        //         var _canReturn = false;
+        //         //申请发货
+        //         if (item.isNoticeSend == 1 && item.poTypeBusinessType !== '03') {
+        //             var applyPass = item.purchaseOrderItems.every(v => {
+        //                 return v.baseQuantity == v.applyedQuantity + v.backedQuantity;
+        //             });
+        //             applyPass ? _canApply = true : _canApply = false;
+        //         } else {
+        //             _canApply = false;
+        //         }
+        //         //申请退订
+        //         if (item.poTypeBusinessType !== '03') {
+        //             if (item.isNoticeSend == 1) {
+        //                 var returnPass = item.purchaseOrderItems.every(v => {
+        //                     return v.baseQuantity == v.applyedQuantity + v.backedQuantity;
+        //                 });
+        //             } else {
+        //                 var returnPass = item.purchaseOrderItems.every(v => {
+        //                     return v.baseQuantity == v.applyedQuantity + v.backedQuantity;
+        //                 });
+        //             }
+
+        //         } else {
+        //             _canReturn = false;
+        //         }
+
+
+        //     });
+        // }
+    },
     mounted() {
+        console.log(this.orderDataCopmued)
     }
 }
 </script>
