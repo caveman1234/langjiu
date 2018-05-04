@@ -1,39 +1,39 @@
 <% if (data.chat_from ) { %>
-<div class="inner-chat">
-    <p>我 <span><%= data.time.getHours() %>:
+    <div class="inner-chat">
+        <p>我 <span><%= data.time.getHours() %>:
             <%= data.time.getMinutes() >= 10 ? data.time.getMinutes() : '0' + data.time.getMinutes() %>:
             <%= data.time.getSeconds() >= 10 ? data.time.getSeconds() : '0' + data.time.getSeconds() %></span></p>
 
 
-    <a href="<%=data.path%>"><img src="<%=data.img%>" width="50" height="50" ></a>
-    <div>
-        <span class="chat-file-name"><%= data.filename %></span>
-        <span class="chat-file-size"><%= data.size %></span>
-    </div>
-
-    <div id="<%= data.time.getTime() %>" class="chat-file-progress-hide">
-        <div class="chat-file-progress">
-            <div class="chat-file-progress-inner"></div>
+        <a href="<%=data.path%>"><img src="<%=data.img%>" width="50" height="50" ></a>
+        <div>
+            <span class="chat-file-name"><%= data.filename %></span>
+            <span class="chat-file-size"><%= data.size %></span>
         </div>
-        <span class="chat-file-progress-text"></span>
-    </div>
-</div>
 
-<% } else { %>
-<div class="inner-chat">
-    <p class="p-color">
-        <%= data.name %>
-        <span><%= data.time.getHours() %>:
+        <div id="<%= data.time.getTime() %>" class="chat-file-progress-hide">
+            <div class="chat-file-progress">
+                <div class="chat-file-progress-inner"></div>
+            </div>
+            <span class="chat-file-progress-text"></span>
+        </div>
+    </div>
+
+    <% } else { %>
+        <div class="inner-chat">
+            <p class="p-color">
+                <%= data.name %>
+                    <span><%= data.time.getHours() %>:
             <%= data.time.getMinutes() >= 10 ? data.time.getMinutes() : '0' + data.time.getMinutes() %>:
             <%= data.time.getSeconds() >= 10 ? data.time.getSeconds() : '0' + data.time.getSeconds() %></span>
-    </p>
+            </p>
 
 
 
-    <a href="<%=data.path%>"><img src="<%=data.img%>" width="50" height="50"></a>
-    <div>
-        <span class="chat-file-name"><%= data.filename %></span>
-        <span class="chat-file-size"><%= data.size %></span>
-    </div>
-</div>
-<% } %>
+            <a href="<%=data.path%>"><img src="<%=data.img%>" width="50" height="50"></a>
+            <div>
+                <span class="chat-file-name"><%= data.filename %></span>
+                <span class="chat-file-size"><%= data.size %></span>
+            </div>
+        </div>
+        <% } %>
