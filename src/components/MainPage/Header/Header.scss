@@ -62,13 +62,20 @@
             }
             #operation {
                 position: relative;
-                width: 30px;
+                // width: 30px;
                 height: 30px;
                 display: inline-block;
+                margin-left: 20px;
+                .u-badge{
+                    color:white;
+                    &:after{
+                        left: 52px;
+                    }
+                }
                 i:after {
                     position: absolute;
                     top: 3px;
-                    left: 36px;
+                    left: 52px;
                 }
             }
         }

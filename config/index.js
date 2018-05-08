@@ -33,6 +33,14 @@ module.exports = {
                 pathRewrite: {
                     '^/ism': '/ism'
                 }
+            },
+            '/iuap_qy_tenantmanage': {
+                // target: 'http://192.168.100.58', //测试
+                target: 'http://182.150.55.64:8013', //测试在线
+                changeOrigin: true,
+                pathRewrite: {
+                    '^/iuap_qy_tenantmanage': '/iuap_qy_tenantmanage'
+                }
             }
         },
         // Various Dev Server settings

@@ -110,28 +110,28 @@ require(["login", "ejs_template"],
 
         $(function () {
 
-            $.ajax({
-                url: '/iuap_qy_tenantmanage/loginuser/title',
-                type: 'GET',
-                contentType: 'application/x-www-form-urlencoded',
-                success: function (res) {
-                    if (res.status != 1) {
-                        console.error(res.msg);
-                        return;
-                    }
+            // $.ajax({
+            //     url: '/iuap_qy_tenantmanage/loginuser/title',
+            //     type: 'GET',
+            //     contentType: 'application/x-www-form-urlencoded',
+            //     success: function (res) {
+            //         if (res.status != 1) {
+            //             console.error(res.msg);
+            //             return;
+            //         }
 
-                    //添加登录账号名称显示
-                    if ($("#id_titleInsert").length < 1) {
-                        var htmlCode = "<span id='id_titleInsert' style='height:60px;line-height:60px;display:inline-block;" +
-                            "font-size: 18px;color: whitesmoke;'>丨 " + res.data + "</span>";
-                        $("#app #portal > nav > div.u-container-fluid > div.u-navbar-header").after(htmlCode);
-                    } else {
-                        $("#id_titleInsert").text(res.data);
-                    }
+            //         //添加登录账号名称显示
+            //         if ($("#id_titleInsert").length < 1) {
+            //             var htmlCode = "<span id='id_titleInsert' style='height:60px;line-height:60px;display:inline-block;" +
+            //                 "font-size: 18px;color: whitesmoke;'>丨 " + res.data + "</span>";
+            //             $("#app #portal > nav > div.u-container-fluid > div.u-navbar-header").after(htmlCode);
+            //         } else {
+            //             $("#id_titleInsert").text(res.data);
+            //         }
 
 
-                }
-            })
+            //     }
+            // })
 
 
 

@@ -186,7 +186,7 @@
                 wsurl: "47.100.200.251", //websocket Url
                 wsport: 5222, //websocket port 5227/5222/5225
                 hbport: 7070, //httpbind  port 7075/7070
-                servlet: "https://c.langjiu.cn", //rest Url
+                servlet: "https://c.langjiu.cn/", //rest Url
                 flash_swf_url: '', //flash 上传 swf文件位置
                 logEnable: false, //client log
                 clientMark: 'web' //client mark 'web' or 'pc'
