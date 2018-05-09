@@ -95,7 +95,7 @@
                                 </el-button>
                             </template>
 
-                            <template v-if="item.isSendOver == 0 && item.isNcConfirm == 1 && item.billStatusCode == '03' ">
+                            <template v-if="item.isNoticeSend == 1 && item.isSendOver == 0 && item.isNcConfirm == 1 && item.billStatusCode == '03' ">
                                 <el-button @click="applyReturn(item)" size="mini" type="primary">申请退订
                                 </el-button>
                             </template>
@@ -271,12 +271,12 @@ export default {
                     disabled: false,
                     imgUrl: require('../../../../commonComp/BankList/bankImg/bank_min.png')
                 },
-                // {
-                //     name: "中国建设银行",
-                //     label: 'ccb',
-                //     disabled: false,
-                //     imgUrl: require('../../../../commonComp/BankList/bankImg/bank_jian.png')
-                // }
+                {
+                    name: "中国建设银行",
+                    label: 'ccb',
+                    disabled: false,
+                    imgUrl: require('../../../../commonComp/BankList/bankImg/bank_jian.png')
+                }
             ],
             //融资银行弹窗
             dialogVisible2: false
