@@ -8544,7 +8544,7 @@ var ConfigSetting = (function(){
 		}
 		
 		if(/https/.test(location.protocol)){//add for https location rongqb 20170412
-			YY_IM_WSPORT = 5225;
+			YY_IM_WSPORT = 5443;
 		}
 		
 		YYIMConfiguration = {
