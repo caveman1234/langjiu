@@ -95,7 +95,7 @@
                                 </el-button>
                             </template>
 
-                            <template v-if="item.isNoticeSend == 1 && item.isSendOver == 0 && item.isNcConfirm == 1 && item.billStatusCode == '03' ">
+                            <template v-if="item.isSendOver == 0 && item.isNcConfirm == 1 && item.billStatusCode == '03' ">
                                 <el-button @click="applyReturn(item)" size="mini" type="primary">申请退订
                                 </el-button>
                             </template>
@@ -156,6 +156,14 @@
                                 </div>
                             </template>
                         </el-table-column>
+                        <el-table-column prop="allocationQuantity" label="累计安排数量" min-width="110">
+                            <template slot-scope="scope">
+                                <div>
+                                    <div>箱数：{{(scope.row.allocationQuantity || 0)/scope.row.packageNum}} 箱</div>
+                                    <div>瓶数：{{scope.row.allocationQuantity}} 瓶</div>
+                                </div>
+                            </template>
+                        </el-table-column>
                         <el-table-column prop="sendedQuantity" label="累计发货数量" min-width="110">
                             <template slot-scope="scope">
                                 <div>
@@ -164,7 +172,7 @@
                                 </div>
                             </template>
                         </el-table-column>
-                        <el-table-column prop="backedQuantity" label="累计退货数量" min-width="110">
+                        <el-table-column prop="backedQuantity" label="累计退订数量" min-width="110">
                             <template slot-scope="scope">
                                 <div>
                                     <div>箱数：{{scope.row.backedQuantity/scope.row.packageNum}} 箱</div>

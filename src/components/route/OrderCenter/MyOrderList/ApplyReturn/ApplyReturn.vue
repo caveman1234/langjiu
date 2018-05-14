@@ -47,12 +47,22 @@
                 </el-table-column>
                 <el-table-column prop="originOrderNum" label="订单数量">
                     <template slot-scope="scope">
-                        <p>{{ scope.row.originOrderNum }}件</p>
+                        <p>件数：{{ scope.row.originOrderNum }}件</p>
                     </template>
                 </el-table-column>
+
+                <el-table-column prop="allocationQuantity" label="累计安排数量" min-width="110">
+                    <template slot-scope="scope">
+                        <div>
+                            <div>件数：{{(scope.row.allocationQuantity || 0)/scope.row.packageNum}} 件</div>
+                            <!-- <div>瓶数：{{scope.row.allocationQuantity}} 瓶</div> -->
+                        </div>
+                    </template>
+                </el-table-column>
+
                 <el-table-column prop="baleQuantity" label="可退订数量">
                     <template slot-scope="scope">
-                        <p>{{ Math.abs(scope.row.baleQuantity) }}件</p>
+                        <p>件数：{{ Math.abs(scope.row.baleQuantity) }}件</p>
                     </template>
                 </el-table-column>
                 <el-table-column prop="" label="操作">
@@ -180,15 +190,17 @@ export default {
         _this.fetchOrderType();
         //计算原单数量
         _this.$route.params.infoData.purchaseOrderItems.forEach(v => {
-            //（累计申请数量+ 累计退货数量 + 本次退订数量）/包装数量
-            // v.originOrderNum = (v.sendedQuantity + v.backedQuantity - v.baseQuantity) / v.packageNum;
+            //（累计安排数量+ 累计退货数量 + 本次退订数量）/包装数量
+            //v.originOrderNum = (Math.abs(v.applyedQuantity) + Math.abs(v.backedQuantity) + Math.abs(v.baseQuantity)) / v.packageNum;
             debugger
-            v.originOrderNum = (v.applyedQuantity + v.backedQuantity - v.baseQuantity) / v.packageNum;
+            v.originOrderNum = (Math.abs(v.allocationQuantity) + Math.abs(v.backedQuantity) + Math.abs(v.baseQuantity)) / v.packageNum;
+            //订单数 - 累积已安排 - 累积退订
+            v.baleQuantity = v.originOrderNum - (v.allocationQuantity || 0)/ v.packageNum - (v.backedQuantity || 0)/ v.packageNum;
         });
         _this.infoData = _this.$route.params.infoData;
     }
 }
 </script>
 <style lang="scss" scoped>
-@import './ApplyReturn.scss';
+@import "./ApplyReturn.scss";
 </style>
