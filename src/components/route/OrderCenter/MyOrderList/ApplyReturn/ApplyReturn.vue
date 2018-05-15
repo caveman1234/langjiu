@@ -195,7 +195,7 @@ export default {
             debugger
             v.originOrderNum = (Math.abs(v.allocationQuantity) + Math.abs(v.backedQuantity) + Math.abs(v.baseQuantity)) / v.packageNum;
             //订单数 - 累积已安排 - 累积退订
-            v.baleQuantity = v.originOrderNum - (v.allocationQuantity || 0)/ v.packageNum - (v.backedQuantity || 0)/ v.packageNum;
+            // v.baleQuantity = v.originOrderNum - (v.allocationQuantity || 0)/ v.packageNum - (v.backedQuantity || 0)/ v.packageNum;
         });
         _this.infoData = _this.$route.params.infoData;
     }
