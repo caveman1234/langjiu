@@ -160,7 +160,7 @@
                             <template slot-scope="scope">
                                 <div>
                                     <div>箱数：{{(scope.row.allocationQuantity || 0)/scope.row.packageNum}} 箱</div>
-                                    <div>瓶数：{{scope.row.allocationQuantity}} 瓶</div>
+                                    <div>瓶数：{{scope.row.allocationQuantity || 0}} 瓶</div>
                                 </div>
                             </template>
                         </el-table-column>
