@@ -103,6 +103,7 @@ export default {
       let dataId = row.dataid;
       let templateId = row.templateId;
       let url = "https://pro.formtalk.net/w.do";
+      
       let openUrl = `${url}?f=${templateId}&d=${dataId}&v=EDIT`;
       window.open(openUrl);
     },
@@ -136,7 +137,7 @@ export default {
         divisionName,
       };
       debugger
-      let openUrl = `${url}?f=${templateId}&data4Display=${JSON.stringify(data4Display)}`;
+      let openUrl = `${url}?f=${templateId}&data4Display=${encodeURIComponent(JSON.stringify(data4Display))}`;
       window.open(openUrl);
     },
     getUrlParam(url, name) {
