@@ -13,7 +13,7 @@ let state = {
         { name: "订单中心", routeTo: "/OrderCenter", hasSelected: false },
         { name: "直投业务", routeTo: "/TakeWine", hasSelected: false },
         { name: "账户中心", routeTo: "/AccountCenter", hasSelected: false },
-        // { name: "调查表", routeTo: "/Inquiry", hasSelected: false },
+        { name: "调查表", routeTo: "/Inquiry", hasSelected: false },
         { name: "公告", routeTo: "/MsgCenter", hasSelected: false },
         { name: "联系我们", routeTo: "/ContactUs", hasSelected: false }
     ]
