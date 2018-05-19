@@ -41,9 +41,26 @@
             </el-row>
         </el-form>
         <el-row type="flex" class="row-bg" justify="end">
+            <!-- <el-popover
+                placement="top"
+                width="200"
+                v-model="exportVisiable">
+                <p>是否导出符合当前查询条件的全部数据?</p>
+                <div style="text-align: right; margin: 0">
+                    <el-button size="mini" type="text" @click="exportVisiable = false">取消</el-button>
+                    <el-button type="primary" size="mini" @click="exportData">确定</el-button>
+                </div>
+                <el-button v-show="canExport" size="mini" slot="reference" style="margin-right:10px;">导出</el-button>
+            </el-popover> -->
+            <el-button v-show="canExport" type="plain" size="mini" @click="exportData">导出</el-button>
             <el-button @click="reset" size="mini">清空</el-button>
             <el-button @click="search" type="primary" size="mini">搜索</el-button>
         </el-row>
+        <form v-show="false" id="exportExcellForm" method="post" :action="exportUrl">
+            <input type="text" name="isAll" value="true">
+            <input type="text" name="isEdit" value="false">
+            <input id="exportSearchParams" type="text" name="searchParams" :value="searchParamsFormat">
+        </form>
     </div>
 </template>
 <script>
@@ -116,11 +133,24 @@ export default {
             default() {
                 return false
             }
+        },
+        canExport: {
+            default() {
+                return false
+            }
+        },
+        exportUrl: {
+            default() {
+                return ""
+            }
         }
     },
     data() {
         return {
+            exportVisiable: false,
             formDatas: {},//v-model数据绑定
+            searchParams: {},//缓存搜索参数,用着导出
+            searchParamsFormat: "",
             pickerOptions1: {
                 disabledDate(time) {
                     let currentYear = (new Date()).getFullYear();
@@ -163,6 +193,11 @@ export default {
                 }
             };
             let url = _this.serverUrl;
+            this.searchParams = {
+                customerId: this.$store.state.customerId,
+                ...formData,//搜索的form表单数据
+                ..._this.extralParams,//搜索的额外字段
+            };
             if (this.method == 'get') {
                 _this.$http.get(url, paramsWrap)
                     .then(res => _this.$emit('receiveData', res.data));
@@ -178,8 +213,55 @@ export default {
                 _this.formDatas[obj.field] = '';
             })
         },
-        inputEnter(e){
+        inputEnter(e) {
             this.search(e)
+        },
+        //导出数据
+        exportData() {
+            /* var temp = {
+                "search_EQ_distributor.id": "171b88f4-b36b-4335-b756-0666acc41008",
+                "search_LIKE_orderCode": "%PO180514007%",
+                "search_GTE_orderDate_date": 1525795200000,
+                "search_LT_orderDate_date": 1528387200000,
+                "search_EQ_billStatus": "01"
+            } */
+            let searchParams = Object.assign({}, this.searchParams);
+            var searchParamsFormat = {};
+            // debugger
+            // Object.keys(searchParams).forEach(field => {
+            //     if (field == "distributorIds") {
+            //         searchParamsFormat["search_EQ_distributor.id"] = searchParams.distributorIds;
+            //     }
+            //     var currentConfig = this.searchConfig.find(v => {
+            //         return v.field == field.replace(/(Begin$)|(End$)/g,'')
+            //     });
+            //     if (currentConfig) {
+            //         switch (currentConfig.type) {
+            //             case "input":
+            //                 searchParamsFormat[`search_LIKE_${field}`] = `%${searchParams[field]}%`;
+            //                 break;
+            //             case "datePickerRange":
+            //                 debugger
+            //                 searchParamsFormat[`search_GTE_${currentConfig.field}_date`] = `${searchParams[`${currentConfig.field}Begin`]}`;
+            //                 searchParamsFormat[`search_LT_${currentConfig.field}_date`] = `${searchParams[`${currentConfig.field}End`]}`;
+            //                 break;
+            //             case "select":
+            //                 searchParamsFormat[`search_EQ_${field}`] = `${searchParams[field]}`;
+            //                 break;
+            //         }
+            //     }
+            // });
+            // debugger
+            // this.searchParamsFormat = JSON.stringify(searchParamsFormat);
+            $("#exportSearchParams").attr("value", JSON.stringify({ "search_EQ_distributor.id": searchParams.distributorIds }));
+            // $("#exportSearchParams").attr("value",JSON.stringify(searchParamsFormat));
+            
+            if (searchParams.distributorIds) {
+                document.forms.exportExcellForm.submit();
+            }
+
+
+
         }
 
     },
@@ -199,5 +281,5 @@ export default {
 }
 </script>
 <style lang="scss" >
-@import './SearchComp.scss';
+@import "./SearchComp.scss";
 </style>

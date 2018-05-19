@@ -13,10 +13,10 @@ module.exports = {
         proxyTable: {
             '/ocm-web': {
                 // target: 'http://192.168.100.58', //测试
-                target: 'http://182.150.55.64:8013', //测试在线
-                // target: 'http://10.18.0.203:8080', //朱瑾
+                // target: 'http://182.150.55.64:8013', //测试在线
+                target: 'http://10.18.0.203:8080', //朱瑾
                 // target: 'http://10.18.2.37:8081', //杜琼
-                // target: 'http://10.18.3.205:8080', //简称波
+                // target: 'http://10.18.3.137:8080', //简称波
                 // target: 'http://10.18.1.239', //代凯
                 // target: 'http://10.18.0.210:8080',//尚玉杰
                 // target: 'http://10.18.3.87:8080', //孔庆鹏
@@ -41,7 +41,14 @@ module.exports = {
                 pathRewrite: {
                     '^/iuap_qy_tenantmanage': '/iuap_qy_tenantmanage'
                 }
-            }
+            },
+            '/wbalone': {
+                target: 'http://182.150.55.64:8013', //测试在线
+                changeOrigin: true,
+                pathRewrite: {
+                    '^/wbalone': '/wbalone'
+                }
+            },
         },
         // Various Dev Server settings
         host: 'localhost', // can be overwritten by process.env.HOST

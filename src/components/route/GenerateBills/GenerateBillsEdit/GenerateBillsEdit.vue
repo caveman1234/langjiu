@@ -67,10 +67,13 @@
                 </el-row>
             </div>
         </div>
+        <QuotaDialog :dialogVisible.sync='dialogVisible'></QuotaDialog>
     </div>
 </template>
 <script>
+
 import AddNewGoods from '../AddNewGoods/AddNewGoods';
+import QuotaDialog from '@/components/commonComp/QuotaDialog/QuotaDialog.vue';
 let goodsData = [
     {
         "imageUrl": "src/assets/goodsItem.png",
@@ -101,12 +104,14 @@ let goodsData = [
 ];
 export default {
     name: 'GenerateBillsEdit',
-    components: { AddNewGoods },
+    components: { AddNewGoods, QuotaDialog },
     data() {
         return {
             /* 表格数据 */
+            cacheGoodsData: [],
             goodsData: goodsData,
-            defaultImg: require('../../../../assets/defaultimg.png')
+            defaultImg: require('../../../../assets/defaultimg.png'),
+            dialogVisible: false,//dialog配额弹框
         }
     },
     methods: {
@@ -148,14 +153,61 @@ export default {
                 row.paymentTotalMoney = row.baseQuantity * row.basicPrice;
             });
         },
-        /* 确定 */
-        confirm() {
-            if (this.goodsData.length > 0) {
-                this.$router.push({ name: 'GenerateBills', params: { selectedData: this.goodsData } });
-            } else {
-                this.$Notify({ title: '商品不能为空', type: 'warning' });
+        //检查配额
+        checkQuota() {
+            //检查配额
+            let params = {
+                distributorId: this.$store.state.customerId,
+                purchaseOrderItems: this.goodsData.map(v => ({ ...v, basePrice: v.basicPrice }))
             }
+            return this.$http.post('/ocm-web/api/b2b/purchase-orders/checkQuota', params)
+                .then(res => {
+                    debugger
+                    if (res.headers["x-ocm-code"] == '1') {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                });
         },
+        //改变计划内价格
+        changePrice() {
+            //改变价格
+            this.goodsData = this.goodsData.map(v => {
+                return {
+                    ...v,
+                    basicPrice: v.outPrice
+                }
+            });
+        },
+        //跳转路由
+        jumpRoute() {
+            this.$router.push({ name: 'GenerateBills', params: { selectedData: this.goodsData } });
+        },
+        /* 确定 */
+        async confirm() {
+            //配额是否充足
+            let isQuotaEnough = await this.checkQuota();
+            if (isQuotaEnough == true) {
+                this.jumpRoute();
+            } else {
+                this.$confirm('商品配额不足，请减少商品数量或删除商品！继续提交将按计划外价格进行结算。', '配额不足', {
+                    confirmButtonText: '继续提交',
+                    cancelButtonText: '查看配额',
+                    type: 'warning',
+                    center: true
+                }).then(() => {
+                    //确定仍要提交
+                    this.changePrice();//改变价格
+                    this.jumpRoute();//带参数跳路由
+                }).catch(() => {
+                    //查看配额
+                    this.dialogVisible = true;
+                });
+            }
+
+        },
+
         //表格合计
         getSummaries(params) {
             let _this = this;
@@ -165,7 +217,7 @@ export default {
                 switch (column.property) {
                     case 'paymentTotalMoney':
                         let totalArr = data.map(v => v[column.property]);
-                        let total = totalArr.reduce((acc, a) => (acc + a),0);
+                        let total = totalArr.reduce((acc, a) => (acc + a), 0);
                         let value = String(Number(total).toFixed(2));
                         var str = value.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
                         arr[i] = `货款总金额:¥${str}`;
@@ -195,6 +247,7 @@ export default {
     activated() {
         //mounted
         if (this.$route.params.selectedData) {
+            //添加商品
             this.goodsData = this.$route.params.selectedData.map(v => {
                 //baleQuantity 箱数
                 //baseQuantity 瓶数
@@ -209,6 +262,10 @@ export default {
                 megerObj.paymentTotalMoney = megerObj.baseQuantity * v.basicPrice;
                 return Object.assign({}, v, megerObj);
             });
+            this.cacheGoodsData = this.goodsData.map(v => ({ ...v }));
+        } else {
+            //返回修改
+            this.goodsData = this.cacheGoodsData.map(v => ({ ...v }));
         }
     },
     deactivated() {
@@ -217,6 +274,6 @@ export default {
 }
 </script>
 <style lang="scss">
-@import './GenerateBillsEdit.scss';
+@import "./GenerateBillsEdit.scss";
 </style>
 

@@ -1,6 +1,8 @@
 <template>
     <div class="TotalOrder">
         <SearchComp ref="searchRef"
+            :canExport="true"
+            exportUrl="/ocm-web/api/purchaseOrderExport-excel/excelDataExport"
             :searchConfig="searchConfig"
             @receiveData="receiveData"
             :extralParams="extralParams"
@@ -121,6 +123,14 @@ export default {
                 .then(res => {
                     return res.data.map(v => ({ label: v.name, value: v.value }));
                 });
+        },
+        userLogin() {
+            var params = {
+                "username": "04667",
+                "password": "d8c6d05c31c421db280837eba464945a70eaca43c4ca21265d781eafd00dd7812ad6c520bef770f0abe35337aa64a3f1ca8b1e880327ba1a3b97da5c2b4dd4faf6bedddadcffd6cf61e4b3b87c2d661c1071e0529beb86d80ed989b58c219fc39dcd52583806f56aafc432f950f5a2b8c30509b75d1195b7c373fc4944caa94e"
+            }
+            let url = '/wbalone/account/login';
+            this.$http.post(url, params);
         }
     },
     mounted() {
@@ -139,6 +149,8 @@ export default {
         _this.fetchOrderStatus().then(res => {
             _this.searchConfig[1].dataSource = res;
         });
+        //模拟登陆
+        // this.userLogin();
     }
 }
 </script>
