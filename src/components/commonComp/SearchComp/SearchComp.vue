@@ -56,7 +56,8 @@
             <el-button @click="reset" size="mini">清空</el-button>
             <el-button @click="search" type="primary" size="mini">搜索</el-button>
         </el-row>
-        <form v-show="false" id="exportExcellForm" method="post" :action="exportUrl">
+        <iframe name="l_exportDataFrame" v-show="false"></iframe>
+        <form target="l_exportDataFrame" v-show="false" id="exportExcellForm" method="post" :action="exportUrl">
             <input type="text" name="isAll" value="true">
             <input type="text" name="isEdit" value="false">
             <input id="exportSearchParams" type="text" name="searchParams" :value="searchParamsFormat">
@@ -252,9 +253,9 @@ export default {
             //     }
             // });
             // debugger
-            // this.searchParamsFormat = JSON.stringify(searchParamsFormat);
-            $("#exportSearchParams").attr("value", JSON.stringify({ "search_EQ_distributor.id": searchParams.distributorIds }));
-            // $("#exportSearchParams").attr("value",JSON.stringify(searchParamsFormat));
+            this.searchParamsFormat = JSON.stringify(searchParams);
+            // $("#exportSearchParams").attr("value", JSON.stringify({ "search_EQ_distributor.id": searchParams.distributorIds }));
+            $("#exportSearchParams").attr("value",JSON.stringify(searchParamsFormat));
             
             if (searchParams.distributorIds) {
                 document.forms.exportExcellForm.submit();

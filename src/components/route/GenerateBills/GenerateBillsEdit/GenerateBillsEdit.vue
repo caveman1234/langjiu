@@ -112,6 +112,7 @@ export default {
             goodsData: goodsData,
             defaultImg: require('../../../../assets/defaultimg.png'),
             dialogVisible: false,//dialog配额弹框
+            isQuota: 1,//当前单据是否为计划内价格
         }
     },
     methods: {
@@ -182,13 +183,14 @@ export default {
         },
         //跳转路由
         jumpRoute() {
-            this.$router.push({ name: 'GenerateBills', params: { selectedData: this.goodsData } });
+            this.$router.push({ name: 'GenerateBills', params: { selectedData: this.goodsData, isQuota: this.isQuota } });
         },
         /* 确定 */
         async confirm() {
             //配额是否充足
             let isQuotaEnough = await this.checkQuota();
             if (isQuotaEnough == true) {
+                this.isQuota = 1;
                 this.jumpRoute();
             } else {
                 this.$confirm('商品配额不足，请减少商品数量或删除商品！继续提交将按计划外价格进行结算。', '配额不足', {
@@ -197,6 +199,7 @@ export default {
                     type: 'warning',
                     center: true
                 }).then(() => {
+                    this.isQuota = 0;
                     //确定仍要提交
                     this.changePrice();//改变价格
                     this.jumpRoute();//带参数跳路由

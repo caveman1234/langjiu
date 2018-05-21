@@ -70,6 +70,7 @@ export default {
                 //     label: 'ccb'
                 // }
             ],
+            isQuota:1,//当前产品是否为计划内价格
         }
     },
     methods: {
@@ -411,6 +412,7 @@ export default {
                 purchaseOrderItems: purchaseOrderItems
             };
             params.persistStatus = "new";
+            params.isQuota = this.isQuota;
             debugger
             //销售订单请求地址
             let sreverUrl = '/ocm-web/api/b2b/purchase-orders/submit';
@@ -519,6 +521,7 @@ export default {
                 purchaseOrderItems: purchaseOrderItems
             };
             params.persistStatus = "new";
+            params.isQuota = this.isQuota;
             //融资订单请求地址
             let sreverUrl = '/ocm-web/api/b2b/purchase-orders/financing-submit';
             _this.$confirm('此操作不可逆，是否提交？', '提交', {
@@ -667,6 +670,7 @@ export default {
     mounted() {
         let _this = this;
         _this.goodsData = this.$route.params.selectedData;
+        _this.isQuota = this.$route.params.isQuota;
         _this.fetchAddress(); /* 获取收货地址 */
         _this.fetchOrderType(); /* 获取订单类型 */
         //设置产品线
