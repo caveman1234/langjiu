@@ -193,7 +193,7 @@
                             </el-col>
                             <el-col :span="7">
                                 <el-col :span="5">
-                                    <div class="calcRightMoney calcRightMoneyTotal">{{(Number(totalMoney) - Number(useOffMoney)) | formatPrice}}</div>
+                                    <div class="calcRightMoney calcRightMoneyTotal">{{(Number(totalMoney) - Number(billFooger.deductionMoney)) | formatPrice}}</div>
                                 </el-col>
                             </el-col>
                             <el-col :span="7">本次使用现金金额：</el-col>
