@@ -193,7 +193,16 @@ export default {
                     size
                 }
             };
+            paramsWrap.params = Object.keys(paramsWrap.params).reduce((acc, key) => {
+                if (!(paramsWrap.params[key] == '' || paramsWrap.params[key] == null)) {
+                    acc[key] = paramsWrap.params[key];
+                }
+                return acc;
+            }, {})
             let url = _this.serverUrl;
+            if(url.includes('/ocm-web/api/base/quota-customer-excel/getList')){
+                delete paramsWrap.params.size;
+            }
             this.searchParams = {
                 customerId: this.$store.state.customerId,
                 ...formData,//搜索的form表单数据
@@ -255,8 +264,8 @@ export default {
             // debugger
             this.searchParamsFormat = JSON.stringify(searchParams);
             // $("#exportSearchParams").attr("value", JSON.stringify({ "search_EQ_distributor.id": searchParams.distributorIds }));
-            $("#exportSearchParams").attr("value",JSON.stringify(searchParamsFormat));
-            
+            $("#exportSearchParams").attr("value", JSON.stringify(searchParamsFormat));
+
             if (searchParams.distributorIds) {
                 document.forms.exportExcellForm.submit();
             }

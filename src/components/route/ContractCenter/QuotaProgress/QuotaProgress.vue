@@ -1,38 +1,45 @@
 <template>
   <div class="QuotaProgress">
-    <SearchComp ref="searchRef" :searchConfig="searchConfig" :extralParams="extralParams" @receiveData="receiveData" serverUrl="/ocm-web/api/base/quota-customer-excel/getList"></SearchComp>
+    <SearchComp 
+      ref="searchRef" 
+      :searchConfig="searchConfig" 
+      :extralParams="extralParams" 
+      @receiveData="receiveData" 
+      serverUrl="/ocm-web/api/base/quota-customer-excel/getList" 
+      method="post"
+    ></SearchComp>
 
     <div class="quotaTableContainer">
         <el-table :data="tableData" style="width: 100%" border>
-            <el-table-column prop="contractType" label="合同类型">
+            <el-table-column prop="contractTypeName" width="100px" label="合同类型">
                 <template slot-scope="scope">
                     <div>
-                        {{scope.row.contractType }}
+                        {{scope.row.contractTypeName }}
                     </div>
                 </template>
             </el-table-column>
             <el-table-column prop="totalMny" label="合同量(万元)" width="130px">
               <template slot-scope="scope">
                     <div>
-                        {{scope.row.contractType |formatInOut }}
+                        {{scope.row.totalMny |formatInOut }}
                     </div>
                 </template>
             </el-table-column>
             <el-table-column prop="rangeName" width="100px" label="产品范围">
                 <template slot-scope="scope">
                     <div>
-                        <div>{{scope.row.signTime }}</div>
+                        <div>{{scope.row.rangeName }}</div>
                     </div>
                 </template>
             </el-table-column>
             <el-table-column prop="startDate" label="生效日期" width="130px">
                 <template slot-scope="scope">
-                    <div>{{scope.row.startDate | fromatDate }}</div>
+                    <div>{{scope.row.startDate | formatDate }}</div>
                 </template>
             </el-table-column>
             <el-table-column prop="endDate" label="失效日期" width="130px">
                 <template slot-scope="scope">
-                    <div>{{scope.row.startDate | fromatDate }}</div>
+                    <div>{{scope.row.startDate | formatDate }}</div>
                 </template>
             </el-table-column>
             <el-table-column prop="standedInside" label="标准计划内配额" width="130px">
@@ -72,8 +79,8 @@
             </el-table-column>
             <el-table-column prop="remark" label="备注" width="130px"></el-table-column>
         </el-table>
-        <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="pageParams.pageIndex" :page-sizes="[10, 20, 50, 100]" :page-size="pageParams.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="pageParams.total" prev-text="上一页" next-text="下一页">
-        </el-pagination>
+        <!-- <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="pageParams.pageIndex" :page-sizes="[10, 20, 50, 100]" :page-size="pageParams.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="pageParams.total" prev-text="上一页" next-text="下一页">
+        </el-pagination> -->
     </div>
   </div>
 </template>
@@ -82,13 +89,13 @@ import SearchComp from '@/components/commonComp/SearchComp/SearchComp';
 let searchConfig = [
   {
     type: 'select',
-    field: 'search_EQ_contractType',
+    field: 'EQ_contractType',
     label: '合同类型：',
     dataSource: []
   },
   {
     type: 'select',
-    field: 'search_EQ_rangeId',
+    field: 'EQ_rangeId',
     label: '产品范围：',
     dataSource: [{ label: '数量（件）', value: 1 }, { label: '金额（万元）', value: 2 }]
   }
@@ -107,13 +114,13 @@ export default {
         total: 0
       },
       extralParams: {
-        "search_EQ_customer.id": this.$store.state.customerId
+        // "search_EQ_customer.id": this.$store.state.customerId
       }
     }
   },
   methods: {
     receiveData(data) {
-      this.tableData = data.content;
+      this.tableData = data;
       this.pageParams.pageSize = data.size;//每页数量
       this.pageParams.total = data.totalElements;//总页数
       this.pageParams.pageIndex = data.number + 1;//当前页
