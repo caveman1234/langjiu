@@ -1,17 +1,23 @@
 <template>
   <div class="QuotaProgress">
-    <SearchComp ref="searchRef" :searchConfig="searchConfig" :extralParams="extralParams" @receiveData="receiveData" serverUrl="/ocm-web/api/cm/contract-mgr/search-all" method="post"></SearchComp>
+    <SearchComp ref="searchRef" :searchConfig="searchConfig" :extralParams="extralParams" @receiveData="receiveData" serverUrl="/ocm-web/api/base/quota-customer-excel/getList"></SearchComp>
 
     <div class="quotaTableContainer">
         <el-table :data="tableData" style="width: 100%" border>
-            <el-table-column prop="contractTypeName" label="合同类型">
+            <el-table-column prop="contractType" label="合同类型">
                 <template slot-scope="scope">
                     <div>
-                        {{scope.row.contractTempletCode }}
+                        {{scope.row.contractType }}
                     </div>
                 </template>
             </el-table-column>
-            <el-table-column prop="totalMny" label="合同量(万元)" width="130px"></el-table-column>
+            <el-table-column prop="totalMny" label="合同量(万元)" width="130px">
+              <template slot-scope="scope">
+                    <div>
+                        {{scope.row.contractType |formatInOut }}
+                    </div>
+                </template>
+            </el-table-column>
             <el-table-column prop="rangeName" width="100px" label="产品范围">
                 <template slot-scope="scope">
                     <div>
@@ -21,18 +27,50 @@
             </el-table-column>
             <el-table-column prop="startDate" label="生效日期" width="130px">
                 <template slot-scope="scope">
-                    <div>{{scope.row.cusCommitStatus }}</div>
+                    <div>{{scope.row.startDate | fromatDate }}</div>
                 </template>
             </el-table-column>
-            <el-table-column prop="endDate" label="失效日期" width="130px"> </el-table-column>
-            <el-table-column prop="standedInside" label="标准计划内配额" width="130px"> </el-table-column>
-            <el-table-column prop="adjustInside" label="调整计划内配额" width="130px"> </el-table-column>
-            <el-table-column prop="totalInside" label="计划内配额合计" width="130px"> </el-table-column>
-            <el-table-column prop="standedOut" label="标准计划外配额" width="130px"> </el-table-column>
-            <el-table-column prop="adjustOut" label="调整计划外配额" width="130px"> </el-table-column>
-            <el-table-column prop="totalOut" label="计划外配额合计" width="130px"> </el-table-column>
-            <el-table-column prop="limitExcess" label="超额上限(万元)" width="130px"> </el-table-column>
-            <el-table-column prop="remark" label="备注" width="130px"> </el-table-column>
+            <el-table-column prop="endDate" label="失效日期" width="130px">
+                <template slot-scope="scope">
+                    <div>{{scope.row.startDate | fromatDate }}</div>
+                </template>
+            </el-table-column>
+            <el-table-column prop="standedInside" label="标准计划内配额" width="130px">
+                <template slot-scope="scope">
+                    <div>{{scope.row.standedInside | formatInOut }}</div>
+                </template>
+            </el-table-column>
+            <el-table-column prop="adjustInside" label="调整计划内配额" width="130px">
+                <template slot-scope="scope">
+                    <div>{{scope.row.adjustInside | formatInOut }}</div>
+                </template>
+            </el-table-column>
+            <el-table-column prop="totalInside" label="计划内配额合计" width="130px">
+                <template slot-scope="scope">
+                    <div>{{scope.row.totalInside | formatInOut }}</div>
+                </template>
+            </el-table-column>
+            <el-table-column prop="standedOut" label="标准计划外配额" width="130px">
+                <template slot-scope="scope">
+                    <div>{{scope.row.standedOut | formatInOut }}</div>
+                </template>
+            </el-table-column>
+            <el-table-column prop="adjustOut" label="调整计划外配额" width="130px">
+                <template slot-scope="scope">
+                    <div>{{scope.row.adjustOut | formatInOut }}</div>
+                </template>
+            </el-table-column>
+            <el-table-column prop="totalOut" label="计划外配额合计" width="130px">
+              <template slot-scope="scope">
+                    <div>{{scope.row.totalOut | formatInOut }}</div>
+              </template>
+            </el-table-column>
+            <el-table-column prop="limitExcess" label="超额上限(万元)" width="130px">
+              <template slot-scope="scope">
+                    <div>{{scope.row.limitExcess | formatInOut }}</div>
+              </template>
+            </el-table-column>
+            <el-table-column prop="remark" label="备注" width="130px"></el-table-column>
         </el-table>
         <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="pageParams.pageIndex" :page-sizes="[10, 20, 50, 100]" :page-size="pageParams.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="pageParams.total" prev-text="上一页" next-text="下一页">
         </el-pagination>
@@ -43,19 +81,16 @@
 import SearchComp from '@/components/commonComp/SearchComp/SearchComp';
 let searchConfig = [
   {
-    type: 'input',
-    field: 'contractType',
+    type: 'select',
+    field: 'search_EQ_contractType',
     label: '合同类型：',
-    dataSource: [
-      { label: "未提交", value: "0" },
-      { label: "已提交", value: "1" },
-    ]
+    dataSource: []
   },
   {
     type: 'select',
-    field: 'rangeId',
+    field: 'search_EQ_rangeId',
     label: '产品范围：',
-    dataSource: [{ name: '数量（件）', value: 1 }, { name: '金额（万元）', value: 2 }]
+    dataSource: [{ label: '数量（件）', value: 1 }, { label: '金额（万元）', value: 2 }]
   }
 ];
 export default {
@@ -72,7 +107,7 @@ export default {
         total: 0
       },
       extralParams: {
-        invalidStatus: '0'
+        "search_EQ_customer.id": this.$store.state.customerId
       }
     }
   },
@@ -109,6 +144,15 @@ export default {
       };
       _this.$refs.searchRef.search(params);
     },
+    fetchContractType() {
+      let url = "";
+      this.$http.get(url)
+        .then(res => {
+          if (res.headers["x-ocm-code"] == '1') {
+            this.searchConfig[0] = res.data.map(v => ({ label: v.name, value: v.id }));
+          }
+        });
+    }
   },
   mounted() {
     let _this = this;
@@ -117,6 +161,12 @@ export default {
       size: _this.pageParams.pageSize
     };
     _this.$refs.searchRef.search(params);
+    this.fetchContractType();
+  },
+  filters: {
+    format(v) {
+      return v;
+    }
   }
 }
 </script>

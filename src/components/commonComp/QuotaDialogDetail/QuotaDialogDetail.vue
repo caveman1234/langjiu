@@ -1,5 +1,5 @@
 <template>
-    <div class="QuotaDialog">
+    <div class="QuotaDialogDetail">
         <el-dialog title="配额明细" @close="close" @open="open" :visible.sync="dialogVisible1" width="900px">
             <el-table :data="tableData" border>
                 <el-table-column prop="rangeName" label="产品范围"></el-table-column>
@@ -29,7 +29,7 @@ var tableData = [
     }
 ];
 export default {
-    name: 'QuotaDialog',
+    name: 'QuotaDialogDetail',
     props: {
         dialogVisible: {
             default() {
@@ -90,6 +90,6 @@ export default {
 }
 </script>
 <style lang="scss">
-@import "./QuotaDialog.scss";
+@import "./QuotaDialogDetail.scss";
 </style>
 

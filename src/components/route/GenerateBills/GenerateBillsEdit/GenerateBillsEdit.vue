@@ -67,13 +67,13 @@
                 </el-row>
             </div>
         </div>
-        <QuotaDialog :dialogVisible.sync='dialogVisible'></QuotaDialog>
+        <QuotaDialogDetail :dialogVisible.sync='dialogVisible'></QuotaDialogDetail>
     </div>
 </template>
 <script>
 
 import AddNewGoods from '../AddNewGoods/AddNewGoods';
-import QuotaDialog from '@/components/commonComp/QuotaDialog/QuotaDialog.vue';
+import QuotaDialogDetail from '@/components/commonComp/QuotaDialogDetail/QuotaDialogDetail.vue';
 let goodsData = [
     {
         "imageUrl": "src/assets/goodsItem.png",
@@ -104,7 +104,7 @@ let goodsData = [
 ];
 export default {
     name: 'GenerateBillsEdit',
-    components: { AddNewGoods, QuotaDialog },
+    components: { AddNewGoods, QuotaDialogDetail },
     data() {
         return {
             /* 表格数据 */
