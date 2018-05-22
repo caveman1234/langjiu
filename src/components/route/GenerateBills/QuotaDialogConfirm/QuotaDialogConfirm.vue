@@ -1,6 +1,6 @@
 <template>
   <div class="QuotaDialogConfirm">
-    <el-button size="mini" @click="checkInner" type="primary">提交(验证配额)</el-button>
+    <el-button size="mini" @click="checkInner" type="primary">提交</el-button>
     <el-dialog
       :close-on-press-escape="false"
       :close-on-click-modal="false"
