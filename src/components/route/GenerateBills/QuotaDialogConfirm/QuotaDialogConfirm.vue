@@ -69,7 +69,7 @@ export default {
     },
     //检查计划内外配额
     checkQuotaInnerOuter(isQuota) {
-      
+
       //检查配额
       let params = {
         isQuota: isQuota,
@@ -78,12 +78,10 @@ export default {
       }
       return this.$http.post('/ocm-web/api/b2b/purchase-orders/checkQuota', params)
         .then(res => {
-          debugger
           if (res.headers["x-ocm-code"] == '1') {
             if (res.data.state == "1") {
               return true;
             } else {
-              debugger
               isQuota == 1 ? this.innerMessage = res.data.mesage : this.outterMessage = res.data.mesage;
               return false;
             }
@@ -103,7 +101,7 @@ export default {
         }).then(() => {
           this.$emit("plainInnerSubmit");
         }).catch(() => { });
-      } else {
+      } else if (resultInner == false) {
         this.visiableInner = true;
       }
     },
@@ -121,7 +119,7 @@ export default {
           this.$emit("plainOutterSubmit");
         }).catch(() => { });
 
-      } else {
+      } else if (resultOutter == false) {
         //不能下订单
         this.visiableOuter = true;
         // this.$Notify({ title: '计划外额度不够不能下单', type: 'warning' });
