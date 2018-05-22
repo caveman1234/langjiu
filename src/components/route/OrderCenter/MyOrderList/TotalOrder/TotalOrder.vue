@@ -1,7 +1,8 @@
 <template>
     <div class="TotalOrder">
         <SearchComp ref="searchRef"
-            
+            :canExport="true"
+            exportUrl="/ocm-web/api/purchaseOrderExport-excel/excelDataExport"
             :searchConfig="searchConfig"
             @receiveData="receiveData"
             :extralParams="extralParams"

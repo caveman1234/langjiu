@@ -5,7 +5,7 @@ import BankList from '@/components/commonComp/BankList/BankList';
 import QuotaDialogConfirm from './QuotaDialogConfirm/QuotaDialogConfirm';
 export default {
     name: 'GenerateBills',
-    components: { DeliveryInfo, AddNewGoods, CostOff, BankList,QuotaDialogConfirm },
+    components: { DeliveryInfo, AddNewGoods, CostOff, BankList, QuotaDialogConfirm },
     data() {
         return {
             //地址不显示
@@ -71,6 +71,7 @@ export default {
                 //     label: 'ccb'
                 // }
             ],
+            isQuota: 1,
         }
     },
     methods: {
@@ -412,22 +413,15 @@ export default {
                 purchaseOrderItems: purchaseOrderItems
             };
             params.persistStatus = "new";
-            debugger
+            params.isQuota = this.isQuota;
             //销售订单请求地址
             let sreverUrl = '/ocm-web/api/b2b/purchase-orders/submit';
-            _this.$confirm('此操作不可逆，是否提交？', '提交', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                type: 'warning',
-                center: true
-            }).then(() => {
-                _this.$http.post(sreverUrl, params)
-                    .then(res => {
-                        if (res.headers["x-ocm-code"] == '1') {
-                            _this.$router.push({ name: 'TotalOrder' });
-                        }
-                    });
-            }).catch(() => { });
+            _this.$http.post(sreverUrl, params)
+                .then(res => {
+                    if (res.headers["x-ocm-code"] == '1') {
+                        _this.$router.push({ name: 'TotalOrder' });
+                    }
+                });
         },
         //提交融资订单
         submigFinancing() {
@@ -519,22 +513,29 @@ export default {
                 // fFeeUsedAmount: calcDataTable[2],
                 purchaseOrderItems: purchaseOrderItems
             };
+            params.isQuota = this.isQuota;
             params.persistStatus = "new";
             //融资订单请求地址
             let sreverUrl = '/ocm-web/api/b2b/purchase-orders/financing-submit';
-            _this.$confirm('此操作不可逆，是否提交？', '提交', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                type: 'warning',
-                center: true
-            }).then(() => {
-                _this.$http.post(sreverUrl, params)
-                    .then(res => {
-                        if (res.headers["x-ocm-code"] == '1') {
-                            _this.$router.push({ name: 'TotalOrder' });
-                        }
-                    });
-            }).catch(() => { });
+            _this.$http.post(sreverUrl, params)
+                .then(res => {
+                    if (res.headers["x-ocm-code"] == '1') {
+                        _this.$router.push({ name: 'TotalOrder' });
+                    }
+                });
+            // _this.$confirm('此操作不可逆，是否提交？', '提交', {
+            //     confirmButtonText: '确定',
+            //     cancelButtonText: '取消',
+            //     type: 'warning',
+            //     center: true
+            // }).then(() => {
+            //     _this.$http.post(sreverUrl, params)
+            //         .then(res => {
+            //             if (res.headers["x-ocm-code"] == '1') {
+            //                 _this.$router.push({ name: 'TotalOrder' });
+            //             }
+            //         });
+            // }).catch(() => { });
         },
         /* 获取收货地址 */
         fetchAddress() {
@@ -639,7 +640,22 @@ export default {
                 // _this.$Notify({ title: '待通知发货', type: 'warning' });
             }
         },
-        
+        //改变价格
+        changePrice() {
+            this.goodsData = this.goodsData.map(v => ({ ...v, basicPrice: v.outPrice }));
+        },
+        //计划内提交事件
+        plainInnerSubmit() {
+            this.isQuota = 1;
+            this.submit();
+        },
+        //计划外提交事件
+        plainOutterSubmit() {
+            this.isQuota = 0;
+            this.changePrice();
+            this.submit();
+        },
+
 
 
     },

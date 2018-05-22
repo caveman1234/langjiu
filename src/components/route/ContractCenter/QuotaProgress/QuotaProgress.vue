@@ -11,7 +11,7 @@
 
     <div class="quotaTableContainer">
         <el-table :data="tableData" style="width: 100%" border>
-            <el-table-column prop="contractTypeName" width="100px" label="合同类型">
+            <el-table-column prop="contractTypeName" width="180px" label="合同类型">
                 <template slot-scope="scope">
                     <div>
                         {{scope.row.contractTypeName }}
@@ -89,15 +89,15 @@ import SearchComp from '@/components/commonComp/SearchComp/SearchComp';
 let searchConfig = [
   {
     type: 'select',
-    field: 'EQ_contractType',
+    field: 'EQ_contractType.id',
     label: '合同类型：',
     dataSource: []
   },
   {
     type: 'select',
-    field: 'EQ_rangeId',
+    field: 'EQ_range.id',
     label: '产品范围：',
-    dataSource: [{ label: '数量（件）', value: 1 }, { label: '金额（万元）', value: 2 }]
+    dataSource: []
   }
 ];
 export default {
@@ -152,11 +152,20 @@ export default {
       _this.$refs.searchRef.search(params);
     },
     fetchContractType() {
-      let url = "";
+      let url = "/ocm-web/api/base/basecust/get-contract-types";
       this.$http.get(url)
         .then(res => {
           if (res.headers["x-ocm-code"] == '1') {
-            this.searchConfig[0] = res.data.map(v => ({ label: v.name, value: v.id }));
+            this.searchConfig[0].dataSource = res.data.map(v => ({ label: v.name, value: v.id }));
+          }
+        });
+    },
+    fetchRangeCombo(){
+      let url = "/ocm-web/api/base/basecust/get-quota-ranges";
+      this.$http.get(url)
+        .then(res => {
+          if (res.headers["x-ocm-code"] == '1') {
+            this.searchConfig[1].dataSource = res.data.map(v => ({ label: v.name, value: v.id }));
           }
         });
     }
@@ -169,6 +178,7 @@ export default {
     };
     _this.$refs.searchRef.search(params);
     this.fetchContractType();
+    this.fetchRangeCombo();
   },
   filters: {
     format(v) {
