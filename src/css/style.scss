@@ -14,6 +14,9 @@ html {
     color: $color333;
     font-family: "PingFang SC", "Helvetica Neue", "微软雅黑";
 }
+.el-dialog__header {
+    border-bottom: 1px dashed $borderColor !important;
+}
 .el-notification{
     z-index: 9999 !important;
 }

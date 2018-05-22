@@ -646,13 +646,13 @@ export default {
         },
         //计划内提交事件
         plainInnerSubmit() {
-            this.isQuota = 1;
+            this.isQuota = 1;//计划内
             this.submit();
         },
         //计划外提交事件
         plainOutterSubmit() {
             this.isQuota = 0;
-            this.changePrice();
+            this.changePrice();//计划外
             this.submit();
         },
 
