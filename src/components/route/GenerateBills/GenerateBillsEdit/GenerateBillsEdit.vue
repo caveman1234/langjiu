@@ -67,13 +67,11 @@
                 </el-row>
             </div>
         </div>
-        <QuotaDialogDetail :dialogVisible.sync='dialogVisible'></QuotaDialogDetail>
     </div>
 </template>
 <script>
 
 import AddNewGoods from '../AddNewGoods/AddNewGoods';
-import QuotaDialogDetail from '@/components/commonComp/QuotaDialogDetail/QuotaDialogDetail.vue';
 let goodsData = [
     {
         "imageUrl": "src/assets/goodsItem.png",
@@ -104,15 +102,13 @@ let goodsData = [
 ];
 export default {
     name: 'GenerateBillsEdit',
-    components: { AddNewGoods, QuotaDialogDetail },
+    components: { AddNewGoods },
     data() {
         return {
             /* 表格数据 */
-            cacheGoodsData: [],
             goodsData: goodsData,
             defaultImg: require('../../../../assets/defaultimg.png'),
             dialogVisible: false,//dialog配额弹框
-            isQuota: 1,//当前单据是否为计划内价格
         }
     },
     methods: {
@@ -154,60 +150,21 @@ export default {
                 row.paymentTotalMoney = row.baseQuantity * row.basicPrice;
             });
         },
-        //检查配额
-        checkQuota() {
-            //检查配额
-            let params = {
-                distributorId: this.$store.state.customerId,
-                purchaseOrderItems: this.goodsData.map(v => ({ ...v, basePrice: v.basicPrice }))
-            }
-            return this.$http.post('/ocm-web/api/b2b/purchase-orders/checkQuota', params)
-                .then(res => {
-                    debugger
-                    if (res.headers["x-ocm-code"] == '1') {
-                        return true;
-                    } else {
-                        return false;
-                    }
-                });
-        },
-        //改变计划内价格
-        changePrice() {
-            //改变价格
-            this.goodsData = this.goodsData.map(v => {
-                return {
-                    ...v,
-                    basicPrice: v.outPrice
+
+        //跳转路由
+        jumpRoute() {
+            let selectedData = this.goodsData.map(v => ({ ...v }));
+            this.$router.push({
+                name: 'GenerateBills',
+                params: {
+                    selectedData: selectedData
                 }
             });
         },
-        //跳转路由
-        jumpRoute() {
-            this.$router.push({ name: 'GenerateBills', params: { selectedData: this.goodsData, isQuota: this.isQuota } });
-        },
         /* 确定 */
-        async confirm() {
+        confirm() {
             //配额是否充足
-            let isQuotaEnough = await this.checkQuota();
-            if (isQuotaEnough == true) {
-                this.isQuota = 1;
-                this.jumpRoute();
-            } else {
-                this.$confirm('商品配额不足，请减少商品数量或删除商品！继续提交将按计划外价格进行结算。', '配额不足', {
-                    confirmButtonText: '继续提交',
-                    cancelButtonText: '查看配额',
-                    type: 'warning',
-                    center: true
-                }).then(() => {
-                    this.isQuota = 0;
-                    //确定仍要提交
-                    this.changePrice();//改变价格
-                    this.jumpRoute();//带参数跳路由
-                }).catch(() => {
-                    //查看配额
-                    this.dialogVisible = true;
-                });
-            }
+            this.jumpRoute()
 
         },
 
@@ -265,10 +222,8 @@ export default {
                 megerObj.paymentTotalMoney = megerObj.baseQuantity * v.basicPrice;
                 return Object.assign({}, v, megerObj);
             });
-            this.cacheGoodsData = this.goodsData.map(v => ({ ...v }));
         } else {
             //返回修改
-            this.goodsData = this.cacheGoodsData.map(v => ({ ...v }));
         }
     },
     deactivated() {

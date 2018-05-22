@@ -2,13 +2,14 @@ import DeliveryInfo from './DeliveryInfo/DeliveryInfo.vue';
 import AddNewGoods from './AddNewGoods/AddNewGoods';
 import CostOff from './CostOff/CostOff';
 import BankList from '@/components/commonComp/BankList/BankList';
+import QuotaDialogConfirm from './QuotaDialogConfirm/QuotaDialogConfirm';
 export default {
     name: 'GenerateBills',
-    components: { DeliveryInfo, AddNewGoods, CostOff, BankList },
+    components: { DeliveryInfo, AddNewGoods, CostOff, BankList,QuotaDialogConfirm },
     data() {
         return {
             //地址不显示
-            isAddressShow:false,
+            isAddressShow: false,
             /* 产品线 */
             prodGroupId: '',
             /* 发货通知 */
@@ -70,7 +71,6 @@ export default {
                 //     label: 'ccb'
                 // }
             ],
-            isQuota:1,//当前产品是否为计划内价格
         }
     },
     methods: {
@@ -412,7 +412,6 @@ export default {
                 purchaseOrderItems: purchaseOrderItems
             };
             params.persistStatus = "new";
-            params.isQuota = this.isQuota;
             debugger
             //销售订单请求地址
             let sreverUrl = '/ocm-web/api/b2b/purchase-orders/submit';
@@ -521,7 +520,6 @@ export default {
                 purchaseOrderItems: purchaseOrderItems
             };
             params.persistStatus = "new";
-            params.isQuota = this.isQuota;
             //融资订单请求地址
             let sreverUrl = '/ocm-web/api/b2b/purchase-orders/financing-submit';
             _this.$confirm('此操作不可逆，是否提交？', '提交', {
@@ -641,6 +639,7 @@ export default {
                 // _this.$Notify({ title: '待通知发货', type: 'warning' });
             }
         },
+        
 
 
     },
@@ -670,7 +669,7 @@ export default {
     mounted() {
         let _this = this;
         _this.goodsData = this.$route.params.selectedData;
-        _this.isQuota = this.$route.params.isQuota;
+
         _this.fetchAddress(); /* 获取收货地址 */
         _this.fetchOrderType(); /* 获取订单类型 */
         //设置产品线

@@ -203,11 +203,10 @@ export default {
             if(url.includes('/ocm-web/api/base/quota-customer-excel/getList')){
                 delete paramsWrap.params.size;
             }
-            this.searchParams = {
-                customerId: this.$store.state.customerId,
-                ...formData,//搜索的form表单数据
-                ..._this.extralParams,//搜索的额外字段
-            };
+            //导出参数
+            this.searchParams = {...paramsWrap.params};
+            delete this.searchParams.page;
+            delete this.searchParams.size;
             if (this.method == 'get') {
                 _this.$http.get(url, paramsWrap)
                     .then(res => _this.$emit('receiveData', res.data));
@@ -264,7 +263,7 @@ export default {
             // debugger
             this.searchParamsFormat = JSON.stringify(searchParams);
             // $("#exportSearchParams").attr("value", JSON.stringify({ "search_EQ_distributor.id": searchParams.distributorIds }));
-            $("#exportSearchParams").attr("value", JSON.stringify(searchParamsFormat));
+            $("#exportSearchParams").attr("value", JSON.stringify(this.searchParamsFormat));
 
             if (searchParams.distributorIds) {
                 document.forms.exportExcellForm.submit();
