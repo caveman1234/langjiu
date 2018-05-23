@@ -39,7 +39,7 @@
             </el-table-column>
             <el-table-column prop="endDate" label="失效日期" width="130px">
                 <template slot-scope="scope">
-                    <div>{{scope.row.startDate | formatDate }}</div>
+                    <div>{{scope.row.endDate | formatDate }}</div>
                 </template>
             </el-table-column>
             <el-table-column prop="standedInside" label="标准计划内配额" width="130px">
