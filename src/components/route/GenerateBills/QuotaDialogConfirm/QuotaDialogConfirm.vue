@@ -51,6 +51,11 @@ export default {
       default() {
         return [];
       }
+    },
+    poTypeCode: {
+      default() {
+        return '';
+      }
     }
   },
   data() {
@@ -73,6 +78,7 @@ export default {
       //检查配额
       let params = {
         isQuota: isQuota,
+        poTypeCode:this.poTypeCode,
         distributorId: this.$store.state.customerId,
         purchaseOrderItems: this.goodsData.map(v => ({ ...v, basePrice: v.basicPrice }))
       }
@@ -90,6 +96,10 @@ export default {
     },
     //配额检查计划内
     async checkInner() {
+      if(this.poTypeCode == ''){
+        this.$Notify({ title: '订单类型不能为空', type: 'warning' });
+        return;
+      }
       let resultInner = await this.checkQuotaInnerOuter(1);
       if (resultInner == true) {
         //计划内提交

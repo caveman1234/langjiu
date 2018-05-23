@@ -206,7 +206,7 @@ export default {
                 isNoticeSend: this.isNotice, //是否通知
                 sendDate: this.arriveDate && this.arriveDate.getTime(), //期望发货日期
                 remark: _this.remark, //备注
-                poTypeCode: this.carriageMethodCombo.find(v => v.id = this.carriageMethod).businessTypeCode,
+                poTypeCode: this.businessTypeCode,
                 poTypeId: this.carriageMethod,
                 eFeeUsedAmount: calcDataTable[0],
                 qFeeUsedAmount: calcDataTable[1],
@@ -408,7 +408,7 @@ export default {
                 sendDate: this.arriveDate && this.arriveDate.getTime(), //期望发货日期
                 remark: _this.remark, //备注
                 poTypeId: this.carriageMethod,
-                poTypeCode: this.carriageMethodCombo.find(v => v.id = this.carriageMethod).businessTypeCode,
+                poTypeCode: this.businessTypeCode,
                 eFeeUsedAmount: calcDataTable[0],
                 qFeeUsedAmount: calcDataTable[1],
                 fFeeUsedAmount: calcDataTable[2],
@@ -510,7 +510,7 @@ export default {
                 sendDate: this.arriveDate && this.arriveDate.getTime(), //期望发货日期
                 remark: _this.remark, //备注
                 poTypeId: this.carriageMethod,
-                poTypeCode: this.carriageMethodCombo.find(v => v.id = this.carriageMethod).businessTypeCode,
+                poTypeCode: this.businessTypeCode,
                 // eFeeUsedAmount: calcDataTable[0],
                 // qFeeUsedAmount: calcDataTable[1],
                 // fFeeUsedAmount: calcDataTable[2],
@@ -683,6 +683,24 @@ export default {
             // cashRest  现金余额：
             let currentPay = Number(this.totalMoney) + Number(this.billFooger.xType) + Number(this.billFooger.notXtype) - Number(this.useOffMoney);
             return currentPay.toFixed(2);
+        }
+    },
+    watch:{
+        carriageMethod(value){
+            let obj = this.carriageMethodCombo.find(v => v.value == value);
+            if (obj.businessTypeCode == "01") { //融资受控订单 03 销售订单01
+                this.isNoticeDisable = false;
+                this.isNotice = 1;
+                /* 融资订单状态 */
+                this.financingChecked = true;
+            } else {
+                this.isNoticeDisable = true;
+                this.isNotice = 1;
+                /* 融资订单状态 */
+                this.financingChecked = false;
+            }
+            let businessTypeCode = this.carriageMethodCombo.find(v => v.value == value).businessTypeCode;
+            this.businessTypeCode = businessTypeCode;
         }
     },
     mounted() {

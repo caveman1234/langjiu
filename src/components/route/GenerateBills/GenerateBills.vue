@@ -49,10 +49,14 @@
                             <div class="noticeName">订单类型:</div>
                         </el-col>
                         <el-col :span="5">
-                            <el-select @change="noticeChange" size="mini" v-model="carriageMethod" placeholder="请选择" style="width:100%;">
+                            <el-select size="mini" v-model="carriageMethod" placeholder="请选择" style="width:100%;">
                                 <el-option v-for="item in carriageMethodCombo" :key="item.value" :label="item.label" :value="item.value">
                                 </el-option>
                             </el-select>
+                            <!-- <el-select @change="noticeChange" size="mini" v-model="carriageMethod" placeholder="请选择" style="width:100%;">
+                                <el-option v-for="item in carriageMethodCombo" :key="item.value" :label="item.label" :value="item.value">
+                                </el-option>
+                            </el-select> -->
                         </el-col>
                         <el-col :span="2" style="line-height:30px;">
                             <div class="noticeName">发货要求：</div>
@@ -321,6 +325,7 @@
                                     :goodsData="goodsData"
                                     @plainInnerSubmit="plainInnerSubmit"
                                     @plainOutterSubmit="plainOutterSubmit"
+                                    :poTypeCode="businessTypeCode"
                                 />
                                 <!-- 融资订单只能提交，普通订单可用余额大于应付金额才能提交否则在线支付 -->
                                 <!-- <template v-if="businessTypeCode == '03'">
