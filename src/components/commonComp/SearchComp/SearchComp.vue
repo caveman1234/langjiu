@@ -200,13 +200,20 @@ export default {
                 return acc;
             }, {})
             let url = _this.serverUrl;
-            if(url.includes('/ocm-web/api/base/quota-customer-excel/getList')){
+            if (url.includes('/ocm-web/api/base/quota-customer-excel/getList')) {
                 delete paramsWrap.params.size;
+                delete paramsWrap.params.page;
             }
             //导出参数
-            this.searchParams = {...paramsWrap.params};
+            this.searchParams = { ...paramsWrap.params };
             delete this.searchParams.page;
             delete this.searchParams.size;
+            this.searchParams = Object.keys(this.searchParams).reduce((acc, key) => {
+                if (!(this.searchParams[key] === '' || this.searchParams[key] === null)) {
+                    acc[key] = this.searchParams[key];
+                }
+                return acc;
+            }, {})
             if (this.method == 'get') {
                 _this.$http.get(url, paramsWrap)
                     .then(res => _this.$emit('receiveData', res.data));
@@ -236,34 +243,34 @@ export default {
             } */
             let searchParams = Object.assign({}, this.searchParams);
             var searchParamsFormat = {};
-            // debugger
-            // Object.keys(searchParams).forEach(field => {
-            //     if (field == "distributorIds") {
-            //         searchParamsFormat["search_EQ_distributor.id"] = searchParams.distributorIds;
-            //     }
-            //     var currentConfig = this.searchConfig.find(v => {
-            //         return v.field == field.replace(/(Begin$)|(End$)/g,'')
-            //     });
-            //     if (currentConfig) {
-            //         switch (currentConfig.type) {
-            //             case "input":
-            //                 searchParamsFormat[`search_LIKE_${field}`] = `%${searchParams[field]}%`;
-            //                 break;
-            //             case "datePickerRange":
-            //                 debugger
-            //                 searchParamsFormat[`search_GTE_${currentConfig.field}_date`] = `${searchParams[`${currentConfig.field}Begin`]}`;
-            //                 searchParamsFormat[`search_LT_${currentConfig.field}_date`] = `${searchParams[`${currentConfig.field}End`]}`;
-            //                 break;
-            //             case "select":
-            //                 searchParamsFormat[`search_EQ_${field}`] = `${searchParams[field]}`;
-            //                 break;
-            //         }
-            //     }
-            // });
-            // debugger
-            this.searchParamsFormat = JSON.stringify(searchParams);
+            Object.keys(searchParams).forEach(field => {
+                if (field == "distributorIds") {
+                    searchParamsFormat["search_EQ_distributor.id"] = searchParams.distributorIds;
+                }
+                if (field == "customerId") {
+                    searchParamsFormat["search_EQ_customer.id"] = searchParams.customerId;
+                }
+                var currentConfig = this.searchConfig.find(v => {
+                    return v.field == field.replace(/(Begin$)|(End$)/g,'')
+                });
+                if (currentConfig) {
+                    switch (currentConfig.type) {
+                        case "input":
+                            searchParamsFormat[`search_LIKE_${field}`] = `%${searchParams[field]}%`;
+                            break;
+                        case "datePickerRange":
+                            searchParamsFormat[`search_GTE_${currentConfig.field}_date`] = `${searchParams[`${currentConfig.field}Begin`]}`;
+                            searchParamsFormat[`search_LT_${currentConfig.field}_date`] = `${searchParams[`${currentConfig.field}End`]}`;
+                            break;
+                        case "select":
+                            searchParamsFormat[`search_EQ_${field}`] = `${searchParams[field]}`;
+                            break;
+                    }
+                }
+            });
+            // this.searchParamsFormat = JSON.stringify(searchParams);
             // $("#exportSearchParams").attr("value", JSON.stringify({ "search_EQ_distributor.id": searchParams.distributorIds }));
-            $("#exportSearchParams").attr("value", JSON.stringify(this.searchParamsFormat));
+            $("#exportSearchParams").attr("value", JSON.stringify(searchParamsFormat));
 
             if (searchParams.distributorIds) {
                 document.forms.exportExcellForm.submit();
