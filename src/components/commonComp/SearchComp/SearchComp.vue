@@ -232,48 +232,47 @@ export default {
         inputEnter(e) {
             this.search(e)
         },
-        //导出数据
-        exportData() {
-            /* var temp = {
-                "search_EQ_distributor.id": "171b88f4-b36b-4335-b756-0666acc41008",
-                "search_LIKE_orderCode": "%PO180514007%",
-                "search_GTE_orderDate_date": 1525795200000,
-                "search_LT_orderDate_date": 1528387200000,
-                "search_EQ_billStatus": "01"
-            } */
-            let searchParams = Object.assign({}, this.searchParams);
-            var searchParamsFormat = {};
-            Object.keys(searchParams).forEach(field => {
-                if (field == "distributorIds") {
-                    searchParamsFormat["search_EQ_distributor.id"] = searchParams.distributorIds;
-                }
-                if (field == "customerId") {
-                    searchParamsFormat["search_EQ_customer.id"] = searchParams.customerId;
-                }
-                var currentConfig = this.searchConfig.find(v => {
-                    return v.field == field.replace(/(Begin$)|(End$)/g,'')
-                });
-                if (currentConfig) {
-                    switch (currentConfig.type) {
-                        case "input":
-                            searchParamsFormat[`search_LIKE_${field}`] = `%${searchParams[field]}%`;
-                            break;
-                        case "datePickerRange":
-                            searchParamsFormat[`search_GTE_${currentConfig.field}_date`] = `${searchParams[`${currentConfig.field}Begin`]}`;
-                            searchParamsFormat[`search_LT_${currentConfig.field}_date`] = `${searchParams[`${currentConfig.field}End`]}`;
-                            break;
-                        case "select":
-                            searchParamsFormat[`search_EQ_${field}`] = `${searchParams[field]}`;
-                            break;
+        formatExportFields(obj = {}) {
+            let searchParams = this.searchParams;
+            var formatObj = {};
+            return Object.keys(obj).reduce((acc, customerField, i) => {
+                if (!(searchParams[customerField] === "" || searchParams[customerField] === null || searchParams[customerField] === undefined)) {
+                    let middleField = obj[customerField];
+                    if (middleField.includes("search_LIKE_")) {
+                        acc[middleField] = `%${searchParams[customerField]}%`;
+                    } else {
+                        acc[middleField] = searchParams[customerField];
                     }
                 }
-            });
-            // this.searchParamsFormat = JSON.stringify(searchParams);
-            // $("#exportSearchParams").attr("value", JSON.stringify({ "search_EQ_distributor.id": searchParams.distributorIds }));
+                return acc;
+            }, {})
+        },
+        //导出数据
+        exportData() {
+            let searchParams = this.searchParams;
+            let serverUrl = this.serverUrl;
+            let searchParamsFormat = {};
+            //销售订单导出
+            let saleOrderUrl = "/ocm-web/api/b2b/purchase-orders/search-all-orders";
+            if (serverUrl.includes(saleOrderUrl)) {
+                searchParamsFormat = this.formatExportFields({
+                    "customerId": "search_EQ_distributor.id",
+                    "orderDateBegin": "search_GTE_orderDate_date",
+                    "orderDateEnd": "search_LT_orderDate_date",
+                    "poTypeBusinessType": "search_IN_poType.code",
+                    "billStatusCode": "search_EQ_billStatus",
+                    "orderCode": "search_LIKE_orderCode",
+                });
+            }
+            debugger
+
+
+
             $("#exportSearchParams").attr("value", JSON.stringify(searchParamsFormat));
 
             if (searchParams.distributorIds) {
                 document.forms.exportExcellForm.submit();
+                $("#exportSearchParams").attr("value", "");
             }
 
 

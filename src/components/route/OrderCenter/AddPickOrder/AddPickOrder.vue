@@ -1,6 +1,7 @@
 <template>
     <div class="AddPickOrder">
         <SearchComp ref="searchRef"
+            
             :searchConfig="searchConfig"
             @receiveData="receiveData"
             :extralParams="extralParams"

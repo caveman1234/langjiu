@@ -1,7 +1,7 @@
 <template>
     <div class="TotalOrder">
         <SearchComp ref="searchRef"
-           
+            
             :searchConfig="searchConfig"
             @receiveData="receiveData"
             :extralParams="extralParams"

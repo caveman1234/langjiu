@@ -206,6 +206,7 @@ export default {
                 isNoticeSend: this.isNotice, //是否通知
                 sendDate: this.arriveDate && this.arriveDate.getTime(), //期望发货日期
                 remark: _this.remark, //备注
+                poTypeCode: this.carriageMethodCombo.find(v => v.id = this.carriageMethod).businessTypeCode,
                 poTypeId: this.carriageMethod,
                 eFeeUsedAmount: calcDataTable[0],
                 qFeeUsedAmount: calcDataTable[1],
@@ -407,6 +408,7 @@ export default {
                 sendDate: this.arriveDate && this.arriveDate.getTime(), //期望发货日期
                 remark: _this.remark, //备注
                 poTypeId: this.carriageMethod,
+                poTypeCode: this.carriageMethodCombo.find(v => v.id = this.carriageMethod).businessTypeCode,
                 eFeeUsedAmount: calcDataTable[0],
                 qFeeUsedAmount: calcDataTable[1],
                 fFeeUsedAmount: calcDataTable[2],
@@ -508,6 +510,7 @@ export default {
                 sendDate: this.arriveDate && this.arriveDate.getTime(), //期望发货日期
                 remark: _this.remark, //备注
                 poTypeId: this.carriageMethod,
+                poTypeCode: this.carriageMethodCombo.find(v => v.id = this.carriageMethod).businessTypeCode,
                 // eFeeUsedAmount: calcDataTable[0],
                 // qFeeUsedAmount: calcDataTable[1],
                 // fFeeUsedAmount: calcDataTable[2],
