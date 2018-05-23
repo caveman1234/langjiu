@@ -1,24 +1,53 @@
 <template>
     <div class="QuotaDialogDetail">
-        <el-dialog title="配额明细" @close="close" @open="open" :visible.sync="dialogVisible1" width="900px">
+        <el-dialog title="配额明细" @close="close" @open="open" :visible.sync="dialogVisible1" width="1000px">
             <el-table :data="tableData" border>
-                <el-table-column prop="rangeName" label="产品范围"></el-table-column>
-                <el-table-column prop="quotaName" label="配额类型"></el-table-column>
-                <el-table-column prop="totalInside" label="计划内配额合计">
+                <el-table-column prop="rangeName" label="产品范围"  width="130px"></el-table-column>
+                <el-table-column prop="quotaName" label="配额类型"  width="130px"></el-table-column>
+                <el-table-column prop="totalInside" label="计划内配额合计"  width="130px">
                     <template slot-scope="scope">
-                        <div>{{scope.row.totalInside | formatInOut }}</div>
+                        <div>{{scope.row.totalInside  }}</div>
                     </template>
                 </el-table-column>
-                <!-- <el-table-column prop="balanceInside" label="计划内配额剩余"></el-table-column> -->
-                <el-table-column prop="totalOut" label="计划外配额合计">
+                <el-table-column prop="accumulativeTotal" label="计划内累计执行数量" width="130px">
                     <template slot-scope="scope">
-                        <div>{{scope.row.totalOut | formatInOut }}</div>
+                        <div>{{scope.row.accumulativeTotal  }}</div>
                     </template>
                 </el-table-column>
-                <!-- <el-table-column prop="balanceOut" label="计划外配额剩余"></el-table-column> -->
-                <el-table-column prop="limitExcess" label="超额上限（万元）">
+                <el-table-column prop="accumulativeAmount" label="计划内累计执行金额" width="130px">
                     <template slot-scope="scope">
-                        <div>{{scope.row.limitExcess | formatInOut }}</div>
+                        <div>{{scope.row.accumulativeAmount  }}</div>
+                    </template>
+                </el-table-column>
+                <el-table-column prop="residueInside" label="计划内配额剩余" width="130px">
+                    <template slot-scope="scope">
+                        <div>{{scope.row.residueInside  }}</div>
+                    </template>
+                </el-table-column>
+                <el-table-column prop="totalOut" label="计划外配额合计"  width="130px">
+                    <template slot-scope="scope">
+                        <div>{{scope.row.totalOut  }}</div>
+                    </template>
+                </el-table-column>
+                <el-table-column prop="accumulativeTotal_out" label="计划外累计执行数量" width="130px">
+                    <template slot-scope="scope">
+                        <div>{{scope.row.accumulativeTotal_out  }}</div>
+                    </template>
+                </el-table-column>
+                <el-table-column prop="accumulativeAmount_out" label="计划外累计执行金额" width="130px">
+                    <template slot-scope="scope">
+                        <div>{{scope.row.accumulativeAmount_out  }}</div>
+                    </template>
+                </el-table-column>
+                <el-table-column prop="residueOut" label="计划外配额剩余" width="130px">
+                <template slot-scope="scope">
+                    <div>{{scope.row.residueOut  }}</div>
+                </template>
+                </el-table-column>
+                
+                <el-table-column prop="limitExcess" label="超额上限（万元）"  width="130px">
+                    <template slot-scope="scope">
+                        <div>{{scope.row.limitExcess  }}</div>
                     </template>
                 </el-table-column>
             </el-table>

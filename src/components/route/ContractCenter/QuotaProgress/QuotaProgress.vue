@@ -21,7 +21,7 @@
             <el-table-column prop="totalMny" label="合同量(万元)" width="130px">
               <template slot-scope="scope">
                     <div>
-                        {{scope.row.totalMny |formatInOut }}
+                        {{scope.row.totalMny  }}
                     </div>
                 </template>
             </el-table-column>
@@ -44,37 +44,73 @@
             </el-table-column>
             <el-table-column prop="standedInside" label="标准计划内配额" width="130px">
                 <template slot-scope="scope">
-                    <div>{{scope.row.standedInside | formatInOut }}</div>
+                    <div>{{scope.row.standedInside  }}</div>
                 </template>
             </el-table-column>
             <el-table-column prop="adjustInside" label="调整计划内配额" width="130px">
                 <template slot-scope="scope">
-                    <div>{{scope.row.adjustInside | formatInOut }}</div>
+                    <div>{{scope.row.adjustInside  }}</div>
                 </template>
             </el-table-column>
             <el-table-column prop="totalInside" label="计划内配额合计" width="130px">
                 <template slot-scope="scope">
-                    <div>{{scope.row.totalInside | formatInOut }}</div>
+                    <div>{{scope.row.totalInside  }}</div>
+                </template>
+            </el-table-column>
+            <el-table-column prop="accumulativeTotal" label="计划内累计执行数量" width="130px">
+                <template slot-scope="scope">
+                    <div>{{scope.row.accumulativeTotal  }}</div>
+                </template>
+            </el-table-column>
+            <el-table-column prop="accumulativeAmount" label="计划内累计执行金额" width="130px">
+                <template slot-scope="scope">
+                    <div>{{scope.row.accumulativeAmount  }}</div>
+                </template>
+            </el-table-column>
+            <el-table-column prop="residueInside" label="计划内配额剩余" width="130px">
+                <template slot-scope="scope">
+                    <div>{{scope.row.residueInside  }}</div>
                 </template>
             </el-table-column>
             <el-table-column prop="standedOut" label="标准计划外配额" width="130px">
                 <template slot-scope="scope">
-                    <div>{{scope.row.standedOut | formatInOut }}</div>
+                    <div>{{scope.row.standedOut  }}</div>
                 </template>
             </el-table-column>
             <el-table-column prop="adjustOut" label="调整计划外配额" width="130px">
                 <template slot-scope="scope">
-                    <div>{{scope.row.adjustOut | formatInOut }}</div>
+                    <div>{{scope.row.adjustOut  }}</div>
                 </template>
             </el-table-column>
             <el-table-column prop="totalOut" label="计划外配额合计" width="130px">
               <template slot-scope="scope">
-                    <div>{{scope.row.totalOut | formatInOut }}</div>
+                    <div>{{scope.row.totalOut  }}</div>
               </template>
             </el-table-column>
+            <el-table-column prop="accumulativeTotal_out" label="计划外累计执行数量" width="130px">
+              <template slot-scope="scope">
+                    <div>{{scope.row.accumulativeTotal_out  }}</div>
+              </template>
+            </el-table-column>
+            <el-table-column prop="accumulativeAmount_out" label="计划外累计执行金额" width="130px">
+              <template slot-scope="scope">
+                    <div>{{scope.row.accumulativeAmount_out  }}</div>
+              </template>
+            </el-table-column>
+            <el-table-column prop="residueOut" label="计划外配额剩余" width="130px">
+              <template slot-scope="scope">
+                    <div>{{scope.row.residueOut  }}</div>
+              </template>
+            </el-table-column>
+
+
+
+
+
+
             <el-table-column prop="limitExcess" label="超额上限(万元)" width="130px">
               <template slot-scope="scope">
-                    <div>{{scope.row.limitExcess | formatInOut }}</div>
+                    <div>{{scope.row.limitExcess  }}</div>
               </template>
             </el-table-column>
             <el-table-column prop="remark" label="备注" width="130px"></el-table-column>

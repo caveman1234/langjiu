@@ -16,7 +16,7 @@
       <el-dialog
         :close-on-press-escape="false"
         :close-on-click-modal="false"
-        width="400px"
+        width="800px"
         title="计划外" 
         :visible.sync="visiableOuter"
         append-to-body>
