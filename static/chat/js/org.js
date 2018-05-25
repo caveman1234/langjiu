@@ -4,6 +4,7 @@
 define(['sys_config', "EJS", "EJSObj", "webim_chat_template"], function (sys_config, EJS, EJSObj, chat) {
 
     var orgdata;
+    //+++
     var getUsersByOrgid = function (orgid) {
         var dtd = $.Deferred();
         var params = {
@@ -18,21 +19,22 @@ define(['sys_config', "EJS", "EJSObj", "webim_chat_template"], function (sys_con
         });
         return dtd.promise();
     }
-    // var getUserByidSync = function (orgid) {
-    //     var params = {
-    //         qydata: "{orgcode:'" + orgid + "'}"
-    //     };
-    //     $.ajax({
-    //         type: "post",
-    //         url: sys_config.ApiBaseUrl + "api/getallorgandusers",
-    //         data: params,
-    //         async: true,
-    //         dataType: "json",
-    //         success: function (data) {
-    //             var data = data.data;
-    //         }
-    //     });
-    // }
+    /* var getUserByidSync = function (orgid) {
+        var params = {
+            qydata: "{orgcode:'" + orgid + "'}"
+        };
+        $.ajax({
+            type: "post",
+            url: sys_config.ApiBaseUrl + "api/getallorgandusers",
+            data: params,
+            async: true,
+            dataType: "json",
+            success: function (data) {
+                var data = data.data;
+            }
+        });
+    } */
+    //++++++
 
     function getOrgTree() {
         $.post(sys_config.ApiBaseUrl + "api/getUserinfo", { username: account.userName }, function (result) {
