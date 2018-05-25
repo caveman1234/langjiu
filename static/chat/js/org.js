@@ -70,6 +70,13 @@ define(['sys_config', "EJS", "EJSObj", "webim_chat_template"], function (sys_con
                     usersDoubleArr.forEach(function (arr) {
                         users = users.concat(arr);
                     });
+                    //去重
+                    var usersUSERNAME = users.map(function (v) {
+                        return v.USERNAME;
+                    });
+                    users = users.filter(function (v, i) {
+                        return usersUSERNAME.indexOf(v.USERNAME) === i;
+                    });
                     getUsers(users, result.data.roles);
                     //最后加载最近联系人
                     //获取最近联系人
