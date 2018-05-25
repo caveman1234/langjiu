@@ -1,6 +1,8 @@
 <template>
     <div class="PromiseCheck">
         <SearchComp ref="searchRef"
+            :canExport="true"
+            exportUrl="/ocm-web/api/depositDetailExport-excel/excelDataExport"
             :searchConfig="searchConfig"
             @receiveData="receiveData"
             serverUrl="/ocm-web/api/b2b/query-balance/queryDepositDetail" :disable11="true"></SearchComp>

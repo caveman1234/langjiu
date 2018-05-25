@@ -268,9 +268,12 @@ export default {
 
 
 
-            $("#exportSearchParams").attr("value", JSON.stringify(searchParamsFormat));
 
-            if (searchParams.distributorIds) {
+
+            $("#exportSearchParams").attr("value", JSON.stringify(this.searchParams));
+            // $("#exportSearchParams").attr("value", JSON.stringify(searchParamsFormat));
+
+            if (searchParams.customerId) {
                 document.forms.exportExcellForm.submit();
                 $("#exportSearchParams").attr("value", "");
             }

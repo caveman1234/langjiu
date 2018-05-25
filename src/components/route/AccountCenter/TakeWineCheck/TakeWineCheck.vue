@@ -1,6 +1,14 @@
 <template>
     <div class="TakeWineCheck">
-        <SearchComp ref="searchRef" :searchConfig="searchConfig" serverUrl="/ocm-web/api/b2b/query-balance/queryBorrowWineDetail" @receiveData="receiveData" :disable11="true"></SearchComp>
+        <SearchComp 
+            :canExport="true"
+            exportUrl="/ocm-web/api/borrowWineDetailExport-excel/excelDataExport"
+            ref="searchRef" 
+            :searchConfig="searchConfig" 
+            serverUrl="/ocm-web/api/b2b/query-balance/queryBorrowWineDetail" 
+            @receiveData="receiveData" 
+            :disable11="true">
+        </SearchComp>
         <div class="tableContainer">
             <el-table :data="tableData" border>
 

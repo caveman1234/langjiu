@@ -1,6 +1,14 @@
 <template>
     <div class="CostCheck">
-        <SearchComp ref="searchRef" :searchConfig="searchConfig" @receiveData="receiveData" serverUrl="/ocm-web/api/b2b/query-balance/getChargeDetail" :disable11="true"></SearchComp>
+        <SearchComp 
+            :canExport="true"
+            exportUrl="/ocm-web/api/chargeDetailExport-excel/excelDataExport"
+            ref="searchRef" 
+            :searchConfig="searchConfig" 
+            @receiveData="receiveData" 
+            serverUrl="/ocm-web/api/b2b/query-balance/getChargeDetail" 
+            :disable11="true">
+        </SearchComp>
         <div class="tableContainer">
             <el-table :data="tableData" border>
                 <el-table-column prop="dbilldate" label="日期"></el-table-column>

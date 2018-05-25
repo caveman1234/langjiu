@@ -50,8 +50,26 @@ export default {
         }
     },
     methods: {
-        msgItemClick(msgContent) {
+        fetchMsgItem(id) {
+            let paramsWrap = {
+                params: {
+                    id:id
+                }
+            }
+            let url = "/ocm-web/api/notice/queryById";
+            return this.$http.get(url, paramsWrap)
+                .then(res => {
+                    if(res.headers["x-ocm-code"] == '1'){
+                        return res.data;
+                    }else{
+                        return Promise.reject();
+                    }
+                });
+        },
+        async msgItemClick(item) {
             let _this = this;
+            let id = item.id;
+            let msgContent = await _this.fetchMsgItem(id);
             _this.$router.push({ name: 'MsgContent', params: { msgContent } });
         },
         receiveData(data) {

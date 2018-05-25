@@ -690,8 +690,8 @@ export default {
             let obj = this.carriageMethodCombo.find(v => v.value == value);
             if (obj.businessTypeCode == "01") { //融资受控订单 03 销售订单01
                 this.isNoticeDisable = false;
-                this.isNotice = 1;
-                /* 融资订单状态 */
+                // this.isNotice = 1;
+                /* 销售订单 */
                 this.financingChecked = true;
             } else {
                 this.isNoticeDisable = true;

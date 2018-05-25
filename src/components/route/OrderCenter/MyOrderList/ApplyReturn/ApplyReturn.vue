@@ -127,6 +127,7 @@ export default {
                 v.baseQuantity = v.baleQuantity * v.packageNum
             });
             params.poTypeId = _this.carriageMethod;
+            debugger
             let url = '/ocm-web/api/b2b/purchase-orders/returnChange-submit';
             let defaultMsg = '<div>此操作不可逆，是否提交？</div>';
             if (_this.calcTotalMoney() < 200000) {

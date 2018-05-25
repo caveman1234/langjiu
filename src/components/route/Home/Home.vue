@@ -71,19 +71,37 @@ export default {
                 require('../../../assets/images/banner3.jpg'),
                 require('../../../assets/images/banner4.jpg'),
             ],
-            budge:{
-                commonOrderNum:0,//待审核订单
-                sendApplyOrderNum:0,//待发货申请单
-                returnChangeOrderNum:0,//待审核退换货申请
-                feeOrderOrderNum:0,//待审核费用
+            budge: {
+                commonOrderNum: 0,//待审核订单
+                sendApplyOrderNum: 0,//待发货申请单
+                returnChangeOrderNum: 0,//待审核退换货申请
+                feeOrderOrderNum: 0,//待审核费用
             }
         }
     },
 
     methods: {
         handleClick() { },
-        msgItemClick(msgContent) {
+        fetchMsgItem(id) {
+            let paramsWrap = {
+                params: {
+                    id:id
+                }
+            }
+            let url = "/ocm-web/api/notice/queryById";
+            return this.$http.get(url, paramsWrap)
+                .then(res => {
+                    if(res.headers["x-ocm-code"] == '1'){
+                        return res.data;
+                    }else{
+                        return Promise.reject();
+                    }
+                });
+        },
+         async msgItemClick(item) {
             let _this = this;
+            let id = item.id;
+            let msgContent = await _this.fetchMsgItem(id);
             _this.$router.push({ name: 'MsgContent', params: { msgContent } });
         },
         lookMore() {
@@ -114,11 +132,11 @@ export default {
             this.$router.push({ name: 'ReturnWaitCheck', params: { from: 'ReturnList' } });
         },
         //待审核费用
-        willCheckFee(){
+        willCheckFee() {
             this.$router.push({ name: 'WaitAuditCheck', params: { to: 'WaitAuditCheck' } });
         },
         //获取待审核订单数量
-        fetchCount(){
+        fetchCount() {
             // /ocm-web/api/b2b/purchase-orders/countUnSendedAmountByCustomerId
             let _this = this;
             let url = '/ocm-web/api/b2b/purchase-orders/countOrderByCustomerId';
@@ -127,8 +145,8 @@ export default {
                     customerId: this.$store.state.customerId
                 }
             }
-            _this.$http.get(url,paramsWrap)
-                .then(res=>{
+            _this.$http.get(url, paramsWrap)
+                .then(res => {
                     _this.budge.commonOrderNum = res.data.commonOrderNum;
                     _this.budge.sendApplyOrderNum = res.data.sendApplyOrderNum;
                     _this.budge.returnChangeOrderNum = res.data.returnChangeOrderNum;

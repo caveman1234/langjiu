@@ -1,6 +1,13 @@
 <template>
     <div class="WaitAuditCheck">
-        <SearchComp ref="searchRef" :searchConfig="searchConfig" @receiveData="receiveData" serverUrl="/ocm-web/api/b2b/query-balance/queryUnApproveCharge"></SearchComp>
+        <SearchComp 
+            :canExport="true"
+            exportUrl="/ocm-web/api/unApproveChargeDetailExport-excel/excelDataExport"
+            ref="searchRef" 
+            :searchConfig="searchConfig" 
+            @receiveData="receiveData" 
+            serverUrl="/ocm-web/api/b2b/query-balance/queryUnApproveCharge">
+        </SearchComp>
         <div class="tableContainer">
             <el-table :data="tableData" border>
                 <el-table-column prop="billcode" label="单据编号"></el-table-column>

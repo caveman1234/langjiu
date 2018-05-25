@@ -1,6 +1,15 @@
 <template>
     <div class="ReturnTotal">
-        <SearchComp ref="searchRef" :searchConfig="searchConfig" @receiveData="receiveData" :extralParams="extralParams" method="post" serverUrl="/ocm-web/api/b2b/purchase-orders/search-all-orders"></SearchComp>
+        <SearchComp 
+            :canExport="true"
+            exportUrl="/ocm-web/api/purchaseOrderExport-excel/excelDataExport"
+            ref="searchRef" 
+            :searchConfig="searchConfig" 
+            @receiveData="receiveData" 
+            :extralParams="extralParams" 
+            method="post" 
+            serverUrl="/ocm-web/api/b2b/purchase-orders/search-all-orders">
+        </SearchComp>
         <ReturnDeliverTable :orderData="orderData"></ReturnDeliverTable>
         <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="pageParams.pageIndex" :page-sizes="[10, 20, 50, 100]" :page-size="pageParams.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="pageParams.total" prev-text="上一页" next-text="下一页">
         </el-pagination>
