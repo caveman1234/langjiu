@@ -45,6 +45,7 @@
                         </div>
                     </template>
                 </el-table-column>
+                <el-table-column prop="refusalReason" label="意见"></el-table-column>
                 <el-table-column prop="" label="操作" min-width="250px">
                     <template slot-scope="scope">
                         <div>
