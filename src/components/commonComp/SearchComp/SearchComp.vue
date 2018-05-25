@@ -41,18 +41,18 @@
             </el-row>
         </el-form>
         <el-row type="flex" class="row-bg" justify="end">
-            <!-- <el-popover
+            <el-popover
                 placement="top"
-                width="200"
+                width="150"
                 v-model="exportVisiable">
-                <p>是否导出符合当前查询条件的全部数据?</p>
+                <p>是否导出当前查询到的数据?</p>
                 <div style="text-align: right; margin: 0">
                     <el-button size="mini" type="text" @click="exportVisiable = false">取消</el-button>
                     <el-button type="primary" size="mini" @click="exportData">确定</el-button>
                 </div>
                 <el-button v-show="canExport" size="mini" slot="reference" style="margin-right:10px;">导出</el-button>
-            </el-popover> -->
-            <el-button v-show="canExport" type="plain" size="mini" @click="exportData">导出</el-button>
+            </el-popover>
+            <!-- <el-button v-show="canExport" type="plain" size="mini" @click="exportData">导出</el-button> -->
             <el-button @click="reset" size="mini">清空</el-button>
             <el-button @click="search" type="primary" size="mini">搜索</el-button>
         </el-row>
@@ -249,6 +249,7 @@ export default {
         },
         //导出数据
         exportData() {
+            this.exportVisiable = false;
             let searchParams = this.searchParams;
             let serverUrl = this.serverUrl;
             let searchParamsFormat = {};
