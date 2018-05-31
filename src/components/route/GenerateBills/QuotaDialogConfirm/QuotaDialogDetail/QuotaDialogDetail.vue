@@ -2,6 +2,11 @@
     <div class="QuotaDialogDetail">
         <el-dialog title="配额明细" @close="close" @open="open" :visible.sync="dialogVisible1" width="1000px">
             <el-table :data="tableData" border>
+                <el-table-column prop="isEnable" label="是否生效"  width="130px">
+                    <template slot-scope="scope">
+                        <div>{{scope.row.isEnable == 1 ? "是" : "否"  }}</div>
+                    </template>
+                </el-table-column>
                 <el-table-column prop="rangeName" label="产品范围"  width="130px"></el-table-column>
                 <el-table-column prop="quotaName" label="配额类型"  width="130px"></el-table-column>
                 <el-table-column prop="totalInside" label="计划内配额合计"  width="130px">

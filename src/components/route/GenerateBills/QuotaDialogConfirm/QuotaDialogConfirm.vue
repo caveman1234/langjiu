@@ -36,6 +36,28 @@
         <el-button @click="checkOutter" size="mini" type="primary">继续提交</el-button>
       </div>
     </el-dialog>
+
+
+
+      <el-dialog
+        :close-on-press-escape="false"
+        :close-on-click-modal="false"
+        width="800px"
+        title="无配额" 
+        :visible.sync="visiableCanNotSubmit">
+          <div class="quotadialogOuterContainer">
+            <el-row>
+              {{canNotSubmitMsg}}
+            </el-row>
+          </div>
+          <div slot="footer" class="dialog-footer">
+            <el-button @click="outterCancel" size="mini">关 闭</el-button>
+            <el-button @click="returnEdit" size="mini" type="primary">返回修改</el-button>
+          </div>
+      </el-dialog>
+
+
+
     <QuotaDialogDetail
       :dialogVisible.sync="dialogVisible"
     />
@@ -64,8 +86,10 @@ export default {
       isQuota: 1,//1计划内价格 0计划外价格
       visiableInner: false,//计划内弹框
       visiableOuter: false,//计划外
+      visiableCanNotSubmit: false,//不能提交
       innerMessage: '',
-      outterMessage: ''
+      outterMessage: '',
+      canNotSubmitMsg: ''
     }
   },
   methods: {
@@ -78,7 +102,7 @@ export default {
       //检查配额
       let params = {
         isQuota: isQuota,
-        poTypeCode:this.poTypeCode,
+        poTypeCode: this.poTypeCode,
         distributorId: this.$store.state.customerId,
         purchaseOrderItems: this.goodsData.map(v => ({ ...v, basePrice: v.basicPrice }))
       }
@@ -86,22 +110,25 @@ export default {
         .then(res => {
           if (res.headers["x-ocm-code"] == '1') {
             if (res.data.state == "1") {
-              return true;
-            } else {
+              return "1";
+            } else if (res.data.state == "2") {
               isQuota == 1 ? this.innerMessage = res.data.mesage : this.outterMessage = res.data.mesage;
-              return false;
+              return "2";
+            } else if (res.data.state == "3") {
+              this.canNotSubmitMsg = res.data.mesage;
+              return "3";
             }
           }
         });
     },
     //配额检查计划内
     async checkInner() {
-      if(this.poTypeCode == ''){
+      if (this.poTypeCode == '') {
         this.$Notify({ title: '订单类型不能为空', type: 'warning' });
         return;
       }
       let resultInner = await this.checkQuotaInnerOuter(1);
-      if (resultInner == true) {
+      if (resultInner == "1") {
         //计划内提交
         this.$confirm('此操作不可逆，是否提交？', '提交', {
           confirmButtonText: '确定',
@@ -111,14 +138,17 @@ export default {
         }).then(() => {
           this.$emit("plainInnerSubmit");
         }).catch(() => { });
-      } else if (resultInner == false) {
+      } else if (resultInner == "2") {
         this.visiableInner = true;
+      } else if (resultInner == "3") {
+        this.visiableCanNotSubmit = true;
+        return "3";
       }
     },
     //配额检查计划外
     async checkOutter() {
       let resultOutter = await this.checkQuotaInnerOuter(0);
-      if (resultOutter == true) {
+      if (resultOutter == "1") {
         //计划外提交
         this.$confirm('此操作不可逆，是否提交？', '提交', {
           confirmButtonText: '确定',
@@ -129,7 +159,7 @@ export default {
           this.$emit("plainOutterSubmit");
         }).catch(() => { });
 
-      } else if (resultOutter == false) {
+      } else if (resultOutter == "2") {
         //不能下订单
         this.visiableOuter = true;
         // this.$Notify({ title: '计划外额度不够不能下单', type: 'warning' });
@@ -144,6 +174,7 @@ export default {
     outterCancel() {
       this.visiableOuter = false;
       this.visiableInner = false;
+      this.visiableCanNotSubmit = false;
     },
     //计划内取消
     innerCancel() {
