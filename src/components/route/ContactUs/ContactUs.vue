@@ -20,7 +20,7 @@ export default {
     components: {},
     data() {
         return {
-
+            inpExt:'123456',
         }
     },
     methods: {
