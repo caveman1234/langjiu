@@ -16,7 +16,7 @@
                     </div>
                 </a>           
                 <div class="right">
-                    <span>欢迎:{{$store.state.userloginName}}</span>
+                    <span>欢迎:{{userloginName}}</span>
                     <a @click="logOut">注销</a>
                     <a @click="changePwd">修改密码</a>
                 </div>
@@ -193,6 +193,9 @@ export default {
         ...mapState({
             navList(state) {
                 return state.navList
+            },
+            userloginName(state){
+                return state.userloginName;
             }
         })
     },

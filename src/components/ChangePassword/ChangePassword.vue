@@ -28,6 +28,13 @@
                                         slot="prefix"></i>
                                 </el-input>
                             </el-form-item>
+                            <el-form-item label="旧密码：" prop="oldPassword">
+                                <el-input
+                                    type="password"
+                                    v-model="loginForm.oldPassword">
+                                    <i class="icon iconfont lj-password" slot="prefix"></i>
+                                </el-input>
+                            </el-form-item>
                             <el-form-item label="新密码："
                                 prop="password">
                                 <el-input @keyup.native.enter="changePwd('ruleForm2')"
@@ -92,10 +99,14 @@ export default {
             loginForm: {
                 username: '',
                 password: '',
+                oldPassword: '',
                 rePassword: ''
             },
             rules: {
                 username: [
+                    { validator: userNameV },
+                ],
+                oldPassword: [
                     { validator: userNameV },
                 ],
                 password: [
@@ -116,6 +127,7 @@ export default {
                     let params = {
                         username: _this.loginForm.username,
                         newPassword: _this.loginForm.password,
+                        oldPassword: _this.loginForm.oldPassword,
                         customerId: _this.$store.state.customerId
                     };
                     _this.$http({
@@ -136,10 +148,7 @@ export default {
                                 duration: 3000
                             });
                             _this.$router.push({ name: 'Login' });
-
-
                         }
-
                     });
                 } else {
                     console.log('error submit!!');
