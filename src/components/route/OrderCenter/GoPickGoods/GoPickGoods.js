@@ -55,8 +55,8 @@ export default {
             //订单头
             billHeader: {},
             //支付loading状态
-            isPayOnlineLoading:false,
-            dialogVisible:false,
+            isPayOnlineLoading: false,
+            dialogVisible: false,
             bankDataSource1: [
                 {
                     name: "中国农业银行",
@@ -314,7 +314,7 @@ export default {
         //调用民生银行接口支付
         payOnlineCmbc(billNO) { },
         //去融资
-        goFinancing() {},
+        goFinancing() { },
 
         /* 修改 */
         edit() {
@@ -435,7 +435,7 @@ export default {
                             _this.$router.push({ name: 'TotalOrder' });
                         }
                     });
-            }).catch(() => {});
+            }).catch(() => { });
         },
         /* 获取订单类型  */
         fetchOrderType() {
@@ -510,7 +510,37 @@ export default {
             if (value == 1) {
                 // _this.$Notify({ title: '待通知发货', type: 'warning' });
             }
-        }
+        },
+        /* 获取收货地址 */
+        fetchAddress() {
+            let _this = this;
+            let paramsWrap = {
+                params: {
+                    customerId: this.$store.state.customerId
+                }
+            }
+            _this.$http.get('/ocm-web//api/base/customer/get-addr-List', paramsWrap)
+                .then(res => {
+                    let infoData = res.data.map((v, i) => {
+                        var receiveAddressId = this.addressObj.receiveAddressId;
+                        let obj = {
+                            firstReceiver: v.firstReceiver,
+                            firstReceiverPhone: v.firstReceiverPhone,
+                            addressDetail: v.addressDetail,
+                            id: v.id,
+                            isSelected:(v.id == receiveAddressId)
+                        }
+                        // if (i == 0) {
+                            
+                        //     obj.isSelected = true;
+                        // } else {
+                        //     obj.isSelected = false;
+                        // }
+                        return obj;
+                    });
+                    _this.infoData = infoData.map(v => ({ ...v, receiveAddressId: v.id }));
+                })
+        },
     },
     computed: {
         /* 订单总金额 */
@@ -533,7 +563,8 @@ export default {
             // cashRest  现金余额：
             let currentPay = Number(this.totalMoney) + Number(this.billFooger.xType) + Number(this.billFooger.notXtype) - Number(this.useOffMoney);
             return currentPay.toFixed(2);
-        }
+        },
+        
     },
     mounted() {
         let _this = this;
@@ -547,7 +578,7 @@ export default {
             //藏品产品线为空，不计算费用
             if (_this.$store.state.prodGroupId) {
                 _this.$refs.costOffRef.confirm(true);
-            }else{
+            } else {
                 _this.$refs.costOffRef.confirm(true);
             }
         });
@@ -560,7 +591,8 @@ export default {
             receiveAddressId: billHeader.receiveAddressId,
             isSelected: true
         };
-        this.infoData = [this.addressObj];
+        // this.infoData = [this.addressObj];
+        this.fetchAddress();
         this.billHeader = billHeader;
     }
 }
