@@ -99,11 +99,11 @@ export default {
       _this.$refs.searchRef.search(params);
     },
     //编辑
-    edit(row){
+    edit(row) {
       let dataId = row.dataid;
       let templateId = row.templateId;
       let url = "https://pro.formtalk.net/w.do";
-      
+
       let openUrl = `${url}?f=${templateId}&d=${dataId}&v=EDIT`;
       window.open(openUrl);
     },
@@ -120,13 +120,14 @@ export default {
       let templateId = row.templateId;
       let url = "https://pro.formtalk.net/w.do";
       let id = row.id;
-      
       let agencyCode = row.agencyCode;//办事处编码
       let agencyName = row.agencyName;//办事处名称
       let cityCode = row.cityCode;//城市编码
       let cityName = row.cityName;//城市名称
       let divisionCode = row.divisionCode;//事业部编码
       let divisionName = row.divisionName;//事业部名称
+      let customerCode = this.$store.state.username;
+      let customerName = this.$store.state.userloginName;
       let data4Display = {
         tempId: id,
         agencyCode,
@@ -135,6 +136,8 @@ export default {
         cityName,
         divisionCode,
         divisionName,
+        customerCode,
+        customerName
       };
       debugger
       let openUrl = `${url}?f=${templateId}&data4Display=${encodeURIComponent(JSON.stringify(data4Display))}`;
