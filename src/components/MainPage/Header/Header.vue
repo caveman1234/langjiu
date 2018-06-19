@@ -16,6 +16,7 @@
                     </div>
                 </a>           
                 <div class="right">
+                    <a style="cursor:pointer;text-decoration: none;" target="_blank" href="./static/operationManual/operationManual.htm">操作手册</a>
                     <span>欢迎:{{userloginName}}</span>
                     <a @click="logOut">注销</a>
                     <a @click="changePwd">修改密码</a>
