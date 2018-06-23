@@ -65,9 +65,14 @@
                         <p>件数：{{ Math.abs(scope.row.baleQuantity) }}件</p>
                     </template>
                 </el-table-column>
+                <el-table-column prop="baleQuantity" label="是否赠品">
+                    <template slot-scope="scope">
+                        <p>{{scope.row.isGift == 1 ? "是" : "否"}}</p>
+                    </template>
+                </el-table-column>
                 <el-table-column prop="" label="操作">
                     <template slot-scope="scope">
-                        <div class="handle">
+                        <div class="handle" v-if="scope.row.isGift === 0">
                             <i @click="delOneRow(scope.row)" class="el-icon-delete"></i>
                         </div>
                     </template>
@@ -106,9 +111,14 @@ export default {
             });
         },
         //删除一行
-        delOneRow({ id }) {
+        delOneRow({ productId }) {
             let _this = this;
-            _this.infoData.purchaseOrderItems = _this.infoData.purchaseOrderItems.filter(v => v.id !== id);
+            _this.infoData.purchaseOrderItems = _this.infoData.purchaseOrderItems.filter(v => {
+                return v.productId !== productId;
+            });
+            _this.infoData.purchaseOrderItems = _this.infoData.purchaseOrderItems.filter(v => {
+                return v.promotionProducId !== productId ;
+            });
         },
         submitApply() {
             let _this = this;

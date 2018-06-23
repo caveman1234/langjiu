@@ -84,44 +84,7 @@ let infoData = {
     carrayMethod: '快递',
     expectDate: '2017-01-01',
     address: '四川省成都市双流区麓湖生态城1980号',
-    goodsList: [
-        {
-            goodsImg: "src/assets/goodsItem.png",
-            "brief": "1郎酒红花郎10 53度酱香500度酱香500度酱香500度酱香500",
-            orderTotalNum: 1000,
-            diliverNum: 2000,
-            restDiliverNum: 3000,
-            volume: 500,
-            strength: 50,
-            applyNum: 101,
-            applySendNum: 201.00,
-            price: 10,
-        },
-        {
-            goodsImg: "src/assets/goodsItem.png",
-            "brief": "2郎酒红花郎10 53度酱香500度酱香500度酱香500度酱香500",
-            orderTotalNum: 1000,
-            diliverNum: 2000,
-            restDiliverNum: 3000,
-            volume: 500,
-            strength: 50,
-            applyNum: 101,
-            applySendNum: 201.00,
-            price: 11,
-        },
-        {
-            goodsImg: "src/assets/goodsItem.png",
-            "brief": "3郎酒红花郎10 53度酱香500度酱香500度酱香500度酱香500",
-            orderTotalNum: 1000,
-            diliverNum: 2000,
-            restDiliverNum: 3000,
-            volume: 500,
-            strength: 50,
-            applyNum: 101,
-            applySendNum: 201.00,
-            price: 12,
-        }
-    ]
+    goodsList: []
 };
 export default {
     name: 'ApplyReturn',

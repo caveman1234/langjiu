@@ -99,7 +99,6 @@ export default {
         },
         /* 使用折扣金额 */
         CostOffEvent(calcMoney, useOffMoney, calcDataTable, cashSettlementNumBottle) {
-            debugger
             let _this = this;
             _this.calcMoney = calcMoney;
             _this.calcDataTable = calcDataTable;
@@ -294,7 +293,6 @@ export default {
                 //     }
                 // ]
             };
-            debugger
             let sreverUrl = '/ocm-web/api/abc/quickPay';
             _this.$http.post(sreverUrl, params)
                 .then(res => {
@@ -436,12 +434,12 @@ export default {
                     if (!v.giftId || v.giftAmout === 0) {
                         continue;
                     }
-
                     let productInfo = await this.fetchProductById(v.giftId);
                     let obj = {
                         isGift: this.isGiftBills ? 1 : 0,//是否赠品
 
                         // promotionPrice: productInfo.basePrice ,//赠品价格？？
+                        promotionProducId:v.promotionProducId,
 
                         productId: v.giftId,
                         promotionNum: v.promotionNum,
@@ -796,10 +794,12 @@ export default {
                                 var giftName = currentRowGiftObj.giftName;
                                 var giftAmout = currentRowGiftObj.giftAmout;
                                 var promotionNum = currentRowGiftObj.promotionNum;
+                                var promotionProducId = currentRowGiftObj.promotionProducId;
                                 //展示明细
                                 currentObj.giftId = giftId;
                                 currentObj.giftName = giftName;
                                 currentObj.giftAmout = giftAmout;
+                                currentObj.promotionProducId = promotionProducId;
 
                                 currentObj.promotionNum = promotionNum;
                             }
