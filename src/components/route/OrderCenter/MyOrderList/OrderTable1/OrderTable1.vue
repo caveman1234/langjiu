@@ -112,7 +112,7 @@
                 </div>
                 <el-table :data="item.purchaseOrderItems" border style="width: 100%">
                     <el-table-column prop="srcBillCode" label="来源单据号" v-if="item.poTypeCode == '04'"></el-table-column>
-                    <el-table-column prop="productDesc" label="商品详情" width="200">
+                    <el-table-column prop="productDesc" label="商品详情" width="220">
                         <template slot-scope="scope">
                             <div class="detailContainer">
                                 <div :style='{"backgroundImage":`url(${scope.row.imageUrl || defaultImg})`}' class="goodsImg"></div>
@@ -120,7 +120,7 @@
                             </div>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="" label="规格" min-width="90">
+                    <el-table-column prop="" label="规格" min-width="120">
                         <template slot-scope="scope">
                             <div class="standard">
                                 <div>容量：{{scope.row.standard}}ml</div>
@@ -183,7 +183,7 @@
                         <el-table-column prop="isGift" label="是否赠品">
                             <template slot-scope="scope">
                                 <div>
-                                    {{isGift === 1 ? "是" : "否"}}
+                                    {{scope.row.isGift === 1 ? "是" : "否"}}
                                 </div>
                             </template>
                         </el-table-column>

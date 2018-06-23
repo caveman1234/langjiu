@@ -76,7 +76,7 @@ export default {
     props: ["goodsData", "totalMoney"],
     data() {
         let _this = this;
-        let useOffMoneyCheck = function(rule, value, callback) {
+        let useOffMoneyCheck = function (rule, value, callback) {
 
             let validateValue = Number(value);
             let isNotNum = Number.isNaN(validateValue);
@@ -215,7 +215,7 @@ export default {
                     fundPrice: v.fundPrice
                 }
             });
-            
+
             let paramsWrap = {
                 saleChannelCode: '00',
                 distributorId: this.$store.state.customerId,
@@ -242,9 +242,9 @@ export default {
             return String(Math.min(maxUsed, moneyRest).toFixed(2));
         },
         //最大使用额度
-        maxUseRest(){
+        maxUseRest() {
             //最大使用额
-            let maxUse = Number(this.totalMoney*this.ratio).toFixed(2);
+            let maxUse = Number(this.totalMoney * this.ratio).toFixed(2);
             //费用余额
             let moneyRest = Number(this.moneyRest);
             return Number(maxUse > moneyRest ? moneyRest : maxUse).toFixed(2);
@@ -257,6 +257,6 @@ export default {
 }
 </script>
 <style lang="scss">
-@import './CostOff.scss';
+@import "./CostOff.scss";
 </style>
 

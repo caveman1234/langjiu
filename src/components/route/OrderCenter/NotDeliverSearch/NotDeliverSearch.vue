@@ -36,7 +36,7 @@
             <el-table-column prop="isGift" label="是否赠品">
                 <template slot-scope="scope">
                     <div>
-                        {{isGift === 1 ? "是" : "否"}}
+                        {{scope.row.isGift === 1 ? "是" : "否"}}
                     </div>
                 </template>
             </el-table-column>

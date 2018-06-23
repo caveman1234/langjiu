@@ -192,7 +192,7 @@ export default {
                     .filter(v => (v.presentScheme || []).length === 0)
                     .map(v => `【${v.productDesc}】`)
                     .join(",");
-                this.$Notify({ title: `${errorMsg}没有参与赠品，请不要混合下单`, type: 'warning' });
+                this.$Notify({ title: `${errorMsg}无配赠产品,不能合并下单，请修改！`, type: 'warning' });
                 return false;
             }
         },

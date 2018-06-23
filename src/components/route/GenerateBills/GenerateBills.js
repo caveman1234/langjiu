@@ -72,7 +72,7 @@ export default {
                 // }
             ],
             isQuota: 1,
-            isGiftBills:false,//是否是赠品组合
+            isGiftBills: false,//是否是赠品组合
         }
     },
     methods: {
@@ -98,7 +98,8 @@ export default {
 
         },
         /* 使用折扣金额 */
-        CostOffEvent(calcMoney, useOffMoney, calcDataTable) {
+        CostOffEvent(calcMoney, useOffMoney, calcDataTable, cashSettlementNumBottle) {
+            debugger
             let _this = this;
             _this.calcMoney = calcMoney;
             _this.calcDataTable = calcDataTable;
@@ -121,8 +122,16 @@ export default {
             _this.billFooger.notXtype = calcMoney.reduce((acc, v) => (acc + v.fundFee), 0).toFixed(2);
             _this.billFooger.deductionMoney = calcMoney.reduce((acc, v) => (acc + v.discountAmount), 0).toFixed(2);
             _this.fetchCashRest().then(cashRest => _this.billFooger.cashRest = Number(cashRest).toFixed(2));
+            //使用费用后计算现金结算金额
+            calcMoney.forEach(v => {
+                let productId = v.productId;
+                var goodsCurObj = this.goodsData.find(v => v.productId === productId);
+                var packageNum = goodsCurObj.packageNum;
+                var cashSettlementNum = (v.dealAmount/(v.basePrice * goodsCurObj.packageNum)).toFixed(2);
+                goodsCurObj.cashSettlementNum = cashSettlementNum;
+            })
             //使用费用后重新计算配赠
-            // _this.fetchPresentScheme();
+            _this.fetchPresentScheme();
         },
         /* 在线支付 */
         payOnline() {
@@ -330,8 +339,23 @@ export default {
                 _this.submitNormal();
             }
         },
+        //根据id获取产品
+        fetchProductById(productId) {
+            var paramsWrap = {
+                params: { productId }
+            }
+            var url = "/ocm-web/api/base/products/getProdDetailNew"
+            return this.$http.get(url, paramsWrap)
+                .then(res => {
+                    if (res.headers["x-ocm-code"] == '1') {
+                        return res.data;
+                    } else {
+                        return {};
+                    }
+                })
+        },
         //提交普通销售订单
-        submitNormal() {
+        async submitNormal() {
             let _this = this;
             /* 验证收获地址为空 */
             if (_this.infoData.length == 0) {
@@ -362,6 +386,7 @@ export default {
                     var { discountAmount, dealAmount, fundAmount, fundFee, fundCash, realAmount } = currentObj;
                 }
                 return {
+                    isGift: 0,//是否赠品
                     productId: v.productId,
                     productCode: v.productCode,
                     productName: v.productName,
@@ -402,6 +427,59 @@ export default {
                     realAmount: realAmount,
                 }
             });
+            //如果是有赠品
+            if (this.isGiftBills) {
+                let giftItems = [];
+                for (let i = 0; i < this.goodsData.length; i++) {
+                    let v = this.goodsData[i];
+                    //如果没有赠品，或数量为0，不生成订单
+                    if (!v.giftId || v.giftAmout === 0) {
+                        continue;
+                    }
+
+                    let productInfo = await this.fetchProductById(v.giftId);
+                    let obj = {
+                        isGift: this.isGiftBills ? 1 : 0,//是否赠品
+                        productId: v.giftId,
+                        promotionNum: v.promotionNum,
+                        productName: v.giftName,
+                        baleQuantity: v.giftAmout,
+
+                        productCode: productInfo.productCode,
+                        productDesc: productInfo.productDesc,
+                        standard: productInfo.standard,
+                        productModel: productInfo.productModel,
+                        materialGroupId: productInfo.materialGroupId,
+                        materialGroupCode: productInfo.materialGroupCode,
+                        materialGroupName: productInfo.materialGroupName,
+                        productGroupId: productInfo.productGroupId,
+                        productGroupCode: productInfo.productGroupCode,
+                        productGroupName: productInfo.productGroupName,
+                        baseUnitId: productInfo.baseUnitId,
+                        baseUnitCode: productInfo.baseUnitCode,
+                        baseUnitName: productInfo.baseUnitName,
+
+                        baseQuantity: productInfo.packageNum * v.giftAmout,
+
+                        baleUnitId: productInfo.baleUnitId,
+                        baleUnitCode: productInfo.baleUnitCode,
+                        baleUnitName: productInfo.baleUnitName,
+                        packageNum: productInfo.packageNum,
+                        basePrice: 0,
+                        fundPrice: 0,
+                        dealPrice: 0,
+                        basePrice: 0,
+                        discountAmount: 0,
+                        dealAmount: 0,
+                        fundAmount: 0,
+                        fundFee: 0,
+                        fundCash: 0,
+                        realAmount: 0,
+                    };
+                    giftItems.push(obj);
+                }
+                purchaseOrderItems = [...purchaseOrderItems, ...giftItems];
+            }
 
             let receiveAddressId = _this.infoData.find(v => v.isSelected).id;
             let params = {
@@ -420,6 +498,7 @@ export default {
             };
             params.persistStatus = "new";
             params.isQuota = this.isQuota;
+
             //销售订单请求地址
             let sreverUrl = '/ocm-web/api/b2b/purchase-orders/submit';
             _this.$http.post(sreverUrl, params)
@@ -694,7 +773,10 @@ export default {
                                 var productArr = rule.buyGiftResponseDetailDtos;
                                 var dataSourceItem = productArr.map(product => {
                                     return {
-                                        giftId: product.giftId,//产品id
+                                        promotionId: rule.ruleId,//促销id
+                                        promotionProducId: rule.goodId,//促销产品id
+
+                                        giftId: product.giftId,//赠品id
                                         giftAmout: product.giftAmout,//赠品数量
                                         giftName: product.giftName,//赠品名称
                                         promotionNum: product.promotionNum,//理论件数
@@ -705,17 +787,20 @@ export default {
                             //当前行数据
                             var currentObj = goodsData.find(v => v.productId == productId);
                             var giftId = currentObj.giftId;
-                            if(giftId){
+                            if (giftId) {
                                 var currentRowGiftObj = dataSource.find(v => v.giftId == giftId);
+                                var giftId = currentRowGiftObj.giftId;
                                 var giftName = currentRowGiftObj.giftName;
                                 var giftAmout = currentRowGiftObj.giftAmout;
                                 var promotionNum = currentRowGiftObj.promotionNum;
                                 //展示明细
+                                currentObj.giftId = giftId;
                                 currentObj.giftName = giftName;
                                 currentObj.giftAmout = giftAmout;
+
                                 currentObj.promotionNum = promotionNum;
                             }
-                            
+
                         });
                         var goodsDataDeepCopy = JSON.parse(JSON.stringify(goodsData));
                         this.goodsData = goodsDataDeepCopy;
@@ -792,7 +877,7 @@ export default {
             //用使用费用0 初始化计算配赠
             _this.$refs.costOffRef.confirm(true);
             //如果是赠品，获取赠品数量
-            if(_this.isGiftBills){
+            if (_this.isGiftBills) {
                 _this.fetchPresentScheme();
             }
         });
