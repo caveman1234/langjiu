@@ -58,7 +58,7 @@
                             </div>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="baleQuantity" label="箱数"> </el-table-column>
+                    <el-table-column prop="baleQuantity" label="件数"> </el-table-column>
                     <el-table-column prop="baseQuantity" label="瓶数">
                         <template slot-scope="scope">
                             <div>{{scope.row.baseQuantity}} </div>

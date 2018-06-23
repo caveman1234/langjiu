@@ -10,7 +10,7 @@
             <div class="goodsInfo">商品信息</div>
             <div class="standard">规格</div>
             <div class="price">单价</div>
-            <div class="amount">数量／箱</div>
+            <div class="amount">数量／件</div>
             <div class="totalPrice">总额</div>
         </div>
         <div class="tableBody">

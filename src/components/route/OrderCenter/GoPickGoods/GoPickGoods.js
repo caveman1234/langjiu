@@ -528,16 +528,16 @@ export default {
                             firstReceiverPhone: v.firstReceiverPhone,
                             addressDetail: v.addressDetail,
                             id: v.id,
-                            isSelected:(v.id == receiveAddressId)
+                            isSelected: (v.id == receiveAddressId)
                         }
-                        // if (i == 0) {
-                            
-                        //     obj.isSelected = true;
-                        // } else {
-                        //     obj.isSelected = false;
-                        // }
                         return obj;
                     });
+                    //如果都没选中，但是地址有长度，默认第一条选中 -> 以前地址被删除
+                    var isAllUnSelected = infoData.every(v => v.isSelected == false);
+                    if(isAllUnSelected && infoData.length > 0){
+                        infoData[0].isSelected = true;
+                    }
+
                     _this.infoData = infoData.map(v => ({ ...v, receiveAddressId: v.id }));
                 })
         },
@@ -548,7 +548,7 @@ export default {
             let _this = this;
             let total = 0;
             _this.goodsData.forEach(v => {
-                //总价 箱数*单价
+                //总价 件数*单价
                 total = total + (v.baseQuantity * (v.basePrice || 0))
             });
             return total.toFixed(2);
@@ -564,7 +564,7 @@ export default {
             let currentPay = Number(this.totalMoney) + Number(this.billFooger.xType) + Number(this.billFooger.notXtype) - Number(this.useOffMoney);
             return currentPay.toFixed(2);
         },
-        
+
     },
     mounted() {
         let _this = this;

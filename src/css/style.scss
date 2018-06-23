@@ -125,6 +125,9 @@ html {
 
 // 媒体查询
 @media screen and (min-width: 1550px) {
+    .OrderTable1{
+        width: 1261px !important;
+    }
     .routeContainer {
         width: 1510px !important;
     }

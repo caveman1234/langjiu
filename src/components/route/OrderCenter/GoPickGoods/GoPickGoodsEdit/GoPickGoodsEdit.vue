@@ -28,7 +28,7 @@
                             </div>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="baleQuantity" label="箱数" width="180">
+                    <el-table-column prop="baleQuantity" label="件数" width="180">
                         <template slot-scope="scope">
                             <el-input-number @change="baleQuantityChange(scope.row)" v-model="scope.row.baleQuantity" :min="1" size="mini"></el-input-number>
                         </template>
@@ -99,12 +99,12 @@ export default {
             });
 
             willAppendData = willAppendData.map(v => {
-                //baleQuantity 箱数
+                //baleQuantity 件数
                 //baseQuantity 瓶数
                 //packageNum 一包瓶数
                 //paymentTotalMoney 货款金额
                 let megerObj = {};
-                //箱
+                //件
                 megerObj.baleQuantity = v.baleQuantity || 1;
                 // 瓶
                 megerObj.baseQuantity = megerObj.baleQuantity * v.packageNum;
@@ -120,7 +120,7 @@ export default {
 
             this.goodsData = this.goodsData.concat(willAppendData);
         },
-        /* 箱数变化 */
+        /* 件数变化 */
         baleQuantityChange(row) {
             this.$nextTick(() => {
                 row.baseQuantity = (row.baleQuantity) * row.packageNum;
@@ -213,12 +213,12 @@ export default {
             //设置产品线
             this.$store.commit('prodGroupId', this.selectedObj.productGroupId);
             this.goodsData = this.$route.params.selectedData.purchaseOrderItems.map(v => {
-                //baleQuantity 箱数
+                //baleQuantity 件数
                 //baseQuantity 瓶数
                 //packageNum 一包瓶数
                 //paymentTotalMoney 货款金额
                 let megerObj = {};
-                //箱
+                //件
                 megerObj.baleQuantity = v.baleQuantity || 1;
                 // 瓶
                 megerObj.baseQuantity = megerObj.baleQuantity * v.packageNum;

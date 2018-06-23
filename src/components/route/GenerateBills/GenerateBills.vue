@@ -78,9 +78,30 @@
             </div>
         </div>
         <div class="goodsInfo">
-            <div class="goodsContent">
-                <el-table :data="goodsData" :summary-method="getSummaries" show-summary border style="width: 100%">
-                    <el-table-column prop="" label="商品详情" width="400">
+            <div class="goodsContent" v-show="isGiftBills">
+                <el-table 
+                    :data="goodsData" 
+                    :summary-method="getSummaries" 
+                    show-summary 
+                    border 
+                    style="width: 100%"
+                    row-class-name="bills-row-class-name"
+                    default-expand-all
+                >
+                    <el-table-column type="expand">
+                        <template slot-scope="props">
+                            <el-row v-if="props.row.giftName">
+                                <el-col :span="2">赠品名称:</el-col>
+                                <el-col :span="7">{{ props.row.giftName }}</el-col>
+                                <el-col :span="2">实赠数量(件):</el-col>
+                                <el-col :span="2">{{ props.row.giftAmout }}</el-col>
+                                <el-col :span="2">理论数量(件):</el-col>
+                                <el-col :span="2">{{ props.row.promotionNum }}</el-col>
+                            </el-row>
+                        </template>
+                    </el-table-column>
+
+                    <el-table-column prop="" label="商品详情" width="200">
                         <template slot-scope="scope">
                             <div class="detailContainer">
                                 <div :style='{"backgroundImage":`url(${scope.row.imageUrl})`}' class="goodsImg"></div>
@@ -96,7 +117,7 @@
                             </div>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="baleQuantity" label="箱数"> </el-table-column>
+                    <el-table-column prop="baleQuantity" label="件数"> </el-table-column>
                     <el-table-column prop="baseQuantity" label="瓶数">
                         <template slot-scope="scope">
                             <div>{{scope.row.baseQuantity}} </div>
@@ -105,6 +126,53 @@
                     <el-table-column prop="paymentTotalMoney" label="货款金额">
                         <template slot-scope="scope">
                             <div>{{scope.row.paymentTotalMoney|formatPrice}}</div>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="cashSettlementNum" label="现金结算数量(件)">
+                        <template slot-scope="scope">
+                            <div>{{scope.row.cashSettlementNum}}</div>
+                        </template>
+                    </el-table-column>
+                </el-table>
+            </div>
+            <div class="goodsContent" v-show="!isGiftBills">
+                <el-table 
+                    :data="goodsData" 
+                    :summary-method="getSummaries" 
+                    show-summary 
+                    border 
+                    style="width: 100%"
+                >
+                    <el-table-column prop="" label="商品详情" width="200">
+                        <template slot-scope="scope">
+                            <div class="detailContainer">
+                                <div :style='{"backgroundImage":`url(${scope.row.imageUrl})`}' class="goodsImg"></div>
+                                <div class="desc">{{scope.row.productDesc}}</div>
+                            </div>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="basicPrice" label="单价">
+                        <template slot-scope="scope">
+                            <div class="price">
+                                <div>价格：{{scope.row.basicPrice | formatPrice}}</div>
+                                <div v-if="false">共建：{{scope.row.fundPrice | formatPrice}}</div>
+                            </div>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="baleQuantity" label="件数"> </el-table-column>
+                    <el-table-column prop="baseQuantity" label="瓶数">
+                        <template slot-scope="scope">
+                            <div>{{scope.row.baseQuantity}} </div>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="paymentTotalMoney" label="货款金额">
+                        <template slot-scope="scope">
+                            <div>{{scope.row.paymentTotalMoney|formatPrice}}</div>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="cashSettlementNum" label="现金结算数量(件)">
+                        <template slot-scope="scope">
+                            <div>{{scope.row.cashSettlementNum}}</div>
                         </template>
                     </el-table-column>
                 </el-table>

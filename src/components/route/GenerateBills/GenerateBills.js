@@ -72,6 +72,7 @@ export default {
                 // }
             ],
             isQuota: 1,
+            isGiftBills:false,//是否是赠品组合
         }
     },
     methods: {
@@ -94,6 +95,7 @@ export default {
             let allProductId = this.goodsData.map(v => v.productId);
             let willAppendData = data.filter(v => !allProductId.includes(v.productId));
             this.goodsData = this.goodsData.concat(willAppendData);
+
         },
         /* 使用折扣金额 */
         CostOffEvent(calcMoney, useOffMoney, calcDataTable) {
@@ -119,6 +121,8 @@ export default {
             _this.billFooger.notXtype = calcMoney.reduce((acc, v) => (acc + v.fundFee), 0).toFixed(2);
             _this.billFooger.deductionMoney = calcMoney.reduce((acc, v) => (acc + v.discountAmount), 0).toFixed(2);
             _this.fetchCashRest().then(cashRest => _this.billFooger.cashRest = Number(cashRest).toFixed(2));
+            //使用费用后重新计算配赠
+            // _this.fetchPresentScheme();
         },
         /* 在线支付 */
         payOnline() {
@@ -658,6 +662,66 @@ export default {
             this.changePrice();//计划外
             this.submit();
         },
+        //获取配赠明细
+        fetchPresentScheme() {
+            var goodsInfos = this.goodsData.map(v => ({
+                goodsId: v.productId,
+                goodsNum: v.cashSettlementNum,//计算费用后，现金结算数量
+                goodsUnitPrice: v.basicPrice,
+            }));
+            var params = {
+                goodsInfos: goodsInfos,
+                orderCreateDate: new Date().getTime(),//下单时间
+                // organizationId: "",//销售组织
+                saleChannelCode: '00',//分销渠道
+                customerId: this.$store.state.customerId,
+                prodGroupId: this.$store.state.prodGroupId
+            };
+            var url = "/ocm-web/api/prom/rule-pubapi/gift";
+            var config = {
+                // async:false,
+                // headers:{}
+            };
+            this.$http.post(url, params, config)
+                .then(res => {
+                    if (res.headers["x-ocm-code"] == '1') {
+                        var goodsData = this.goodsData;
+                        //组装datasource
+                        Object.entries(res.data).forEach(arr => {
+                            var productId = arr[0];
+                            var rulesArr = arr[1];
+                            var dataSource = rulesArr.reduce((acc, rule, i) => {
+                                var productArr = rule.buyGiftResponseDetailDtos;
+                                var dataSourceItem = productArr.map(product => {
+                                    return {
+                                        giftId: product.giftId,//产品id
+                                        giftAmout: product.giftAmout,//赠品数量
+                                        giftName: product.giftName,//赠品名称
+                                        promotionNum: product.promotionNum,//理论件数
+                                    }
+                                });
+                                return [...acc, ...dataSourceItem];
+                            }, []);
+                            //当前行数据
+                            var currentObj = goodsData.find(v => v.productId == productId);
+                            var giftId = currentObj.giftId;
+                            if(giftId){
+                                var currentRowGiftObj = dataSource.find(v => v.giftId == giftId);
+                                var giftName = currentRowGiftObj.giftName;
+                                var giftAmout = currentRowGiftObj.giftAmout;
+                                var promotionNum = currentRowGiftObj.promotionNum;
+                                //展示明细
+                                currentObj.giftName = giftName;
+                                currentObj.giftAmout = giftAmout;
+                                currentObj.promotionNum = promotionNum;
+                            }
+                            
+                        });
+                        var goodsDataDeepCopy = JSON.parse(JSON.stringify(goodsData));
+                        this.goodsData = goodsDataDeepCopy;
+                    }
+                });
+        },
 
 
 
@@ -668,7 +732,7 @@ export default {
             let _this = this;
             let total = 0;
             _this.goodsData.forEach(v => {
-                //总价 箱数*单价
+                //总价 件数*单价
                 total = total + (v.baseQuantity * (v.basicPrice || 0))
             });
             return total.toFixed(2);
@@ -685,8 +749,8 @@ export default {
             return currentPay.toFixed(2);
         }
     },
-    watch:{
-        carriageMethod(value){
+    watch: {
+        carriageMethod(value) {
             let obj = this.carriageMethodCombo.find(v => v.value == value);
             if (obj.businessTypeCode == "01") { //融资受控订单 03 销售订单01
                 this.isNoticeDisable = false;
@@ -705,7 +769,13 @@ export default {
     },
     mounted() {
         let _this = this;
-        _this.goodsData = this.$route.params.selectedData;
+        _this.isGiftBills = this.$route.params.isGiftBills;
+        _this.goodsData = this.$route.params.selectedData.map(v => {
+            return {
+                ...v,
+                cashSettlementNum: v.baleQuantity,//现金结算金额,使用费用后产生
+            }
+        });
 
         _this.fetchAddress(); /* 获取收货地址 */
         _this.fetchOrderType(); /* 获取订单类型 */
@@ -714,10 +784,16 @@ export default {
         //页面加载使用费用0
         _this.$nextTick(() => {
             //藏品产品线为空，不计算费用
-            if (_this.$store.state.prodGroupId) {
-                _this.$refs.costOffRef.confirm(true);
-            } else {
-                _this.$refs.costOffRef.confirm(true);
+            // if (_this.$store.state.prodGroupId) {
+            //     _this.$refs.costOffRef.confirm(true);
+            // } else {
+            //     _this.$refs.costOffRef.confirm(true);
+            // }
+            //用使用费用0 初始化计算配赠
+            _this.$refs.costOffRef.confirm(true);
+            //如果是赠品，获取赠品数量
+            if(_this.isGiftBills){
+                _this.fetchPresentScheme();
             }
         });
     }

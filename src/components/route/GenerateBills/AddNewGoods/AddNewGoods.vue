@@ -104,7 +104,7 @@ export default {
                 .then(res => {
                     let data = res.data;
                     let searchData = data.map(v => {
-                        //baleQuantity 箱数
+                        //baleQuantity 件数
                         //costOffMoney 费用折扣金额
                         //baseQuantity 瓶数
                         return Object.assign(

@@ -4,8 +4,14 @@
         <div class="goodsInfo">
             <AddNewGoods @receiveData="receiveData"></AddNewGoods>
             <div class="goodsContent">
-                <el-table :data="goodsData" :summary-method="getSummaries" show-summary border style="width: 100%">
-                    <el-table-column prop="productDesc" label="商品详情" width="300">
+                <el-table 
+                    :data="goodsData" 
+                    :summary-method="getSummaries" 
+                    show-summary 
+                    border 
+                    style="width: 100%"
+                >
+                    <el-table-column prop="productDesc" label="商品详情" width="200">
                         <template slot-scope="scope">
                             <div class="detailContainer">
                                 <div :style='{"backgroundImage":`url(${scope.row.imageUrl || defaultImg})`}' class="goodsImg"></div>
@@ -29,7 +35,7 @@
                             </div>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="baleQuantity" label="箱数" width="180">
+                    <el-table-column prop="baleQuantity" label="件数" width="180">
                         <template slot-scope="scope">
                             <el-input-number @change="baleQuantityChange(scope.row)" v-model="scope.row.baleQuantity" :min="1" size="mini"></el-input-number>
                         </template>
@@ -44,6 +50,33 @@
                             <div>{{scope.row.paymentTotalMoney|formatPrice}}</div>
                         </template>
                     </el-table-column>
+
+
+
+
+                    <el-table-column label="请选择赠品" width="200px">
+                        <template slot-scope="scope">
+                            <template v-if="scope.row.presentScheme && scope.row.presentScheme.length > 0">
+                                <el-select v-model="scope.row.giftId" placeholder="请选择" size="mini">
+                                    <el-option
+                                        v-for="(item,index) in scope.row.presentScheme"
+                                        :key="index"
+                                        :label="item.label"
+                                        :value="item.value">
+                                    </el-option>
+                                </el-select>
+                            </template>
+                            <template v-else>
+                                <div style="color: #d4d4d4;">无赠品</div>
+                            </template>
+                            
+
+                        </template>
+                    </el-table-column>
+
+
+
+                    
                     <el-table-column prop="handle" label="操作">
                         <template slot-scope="scope">
                             <div class="handle">
@@ -72,43 +105,16 @@
 <script>
 
 import AddNewGoods from '../AddNewGoods/AddNewGoods';
-let goodsData = [
-    {
-        "imageUrl": "src/assets/goodsItem.png",
-        "productDesc": "11郎酒红花郎10 53度酱香500",
-        "basicPrice": 1668,
-        "fundPrice": 1100,
-        "baleQuantity": 10,
-        "baseQuantity": 20,
-        "costOffMoney": 0,
-        "productId": 1,
-        daikuan: 2000,
-        standard: 500,
-        productModel: 40
-    },
-    {
-        "imageUrl": "src/assets/goodsItem.png",
-        "productDesc": "22郎酒红花郎10 53度酱香500",
-        "basicPrice": 1668,
-        "fundPrice": 1100,
-        "baleQuantity": 10,
-        "baseQuantity": 20,
-        "costOffMoney": 0,
-        "productId": 2,
-        daikuan: 2000,
-        standard: 500,
-        productModel: 40
-    }
-];
 export default {
     name: 'GenerateBillsEdit',
     components: { AddNewGoods },
     data() {
         return {
             /* 表格数据 */
-            goodsData: goodsData,
+            goodsData: [],
             defaultImg: require('../../../../assets/defaultimg.png'),
             dialogVisible: false,//dialog配额弹框
+            isGiftBills:false,//是否是赠品组合
         }
     },
     methods: {
@@ -120,14 +126,13 @@ export default {
         receiveData(data) {
             let allProductId = this.goodsData.map(v => v.productId);
             let willAppendData = data.filter(v => !allProductId.includes(v.productId));
-
             willAppendData = willAppendData.map(v => {
-                //baleQuantity 箱数
+                //baleQuantity 件数
                 //baseQuantity 瓶数
                 //packageNum 一包瓶数
                 //paymentTotalMoney 货款金额
                 let megerObj = {};
-                //箱
+                //件
                 megerObj.baleQuantity = v.baleQuantity || 1;
                 // 瓶
                 megerObj.baseQuantity = megerObj.baleQuantity * v.packageNum;
@@ -135,20 +140,112 @@ export default {
                 megerObj.paymentTotalMoney = megerObj.baseQuantity * v.basicPrice;
                 return Object.assign({}, v, megerObj);
             });
-
-
-
-
-
             this.goodsData = this.goodsData.concat(willAppendData);
+            //获取配赠方案
+            this.fetchPresentScheme();
         },
-        /* 箱数变化 */
+        /* 件数变化 */
         baleQuantityChange(row) {
             this.$nextTick(() => {
+                row.baleQuantity = Math.floor(row.baleQuantity);
                 row.baseQuantity = (row.baleQuantity) * row.packageNum;
 
                 row.paymentTotalMoney = row.baseQuantity * row.basicPrice;
             });
+        },
+        //验证
+        validateData() {
+            var passed = this.goodsData.every(v => {
+                var presentScheme = v.presentScheme || [];
+                if (presentScheme.length == 0) {
+                    return true;
+                } else {
+                    return v.giftId !== "";
+                }
+            });
+            return passed;
+        },
+        //验证混合下单
+        validateIsAll() {
+            var goodsData = this.goodsData;
+            var isAllGifterrorArr = [];
+            var isAllNormalArr = [];
+            var result = true;
+            //productDesc
+            //要么是赠品，要么全是普通产品
+            var isAllGift = goodsData.every(v => {
+                return (v.presentScheme || []).length > 0;
+            });
+            var isAllNormal = goodsData.every(v => {
+                return (v.presentScheme || []).length === 0;
+            });
+            if (isAllGift == true) {
+                this.isGiftBills = true;
+            }
+            if (isAllNormal == true) {
+                this.isGiftBills = false;
+            }
+            if (isAllGift || isAllNormal) {
+                return true;
+            } else {
+                var errorMsg = goodsData
+                    .filter(v => (v.presentScheme || []).length === 0)
+                    .map(v => `【${v.productDesc}】`)
+                    .join(",");
+                this.$Notify({ title: `${errorMsg}没有参与赠品，请不要混合下单`, type: 'warning' });
+                return false;
+            }
+        },
+        fetchPresentScheme() {
+            var goodsInfos = this.goodsData.map(v => ({
+                goodsId: v.productId,
+                goodsNum: v.baleQuantity,//件
+                // goodsAmount: "",
+                goodsUnitPrice: v.basicPrice,
+            }));
+            var params = {
+                goodsInfos: goodsInfos,
+                orderCreateDate: new Date().getTime(),//下单时间
+                // organizationId: "",//销售组织
+                saleChannelCode: '00',//分销渠道
+                customerId: this.$store.state.customerId,
+                prodGroupId: this.$store.state.prodGroupId
+            };
+            var url = "/ocm-web/api/prom/rule-pubapi/gift";
+            var config = {
+                // async:false,
+                // headers:{}
+            };
+            this.$http.post(url, params, config)
+                .then(res => {
+                    if (res.headers["x-ocm-code"] == '1') {
+                        var goodsData = this.goodsData;
+                        //组装datasource
+                        Object.entries(res.data).forEach(arr => {
+                            var productId = arr[0];
+                            var rulesArr = arr[1];
+                            var dataSource = rulesArr.reduce((acc, rule, i) => {
+                                var productArr = rule.buyGiftResponseDetailDtos;
+                                var dataSourceItem = productArr.map(product => {
+                                    return {
+                                        label: product.giftName,
+                                        value: product.giftId
+                                    }
+                                });
+                                return [...acc, ...dataSourceItem];
+                            }, []);
+                            //当前行数据
+                            var currentObj = goodsData.find(v => v.productId == productId);
+                            currentObj.presentScheme = dataSource;
+                            //如果只有一行数据默认第一行数据选中
+                            if (dataSource.length == 1) {
+                                // currentObj.giftId = dataSource[0].value
+                            }
+                        });
+                        var goodsDataDeepCopy = JSON.parse(JSON.stringify(goodsData));
+                        this.goodsData = goodsDataDeepCopy;
+                    }
+                });
         },
 
         //跳转路由
@@ -157,15 +254,36 @@ export default {
             this.$router.push({
                 name: 'GenerateBills',
                 params: {
-                    selectedData: selectedData
+                    selectedData: selectedData,
+                    isGiftBills:this.isGiftBills
                 }
             });
         },
         /* 确定 */
         confirm() {
+            var _this = this;
+            if (_this.goodsData.length === 0) {
+                this.$Notify({ title: '商品不能为空', type: 'warning' });
+                return;
+            }
+            var isAllValidatePassed = _this.validateIsAll();
+            if (!isAllValidatePassed) {
+                return;
+            }
+            var passed = this.validateData();
+            if (!passed) {
+                _this.$confirm('有未参加配赠的商品,是否继续？', '有未参加配赠的商品', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning',
+                    center: true
+                }).then(() => {
+                    _this.jumpRoute();
+                }).catch(() => { });
+            } else {
+                _this.jumpRoute();
+            }
             //配额是否充足
-            this.jumpRoute()
-
         },
 
         //表格合计
@@ -209,19 +327,24 @@ export default {
         if (this.$route.params.selectedData) {
             //添加商品
             this.goodsData = this.$route.params.selectedData.map(v => {
-                //baleQuantity 箱数
+                //baleQuantity 件数
                 //baseQuantity 瓶数
                 //packageNum 一包瓶数
                 //paymentTotalMoney 货款金额
                 let megerObj = {};
-                //箱
+                //件
                 megerObj.baleQuantity = v.baleQuantity || 1;
                 // 瓶
                 megerObj.baseQuantity = megerObj.baleQuantity * v.packageNum;
                 // 货款金额
                 megerObj.paymentTotalMoney = megerObj.baseQuantity * v.basicPrice;
+                //赠品方案下拉框
+                megerObj.presentScheme = [];
+                megerObj.giftId = "";
                 return Object.assign({}, v, megerObj);
             });
+            //获取配赠方案
+            this.fetchPresentScheme();
         } else {
             //返回修改
         }

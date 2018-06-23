@@ -145,7 +145,7 @@ let orderData = [
         purchaseOrderItems: [
             {
                 goodsImg: "src/assets/goodsItem.png",
-                orderDesc: "2郎酒 红花郎（10）陈酿 53度整箱装 白酒 558m l*6瓶（箱内有礼)",
+                orderDesc: "2郎酒 红花郎（10）陈酿 53度整件装 白酒 558m l*6瓶（件内有礼)",
                 volume: 500,
                 price: 1000,
                 num: 5,
@@ -166,7 +166,7 @@ let orderData = [
             },
             {
                 goodsImg: "src/assets/goodsItem.png",
-                orderDesc: "2郎酒 红花郎（10）陈酿 53度整箱装 白酒 558m l*6瓶（箱内有礼)",
+                orderDesc: "2郎酒 红花郎（10）陈酿 53度整件装 白酒 558m l*6瓶（件内有礼)",
                 volume: 500,
                 price: 1000,
                 num: 5,
@@ -200,7 +200,7 @@ let orderData = [
         purchaseOrderItems: [
             {
                 goodsImg: "src/assets/goodsItem.png",
-                orderDesc: "2郎酒 红花郎（10）陈酿 53度整箱装 白酒 558m l*6瓶（箱内有礼)",
+                orderDesc: "2郎酒 红花郎（10）陈酿 53度整件装 白酒 558m l*6瓶（件内有礼)",
                 volume: 500,
                 price: 1000,
                 num: 5,
@@ -221,7 +221,7 @@ let orderData = [
             },
             {
                 goodsImg: "src/assets/goodsItem.png",
-                orderDesc: "2郎酒 红花郎（10）陈酿 53度整箱装 白酒 558m l*6瓶（箱内有礼)",
+                orderDesc: "2郎酒 红花郎（10）陈酿 53度整件装 白酒 558m l*6瓶（件内有礼)",
                 volume: 500,
                 price: 1000,
                 num: 5,
@@ -255,7 +255,7 @@ let orderData = [
         purchaseOrderItems: [
             {
                 goodsImg: "src/assets/goodsItem.png",
-                orderDesc: "2郎酒 红花郎（10）陈酿 53度整箱装 白酒 558m l*6瓶（箱内有礼)",
+                orderDesc: "2郎酒 红花郎（10）陈酿 53度整件装 白酒 558m l*6瓶（件内有礼)",
                 volume: 500,
                 price: 1000,
                 num: 5,
@@ -276,7 +276,7 @@ let orderData = [
             },
             {
                 goodsImg: "src/assets/goodsItem.png",
-                orderDesc: "2郎酒 红花郎（10）陈酿 53度整箱装 白酒 558m l*6瓶（箱内有礼)",
+                orderDesc: "2郎酒 红花郎（10）陈酿 53度整件装 白酒 558m l*6瓶（件内有礼)",
                 volume: 500,
                 price: 1000,
                 num: 5,
@@ -310,7 +310,7 @@ let orderData = [
         purchaseOrderItems: [
             {
                 goodsImg: "src/assets/goodsItem.png",
-                orderDesc: "2郎酒 红花郎（10）陈酿 53度整箱装 白酒 558m l*6瓶（箱内有礼)",
+                orderDesc: "2郎酒 红花郎（10）陈酿 53度整件装 白酒 558m l*6瓶（件内有礼)",
                 volume: 500,
                 price: 1000,
                 num: 5,
@@ -331,7 +331,7 @@ let orderData = [
             },
             {
                 goodsImg: "src/assets/goodsItem.png",
-                orderDesc: "2郎酒 红花郎（10）陈酿 53度整箱装 白酒 558m l*6瓶（箱内有礼)",
+                orderDesc: "2郎酒 红花郎（10）陈酿 53度整件装 白酒 558m l*6瓶（件内有礼)",
                 volume: 500,
                 price: 1000,
                 num: 5,
@@ -365,7 +365,7 @@ let orderData = [
         purchaseOrderItems: [
             {
                 goodsImg: "src/assets/goodsItem.png",
-                orderDesc: "2郎酒 红花郎（10）陈酿 53度整箱装 白酒 558m l*6瓶（箱内有礼)",
+                orderDesc: "2郎酒 红花郎（10）陈酿 53度整件装 白酒 558m l*6瓶（件内有礼)",
                 volume: 500,
                 price: 1000,
                 num: 5,
@@ -386,7 +386,7 @@ let orderData = [
             },
             {
                 goodsImg: "src/assets/goodsItem.png",
-                orderDesc: "2郎酒 红花郎（10）陈酿 53度整箱装 白酒 558m l*6瓶（箱内有礼)",
+                orderDesc: "2郎酒 红花郎（10）陈酿 53度整件装 白酒 558m l*6瓶（件内有礼)",
                 volume: 500,
                 price: 1000,
                 num: 5,

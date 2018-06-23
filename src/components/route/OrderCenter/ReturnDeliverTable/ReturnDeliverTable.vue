@@ -22,8 +22,8 @@
                 </div>
                 <div class="orderHeader">
                     <el-row>
-                        <el-col :span="2">订单箱数：</el-col>
-                        <el-col :span="2" v-red>{{item.baleQuantity}}箱</el-col>
+                        <el-col :span="2">订单件数：</el-col>
+                        <el-col :span="2" v-red>{{item.baleQuantity}}件</el-col>
                         <el-col :span="2">订单金额：</el-col>
                         <el-col :span="3" v-red>{{item.orderAmount|formatPrice}}</el-col>
                         <el-col :span="3">费用抵货款金额：</el-col>
@@ -112,7 +112,7 @@
                     <el-table-column prop="applyNum" :label="item.poTypeBusinessType == '05' ? '申请发货数量':'退订数量'  ">
                         <template slot-scope="scope">
                             <div>
-                                <div>箱数：{{scope.row.baleQuantity}} 箱</div>
+                                <div>件数：{{scope.row.baleQuantity}} 件</div>
                                 <div>瓶数：{{scope.row.baseQuantity}} 瓶</div>
                             </div>
                         </template>
@@ -120,6 +120,13 @@
                     <el-table-column prop="totalAmount" label="金额">
                         <template slot-scope="scope">
                             <div v-red>{{scope.row.realAmount | formatPrice}}</div>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="isGift" label="是否赠品">
+                        <template slot-scope="scope">
+                            <div>
+                                {{isGift === 1 ? "是" : "否"}}
+                            </div>
                         </template>
                     </el-table-column>
                 </el-table>

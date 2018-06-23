@@ -36,7 +36,7 @@
                     </div>
                 </template>
             </el-table-column>
-            <el-table-column prop="baleQuantity" label="箱数"></el-table-column>
+            <el-table-column prop="baleQuantity" label="件数"></el-table-column>
             <el-table-column prop="baseQuantity" label="瓶数"></el-table-column>
             <el-table-column prop="paymentTotalMoney" label="还酒金额" width="180px">
                 <template slot-scope="scope">

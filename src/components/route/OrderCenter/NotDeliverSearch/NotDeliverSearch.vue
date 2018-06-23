@@ -33,6 +33,13 @@
                     <div>{{scope.row.ljapjs - scope.row.ljckjs}}</div>
                 </template>
             </el-table-column>
+            <el-table-column prop="isGift" label="是否赠品">
+                <template slot-scope="scope">
+                    <div>
+                        {{isGift === 1 ? "是" : "否"}}
+                    </div>
+                </template>
+            </el-table-column>
             
             
         </el-table>

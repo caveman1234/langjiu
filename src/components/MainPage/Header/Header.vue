@@ -210,7 +210,7 @@ export default {
         //检查是否签约过
         _this.checkIsNotSign();
         
-        _this.initChat();
+        // _this.initChat();
     }
 
 }

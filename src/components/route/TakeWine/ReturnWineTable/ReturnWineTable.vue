@@ -41,7 +41,7 @@
                         <el-table-column prop="boxCount" label="数量" min-width="110">
                             <template slot-scope="scope">
                                 <div>
-                                    <div>箱数：{{scope.row.baleQuantity||0}} 箱</div>
+                                    <div>件数：{{scope.row.baleQuantity||0}} 件</div>
                                     <div>瓶数：{{scope.row.baseQuantity||0}} 瓶</div>
                                 </div>
                             </template>
@@ -49,7 +49,7 @@
                         <el-table-column prop="sendedQuantity" label="累计发货数量" min-width="110">
                             <template slot-scope="scope">
                                 <div>
-                                    <div>箱数：{{scope.row.sendedQuantity/(scope.row.packageNum||6)}} 箱</div>
+                                    <div>件数：{{scope.row.sendedQuantity/(scope.row.packageNum||6)}} 件</div>
                                     <div>瓶数：{{scope.row.sendedQuantity}} 瓶</div>
                                 </div>
                             </template>

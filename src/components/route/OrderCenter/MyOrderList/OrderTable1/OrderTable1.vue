@@ -24,8 +24,8 @@
                 </div>
                 <div class="orderHeader">
                     <el-row>
-                        <el-col :span="2">订单箱数：</el-col>
-                        <el-col :span="2" v-red>{{item.baleQuantity}}箱</el-col>
+                        <el-col :span="2">订单件数：</el-col>
+                        <el-col :span="2" v-red>{{item.baleQuantity}}件</el-col>
                         <el-col :span="2">订单金额：</el-col>
                         <el-col :span="3" v-red>{{item.orderAmount|formatPrice}}</el-col>
                         <el-col :span="3">费用抵货款金额：</el-col>
@@ -136,7 +136,7 @@
                     <el-table-column prop="boxCount" label="数量" min-width="110">
                         <template slot-scope="scope">
                             <div>
-                                <div>箱数：{{scope.row.baleQuantity}} 箱</div>
+                                <div>件数：{{scope.row.baleQuantity}} 件</div>
                                 <div>瓶数：{{scope.row.baseQuantity}} 瓶</div>
                             </div>
                         </template>
@@ -146,12 +146,12 @@
                             <template slot-scope="scope">
                                 <div v-if="item.isNoticeSend == 1">
                                     <!-- 待通知发货 -->
-                                    <div>箱数：{{scope.row.applyedQuantity/scope.row.packageNum}} 箱</div>
+                                    <div>件数：{{scope.row.applyedQuantity/scope.row.packageNum}} 件</div>
                                     <div>瓶数：{{scope.row.applyedQuantity}} 瓶</div>
                                 </div>
                                 <div v-else>
                                     <!-- 立即发货 -->
-                                    <div>箱数：{{scope.row.baleQuantity}} 箱</div>
+                                    <div>件数：{{scope.row.baleQuantity}} 件</div>
                                     <div>瓶数：{{scope.row.baseQuantity}} 瓶</div>
                                 </div>
                             </template>
@@ -159,7 +159,7 @@
                         <el-table-column prop="allocationQuantity" label="累计安排数量" min-width="110">
                             <template slot-scope="scope">
                                 <div>
-                                    <div>箱数：{{(scope.row.allocationQuantity || 0)/scope.row.packageNum}} 箱</div>
+                                    <div>件数：{{(scope.row.allocationQuantity || 0)/scope.row.packageNum}} 件</div>
                                     <div>瓶数：{{scope.row.allocationQuantity || 0}} 瓶</div>
                                 </div>
                             </template>
@@ -167,7 +167,7 @@
                         <el-table-column prop="sendedQuantity" label="累计发货数量" min-width="110">
                             <template slot-scope="scope">
                                 <div>
-                                    <div>箱数：{{scope.row.sendedQuantity/scope.row.packageNum}} 箱</div>
+                                    <div>件数：{{scope.row.sendedQuantity/scope.row.packageNum}} 件</div>
                                     <div>瓶数：{{scope.row.sendedQuantity}} 瓶</div>
                                 </div>
                             </template>
@@ -175,8 +175,15 @@
                         <el-table-column prop="backedQuantity" label="累计退订数量" min-width="110">
                             <template slot-scope="scope">
                                 <div>
-                                    <div>箱数：{{scope.row.backedQuantity/scope.row.packageNum}} 箱</div>
+                                    <div>件数：{{scope.row.backedQuantity/scope.row.packageNum}} 件</div>
                                     <div>瓶数：{{scope.row.backedQuantity}} 瓶</div>
+                                </div>
+                            </template>
+                        </el-table-column>
+                        <el-table-column prop="isGift" label="是否赠品">
+                            <template slot-scope="scope">
+                                <div>
+                                    {{isGift === 1 ? "是" : "否"}}
                                 </div>
                             </template>
                         </el-table-column>
