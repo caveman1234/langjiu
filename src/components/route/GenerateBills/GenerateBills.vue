@@ -93,10 +93,11 @@
                             <el-row v-if="props.row.giftName">
                                 <el-col :span="2">赠品名称:</el-col>
                                 <el-col :span="7">{{ props.row.giftName }}</el-col>
-                                <el-col :span="2">实赠数量(件):</el-col>
-                                <el-col :span="2">{{ props.row.giftAmout }}</el-col>
                                 <el-col :span="2">理论数量(件):</el-col>
-                                <el-col :span="2">{{ props.row.promotionNum }}</el-col>
+                                <el-col :span="4">{{ props.row.promotionNum }}</el-col>
+                                <el-col :span="2">实赠数量(件):</el-col>
+                                <el-col :span="4">{{ props.row.giftAmout }}</el-col>
+                                
                             </el-row>
                         </template>
                     </el-table-column>

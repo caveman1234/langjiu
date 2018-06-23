@@ -69,8 +69,6 @@
                             <template v-else>
                                 <div style="color: #d4d4d4;">无赠品</div>
                             </template>
-                            
-
                         </template>
                     </el-table-column>
 

@@ -127,7 +127,7 @@ export default {
                 let productId = v.productId;
                 var goodsCurObj = this.goodsData.find(v => v.productId === productId);
                 var packageNum = goodsCurObj.packageNum;
-                var cashSettlementNum = (v.dealAmount/(v.basePrice * goodsCurObj.packageNum)).toFixed(2);
+                var cashSettlementNum = (v.dealAmount / (v.basePrice * goodsCurObj.packageNum)).toFixed(2);
                 goodsCurObj.cashSettlementNum = cashSettlementNum;
             })
             //使用费用后重新计算配赠
@@ -440,6 +440,9 @@ export default {
                     let productInfo = await this.fetchProductById(v.giftId);
                     let obj = {
                         isGift: this.isGiftBills ? 1 : 0,//是否赠品
+
+                        // promotionPrice: productInfo.basePrice ,//赠品价格？？
+
                         productId: v.giftId,
                         promotionNum: v.promotionNum,
                         productName: v.giftName,
@@ -745,7 +748,7 @@ export default {
         fetchPresentScheme() {
             var goodsInfos = this.goodsData.map(v => ({
                 goodsId: v.productId,
-                goodsNum: v.cashSettlementNum,//计算费用后，现金结算数量
+                goodsNum: Number(v.cashSettlementNum),//计算费用后，现金结算数量
                 goodsUnitPrice: v.basicPrice,
             }));
             var params = {
