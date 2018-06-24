@@ -41,7 +41,28 @@
         </div>
         <div class="goodsInfo">
             <div class="goodsContent">
-                <el-table :data="goodsData" :summary-method="getSummaries" show-summary style="width: 100%" border>
+                <el-table 
+                    :data="goodsData" 
+                    :summary-method="getSummaries" 
+                    show-summary style="width: 100%" 
+                    border
+                    row-class-name="bills-row-class-name"
+                    :expand-row-keys="expandKeys"
+                    :row-key="row=>row.productId"
+                >
+                    <el-table-column type="expand">
+                        <template slot-scope="props">
+                            <el-row v-if="props.row.giftId">
+                                <el-col :span="2">赠品名称:</el-col>
+                                <el-col :span="7">{{ props.row.giftName }}</el-col>
+                                <el-col :span="2">理论数量(件):</el-col>
+                                <el-col :span="4">{{ props.row.promotionNum }}</el-col>
+                                <el-col :span="2">实赠数量(件):</el-col>
+                                <el-col :span="4">{{ props.row.giftAmout }}</el-col>
+                                
+                            </el-row>
+                        </template>
+                    </el-table-column>
                     <el-table-column prop="" label="商品详情" width="400">
                         <template slot-scope="scope">
                             <div class="detailContainer">
@@ -67,6 +88,11 @@
                     <el-table-column prop="paymentTotalMoney" label="货款金额">
                         <template slot-scope="scope">
                             <div>{{scope.row.paymentTotalMoney|formatPrice}}</div>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="cashSettlementNum" label="现金结算数量(件)">
+                        <template slot-scope="scope">
+                            <div>{{scope.row.cashSettlementNum}}</div>
                         </template>
                     </el-table-column>
                 </el-table>

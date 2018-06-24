@@ -30,7 +30,7 @@
                     </el-table-column>
                     <el-table-column prop="baleQuantity" label="件数" width="180">
                         <template slot-scope="scope">
-                            <el-input-number @change="baleQuantityChange(scope.row)" v-model="scope.row.baleQuantity" :min="1" size="mini"></el-input-number>
+                            <el-input-number @change="baleQuantityChange(scope.row)" v-model="scope.row.baleQuantity" :min="1"  size="mini"></el-input-number>
                         </template>
                     </el-table-column>
                     <el-table-column prop="baseQuantity" label="瓶数">
@@ -41,6 +41,29 @@
                     <el-table-column prop="paymentTotalMoney" label="货款金额" width="180px">
                         <template slot-scope="scope">
                             <div>{{scope.row.paymentTotalMoney | formatPrice}}</div>
+                        </template>
+                    </el-table-column>
+                    <el-table-column label="请选择赠品" width="200px">
+                        <template slot-scope="scope">
+                            <template v-if="scope.row.presentScheme && scope.row.presentScheme.length > 0">
+                                <el-select 
+                                    v-model="scope.row.giftId" 
+                                    placeholder="请选择" 
+                                    size="mini"
+                                    @change="value=>presentChange(value,scope.row)"
+                                >
+                                    <el-option
+                                        v-for="(item,index) in scope.row.presentScheme"
+                                        :key="index"
+                                        :label="item.label"
+                                        :value="item.value"
+                                    >
+                                    </el-option>
+                                </el-select>
+                            </template>
+                            <template v-else>
+                                <div style="color: #d4d4d4;">无赠品</div>
+                            </template>
                         </template>
                     </el-table-column>
                     <el-table-column prop="handle" label="操作">
@@ -110,15 +133,13 @@ export default {
                 megerObj.baseQuantity = megerObj.baleQuantity * v.packageNum;
                 // 货款金额
                 megerObj.paymentTotalMoney = megerObj.baseQuantity * v.basePrice;
+                //赠品方案下拉框
+                megerObj.presentScheme = [];
+                megerObj.giftId = "";
                 return Object.assign({}, v, megerObj);
             });
-
-
-
-
-
-
             this.goodsData = this.goodsData.concat(willAppendData);
+            this.fetchPresentScheme();
         },
         /* 件数变化 */
         baleQuantityChange(row) {
@@ -130,16 +151,35 @@ export default {
         /* 确定 */
         confirm() {
             let _this = this;
-            if (_this.goodsData.length > 0) {
+            if (_this.goodsData.length === 0) {
+                this.$Notify({ title: '商品不能为空', type: 'warning' });
+                return;
+            }
+            var passed = this.validateData();
+            if (!passed) {
+                _this.$confirm('有未参加配赠的商品,是否继续？', '有未参加配赠的商品', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning',
+                    center: true
+                }).then(() => {
+                    _this.calcBasePrice()
+                        .then(res => {
+                            if (res.headers["x-ocm-code"] == '1') {
+                                _this.$router.push({ name: 'GoPickGoods', params: { selectedData: _this.goodsData, billHeader: _this.selectedObj } });
+                            }
+                        })
+                }).catch(() => { });
+            } else {
                 _this.calcBasePrice()
                     .then(res => {
                         if (res.headers["x-ocm-code"] == '1') {
                             _this.$router.push({ name: 'GoPickGoods', params: { selectedData: _this.goodsData, billHeader: _this.selectedObj } });
                         }
                     })
-            } else {
-                _this.$Notify({ title: '商品不能为空', type: 'warning' });
             }
+
+
         },
         //计算共建基金baseprice
         calcBasePrice() {
@@ -149,7 +189,6 @@ export default {
             let ids = idsArr.toString();
             let params = `ids=${ids}`;
             let url = '/ocm-web/api/b2b/purchase-orders/getAllFundPrice';
-            debugger
             return this.$http.post(url, params)
                 .then(res => {
                     debugger
@@ -162,7 +201,7 @@ export default {
                             v.fundPrice = exist[1];
                         }
                     })
-                    this.goodsData.forEach(v=>{
+                    this.goodsData.forEach(v => {
                         let exist = dataEntries.find(arr => arr[0] == v.id);
                         if (exist) {
                             v.fundPrice = exist[1];
@@ -189,6 +228,99 @@ export default {
                 }
             })
             return arr;
+        },
+        //获取配赠方案
+        fetchPresentScheme() {
+            var goodsInfos = this.goodsData.map(v => ({
+                goodsId: v.productId,
+                goodsNum: v.baleQuantity,//件
+                // goodsAmount: "",
+                goodsUnitPrice: v.basicPrice,
+            }));
+            var params = {
+                goodsInfos: goodsInfos,
+                orderCreateDate: new Date().getTime(),//下单时间
+                // organizationId: "",//销售组织
+                saleChannelCode: '00',//分销渠道
+                customerId: this.$store.state.customerId,
+                prodGroupId: this.$store.state.prodGroupId
+            };
+            var url = "/ocm-web/api/prom/rule-pubapi/gift";
+            var config = {
+                // async:false,
+                // headers:{}
+            };
+            this.$http.post(url, params, config)
+                .then(res => {
+                    if (res.headers["x-ocm-code"] == '1') {
+                        var goodsData = this.goodsData;
+                        //组装datasource
+                        Object.entries(res.data).forEach(arr => {
+                            var productId = arr[0];
+                            var rulesArr = arr[1];
+                            var dataSource = rulesArr.reduce((acc, rule, i) => {
+                                var productArr = rule.buyGiftResponseDetailDtos;
+                                var dataSourceItem = productArr.map(product => {
+                                    return {
+                                        label: product.giftName,
+                                        value: product.giftId,
+
+                                        promotionId: rule.ruleId,
+                                        promotionProducId: rule.goodId,
+                                        promotionProducCode: rule.ruleCode,
+                                        giftId: product.giftId,
+                                        giftAmout: product.giftAmout,
+                                        giftName: product.giftName,
+                                        promotionNum: product.promotionNum,
+                                    }
+                                });
+                                return [...acc, ...dataSourceItem];
+                            }, []);
+                            //当前行数据
+                            var currentObj = goodsData.find(v => v.productId == productId);
+                            currentObj.presentScheme = dataSource;
+                            //如果只有一行数据默认第一行数据选中
+                            if (dataSource.length == 1) {
+                                // currentObj.giftId = dataSource[0].value
+                            }
+                        });
+                        var goodsDataDeepCopy = JSON.parse(JSON.stringify(goodsData));
+                        this.goodsData = goodsDataDeepCopy;
+                    }
+                });
+        },
+        //验证
+        validateData() {
+            var passed = this.goodsData.every(v => {
+                var presentScheme = v.presentScheme || [];
+                if (presentScheme.length == 0) {
+                    return true;
+                } else {
+                    return v.giftId !== "";
+                }
+            });
+            //标示赠品产品
+            this.goodsData = this.goodsData.map(v => {
+                return {
+                    ...v,
+                    isGift: v.giftId ? 1 : 0
+                }
+            });
+            return passed;
+        },
+        presentChange(value, row) {
+            let giftId = value;
+            var presentScheme = row.presentScheme;
+            var currentRowGiftObj = presentScheme.find(v=>v.value === giftId);
+
+
+            row.giftId = giftId;
+            row.giftName = currentRowGiftObj.giftName;
+            row.giftAmout = currentRowGiftObj.giftAmout;
+            row.promotionNum = currentRowGiftObj.promotionNum;
+            row.promotionProducId = currentRowGiftObj.promotionProducId;
+            row.promotionProducName = currentRowGiftObj.promotionProducName;
+            row.promotionProducCode = currentRowGiftObj.promotionProducCode;
         }
     },
     computed: {
@@ -207,7 +339,6 @@ export default {
     },
     activated() {
         //mounted
-        debugger
         if (this.$route.params.selectedData) {
             this.selectedObj = this.$route.params.selectedData;
             //设置产品线
@@ -224,8 +355,12 @@ export default {
                 megerObj.baseQuantity = megerObj.baleQuantity * v.packageNum;
                 // 货款金额
                 megerObj.paymentTotalMoney = megerObj.baseQuantity * v.basePrice;
+                //赠品方案下拉框
+                megerObj.presentScheme = [];
+                megerObj.giftId = "";
                 return Object.assign({}, v, megerObj);
             });
+            this.fetchPresentScheme();
         }
     },
     deactivated() {

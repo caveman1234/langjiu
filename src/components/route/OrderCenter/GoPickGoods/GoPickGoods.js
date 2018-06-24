@@ -123,6 +123,16 @@ export default {
             _this.billFooger.notXtype = calcMoney.reduce((acc, v) => (acc + v.fundFee), 0).toFixed(2);
             _this.billFooger.deductionMoney = calcMoney.reduce((acc, v) => (acc + v.discountAmount), 0).toFixed(2);
             _this.fetchCashRest().then(cashRest => _this.billFooger.cashRest = Number(cashRest).toFixed(2));
+            //使用费用后计算现金结算金额
+            calcMoney.forEach(v => {
+                let productId = v.productId;
+                var goodsCurObj = this.goodsData.find(v => v.productId === productId);
+                var packageNum = goodsCurObj.packageNum;
+                var cashSettlementNum = (v.dealAmount / (v.basePrice * goodsCurObj.packageNum)).toFixed(2);
+                goodsCurObj.cashSettlementNum = cashSettlementNum;
+            })
+            //使用费用后重新计算配赠
+            _this.fetchPresentScheme();
         },
         //支付前保存
         saveOrderPrePay() {
@@ -320,8 +330,23 @@ export default {
         edit() {
             this.$router.push({ name: 'GoPickGoodsEdit' });
         },
+        //根据id获取产品
+        fetchProductById(productId) {
+            var paramsWrap = {
+                params: { productId }
+            }
+            var url = "/ocm-web/api/base/products/getProdDetailNew"
+            return this.$http.get(url, paramsWrap)
+                .then(res => {
+                    if (res.headers["x-ocm-code"] == '1') {
+                        return res.data;
+                    } else {
+                        return {};
+                    }
+                })
+        },
         //普通销售订单
-        submitNormal() {
+        async submitNormal() {
             let _this = this;
             /* 验证收获地址为空 */
             if (_this.infoData.length == 0) {
@@ -340,64 +365,201 @@ export default {
             }
             /* 使用费用表格 */
             let calcDataTable = this.calcDataTable.map(v => v.currentMoney);
-            let purchaseOrderItems = this.goodsData.map(v => {
-                var discountAmount = '';
-                var dealAmount = '';
-                var fundAmount = '';
-                var fundFee = '';
-                var fundCash = '';
-                var realAmount = '';
-                if (Array.isArray(this.calcMoney)) {
-                    var currentObj = this.calcMoney.find(aObj => aObj.productId == v.productId);
-                    var { discountAmount, dealAmount, fundAmount, fundFee, fundCash, realAmount } = currentObj;
+
+            // let purchaseOrderItems = this.goodsData.map(v => {
+            //     if (v.isGift === 1) {
+
+
+            //     } else {
+            //         var discountAmount = '';
+            //         var dealAmount = '';
+            //         var fundAmount = '';
+            //         var fundFee = '';
+            //         var fundCash = '';
+            //         var realAmount = '';
+            //         if (Array.isArray(this.calcMoney)) {
+            //             var currentObj = this.calcMoney.find(aObj => aObj.productId == v.productId);
+            //             var { discountAmount, dealAmount, fundAmount, fundFee, fundCash, realAmount } = currentObj;
+            //         }
+            //         return {
+            //             productId: v.productId,
+            //             productCode: v.productCode,
+            //             productName: v.productName,
+            //             productDesc: v.productDesc,
+            //             standard: v.standard,
+            //             productModel: v.productModel,
+            //             materialGroupId: v.materialGroupId,
+            //             materialGroupCode: v.materialGroupCode,
+            //             materialGroupName: v.materialGroupName,
+            //             productGroupId: v.productGroupId,
+            //             productGroupCode: v.productGroupCode,
+            //             productGroupName: v.productGroupName,
+            //             baseUnitId: v.baseUnitId,
+            //             baseUnitCode: v.baseUnitCode,
+            //             baseUnitName: v.baseUnitName,
+            //             baseQuantity: v.baseQuantity,
+            //             baleUnitId: v.baleUnitId,
+            //             baleUnitCode: v.baleUnitCode,
+            //             baleUnitName: v.baleUnitName,
+            //             baleQuantity: v.baleQuantity,
+            //             packageNum: v.packageNum,
+            //             basePrice: v.basePrice,
+            //             fundPrice: v.fundPrice,
+            //             dealPrice: v.dealPrice,
+            //             // fundAmount: v.fundAmount,
+            //             // realAmount: v.realAmount,
+            //             // dealAmount: v.dealAmount,
+            //             // discountAmount: v.discountAmount,
+            //             // fundFee: v.fundFee,
+            //             // fundCash: v.fundCash,
+            //             /* 使用费用 */
+            //             discountAmount: discountAmount,
+            //             dealAmount: dealAmount,
+            //             fundAmount: fundAmount,
+            //             fundFee: fundFee,
+            //             fundCash: fundCash,
+            //             realAmount: realAmount,
+            //             //新增
+            //             srcBillType: _this.billHeader.poTypeId,
+            //             srcBillId: _this.billHeader.id,
+            //             srcBillCode: _this.billHeader.orderCode,
+            //             srcBillRowId: v.id,
+            //             srcBillRowNum: v.rowNum,
+            //             baseQuantity: v.baleQuantity * v.packageNum
+            //         }
+            //     }
+
+            // });
+
+            
+            let purchaseOrderItems = [];
+            for (let i = 0, len = this.goodsData.length; i < len; i++) {
+                var v = this.goodsData[i];
+                if (v.giftId) {
+                    //如果没有赠品，或数量为0，不生成订单
+                    if (v.giftAmout === 0) {
+                        continue;
+                    }
+                    let productInfo = await this.fetchProductById(v.giftId);
+                    var isGiftObj = {
+                        isGift: 1,//是否赠品
+
+                        // promotionPrice: productInfo.basePrice ,//赠品价格？？
+                        promotionProducId: v.promotionProducId,
+                        promotionProducName: v.promotionProducName,
+                        promotionProducCode: v.promotionProducCode,
+
+                        productId: v.giftId,
+                        promotionNum: v.promotionNum,
+                        productName: v.giftName,
+                        baleQuantity: v.giftAmout,
+
+                        productCode: productInfo.productCode,
+                        productDesc: productInfo.productDesc,
+                        standard: productInfo.standard,
+                        productModel: productInfo.productModel,
+                        materialGroupId: productInfo.materialGroupId,
+                        materialGroupCode: productInfo.materialGroupCode,
+                        materialGroupName: productInfo.materialGroupName,
+                        productGroupId: productInfo.productGroupId,
+                        productGroupCode: productInfo.productGroupCode,
+                        productGroupName: productInfo.productGroupName,
+                        baseUnitId: productInfo.baseUnitId,
+                        baseUnitCode: productInfo.baseUnitCode,
+                        baseUnitName: productInfo.baseUnitName,
+
+                        baseQuantity: productInfo.packageNum * v.giftAmout,
+
+                        baleUnitId: productInfo.baleUnitId,
+                        baleUnitCode: productInfo.baleUnitCode,
+                        baleUnitName: productInfo.baleUnitName,
+                        packageNum: productInfo.packageNum,
+                        basePrice: 0,
+                        fundPrice: 0,
+                        dealPrice: 0,
+                        basePrice: 0,
+                        discountAmount: 0,
+                        dealAmount: 0,
+                        fundAmount: 0,
+                        fundFee: 0,
+                        fundCash: 0,
+                        realAmount: 0,
+                    };
+                    purchaseOrderItems.push(isGiftObj);
+
+
+
+
+
+                } else {
+                    var discountAmount = '';
+                    var dealAmount = '';
+                    var fundAmount = '';
+                    var fundFee = '';
+                    var fundCash = '';
+                    var realAmount = '';
+                    if (Array.isArray(this.calcMoney)) {
+                        var currentObj = this.calcMoney.find(aObj => aObj.productId == v.productId);
+                        var { discountAmount, dealAmount, fundAmount, fundFee, fundCash, realAmount } = currentObj;
+                    }
+                    var isNotGiftobj = {
+                        isGift: 0,
+                        productId: v.productId,
+                        productCode: v.productCode,
+                        productName: v.productName,
+                        productDesc: v.productDesc,
+                        standard: v.standard,
+                        productModel: v.productModel,
+                        materialGroupId: v.materialGroupId,
+                        materialGroupCode: v.materialGroupCode,
+                        materialGroupName: v.materialGroupName,
+                        productGroupId: v.productGroupId,
+                        productGroupCode: v.productGroupCode,
+                        productGroupName: v.productGroupName,
+                        baseUnitId: v.baseUnitId,
+                        baseUnitCode: v.baseUnitCode,
+                        baseUnitName: v.baseUnitName,
+                        baseQuantity: v.baseQuantity,
+                        baleUnitId: v.baleUnitId,
+                        baleUnitCode: v.baleUnitCode,
+                        baleUnitName: v.baleUnitName,
+                        baleQuantity: v.baleQuantity,
+                        packageNum: v.packageNum,
+                        basePrice: v.basePrice,
+                        fundPrice: v.fundPrice,
+                        dealPrice: v.dealPrice,
+                        // fundAmount: v.fundAmount,
+                        // realAmount: v.realAmount,
+                        // dealAmount: v.dealAmount,
+                        // discountAmount: v.discountAmount,
+                        // fundFee: v.fundFee,
+                        // fundCash: v.fundCash,
+                        /* 使用费用 */
+                        discountAmount: discountAmount,
+                        dealAmount: dealAmount,
+                        fundAmount: fundAmount,
+                        fundFee: fundFee,
+                        fundCash: fundCash,
+                        realAmount: realAmount,
+                        //新增
+                        srcBillType: _this.billHeader.poTypeId,
+                        srcBillId: _this.billHeader.id,
+                        srcBillCode: _this.billHeader.orderCode,
+                        srcBillRowId: v.id,
+                        srcBillRowNum: v.rowNum,
+                        baseQuantity: v.baleQuantity * v.packageNum
+                    }
+                    purchaseOrderItems.push(isNotGiftobj);
                 }
-                return {
-                    productId: v.productId,
-                    productCode: v.productCode,
-                    productName: v.productName,
-                    productDesc: v.productDesc,
-                    standard: v.standard,
-                    productModel: v.productModel,
-                    materialGroupId: v.materialGroupId,
-                    materialGroupCode: v.materialGroupCode,
-                    materialGroupName: v.materialGroupName,
-                    productGroupId: v.productGroupId,
-                    productGroupCode: v.productGroupCode,
-                    productGroupName: v.productGroupName,
-                    baseUnitId: v.baseUnitId,
-                    baseUnitCode: v.baseUnitCode,
-                    baseUnitName: v.baseUnitName,
-                    baseQuantity: v.baseQuantity,
-                    baleUnitId: v.baleUnitId,
-                    baleUnitCode: v.baleUnitCode,
-                    baleUnitName: v.baleUnitName,
-                    baleQuantity: v.baleQuantity,
-                    packageNum: v.packageNum,
-                    basePrice: v.basePrice,
-                    fundPrice: v.fundPrice,
-                    dealPrice: v.dealPrice,
-                    // fundAmount: v.fundAmount,
-                    // realAmount: v.realAmount,
-                    // dealAmount: v.dealAmount,
-                    // discountAmount: v.discountAmount,
-                    // fundFee: v.fundFee,
-                    // fundCash: v.fundCash,
-                    /* 使用费用 */
-                    discountAmount: discountAmount,
-                    dealAmount: dealAmount,
-                    fundAmount: fundAmount,
-                    fundFee: fundFee,
-                    fundCash: fundCash,
-                    realAmount: realAmount,
-                    //新增
-                    srcBillType: _this.billHeader.poTypeId,
-                    srcBillId: _this.billHeader.id,
-                    srcBillCode: _this.billHeader.orderCode,
-                    srcBillRowId: v.id,
-                    srcBillRowNum: v.rowNum,
-                    baseQuantity: v.baleQuantity * v.packageNum
-                }
-            });
+            }
+
+
+
+
+
+
+
+
 
             let receiveAddressId = _this.infoData.find(v => v.isSelected).receiveAddressId;
             let params = {
@@ -534,12 +696,86 @@ export default {
                     });
                     //如果都没选中，但是地址有长度，默认第一条选中 -> 以前地址被删除
                     var isAllUnSelected = infoData.every(v => v.isSelected == false);
-                    if(isAllUnSelected && infoData.length > 0){
+                    if (isAllUnSelected && infoData.length > 0) {
                         infoData[0].isSelected = true;
                     }
 
                     _this.infoData = infoData.map(v => ({ ...v, receiveAddressId: v.id }));
                 })
+        },
+        //获取配赠明细
+        fetchPresentScheme() {
+            var goodsInfos = this.goodsData.map(v => ({
+                goodsId: v.productId,
+                goodsNum: Number(v.cashSettlementNum),//计算费用后，现金结算数量
+                goodsUnitPrice: v.basicPrice,
+            }));
+            var params = {
+                goodsInfos: goodsInfos,
+                orderCreateDate: new Date().getTime(),//下单时间
+                // organizationId: "",//销售组织
+                saleChannelCode: '00',//分销渠道
+                customerId: this.$store.state.customerId,
+                prodGroupId: this.$store.state.prodGroupId
+            };
+            var url = "/ocm-web/api/prom/rule-pubapi/gift";
+            var config = {
+                // async:false,
+                // headers:{}
+            };
+            this.$http.post(url, params, config)
+                .then(res => {
+                    if (res.headers["x-ocm-code"] == '1') {
+                        var goodsData = this.goodsData;
+                        //组装datasource
+                        Object.entries(res.data).forEach(arr => {
+                            var productId = arr[0];
+                            var rulesArr = arr[1];
+                            var dataSource = rulesArr.reduce((acc, rule, i) => {
+                                var productArr = rule.buyGiftResponseDetailDtos;
+                                var dataSourceItem = productArr.map(product => {
+                                    return {
+                                        promotionId: rule.ruleId,//促销id
+                                        promotionProducId: rule.goodId,//促销产品id
+                                        promotionProducName: rule.ruleName,//
+                                        promotionProducCode: rule.ruleCode,//
+
+                                        giftId: product.giftId,//赠品id
+                                        giftAmout: product.giftAmout,//赠品数量
+                                        giftName: product.giftName,//赠品名称
+                                        promotionNum: product.promotionNum,//理论件数
+                                    }
+                                });
+                                return [...acc, ...dataSourceItem];
+                            }, []);
+                            //当前行数据
+                            var currentObj = goodsData.find(v => v.productId == productId);
+                            var giftId = currentObj.giftId;
+                            if (giftId) {
+                                var currentRowGiftObj = dataSource.find(v => v.giftId == giftId);
+                                var giftId = currentRowGiftObj.giftId;
+                                var giftName = currentRowGiftObj.giftName;
+                                var giftAmout = currentRowGiftObj.giftAmout;
+                                var promotionNum = currentRowGiftObj.promotionNum;
+                                var promotionProducId = currentRowGiftObj.promotionProducId;
+                                var promotionProducName = currentRowGiftObj.promotionProducName;
+                                var promotionProducCode = currentRowGiftObj.promotionProducCode;
+                                //展示明细
+                                currentObj.giftId = giftId;
+                                currentObj.giftName = giftName;
+                                currentObj.giftAmout = giftAmout;
+                                currentObj.promotionProducId = promotionProducId;
+                                currentObj.promotionProducName = promotionProducName;
+                                currentObj.promotionProducCode = promotionProducCode;
+
+                                currentObj.promotionNum = promotionNum;
+                            }
+
+                        });
+                        var goodsDataDeepCopy = JSON.parse(JSON.stringify(goodsData));
+                        this.goodsData = goodsDataDeepCopy;
+                    }
+                });
         },
     },
     computed: {
@@ -564,11 +800,24 @@ export default {
             let currentPay = Number(this.totalMoney) + Number(this.billFooger.xType) + Number(this.billFooger.notXtype) - Number(this.useOffMoney);
             return currentPay.toFixed(2);
         },
+        //赠品默认展开
+        expandKeys() {
+            let expandKeys = this.goodsData
+                .filter(v => v.giftId)
+                .map(v => v.productId)
+            return expandKeys
+        }
 
     },
     mounted() {
         let _this = this;
         _this.goodsData = this.$route.params.selectedData;
+        _this.goodsData = this.$route.params.selectedData.map(v => {
+            return {
+                ...v,
+                cashSettlementNum: v.baleQuantity,//现金结算金额,使用费用后产生
+            }
+        });
         _this.fetchOrderType(); /* 获取订单类型 */
         //设置产品线
         _this.prodGroupId = _this.$store.state.prodGroupId;

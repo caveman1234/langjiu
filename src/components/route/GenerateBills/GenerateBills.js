@@ -440,6 +440,8 @@ export default {
 
                         // promotionPrice: productInfo.basePrice ,//赠品价格？？
                         promotionProducId:v.promotionProducId,
+                        promotionProducName:v.promotionProducName,
+                        promotionProducCode:v.promotionProducCode,
 
                         productId: v.giftId,
                         promotionNum: v.promotionNum,
@@ -776,6 +778,8 @@ export default {
                                     return {
                                         promotionId: rule.ruleId,//促销id
                                         promotionProducId: rule.goodId,//促销产品id
+                                        promotionProducName: rule.ruleName,//
+                                        promotionProducCode: rule.ruleCode,//
 
                                         giftId: product.giftId,//赠品id
                                         giftAmout: product.giftAmout,//赠品数量
@@ -795,11 +799,15 @@ export default {
                                 var giftAmout = currentRowGiftObj.giftAmout;
                                 var promotionNum = currentRowGiftObj.promotionNum;
                                 var promotionProducId = currentRowGiftObj.promotionProducId;
+                                var promotionProducName = currentRowGiftObj.promotionProducName;
+                                var promotionProducCode = currentRowGiftObj.promotionProducCode;
                                 //展示明细
                                 currentObj.giftId = giftId;
                                 currentObj.giftName = giftName;
                                 currentObj.giftAmout = giftAmout;
                                 currentObj.promotionProducId = promotionProducId;
+                                currentObj.promotionProducName = promotionProducName;
+                                currentObj.promotionProducCode = promotionProducCode;
 
                                 currentObj.promotionNum = promotionNum;
                             }

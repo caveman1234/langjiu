@@ -89,6 +89,11 @@
                         <p>{{ scope.row.realAmount | formatPrice }}</p>
                     </template>
                 </el-table-column>
+                <el-table-column prop="baleQuantity" label="是否赠品">
+                    <template slot-scope="scope">
+                        <p>{{scope.row.isGift == 1 ? "是" : "否"}}</p>
+                    </template>
+                </el-table-column>
                 <el-table-column prop=""
                     label="操作">
                     <template slot-scope="scope">

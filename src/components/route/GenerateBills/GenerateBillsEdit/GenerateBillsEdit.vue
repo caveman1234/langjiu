@@ -94,6 +94,13 @@
                     </el-col>
                     <el-col :span="2">
                         <el-button @click="confirm" type="primary" size="mini">确定</el-button>
+                        <!-- <QuotaDialogConfirm 
+                            :goodsData="goodsData"
+                            @plainInnerSubmit="plainInnerSubmit"
+                            @plainOutterSubmit="plainOutterSubmit"
+                            :isBillEditPage="isBillEditPage"
+                            poTypeCode = "03"
+                        /> -->
                     </el-col>
                 </el-row>
             </div>
@@ -103,16 +110,19 @@
 <script>
 
 import AddNewGoods from '../AddNewGoods/AddNewGoods';
+import QuotaDialogConfirm from '../QuotaDialogConfirm/QuotaDialogConfirm';
+
 export default {
     name: 'GenerateBillsEdit',
-    components: { AddNewGoods },
+    components: { AddNewGoods, QuotaDialogConfirm },
     data() {
         return {
             /* 表格数据 */
             goodsData: [],
             defaultImg: require('../../../../assets/defaultimg.png'),
             dialogVisible: false,//dialog配额弹框
-            isGiftBills:false,//是否是赠品组合
+            isGiftBills: false,//是否是赠品组合
+            isBillEditPage:true,
         }
     },
     methods: {
@@ -253,7 +263,7 @@ export default {
                 name: 'GenerateBills',
                 params: {
                     selectedData: selectedData,
-                    isGiftBills:this.isGiftBills
+                    isGiftBills: this.isGiftBills
                 }
             });
         },
@@ -283,7 +293,6 @@ export default {
             }
             //配额是否充足
         },
-
         //表格合计
         getSummaries(params) {
             let _this = this;
@@ -303,7 +312,13 @@ export default {
                 }
             })
             return arr;
-        }
+        },
+        plainInnerSubmit() {
+            debugger
+        },
+        plainOutterSubmit() {
+            debugger
+        },
     },
     computed: {
         /* 订单总金额 */
@@ -318,7 +333,7 @@ export default {
         }
     },
     mounted() {
-
+        //只调用一次，返回修改不会进入
     },
     activated() {
         //mounted

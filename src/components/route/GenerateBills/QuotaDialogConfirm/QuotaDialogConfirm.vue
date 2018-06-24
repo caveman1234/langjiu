@@ -78,6 +78,12 @@ export default {
       default() {
         return '';
       }
+    },
+    //编辑页面引用
+    isBillEditPage: {
+      default() {
+        return false;
+      }
     }
   },
   data() {
@@ -181,7 +187,14 @@ export default {
       this.visiableInner = false;
     },
     returnEdit() {
-      this.$router.go(-1);
+      if (this.isBillEditPage) {
+        this.visiableOuter = false;
+        this.visiableInner = false;
+        this.visiableCanNotSubmit = false;
+        //如果是编辑页面
+      } else {
+        this.$router.go(-1);
+      }
     },
     lookQuotaDetail() {
       this.dialogVisible = true;
