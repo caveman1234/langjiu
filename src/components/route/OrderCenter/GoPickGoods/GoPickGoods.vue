@@ -4,7 +4,50 @@
             <div class="accountInfo">
                 <div class="accountTitle">收货人信息</div>
                 <div class="accountContent">
-                    <DeliveryInfo @addressClick="addressClick" v-for="(item,index) in infoData" :key="index" :infoData="item" class="accountItem"></DeliveryInfo>
+
+                    <template v-for="(item,index) in infoData" >
+                        <template v-if="item.isSelected">
+                            <DeliveryInfo 
+                                @addressClick="addressClick" 
+                                :key="index" 
+                                :infoData="item" 
+                                class="accountItem"
+                            ></DeliveryInfo>
+                        </template>
+                        <template v-else>
+                            <DeliveryInfo 
+                                @addressClick="addressClick" 
+                                :key="index" 
+                                :infoData="item" 
+                                class="accountItem"
+                                v-show="isAddressShow"
+                            ></DeliveryInfo>
+                        </template>
+                    </template>
+                    <el-row @click.native="isAddressShow=!isAddressShow" class="DeliverInfoIcon">
+                        <template v-if="isAddressShow">
+                            <i  class="icon iconfont lj-up" style="vertical-align: middle;"></i><i v-red>收起</i>
+                        </template>
+                        <template v-else>
+                            <i v-red class="icon iconfont lj-down-" style="vertical-align: middle;top:0px;margin-left:10px;">
+                            </i>
+                            
+                            <i v-red>查看更多</i>
+                        </template>
+                    </el-row>
+
+
+
+
+
+
+                    <!-- <DeliveryInfo @addressClick="addressClick" v-for="(item,index) in infoData" :key="index" :infoData="item" class="accountItem"></DeliveryInfo> -->
+
+
+
+
+
+
                 </div>
             </div>
             <div class="notice">

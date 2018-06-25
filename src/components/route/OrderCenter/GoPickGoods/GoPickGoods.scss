@@ -127,4 +127,16 @@ $bgColor: #F5F5F5;
     .gray {
         color: #a59c9cfa;
     }
+    .DeliverInfoIcon {
+        width: 100%;
+        text-align: center;
+        cursor: pointer;
+        margin-top: 3px;
+        border-radius: 2px;
+        background: $bgColor;
+        margin-right: 15px;
+    }
+    .DeliverInfoIcon:hover {
+        background: $borderColor;
+    }
 }

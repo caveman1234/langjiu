@@ -4,8 +4,8 @@
             <div class="accountInfo">
                 <div class="accountTitle">收货人信息</div>
                 <div class="accountContent">
-                    <!-- <template v-for="(item,index) in infoData" >
-                        <template v-if="index < 1">
+                    <template v-for="(item,index) in infoData" >
+                        <template v-if="item.isSelected">
                             <DeliveryInfo 
                                 @addressClick="addressClick" 
                                 :key="index" 
@@ -25,20 +25,23 @@
                     </template>
                     <el-row @click.native="isAddressShow=!isAddressShow" class="DeliverInfoIcon">
                         <template v-if="isAddressShow">
-                            <i  class="icon iconfont lj-up" style="vertical-align: middle;"></i><i>收起</i>
+                            <i  class="icon iconfont lj-up" style="vertical-align: middle;"></i><i v-red>收起</i>
                         </template>
                         <template v-else>
-                            <i class="icon iconfont lj-down-" style="vertical-align: middle;top:8px;"></i>更多<i></i>
+                            <i v-red class="icon iconfont lj-down-" style="vertical-align: middle;top:0px;margin-left:10px;">
+                            </i>
+                            
+                            <i v-red>查看更多</i>
                         </template>
-                    </el-row> -->
+                    </el-row>
 
-                    <DeliveryInfo 
+                    <!-- <DeliveryInfo 
                         v-for="(item,index) in infoData"
                         @addressClick="addressClick" 
                         :key="index" 
                         :infoData="item" 
                         class="accountItem"
-                    ></DeliveryInfo>
+                    ></DeliveryInfo> -->
                 </div>
             </div>
             <div class="notice">
