@@ -93,7 +93,7 @@
                 >
                     <el-table-column type="expand">
                         <template slot-scope="props">
-                            <el-row v-if="props.row.giftName">
+                            <el-row v-if="props.row.giftName && businessTypeCode!=='03'">
                                 <el-col :span="2">赠品名称:</el-col>
                                 <el-col :span="7">{{ props.row.giftName }}</el-col>
                                 <el-col :span="2">理论数量(件):</el-col>

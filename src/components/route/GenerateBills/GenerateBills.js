@@ -431,6 +431,7 @@ export default {
                 for (let i = 0; i < this.goodsData.length; i++) {
                     let v = this.goodsData[i];
                     //如果没有赠品，或数量为0，不生成订单
+                    debugger
                     if (!v.giftId || v.giftAmout === 0) {
                         continue;
                     }

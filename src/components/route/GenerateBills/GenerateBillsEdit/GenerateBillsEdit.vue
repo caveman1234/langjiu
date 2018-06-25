@@ -200,7 +200,7 @@ export default {
                     .filter(v => (v.presentScheme || []).length === 0)
                     .map(v => `【${v.productDesc}】`)
                     .join(",");
-                this.$Notify({ title: `${errorMsg}无配赠产品,不能合并下单，请修改！`, type: 'warning' });
+                this.$Notify({ title: `${errorMsg}无配赠产品,请单独下单！`, type: 'warning' });
                 return false;
             }
         },
