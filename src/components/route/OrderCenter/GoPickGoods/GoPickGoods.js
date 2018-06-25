@@ -312,7 +312,6 @@ export default {
                 //     }
                 // ]
             };
-            debugger
             let sreverUrl = '/ocm-web/api/abc/quickPay';
             _this.$http.post(sreverUrl, params)
                 .then(res => {
@@ -366,75 +365,72 @@ export default {
             /* 使用费用表格 */
             let calcDataTable = this.calcDataTable.map(v => v.currentMoney);
 
-            // let purchaseOrderItems = this.goodsData.map(v => {
-            //     if (v.isGift === 1) {
+   
 
 
-            //     } else {
-            //         var discountAmount = '';
-            //         var dealAmount = '';
-            //         var fundAmount = '';
-            //         var fundFee = '';
-            //         var fundCash = '';
-            //         var realAmount = '';
-            //         if (Array.isArray(this.calcMoney)) {
-            //             var currentObj = this.calcMoney.find(aObj => aObj.productId == v.productId);
-            //             var { discountAmount, dealAmount, fundAmount, fundFee, fundCash, realAmount } = currentObj;
-            //         }
-            //         return {
-            //             productId: v.productId,
-            //             productCode: v.productCode,
-            //             productName: v.productName,
-            //             productDesc: v.productDesc,
-            //             standard: v.standard,
-            //             productModel: v.productModel,
-            //             materialGroupId: v.materialGroupId,
-            //             materialGroupCode: v.materialGroupCode,
-            //             materialGroupName: v.materialGroupName,
-            //             productGroupId: v.productGroupId,
-            //             productGroupCode: v.productGroupCode,
-            //             productGroupName: v.productGroupName,
-            //             baseUnitId: v.baseUnitId,
-            //             baseUnitCode: v.baseUnitCode,
-            //             baseUnitName: v.baseUnitName,
-            //             baseQuantity: v.baseQuantity,
-            //             baleUnitId: v.baleUnitId,
-            //             baleUnitCode: v.baleUnitCode,
-            //             baleUnitName: v.baleUnitName,
-            //             baleQuantity: v.baleQuantity,
-            //             packageNum: v.packageNum,
-            //             basePrice: v.basePrice,
-            //             fundPrice: v.fundPrice,
-            //             dealPrice: v.dealPrice,
-            //             // fundAmount: v.fundAmount,
-            //             // realAmount: v.realAmount,
-            //             // dealAmount: v.dealAmount,
-            //             // discountAmount: v.discountAmount,
-            //             // fundFee: v.fundFee,
-            //             // fundCash: v.fundCash,
-            //             /* 使用费用 */
-            //             discountAmount: discountAmount,
-            //             dealAmount: dealAmount,
-            //             fundAmount: fundAmount,
-            //             fundFee: fundFee,
-            //             fundCash: fundCash,
-            //             realAmount: realAmount,
-            //             //新增
-            //             srcBillType: _this.billHeader.poTypeId,
-            //             srcBillId: _this.billHeader.id,
-            //             srcBillCode: _this.billHeader.orderCode,
-            //             srcBillRowId: v.id,
-            //             srcBillRowNum: v.rowNum,
-            //             baseQuantity: v.baleQuantity * v.packageNum
-            //         }
-            //     }
-
-            // });
-
-            
             let purchaseOrderItems = [];
             for (let i = 0, len = this.goodsData.length; i < len; i++) {
+
                 var v = this.goodsData[i];
+
+                var discountAmount = '';
+                var dealAmount = '';
+                var fundAmount = '';
+                var fundFee = '';
+                var fundCash = '';
+                var realAmount = '';
+                if (Array.isArray(this.calcMoney)) {
+                    var currentObj = this.calcMoney.find(aObj => aObj.productId == v.productId);
+                    var { discountAmount, dealAmount, fundAmount, fundFee, fundCash, realAmount } = currentObj;
+                }
+                var isNotGiftobj = {
+                    isGift: 0,
+                    productId: v.productId,
+                    productCode: v.productCode,
+                    productName: v.productName,
+                    productDesc: v.productDesc,
+                    standard: v.standard,
+                    productModel: v.productModel,
+                    materialGroupId: v.materialGroupId,
+                    materialGroupCode: v.materialGroupCode,
+                    materialGroupName: v.materialGroupName,
+                    productGroupId: v.productGroupId,
+                    productGroupCode: v.productGroupCode,
+                    productGroupName: v.productGroupName,
+                    baseUnitId: v.baseUnitId,
+                    baseUnitCode: v.baseUnitCode,
+                    baseUnitName: v.baseUnitName,
+                    baseQuantity: v.baseQuantity,
+                    baleUnitId: v.baleUnitId,
+                    baleUnitCode: v.baleUnitCode,
+                    baleUnitName: v.baleUnitName,
+                    baleQuantity: v.baleQuantity,
+                    packageNum: v.packageNum,
+                    basePrice: v.basePrice,
+                    fundPrice: v.fundPrice,
+                    dealPrice: v.dealPrice,
+                    // fundAmount: v.fundAmount,
+                    // realAmount: v.realAmount,
+                    // dealAmount: v.dealAmount,
+                    // discountAmount: v.discountAmount,
+                    // fundFee: v.fundFee,
+                    // fundCash: v.fundCash,
+                    /* 使用费用 */
+                    discountAmount: discountAmount,
+                    dealAmount: dealAmount,
+                    fundAmount: fundAmount,
+                    fundFee: fundFee,
+                    fundCash: fundCash,
+                    realAmount: realAmount,
+                    //新增
+                    srcBillType: _this.billHeader.poTypeId,
+                    srcBillId: _this.billHeader.id,
+                    srcBillCode: _this.billHeader.orderCode,
+                    srcBillRowId: v.id,
+                    srcBillRowNum: v.rowNum,
+                    baseQuantity: v.baleQuantity * v.packageNum
+                }
+                purchaseOrderItems.push(isNotGiftobj);
                 if (v.giftId) {
                     //如果没有赠品，或数量为0，不生成订单
                     if (v.giftAmout === 0) {
@@ -486,79 +482,10 @@ export default {
                         realAmount: 0,
                     };
                     purchaseOrderItems.push(isGiftObj);
-
-
-
-
-
                 } else {
-                    var discountAmount = '';
-                    var dealAmount = '';
-                    var fundAmount = '';
-                    var fundFee = '';
-                    var fundCash = '';
-                    var realAmount = '';
-                    if (Array.isArray(this.calcMoney)) {
-                        var currentObj = this.calcMoney.find(aObj => aObj.productId == v.productId);
-                        var { discountAmount, dealAmount, fundAmount, fundFee, fundCash, realAmount } = currentObj;
-                    }
-                    var isNotGiftobj = {
-                        isGift: 0,
-                        productId: v.productId,
-                        productCode: v.productCode,
-                        productName: v.productName,
-                        productDesc: v.productDesc,
-                        standard: v.standard,
-                        productModel: v.productModel,
-                        materialGroupId: v.materialGroupId,
-                        materialGroupCode: v.materialGroupCode,
-                        materialGroupName: v.materialGroupName,
-                        productGroupId: v.productGroupId,
-                        productGroupCode: v.productGroupCode,
-                        productGroupName: v.productGroupName,
-                        baseUnitId: v.baseUnitId,
-                        baseUnitCode: v.baseUnitCode,
-                        baseUnitName: v.baseUnitName,
-                        baseQuantity: v.baseQuantity,
-                        baleUnitId: v.baleUnitId,
-                        baleUnitCode: v.baleUnitCode,
-                        baleUnitName: v.baleUnitName,
-                        baleQuantity: v.baleQuantity,
-                        packageNum: v.packageNum,
-                        basePrice: v.basePrice,
-                        fundPrice: v.fundPrice,
-                        dealPrice: v.dealPrice,
-                        // fundAmount: v.fundAmount,
-                        // realAmount: v.realAmount,
-                        // dealAmount: v.dealAmount,
-                        // discountAmount: v.discountAmount,
-                        // fundFee: v.fundFee,
-                        // fundCash: v.fundCash,
-                        /* 使用费用 */
-                        discountAmount: discountAmount,
-                        dealAmount: dealAmount,
-                        fundAmount: fundAmount,
-                        fundFee: fundFee,
-                        fundCash: fundCash,
-                        realAmount: realAmount,
-                        //新增
-                        srcBillType: _this.billHeader.poTypeId,
-                        srcBillId: _this.billHeader.id,
-                        srcBillCode: _this.billHeader.orderCode,
-                        srcBillRowId: v.id,
-                        srcBillRowNum: v.rowNum,
-                        baseQuantity: v.baleQuantity * v.packageNum
-                    }
-                    purchaseOrderItems.push(isNotGiftobj);
+
                 }
             }
-
-
-
-
-
-
-
 
 
             let receiveAddressId = _this.infoData.find(v => v.isSelected).receiveAddressId;
