@@ -1,6 +1,6 @@
 <template>
   <div class="QuotaDialogConfirm">
-    <el-button size="mini" @click="checkInner" type="primary">提交</el-button>
+    <el-button size="mini" @click="checkInner" type="primary">{{isBillEditPage ? "确定" : "提交"}}</el-button>
     <el-dialog
       :close-on-press-escape="false"
       :close-on-click-modal="false"
@@ -79,7 +79,7 @@ export default {
         return '';
       }
     },
-    //编辑页面引用
+    //是否是编辑页面检查配额
     isBillEditPage: {
       default() {
         return false;
@@ -95,7 +95,7 @@ export default {
       visiableCanNotSubmit: false,//不能提交
       innerMessage: '',
       outterMessage: '',
-      canNotSubmitMsg: ''
+      canNotSubmitMsg: '',
     }
   },
   methods: {
@@ -108,10 +108,11 @@ export default {
       //检查配额
       let params = {
         isQuota: isQuota,
-        poTypeCode: this.poTypeCode,
+        // poTypeCode: this.poTypeCode,
         distributorId: this.$store.state.customerId,
-        purchaseOrderItems: this.goodsData.map(v => ({ ...v, basePrice: v.basicPrice }))
+        purchaseOrderItems: this.goodsData.map(v => ({ ...v, basePrice: v.basicPrice || v.basePrice }))
       }
+      debugger
       return this.$http.post('/ocm-web/api/b2b/purchase-orders/checkQuota', params)
         .then(res => {
           if (res.headers["x-ocm-code"] == '1') {
@@ -129,21 +130,22 @@ export default {
     },
     //配额检查计划内
     async checkInner() {
-      if (this.poTypeCode == '') {
-        this.$Notify({ title: '订单类型不能为空', type: 'warning' });
-        return;
-      }
+      // if (this.poTypeCode == '') {
+      //   this.$Notify({ title: '订单类型不能为空', type: 'warning' });
+      //   return;
+      // }
       let resultInner = await this.checkQuotaInnerOuter(1);
       if (resultInner == "1") {
         //计划内提交
-        this.$confirm('此操作不可逆，是否提交？', '提交', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning',
-          center: true
-        }).then(() => {
+        // this.$confirm('此操作不可逆，是否提交？', '提交', {
+        //   confirmButtonText: '确定',
+        //   cancelButtonText: '取消',
+        //   type: 'warning',
+        //   center: true
+        // }).then(() => {
+          this.closeAllMask();
           this.$emit("plainInnerSubmit");
-        }).catch(() => { });
+        // }).catch(() => { });
       } else if (resultInner == "2") {
         this.visiableInner = true;
       } else if (resultInner == "3") {
@@ -156,14 +158,15 @@ export default {
       let resultOutter = await this.checkQuotaInnerOuter(0);
       if (resultOutter == "1") {
         //计划外提交
-        this.$confirm('此操作不可逆，是否提交？', '提交', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning',
-          center: true
-        }).then(() => {
+        // this.$confirm('此操作不可逆，是否提交？', '提交', {
+        //   confirmButtonText: '确定',
+        //   cancelButtonText: '取消',
+        //   type: 'warning',
+        //   center: true
+        // }).then(() => {
+          this.closeAllMask();
           this.$emit("plainOutterSubmit");
-        }).catch(() => { });
+        // }).catch(() => { });
 
       } else if (resultOutter == "2") {
         //不能下订单
@@ -175,6 +178,11 @@ export default {
     //计划外提交
     submitOutter() {
 
+    },
+    closeAllMask(){
+      this.visiableOuter = false;
+      this.visiableInner = false;
+      this.visiableCanNotSubmit = false;
     },
     //计划外取消
     outterCancel() {

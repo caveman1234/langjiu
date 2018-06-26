@@ -77,6 +77,7 @@ export default {
                 //     label: 'ccb'
                 // }
             ],
+            isQuota: 1,
         }
     },
     methods: {
@@ -367,7 +368,7 @@ export default {
             /* 使用费用表格 */
             let calcDataTable = this.calcDataTable.map(v => v.currentMoney);
 
-   
+
 
 
             let purchaseOrderItems = [];
@@ -433,6 +434,7 @@ export default {
                     baseQuantity: v.baleQuantity * v.packageNum
                 }
                 purchaseOrderItems.push(isNotGiftobj);
+                debugger
                 if (v.giftId) {
                     //如果没有赠品，或数量为0，不生成订单
                     if (v.giftAmout === 0) {
@@ -482,6 +484,10 @@ export default {
                         fundFee: 0,
                         fundCash: 0,
                         realAmount: 0,
+                        //来源
+                        srcBillType: _this.billHeader.poTypeId,
+                        srcBillId: _this.billHeader.id,
+                        srcBillCode: _this.billHeader.orderCode,
                     };
                     purchaseOrderItems.push(isGiftObj);
                 } else {
@@ -505,6 +511,7 @@ export default {
 
                 purchaseOrderItems: purchaseOrderItems
             };
+            params.isQuota = _this.isQuota;
             params.persistStatus = "new";
             params.poTypeId = _this.carriageMethod;
             params.receiveOrgId = _this.billHeader.receiveOrgId;

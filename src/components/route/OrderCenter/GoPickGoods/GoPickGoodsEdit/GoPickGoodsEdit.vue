@@ -4,7 +4,7 @@
             <AddNewGoods @receiveData="receiveData"></AddNewGoods>
             <div class="goodsContent">
                 <el-table :data="goodsData" :summary-method="getSummaries" show-summary style="width: 100%" border>
-                    <el-table-column prop="productDesc" label="商品详情" width="300">
+                    <el-table-column prop="productDesc" label="商品详情" width="200">
                         <template slot-scope="scope">
                             <div class="detailContainer">
                                 <div :style='{"backgroundImage":`url(${scope.row.imageUrl || defaultImg})`}' class="goodsImg"></div>
@@ -84,7 +84,13 @@
                         <div class="opacity0">1</div>
                     </el-col>
                     <el-col :span="2">
-                        <el-button @click="confirm" type="primary" size="mini">确定</el-button>
+                        <!-- <el-button @click="confirm" type="primary" size="mini">确定</el-button> -->
+                        <QuotaDialogConfirm 
+                            :goodsData="goodsData"
+                            @plainInnerSubmit="plainInnerSubmit"
+                            @plainOutterSubmit="plainOutterSubmit"
+                            :isBillEditPage="true"
+                        />
                     </el-col>
                 </el-row>
             </div>
@@ -94,15 +100,17 @@
 <script>
 //去提货，去填仓
 import AddNewGoods from '@/components/route/GenerateBills/AddNewGoods/AddNewGoods';
+import QuotaDialogConfirm from '@/components/route/GenerateBills/QuotaDialogConfirm/QuotaDialogConfirm';
 export default {
     name: 'GoPickGoodsEdit',
-    components: { AddNewGoods },
+    components: { AddNewGoods, QuotaDialogConfirm },
     data() {
         return {
             /* 表格数据 */
             goodsData: [],
             defaultImg: require('../../../../../assets/defaultimg.png'),
             selectedObj: {},//去提货 route传递参数
+            isQuota: 1,
         }
     },
     methods: {
@@ -117,7 +125,7 @@ export default {
             willAppendData = willAppendData.map(v => {
                 v.basePrice = v.basicPrice;
                 delete v.basicPrice;
-                v.paymentTotalMoney = v.baseQuantity * v.basePrice;
+                v.paymentTotalMoney = v.baseQuantity * (v.basePrice || v.basicPrice);
                 return v;
             });
 
@@ -136,6 +144,7 @@ export default {
                 //赠品方案下拉框
                 megerObj.presentScheme = [];
                 megerObj.giftId = "";
+                megerObj.cacheBasePrice = v.basePrice || v.basePrice;
                 return Object.assign({}, v, megerObj);
             });
             this.goodsData = this.goodsData.concat(willAppendData);
@@ -145,7 +154,7 @@ export default {
         baleQuantityChange(row) {
             this.$nextTick(() => {
                 row.baseQuantity = (row.baleQuantity) * row.packageNum;
-                row.paymentTotalMoney = row.baseQuantity * row.basePrice;
+                row.paymentTotalMoney = row.baseQuantity * (row.basePrice || row.basicPrice);
             });
         },
         /* 确定 */
@@ -166,7 +175,7 @@ export default {
                     _this.calcBasePrice()
                         .then(res => {
                             if (res.headers["x-ocm-code"] == '1') {
-                                _this.$router.push({ name: 'GoPickGoods', params: { selectedData: _this.goodsData, billHeader: _this.selectedObj } });
+                                _this.jumpRoute();
                             }
                         })
                 }).catch(() => { });
@@ -174,7 +183,7 @@ export default {
                 _this.calcBasePrice()
                     .then(res => {
                         if (res.headers["x-ocm-code"] == '1') {
-                            _this.$router.push({ name: 'GoPickGoods', params: { selectedData: _this.goodsData, billHeader: _this.selectedObj } });
+                            _this.jumpRoute();
                         }
                     })
             }
@@ -191,7 +200,6 @@ export default {
             let url = '/ocm-web/api/b2b/purchase-orders/getAllFundPrice';
             return this.$http.post(url, params)
                 .then(res => {
-                    debugger
                     let data = res.data;
                     let dataEntries = Object.entries(data);
 
@@ -311,7 +319,7 @@ export default {
         presentChange(value, row) {
             let giftId = value;
             var presentScheme = row.presentScheme;
-            var currentRowGiftObj = presentScheme.find(v=>v.value === giftId);
+            var currentRowGiftObj = presentScheme.find(v => v.value === giftId);
 
 
             row.giftId = giftId;
@@ -321,7 +329,39 @@ export default {
             row.promotionProducId = currentRowGiftObj.promotionProducId;
             row.promotionProducName = currentRowGiftObj.promotionProducName;
             row.promotionProducCode = currentRowGiftObj.promotionProducCode;
-        }
+        },
+        //配额
+        jumpRoute() {
+            let _this = this;
+            _this.$router.push({
+                name: 'GoPickGoods',
+                params: {
+                    selectedData: _this.goodsData,
+                    billHeader: _this.selectedObj,
+                    isQuota: _this.isQuota
+                }
+            });
+        },
+        changeToOutPrice() {
+            this.goodsData.forEach(v => {
+                v.basePrice = v.outPrice;
+            });
+        },
+        changeToBasePrice() {
+            this.goodsData.forEach(v => {
+                v.basePrice = v.cacheBasePrice;
+            });
+        },
+        plainInnerSubmit() {
+            this.isQuota = 1;//计划内
+            this.changeToBasePrice();
+            this.confirm();
+        },
+        plainOutterSubmit() {
+            this.isQuota = 0;//计划外
+            this.changeToOutPrice();
+            this.confirm();
+        },
     },
     computed: {
         /* 订单总金额 */
@@ -354,13 +394,24 @@ export default {
                 // 瓶
                 megerObj.baseQuantity = megerObj.baleQuantity * v.packageNum;
                 // 货款金额
-                megerObj.paymentTotalMoney = megerObj.baseQuantity * v.basePrice;
+                megerObj.paymentTotalMoney = megerObj.baseQuantity * (v.basePrice | v.basicPrice);
                 //赠品方案下拉框
                 megerObj.presentScheme = [];
                 megerObj.giftId = "";
+
+                //缓存价格
+                megerObj.cacheBasePrice = v.basePrice || v.basePrice;
                 return Object.assign({}, v, megerObj);
             });
             this.fetchPresentScheme();
+        } else {
+            this.goodsData.forEach(v => {
+                let basePrice = v.basePrice || v.basePrice;
+                if (basePrice === v.outPrice) {
+                    v.basePrice = v.cacheBasePrice;
+                }
+            });
+            //返回修改
         }
     },
     deactivated() {

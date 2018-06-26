@@ -440,9 +440,9 @@ export default {
                         isGift: this.isGiftBills ? 1 : 0,//是否赠品
 
                         // promotionPrice: productInfo.basePrice ,//赠品价格？？
-                        promotionProducId:v.promotionProducId,
-                        promotionProducName:v.promotionProducName,
-                        promotionProducCode:v.promotionProducCode,
+                        promotionProducId: v.promotionProducId,
+                        promotionProducName: v.promotionProducName,
+                        promotionProducCode: v.promotionProducCode,
 
                         productId: v.giftId,
                         promotionNum: v.promotionNum,
@@ -504,13 +504,21 @@ export default {
             params.isQuota = this.isQuota;
 
             //销售订单请求地址
-            let sreverUrl = '/ocm-web/api/b2b/purchase-orders/submit';
-            _this.$http.post(sreverUrl, params)
-                .then(res => {
-                    if (res.headers["x-ocm-code"] == '1') {
-                        _this.$router.push({ name: 'TotalOrder' });
-                    }
-                });
+            this.$confirm('此操作不可逆，是否提交？', '提交', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning',
+                center: true
+            }).then(() => {
+                let sreverUrl = '/ocm-web/api/b2b/purchase-orders/submit';
+                _this.$http.post(sreverUrl, params)
+                    .then(res => {
+                        if (res.headers["x-ocm-code"] == '1') {
+                            _this.$router.push({ name: 'TotalOrder' });
+                        }
+                    });
+            }).catch(() => { });
+
         },
         //提交融资订单
         submigFinancing() {
@@ -867,6 +875,7 @@ export default {
     mounted() {
         let _this = this;
         _this.isGiftBills = this.$route.params.isGiftBills;
+        _this.isQuota = this.$route.params.isQuota;
         _this.goodsData = this.$route.params.selectedData.map(v => {
             return {
                 ...v,

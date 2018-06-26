@@ -93,14 +93,13 @@
                         <div class="opacity0">1</div>
                     </el-col>
                     <el-col :span="2">
-                        <el-button @click="confirm" type="primary" size="mini">确定</el-button>
-                        <!-- <QuotaDialogConfirm 
+                        <!-- <el-button @click="confirm" type="primary" size="mini">确定</el-button> -->
+                        <QuotaDialogConfirm 
                             :goodsData="goodsData"
                             @plainInnerSubmit="plainInnerSubmit"
                             @plainOutterSubmit="plainOutterSubmit"
-                            :isBillEditPage="isBillEditPage"
-                            poTypeCode = "03"
-                        /> -->
+                            :isBillEditPage="true"
+                        />
                     </el-col>
                 </el-row>
             </div>
@@ -122,7 +121,7 @@ export default {
             defaultImg: require('../../../../assets/defaultimg.png'),
             dialogVisible: false,//dialog配额弹框
             isGiftBills: false,//是否是赠品组合
-            isBillEditPage:true,
+            
         }
     },
     methods: {
@@ -146,6 +145,7 @@ export default {
                 megerObj.baseQuantity = megerObj.baleQuantity * v.packageNum;
                 // 货款金额
                 megerObj.paymentTotalMoney = megerObj.baseQuantity * v.basicPrice;
+                megerObj.cacheBasePrice = v.basePrice || v.basePrice;
                 return Object.assign({}, v, megerObj);
             });
             this.goodsData = this.goodsData.concat(willAppendData);
@@ -263,7 +263,9 @@ export default {
                 name: 'GenerateBills',
                 params: {
                     selectedData: selectedData,
-                    isGiftBills: this.isGiftBills
+                    isGiftBills: this.isGiftBills,
+                    isQuota: this.isQuota
+
                 }
             });
         },
@@ -313,11 +315,27 @@ export default {
             })
             return arr;
         },
+
+
+        changeToOutPrice() {
+            this.goodsData.forEach(v => {
+                v.basicPrice = v.outPrice;
+            });
+        },
+        changeToBasicPrice() {
+            this.goodsData.forEach(v => {
+                v.basicPrice = v.cacheBasicPrice;
+            });
+        },
         plainInnerSubmit() {
-            debugger
+            this.isQuota = 1;//计划内
+            this.changeToBasicPrice();
+            this.confirm();
         },
         plainOutterSubmit() {
-            debugger
+            this.isQuota = 0;//计划外
+            this.changeToOutPrice();
+            this.confirm();
         },
     },
     computed: {
@@ -333,9 +351,10 @@ export default {
         }
     },
     mounted() {
-        //只调用一次，返回修改不会进入
+
     },
     activated() {
+
         //mounted
         if (this.$route.params.selectedData) {
             //添加商品
@@ -345,6 +364,7 @@ export default {
                 //packageNum 一包瓶数
                 //paymentTotalMoney 货款金额
                 let megerObj = {};
+                
                 //件
                 megerObj.baleQuantity = v.baleQuantity || 1;
                 // 瓶
@@ -354,11 +374,19 @@ export default {
                 //赠品方案下拉框
                 megerObj.presentScheme = [];
                 megerObj.giftId = "";
+
+                //缓存价格
+                megerObj.cacheBasicPrice = v.basicPrice;
                 return Object.assign({}, v, megerObj);
             });
             //获取配赠方案
             this.fetchPresentScheme();
         } else {
+            this.goodsData.forEach(v => {
+                if (v.basicPrice === v.outPrice) {
+                    v.basicPrice = v.cacheBasicPrice;
+                }
+            });
             //返回修改
         }
     },
