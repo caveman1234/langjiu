@@ -145,7 +145,7 @@ export default {
                 megerObj.baseQuantity = megerObj.baleQuantity * v.packageNum;
                 // 货款金额
                 megerObj.paymentTotalMoney = megerObj.baseQuantity * v.basicPrice;
-                megerObj.cacheBasePrice = v.basePrice || v.basePrice;
+                megerObj.cacheBasicPrice = v.basePrice || v.basicPrice;
                 return Object.assign({}, v, megerObj);
             });
             this.goodsData = this.goodsData.concat(willAppendData);
@@ -376,7 +376,7 @@ export default {
                 megerObj.giftId = "";
 
                 //缓存价格
-                megerObj.cacheBasicPrice = v.basicPrice;
+                megerObj.cacheBasicPrice = v.basicPrice || v.basePrice;
                 return Object.assign({}, v, megerObj);
             });
             //获取配赠方案
