@@ -102,6 +102,15 @@ export default {
 
             this.goodsData = this.goodsData.concat(willAppendData);
         },
+        //计算费用后插入eqf费用到行上
+        insertEQF(calcMoney) {
+            this.goodsData = this.goodsData.map(v => ({
+                ...v,
+                eFeeUsedAmount: calcMoney.find(a => a.productId === v.productId).eFeeUsedAmount,
+                qFeeUsedAmount: calcMoney.find(a => a.productId === v.productId).qFeeUsedAmount,
+                fFeeUsedAmount: calcMoney.find(a => a.productId === v.productId).fFeeUsedAmount,
+            }));
+        },
         /* 使用折扣金额 */
         CostOffEvent(calcMoney, useOffMoney, calcDataTable) {
             let _this = this;
@@ -131,11 +140,12 @@ export default {
                 let productId = v.productId;
                 var goodsCurObj = this.goodsData.find(v => v.productId === productId);
                 var packageNum = goodsCurObj.packageNum;
-                var cashSettlementNum = (v.dealAmount / (v.basePrice * goodsCurObj.packageNum)).toFixed(2);
+                var cashSettlementNum = ((v.dealAmount + (v.eFeeUsedAmount || 0) + (v.qFeeUsedAmount || 0)) / (v.basePrice * goodsCurObj.packageNum)).toFixed(2);
                 goodsCurObj.cashSettlementNum = cashSettlementNum;
             })
             //使用费用后重新计算配赠
             _this.fetchPresentScheme();
+            _this.insertEQF(calcMoney);
         },
         //支付前保存
         saveOrderPrePay() {
@@ -431,10 +441,13 @@ export default {
                     srcBillCode: _this.billHeader.orderCode,
                     srcBillRowId: v.id,
                     srcBillRowNum: v.rowNum,
-                    baseQuantity: v.baleQuantity * v.packageNum
+                    baseQuantity: v.baleQuantity * v.packageNum,
+                    //++
+                    eFeeUsedAmount: v.eFeeUsedAmount,
+                    qFeeUsedAmount: v.qFeeUsedAmount,
+                    fFeeUsedAmount: v.fFeeUsedAmount,
                 }
                 purchaseOrderItems.push(isNotGiftobj);
-                debugger
                 if (v.giftId) {
                     //如果没有赠品，或数量为0，不生成订单
                     if (v.giftAmout === 0) {

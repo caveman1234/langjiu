@@ -84,13 +84,7 @@
                         <div class="opacity0">1</div>
                     </el-col>
                     <el-col :span="2">
-                        <!-- <el-button @click="confirm" type="primary" size="mini">确定</el-button> -->
-                        <QuotaDialogConfirm 
-                            :goodsData="goodsData"
-                            @plainInnerSubmit="plainInnerSubmit"
-                            @plainOutterSubmit="plainOutterSubmit"
-                            :isBillEditPage="true"
-                        />
+                        <el-button @click="confirm" type="primary" size="mini">确定</el-button>
                     </el-col>
                 </el-row>
             </div>
@@ -100,10 +94,9 @@
 <script>
 //去提货，去填仓
 import AddNewGoods from '@/components/route/GenerateBills/AddNewGoods/AddNewGoods';
-import QuotaDialogConfirm from '@/components/route/GenerateBills/QuotaDialogConfirm/QuotaDialogConfirm';
 export default {
     name: 'GoPickGoodsEdit',
-    components: { AddNewGoods, QuotaDialogConfirm },
+    components: { AddNewGoods },
     data() {
         return {
             /* 表格数据 */
@@ -111,11 +104,16 @@ export default {
             defaultImg: require('../../../../../assets/defaultimg.png'),
             selectedObj: {},//去提货 route传递参数
             isQuota: 1,
+            cacheGoodsDataId: []
         }
     },
     methods: {
         delOneItem({ productId }) {
             this.goodsData = this.goodsData.filter(v => v.productId != productId);
+            //获取配额价格
+            if(this.goodsData.length !== 0){
+                // this.fetchQuotaPrice();
+            }
         },
         /* 接收搜索数据 */
         receiveData(data) {
@@ -144,11 +142,15 @@ export default {
                 //赠品方案下拉框
                 megerObj.presentScheme = [];
                 megerObj.giftId = "";
-                megerObj.cacheBasePrice = v.basePrice || v.basePrice;
+                //缓存价格 有时候计划内价格是basePrice 有时候是basicPrice
+                megerObj.cacheBasePrice = v.basePrice || v.basicPrice;
                 return Object.assign({}, v, megerObj);
             });
             this.goodsData = this.goodsData.concat(willAppendData);
-            this.fetchPresentScheme();
+            this.fetchPresentScheme().then(() => {
+                //获取配额价格
+                this.fetchQuotaPrice();
+            });
         },
         /* 件数变化 */
         baleQuantityChange(row) {
@@ -193,7 +195,8 @@ export default {
         //计算共建基金baseprice
         calcBasePrice() {
             let headerId = this.selectedObj.id;
-            let childIds = this.selectedObj.purchaseOrderItems.map(v => v.id);
+            // let childIds = this.selectedObj.purchaseOrderItems.map(v => v.id);
+            let childIds = this.goodsData.map(v => (v.id || v.productId));
             let idsArr = [headerId, ...childIds];
             let ids = idsArr.toString();
             let params = `ids=${ids}`;
@@ -203,7 +206,7 @@ export default {
                     let data = res.data;
                     let dataEntries = Object.entries(data);
 
-                    this.selectedObj.purchaseOrderItems.forEach(v => {
+                    this.goodsData.forEach(v => {
                         let exist = dataEntries.find(arr => arr[0] == v.id);
                         if (exist) {
                             v.fundPrice = exist[1];
@@ -258,7 +261,7 @@ export default {
                 // async:false,
                 // headers:{}
             };
-            this.$http.post(url, params, config)
+            return this.$http.post(url, params, config)
                 .then(res => {
                     if (res.headers["x-ocm-code"] == '1') {
                         var goodsData = this.goodsData;
@@ -330,7 +333,7 @@ export default {
             row.promotionProducName = currentRowGiftObj.promotionProducName;
             row.promotionProducCode = currentRowGiftObj.promotionProducCode;
         },
-        //配额
+
         jumpRoute() {
             let _this = this;
             _this.$router.push({
@@ -342,26 +345,64 @@ export default {
                 }
             });
         },
-        changeToOutPrice() {
-            this.goodsData.forEach(v => {
-                v.basePrice = v.outPrice;
+        //配额
+        fetchQuotaPrice() {
+            var selectedObj = this.selectedObj;
+            if (selectedObj.isQuota === 1) {
+                //融资订单是计划内，不询价
+                return;
+            }
+            let url = "/ocm-web/api/b2b/purchase-orders/getQuotaPrice";
+
+            let purchaseOrderItems = this.goodsData.map(v => {
+                return {
+                    distributorId: this.$store.state.customerId, //经销商id
+                    productId: v.productId,
+                    productName: v.productDesc,
+                    srcBillRowId: v.id,
+                    srcBillRowNum: v.rowNum,
+
+                    productGroupId: v.productGroupId,
+                    productGroupCode: v.productGroupCode,
+                    productGroupName: v.productGroupName,
+
+                    basePrice: v.basePrice ,
+                    fundPrice: 0,
+                    dealPrice: 0,
+
+                    discountAmount: 0,
+                    dealAmount: 0,
+                    fundAmount: 0,
+                    fundFee: 0,
+                    fundCash: 0,
+                    realAmount: 0,
+
+                    isQuota: selectedObj.isQuota,
+                    srcBillType: selectedObj.poTypeId,
+                    srcBillId: selectedObj.id,
+                    srcBillCode: selectedObj.orderCode,
+                }
             });
-        },
-        changeToBasePrice() {
-            this.goodsData.forEach(v => {
-                v.basePrice = v.cacheBasePrice;
-            });
-        },
-        plainInnerSubmit() {
-            this.isQuota = 1;//计划内
-            this.changeToBasePrice();
-            this.confirm();
-        },
-        plainOutterSubmit() {
-            this.isQuota = 0;//计划外
-            this.changeToOutPrice();
-            this.confirm();
-        },
+            let params = {
+                purchaseOrderItems: purchaseOrderItems,
+                distributorId: this.$store.state.customerId, //经销商id
+                isQuota: selectedObj.isQuota,
+                saleChannelCode: '00',
+            }
+            debugger
+            this.$http.post(url, params)
+                .then(res => {
+                    if (res.headers["x-ocm-code"] == '1') {
+                        var purchaseOrderItems = res.data.purchaseOrderItems;
+                        purchaseOrderItems.forEach(v => {
+                            var currentObj = this.goodsData.find(v1 => v1.productId === v.productId);
+                            currentObj.basePrice = v.basePrice;
+                        })
+
+                    }
+                })
+        }
+
     },
     computed: {
         /* 订单总金额 */
@@ -381,6 +422,7 @@ export default {
         //mounted
         if (this.$route.params.selectedData) {
             this.selectedObj = this.$route.params.selectedData;
+            this.isQuota = this.$route.params.selectedData.isQuota;
             //设置产品线
             this.$store.commit('prodGroupId', this.selectedObj.productGroupId);
             this.goodsData = this.$route.params.selectedData.purchaseOrderItems.map(v => {
@@ -399,18 +441,20 @@ export default {
                 megerObj.presentScheme = [];
                 megerObj.giftId = "";
 
-                //缓存价格
-                megerObj.cacheBasePrice = v.basePrice || v.basePrice;
+                //缓存价格 有时候计划内价格是basePrice 有时候是basicPrice
+                megerObj.cacheBasePrice = v.basePrice || v.basicPrice;
                 return Object.assign({}, v, megerObj);
             });
-            this.fetchPresentScheme();
-        } else {
-            this.goodsData.forEach(v => {
-                let basePrice = v.basePrice || v.basePrice;
-                if (basePrice === v.outPrice) {
-                    v.basePrice = v.cacheBasePrice;
-                }
+            //缓存融资订单初始订单号
+            this.cacheGoodsDataId = this.goodsData.map(v => v.productId);
+            //获取配赠方案
+            this.fetchPresentScheme().then(() => {
+                //获取配额价格
+                this.fetchQuotaPrice();
             });
+        } else {
+            //获取配额价格
+            // this.fetchQuotaPrice();
             //返回修改
         }
     },

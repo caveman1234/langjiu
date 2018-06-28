@@ -221,10 +221,21 @@ export default {
                 distributorId: this.$store.state.customerId,
                 productGroupId: this.$store.state.prodGroupId,
                 totalFee: Number(this.formData.useOffMoney),
+                //++
+                eFeeUsedAmount: this.searchData[0] ? this.searchData[0].currentMoney : 0,
+                qFeeUsedAmount: this.searchData[1] ? this.searchData[1].currentMoney : 0,
+                fFeeUsedAmount: this.searchData[2] ? this.searchData[2].currentMoney : 0,
+                //++
                 itemList: itemList
             };
             return this.$http.post('/ocm-web/api/b2b/purchase-orders/calculateFee', paramsWrap)
-                .then(res => res.data.itemList);
+                .then(res => {
+                    if (res.headers["x-ocm-code"] == '1') {
+                        return res.data.itemList
+                    } else {
+                        Promise.reject();
+                    }
+                });
         }
     },
     computed: {

@@ -97,8 +97,17 @@ export default {
             this.goodsData = this.goodsData.concat(willAppendData);
 
         },
+        //计算费用后插入eqf费用到行上
+        insertEQF(calcMoney) {
+            this.goodsData = this.goodsData.map(v => ({
+                ...v,
+                eFeeUsedAmount: calcMoney.find(a => a.productId === v.productId).eFeeUsedAmount,
+                qFeeUsedAmount: calcMoney.find(a => a.productId === v.productId).qFeeUsedAmount,
+                fFeeUsedAmount: calcMoney.find(a => a.productId === v.productId).fFeeUsedAmount,
+            }));
+        },
         /* 使用折扣金额 */
-        CostOffEvent(calcMoney, useOffMoney, calcDataTable, cashSettlementNumBottle) {
+        CostOffEvent(calcMoney, useOffMoney, calcDataTable) {
             let _this = this;
             _this.calcMoney = calcMoney;
             _this.calcDataTable = calcDataTable;
@@ -126,11 +135,12 @@ export default {
                 let productId = v.productId;
                 var goodsCurObj = this.goodsData.find(v => v.productId === productId);
                 var packageNum = goodsCurObj.packageNum;
-                var cashSettlementNum = (v.dealAmount / (v.basePrice * goodsCurObj.packageNum)).toFixed(2);
+                var cashSettlementNum = ((v.dealAmount + (v.eFeeUsedAmount || 0) + (v.qFeeUsedAmount || 0)) / (v.basePrice * goodsCurObj.packageNum)).toFixed(2);
                 goodsCurObj.cashSettlementNum = cashSettlementNum;
             })
             //使用费用后重新计算配赠
             _this.fetchPresentScheme();
+            _this.insertEQF(calcMoney);
         },
         /* 在线支付 */
         payOnline() {
@@ -423,6 +433,10 @@ export default {
                     fundFee: fundFee,
                     fundCash: fundCash,
                     realAmount: realAmount,
+                    //++
+                    eFeeUsedAmount: v.eFeeUsedAmount,
+                    qFeeUsedAmount: v.qFeeUsedAmount,
+                    fFeeUsedAmount: v.fFeeUsedAmount,
                 }
             });
             //如果是有赠品

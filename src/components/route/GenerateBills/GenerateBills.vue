@@ -174,6 +174,22 @@
                             <div>{{scope.row.paymentTotalMoney|formatPrice}}</div>
                         </template>
                     </el-table-column>
+                    <el-table-column prop="eFeeUsedAmount" label="E">
+                        <template slot-scope="scope">
+                            <div>{{scope.row.eFeeUsedAmount|formatPrice}}</div>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="qFeeUsedAmount" label="Q">
+                        <template slot-scope="scope">
+                            <div>{{scope.row.qFeeUsedAmount|formatPrice}}</div>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="fFeeUsedAmount" label="F">
+                        <template slot-scope="scope">
+                            <div>{{scope.row.fFeeUsedAmount|formatPrice}}</div>
+                        </template>
+                    </el-table-column>
+
                     <el-table-column prop="cashSettlementNum" label="现金结算数量(件)">
                         <template slot-scope="scope">
                             <div>{{scope.row.cashSettlementNum}}</div>
