@@ -4,6 +4,26 @@
         <el-dialog :visible.sync="dialogVisible" width="1000" @close="handleClose" @open="handleOpen">
             <div class="AddNewGoodsTitle" slot="title">
                 <h2 class="title">新增产品</h2>
+
+
+
+
+                <div>
+                    <span>产品线：</span>
+                    <el-select v-model="prodGroupId" @change="prodGroupChange" placeholder="请选择产品线" size="mini">
+                        <el-option
+                            v-for="item in productGroupDataSource"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                        </el-option>
+                    </el-select>
+                </div>
+                
+
+
+
+
                 <div class="search">
                     <el-input v-model="searchName" size="mini" placeholder="请输入产品名称">
                         <el-button @click="search" slot="append" icon="el-icon-search"></el-button>
@@ -55,6 +75,21 @@ export default {
             searchName: '',/* 搜索条件名字 */
             searchData: [],/* 搜索的数据 */
             selectedData: [],/* 选中的数据 */
+            prodGroupId: "",
+            productGroupDataSource: [
+                {
+                    label: "产品线一",
+                    value: "0"
+                },
+                {
+                    label: "产品线二",
+                    value: "1"
+                },
+                {
+                    label: "产品线三",
+                    value: "2"
+                }
+            ]
         }
     },
     methods: {
@@ -67,12 +102,15 @@ export default {
             this.searchData = [];
             this.$refs.multipleTable.clearSelection();
             this.searchName = '';
+            this.prodGroupId = "";
+
         },
         handleOpen() {
+            this.fetchProdGroup();
             let paramsWrap = {
                 params: {
                     customerId: this.$store.state.customerId,
-                    prodGroupId: this.$store.state.prodGroupId
+                    prodGroupId:this.prodGroupId ||  this.$store.state.prodGroupId
                 }
             };
             this.searchGoodsInfo(paramsWrap);
@@ -88,7 +126,7 @@ export default {
             let paramsWrap = {
                 params: {
                     customerId: this.$store.state.customerId,
-                    prodGroupId: this.$store.state.prodGroupId,
+                    prodGroupId:this.prodGroupId ||  this.$store.state.prodGroupId,
                     content: this.searchName
                 }
             };
@@ -119,14 +157,43 @@ export default {
                     }).filter(v => v.basicPrice);
                     _this.searchData = searchData;
                 });
+        },
+        fetchProdGroup() {
+            let params = {
+                params: {
+                    customerId: this.$store.state.customerId
+                }
+            };
+
+            /* 请求左边列表 */
+            return this.$http.get('/ocm-web/api/base/prodline/get-mgr-list', params)
+                .then(res => {
+                    this.productGroupDataSource = res.data.map(v => ({
+                        value: v.id,
+                        label: v.name
+                    }));
+                    debugger
+                    if(this.prodGroupId === ""){
+                        this.prodGroupId = this.$store.state.prodGroupId;
+                    }
+                })
+        },
+        prodGroupChange(){
+            let paramsWrap = {
+                params: {
+                    customerId: this.$store.state.customerId,
+                    prodGroupId:this.prodGroupId ||  this.$store.state.prodGroupId
+                }
+            };
+            this.searchGoodsInfo(paramsWrap);
         }
     },
     mounted() {
-
+        
     }
 }
 </script>
 <style lang="scss">
-@import './AddNewGoods.scss';
+@import "./AddNewGoods.scss";
 </style>
 

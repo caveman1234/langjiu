@@ -108,10 +108,17 @@ export default {
         }
     },
     methods: {
+        //重现计算进货款费用
+        reCalcPrice() {
+
+            this.goodsData.forEach(v => {
+                v.paymentTotalMoney = v.baseQuantity * (v.basePrice || v.basicPrice);
+            });
+        },
         delOneItem({ productId }) {
             this.goodsData = this.goodsData.filter(v => v.productId != productId);
             //获取配额价格
-            if(this.goodsData.length !== 0){
+            if (this.goodsData.length !== 0) {
                 // this.fetchQuotaPrice();
             }
         },
@@ -164,6 +171,9 @@ export default {
             let _this = this;
             if (_this.goodsData.length === 0) {
                 this.$Notify({ title: '商品不能为空', type: 'warning' });
+                return;
+            }
+            if(!this.validateIsAll()){
                 return;
             }
             var passed = this.validateData();
@@ -317,7 +327,18 @@ export default {
                     isGift: v.giftId ? 1 : 0
                 }
             });
+
             return passed;
+        },
+        validateIsAll() {
+            //验证是否全配赠产品
+            var isAllGift = this.goodsData.every(v => v.presentScheme.length > 0);
+            var isAllNormal = this.goodsData.every(v => v.presentScheme.length === 0);
+            var isAll = isAllGift || isAllNormal;
+            if (!isAll) {
+                this.$Notify({ title: '赠品和普通产品不能混合下单。', type: 'warning' });
+            }
+            return isAll;
         },
         presentChange(value, row) {
             let giftId = value;
@@ -366,7 +387,7 @@ export default {
                     productGroupCode: v.productGroupCode,
                     productGroupName: v.productGroupName,
 
-                    basePrice: v.basePrice ,
+                    basePrice: v.basePrice,
                     fundPrice: 0,
                     dealPrice: 0,
 
@@ -389,7 +410,6 @@ export default {
                 isQuota: selectedObj.isQuota,
                 saleChannelCode: '00',
             }
-            debugger
             this.$http.post(url, params)
                 .then(res => {
                     if (res.headers["x-ocm-code"] == '1') {
@@ -397,7 +417,8 @@ export default {
                         purchaseOrderItems.forEach(v => {
                             var currentObj = this.goodsData.find(v1 => v1.productId === v.productId);
                             currentObj.basePrice = v.basePrice;
-                        })
+                        });
+                        this.reCalcPrice();
 
                     }
                 })
@@ -455,6 +476,7 @@ export default {
         } else {
             //获取配额价格
             // this.fetchQuotaPrice();
+            this.reCalcPrice()
             //返回修改
         }
     },

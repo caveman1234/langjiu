@@ -106,7 +106,7 @@
                             </el-row>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="" label="商品详情" width="400">
+                    <el-table-column prop="" label="商品详情" width="250">
                         <template slot-scope="scope">
                             <div class="detailContainer">
                                 <div :style='{"backgroundImage":`url(${scope.row.imageUrl})`}' class="goodsImg"></div>
@@ -114,7 +114,7 @@
                             </div>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="basePrice" label="单价">
+                    <el-table-column prop="basePrice" label="单价" width="120px">
                         <template slot-scope="scope">
                             <div class="price">
                                 <div>价格：{{scope.row.basePrice | formatPrice}}</div>
@@ -128,7 +128,7 @@
                             <div>{{scope.row.baseQuantity}} </div>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="paymentTotalMoney" label="货款金额">
+                    <el-table-column prop="paymentTotalMoney" label="货款金额" width="170px">
                         <template slot-scope="scope">
                             <div>{{scope.row.paymentTotalMoney|formatPrice}}</div>
                         </template>
@@ -148,7 +148,7 @@
                             <div>{{scope.row.fFeeUsedAmount|formatPrice}}</div>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="cashSettlementNum" label="现金结算数量(件)">
+                    <el-table-column prop="cashSettlementNum" label="现金结算数量(件)" width="130px">
                         <template slot-scope="scope">
                             <div>{{scope.row.cashSettlementNum}}</div>
                         </template>

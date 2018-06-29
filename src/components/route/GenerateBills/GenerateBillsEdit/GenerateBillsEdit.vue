@@ -315,17 +315,23 @@ export default {
             })
             return arr;
         },
-
-
+        //重现计算进货款费用
+        reCalcPrice(){
+            this.goodsData.forEach(v=>{
+                v.paymentTotalMoney = v.baseQuantity * v.basicPrice;
+            });
+        },
         changeToOutPrice() {
             this.goodsData.forEach(v => {
                 v.basicPrice = v.outPrice;
             });
+            this.reCalcPrice();
         },
         changeToBasicPrice() {
             this.goodsData.forEach(v => {
                 v.basicPrice = v.cacheBasicPrice;
             });
+            this.reCalcPrice();
         },
         plainInnerSubmit() {
             this.isQuota = 1;//计划内
@@ -387,6 +393,7 @@ export default {
                     v.basicPrice = v.cacheBasicPrice;
                 }
             });
+            this.reCalcPrice();
             //返回修改
         }
     },
