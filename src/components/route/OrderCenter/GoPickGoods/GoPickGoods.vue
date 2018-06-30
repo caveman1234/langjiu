@@ -135,17 +135,17 @@
                     </el-table-column>
                     <el-table-column prop="eFeeUsedAmount" label="E">
                         <template slot-scope="scope">
-                            <div>{{scope.row.eFeeUsedAmount|formatPrice}}</div>
+                            <div>{{(scope.row.eFeeUsedAmount || 0)|formatPrice}}</div>
                         </template>
                     </el-table-column>
                     <el-table-column prop="qFeeUsedAmount" label="Q">
                         <template slot-scope="scope">
-                            <div>{{scope.row.qFeeUsedAmount|formatPrice}}</div>
+                            <div>{{(scope.row.qFeeUsedAmount || 0)|formatPrice}}</div>
                         </template>
                     </el-table-column>
                     <el-table-column prop="fFeeUsedAmount" label="F">
                         <template slot-scope="scope">
-                            <div>{{scope.row.fFeeUsedAmount|formatPrice}}</div>
+                            <div>{{(scope.row.fFeeUsedAmount || 0)|formatPrice}}</div>
                         </template>
                     </el-table-column>
                     <el-table-column prop="cashSettlementNum" label="现金结算数量(件)" width="130px">
