@@ -8,7 +8,7 @@
 
 
 
-                <div>
+                <!-- <div>
                     <span>产品线：</span>
                     <el-select v-model="prodGroupId" @change="prodGroupChange" placeholder="请选择产品线" size="mini">
                         <el-option
@@ -18,7 +18,7 @@
                             :value="item.value">
                         </el-option>
                     </el-select>
-                </div>
+                </div> -->
                 
 
 

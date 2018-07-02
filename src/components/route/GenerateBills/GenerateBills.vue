@@ -132,7 +132,7 @@
                             <div>{{scope.row.paymentTotalMoney|formatPrice}}</div>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="eFeeUsedAmount" label="E">
+                    <!-- <el-table-column prop="eFeeUsedAmount" label="E">
                         <template slot-scope="scope">
                             <div>{{(scope.row.eFeeUsedAmount || 0)|formatPrice}}</div>
                         </template>
@@ -146,7 +146,7 @@
                         <template slot-scope="scope">
                             <div>{{(scope.row.fFeeUsedAmount || 0)|formatPrice}}</div>
                         </template>
-                    </el-table-column>
+                    </el-table-column> -->
                     <el-table-column prop="cashSettlementNum" label="现金结算数量(件)">
                         <template slot-scope="scope">
                             <div>{{scope.row.cashSettlementNum}}</div>
