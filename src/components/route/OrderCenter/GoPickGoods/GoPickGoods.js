@@ -140,7 +140,7 @@ export default {
                 let productId = v.productId;
                 var goodsCurObj = this.goodsData.find(v => v.productId === productId);
                 var packageNum = goodsCurObj.packageNum;
-                var cashSettlementNum = ((v.dealAmount + (v.eFeeUsedAmount || 0) + (v.qFeeUsedAmount || 0)) / (v.basePrice * goodsCurObj.packageNum)).toFixed(2);
+                var cashSettlementNum = ((v.dealAmount + (v.eFeeUsedAmount || 0) ) / (v.basePrice * goodsCurObj.packageNum)).toFixed(2);
                 goodsCurObj.cashSettlementNum = cashSettlementNum;
             })
             //使用费用后重新计算配赠
