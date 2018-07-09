@@ -443,6 +443,7 @@ export default {
         //mounted
         if (this.$route.params.selectedData) {
             this.selectedObj = this.$route.params.selectedData;
+            this.selectedObj.isQuota = this.selectedObj.isQuota === null ? 1 : this.selectedObj.isQuota;
             this.isQuota = this.$route.params.selectedData.isQuota;
             //设置产品线
             this.$store.commit('prodGroupId', this.selectedObj.productGroupId);

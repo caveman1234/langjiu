@@ -76,20 +76,7 @@ export default {
             searchData: [],/* 搜索的数据 */
             selectedData: [],/* 选中的数据 */
             prodGroupId: "",
-            productGroupDataSource: [
-                {
-                    label: "产品线一",
-                    value: "0"
-                },
-                {
-                    label: "产品线二",
-                    value: "1"
-                },
-                {
-                    label: "产品线三",
-                    value: "2"
-                }
-            ]
+            productGroupDataSource: []
         }
     },
     methods: {
@@ -138,6 +125,7 @@ export default {
         searchGoodsInfo(params) {/* 异步获取表格数据 */
             let _this = this;
             let url = this.searchUrl;
+            debugger
             _this.$http.get(url, params)
                 .then(res => {
                     let data = res.data;
@@ -172,7 +160,6 @@ export default {
                         value: v.id,
                         label: v.name
                     }));
-                    debugger
                     if(this.prodGroupId === ""){
                         this.prodGroupId = this.$store.state.prodGroupId;
                     }
