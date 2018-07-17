@@ -6,6 +6,7 @@ import Home from '@/components/route/Home/Home'
 import ContactUs from '@/components/route/ContactUs/ContactUs'
 import GoodsCenter from '@/components/route/GoodsCenter/GoodsCenter'
 import AccountCenter from '@/components/route/AccountCenter/AccountCenter'
+import AppDownload from '@/components/route/AppDownload/AppDownload.vue'
 //children
 import AccountMgr from '@/components/route/AccountCenter/AccountMgr/AccountMgr'
 import OnlineRecharge from '@/components/route/AccountCenter/OnlineRecharge/OnlineRecharge'
@@ -93,7 +94,6 @@ import ReturnWineList from '@/components/route/TakeWine/ReturnWineList/ReturnWin
 import ReturnWineEdit from '@/components/route/TakeWine/ReturnWineList/ReturnWineEdit/ReturnWineEdit';
 import ReturnWineOrder from '@/components/route/TakeWine/ReturnWineList/ReturnWineOrder/ReturnWineOrder';
 Vue.use(Router)
-
 let router = new Router({
     routes: [{
         path: '/',
@@ -400,6 +400,11 @@ let router = new Router({
             path: '/ContactUs',
             name: 'ContactUs',
             component: ContactUs
+        },
+        {
+            path: '/AppDownload',
+            name: 'AppDownload',
+            component: AppDownload,
         },
         {
             path: '/GoSign',

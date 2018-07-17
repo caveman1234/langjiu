@@ -185,7 +185,7 @@ export default {
         //初始化，登陆聊天
         initChat() {
             let scripts = $(`<script src="./static/chat/webim_chat.js" async/>`);
-            if($('script[src="./static/chat/webim_chat.js"]').length === 0){
+            if ($('script[src="./static/chat/webim_chat.js"]').length === 0) {
                 $('body').append(scripts);
             }
         }
@@ -195,7 +195,7 @@ export default {
             navList(state) {
                 return state.navList
             },
-            userloginName(state){
+            userloginName(state) {
                 return state.userloginName;
             }
         })
@@ -209,7 +209,7 @@ export default {
         this.$store.commit('changeUsername', cookies.getCookie('username'));
         //检查是否签约过
         _this.checkIsNotSign();
-        
+
         _this.initChat();
     }
 

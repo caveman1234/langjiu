@@ -44,8 +44,7 @@
                 cursor: pointer;
                 .innerNum {
                     position: absolute;
-                    color: red;
-                    // background: white;
+                    color: red; // background: white;
                     background: #4D4D4D;
                     border-radius: 3px;
                     height: 15px;
@@ -61,14 +60,13 @@
                 }
             }
             #operation {
-                position: relative;
-                // width: 30px;
+                position: relative; // width: 30px;
                 height: 30px;
                 display: inline-block;
                 margin-left: 20px;
-                .u-badge{
-                    color:white;
-                    &:after{
+                .u-badge {
+                    color: white;
+                    &:after {
                         left: 52px;
                     }
                 }
