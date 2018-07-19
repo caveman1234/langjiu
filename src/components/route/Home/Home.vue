@@ -18,6 +18,12 @@
                         <i class="el-icon-d-arrow-right"></i>
                     </div>
                 </div>
+                <div class="willHandleItems">
+                    <div class="title">待办事项</div>
+                    <div class="waillHandleContent">
+                        <div class="item" v-for="(item,i) in waillHandleContent" :key="i" :title="item.message">{{i+1}}、{{item.message}}</div>
+                    </div>
+                </div>
                 <div class="wait">
                     <div class="title">待审事项</div>
                     <div class="waitItems">
@@ -56,6 +62,24 @@
                     </div>
                 </div>
             </div>
+            <el-dialog 
+                title="待办事项"  
+                :visible.sync="dialogVisible1" 
+                :modal="false"
+                width="500px"
+                :close-on-click-modal="true"
+            >
+                <div class="msgDialogContent">
+                    <h4>您有以下事项需要处理：</h4>
+                    <div v-for="(item,i) in waillHandleContent" :key="i" class="msgDialogContentItem">
+                        <div class="msgDialogContentItemNum">{{i+1}}、</div>
+                        <div class="msgDialogContentItemText">{{item.message}}</div>
+                    </div>
+                </div>
+                <span slot="footer" class="dialog-footer">
+                    <el-button type="primary" @click="closeDialog" size="mini">关 闭</el-button>
+                </span>
+            </el-dialog>
         </div>
     </div>
 </template>
@@ -76,7 +100,9 @@ export default {
                 sendApplyOrderNum: 0,//待发货申请单
                 returnChangeOrderNum: 0,//待审核退换货申请
                 feeOrderOrderNum: 0,//待审核费用
-            }
+            },
+            waillHandleContent: [],
+            dialogVisible1: false
         }
     },
 
@@ -85,20 +111,20 @@ export default {
         fetchMsgItem(id) {
             let paramsWrap = {
                 params: {
-                    id:id
+                    id: id
                 }
             }
             let url = "/ocm-web/api/notice/queryById";
             return this.$http.get(url, paramsWrap)
                 .then(res => {
-                    if(res.headers["x-ocm-code"] == '1'){
+                    if (res.headers["x-ocm-code"] == '1') {
                         return res.data;
-                    }else{
+                    } else {
                         return Promise.reject();
                     }
                 });
         },
-         async msgItemClick(item) {
+        async msgItemClick(item) {
             let _this = this;
             let id = item.id;
             let msgContent = await _this.fetchMsgItem(id);
@@ -113,7 +139,7 @@ export default {
                 params: {
                     customerId: _this.$store.state.customerId,
                     page: 0,
-                    size: 9
+                    size: 3
                 }
             };
             return _this.$http.get('/ocm-web/api/notice/pageQuery', paramsWrap)
@@ -153,6 +179,25 @@ export default {
                     _this.budge.feeOrderOrderNum = res.data.feeOrderOrderNum;
                 })
         },
+        fetchWaitHandleMsg() {
+            let _this = this;
+            let url = '/ocm-web/api/lcrmTxxxRest/findLjcrmTxxx';
+            let paramsWrap = {
+                params: {
+                    customerId: this.$store.state.customerId
+                }
+            }
+            _this.$http.get(url, paramsWrap)
+                .then(res => {
+                    _this.waillHandleContent = res.data || [];
+                    if(_this.waillHandleContent.length > 0){
+                        _this.dialogVisible1 = true;
+                    }
+                })
+        },
+        closeDialog() {
+            this.dialogVisible1 = false;
+        },
     },
     mounted() {
         let _this = this;
@@ -162,6 +207,7 @@ export default {
         });
         //获取budge
         _this.fetchCount();
+        _this.fetchWaitHandleMsg();
     }
 }
 </script>

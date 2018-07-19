@@ -15,8 +15,9 @@
             flex: 1;
             margin-left: 15px;
             background: white;
+            height: 500px;
             .msg {
-                height: 316px;
+                height: 137px;
                 border-bottom: 1px dashed #E6E6E6;
                 padding: 15px;
                 box-sizing: border-box;
@@ -26,13 +27,12 @@
                     font-size: 16px;
                 }
                 ul {
-                    margin-top: 10px;
+                    margin-top: 3px;
                     position: relative;
                     li {
                         list-style: none;
-                        font-size: 12px;
-                        // color: #999999;
-                        line-height: 25px;
+                        font-size: 12px; // color: #999999;
+                        line-height: 20px;
                         overflow: hidden;
                         text-overflow: ellipsis;
                         white-space: nowrap;
@@ -50,13 +50,37 @@
                     cursor: pointer;
                 }
             }
+            .willHandleItems {
+                border-bottom: 1px solid #E6E6E6;
+                height: 216px;
+                padding: 5px;
+                .title {
+                    color: #333333;
+                    font-size: 16px; // color:$redColor;
+                }
+                .waillHandleContent {
+                    height: 182px;
+                    padding-top: 3px;
+                    overflow-y: auto;
+                    .item {
+                        line-height: 20px;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                        width: 224px;
+                        cursor: pointer;
+                        font-size: 12px;
+                        line-height: 20px;
+                    }
+                }
+            }
             .wait {
-                height: 184px;
+                height: 49px;
                 box-sizing: border-box;
                 .title {
                     color: #333333;
                     font-size: 16px;
-                    line-height: 52px;
+                    line-height: 36px;
                     border-bottom: 1px solid #E6E6E6;
                     padding-left: 15px;
                 }
@@ -69,7 +93,7 @@
                         color: $redColor;
                     }
                     .row1 {
-                        height: 65px;
+                        height: 55px;
                         flex: 1;
                         display: flex;
                         border-bottom: 1px solid #E6E6E6;
@@ -88,7 +112,7 @@
                         }
                     }
                     .row2 {
-                        height: 65px;
+                        height: 55px;
                         flex: 1;
                         display: flex;
                         .left {
@@ -124,6 +148,17 @@
                         }
                     }
                 }
+            }
+        }
+    }
+    .msgDialogContent {
+        .msgDialogContentItem {
+            display: flex;
+            .msgDialogContentItemNum {
+                flex: 0 0 15px;
+            }
+            .msgDialogContentItemText {
+                flex: 1;
             }
         }
     }

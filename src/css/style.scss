@@ -17,6 +17,9 @@ html {
 .el-dialog__header {
     border-bottom: 1px dashed $borderColor !important;
 }
+.el-dialog__footer {
+    border-top: 1px dashed $borderColor !important;
+}
 .el-notification{
     z-index: 9999 !important;
 }
@@ -147,6 +150,9 @@ html {
         width: 1267px !important;
     }
     .Home .bannerContainer .msgContainer .msg ul li{
+        width:400px !important;
+    }
+    .Home .msgContainer .willHandleItems .waillHandleContent .item{
         width:400px !important;
     }
 }
