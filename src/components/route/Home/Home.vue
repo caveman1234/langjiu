@@ -21,7 +21,12 @@
                 <div class="willHandleItems">
                     <div class="title">待办事项</div>
                     <div class="waillHandleContent">
-                        <div class="item" v-for="(item,i) in waillHandleContent" :key="i" :title="item.message">{{i+1}}、{{item.message}}</div>
+                        <template v-if="waillHandleContent.length === 0">
+                            <div style="color:#bdbdbd;">暂无待办事项</div>
+                        </template>
+                        <template v-else>
+                            <div class="item" v-for="(item,i) in waillHandleContent" :key="i" :title="item.message">{{i+1}}、{{item.message}}</div>
+                        </template>
                     </div>
                 </div>
                 <div class="wait">
