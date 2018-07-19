@@ -1,5 +1,6 @@
 @import 'src/css/colors.scss';
 .Home {
+    
     font-size: 12px;
     .bannerContainer {
         display: flex;
@@ -159,7 +160,17 @@
             }
             .msgDialogContentItemText {
                 flex: 1;
+                line-height: 20px;
             }
         }
     }
+    /deep/
+    .el-dialog__body{
+        padding:10px 15px !important;
+    }
+    /deep/
+    .el-dialog__footer{
+        padding: 5px;
+    }
 }
+
