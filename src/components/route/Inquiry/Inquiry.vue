@@ -32,9 +32,9 @@
               <template v-else>
                 <el-button  @click="fillIn(scope.row)" size="mini">填写</el-button>
               </template>
-              <template v-if="scope.row.fillState == 1 && new Date().getTime() < scope.row.endDate">
+              <!-- <template v-if="scope.row.fillState == 1 && new Date().getTime() < scope.row.endDate">
                 <el-button @click="edit(scope.row)" size="mini">填写</el-button>
-              </template>
+              </template> -->
           </div>
         </template>
       </el-table-column>
