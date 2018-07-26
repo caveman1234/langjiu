@@ -12,7 +12,7 @@
                 <div class="msg">
                     <div class="title">公告</div>
                     <ul>
-                        <li v-for="(item,index) in msgArr" :key="index" v-html="item.title" @click="msgItemClick(item)"></li>
+                        <li v-for="(item,index) in msgArr" :key="index" v-html="item.title" :title="item.title" @click="msgItemClick(item)"></li>
                     </ul>
                     <div @click="lookMore" class="more">查看更多
                         <i class="el-icon-d-arrow-right"></i>
