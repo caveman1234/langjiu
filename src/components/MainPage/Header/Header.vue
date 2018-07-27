@@ -5,16 +5,11 @@
                 <div class="left">
                     全国统一客服热线：400-806-6969
                 </div>
-                <!-- <i @click="openMask" class="icon iconfont lj-msg headerMessage">
-                </i> -->
-                <!-- <span id="operation"></span> -->
-                <!-- <span style="margin-left:10px;color:red;">互动消息</span> -->
-                <a id="operation" title="运维消息" href="javascript:void (0);" class="navbar-avatar">
+                <!-- <a id="operation" title="业务咨询" href="javascript:void (0);" class="navbar-avatar">
                     <div class="u-badge" data-badge="0">
-                        <!-- <i class="icon iconfont lj-msg headerMessage"></i> -->
-                        互动消息
+                        业务咨询
                     </div>
-                </a>           
+                </a>            -->
                 <div class="right">
                     <span>欢迎:{{userloginName}}</span>
                     <a @click="logOut">注销</a>
@@ -210,7 +205,7 @@ export default {
         //检查是否签约过
         _this.checkIsNotSign();
 
-        _this.initChat();
+        // _this.initChat();
     }
 
 }

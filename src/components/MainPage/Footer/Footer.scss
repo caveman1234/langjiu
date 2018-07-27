@@ -7,7 +7,9 @@
     line-height: 20px;
     .container {
         transform: translateY(30px);
-        .top {}
+        .top {
+            padding:0;
+        }
         .bottom {}
     }
 }

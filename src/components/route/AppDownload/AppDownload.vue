@@ -28,7 +28,7 @@
   </div>
 </template>
 <script>
-import VueQr from 'vue-qr'
+import VueQr from 'vue-qr';
 export default {
   name: "AppDownload",
   components: { VueQr },
