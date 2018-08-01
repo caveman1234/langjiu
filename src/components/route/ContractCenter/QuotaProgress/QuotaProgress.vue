@@ -9,111 +9,56 @@
       method="post"
     ></SearchComp>
 
-    <div class="quotaTableContainer">
+    <div class="quotaTableContainer" style="width: 100%">
         <el-table :data="tableData" style="width: 100%" border>
-            <el-table-column prop="contractTypeName" width="180px" label="合同类型">
-                <template slot-scope="scope">
-                    <div>
-                        {{scope.row.contractTypeName }}
-                    </div>
-                </template>
-            </el-table-column>
-            <el-table-column prop="totalMny" label="合同量(万元)" width="130px">
-              <template slot-scope="scope">
-                    <div>
-                        {{scope.row.totalMny  }}
-                    </div>
-                </template>
-            </el-table-column>
-            <el-table-column prop="rangeName" width="100px" label="产品范围">
+            <el-table-column prop="rangeName" width="80px" label="配额范围">
                 <template slot-scope="scope">
                     <div>
                         <div>{{scope.row.rangeName }}</div>
                     </div>
                 </template>
             </el-table-column>
-            <el-table-column prop="startDate" label="生效日期" width="130px">
+            <el-table-column prop="startDate" label="生效日期" width="90px">
                 <template slot-scope="scope">
                     <div>{{scope.row.startDate | formatDate }}</div>
                 </template>
             </el-table-column>
-            <el-table-column prop="endDate" label="失效日期" width="130px">
+            <el-table-column prop="endDate" label="失效日期" width="90px">
                 <template slot-scope="scope">
                     <div>{{scope.row.endDate | formatDate }}</div>
                 </template>
             </el-table-column>
-            <el-table-column prop="standedInside" label="标准计划内配额" width="130px">
-                <template slot-scope="scope">
-                    <div>{{scope.row.standedInside  }}</div>
-                </template>
-            </el-table-column>
-            <el-table-column prop="adjustInside" label="调整计划内配额" width="130px">
-                <template slot-scope="scope">
-                    <div>{{scope.row.adjustInside  }}</div>
-                </template>
-            </el-table-column>
-            <el-table-column prop="totalInside" label="计划内配额合计" width="130px">
+            <el-table-column prop="totalInside" label="计划内配额" width="90px">
                 <template slot-scope="scope">
                     <div>{{scope.row.totalInside  }}</div>
                 </template>
             </el-table-column>
-            <el-table-column prop="accumulativeTotal" label="计划内累计执行数量" width="130px">
-                <template slot-scope="scope">
-                    <div>{{scope.row.accumulativeTotal  }}</div>
-                </template>
-            </el-table-column>
-            <el-table-column prop="accumulativeAmount" label="计划内累计执行金额" width="130px">
+            <el-table-column prop="accumulativeAmount" label="计划内执行金额" width="110px">
                 <template slot-scope="scope">
                     <div>{{scope.row.accumulativeAmount  }}</div>
                 </template>
             </el-table-column>
-            <el-table-column prop="residueInside" label="计划内配额剩余" width="130px">
+            <el-table-column prop="residueInside" label="计划内配额剩余" width="110px">
                 <template slot-scope="scope">
                     <div>{{scope.row.residueInside  }}</div>
                 </template>
             </el-table-column>
-            <el-table-column prop="standedOut" label="标准计划外配额" width="130px">
-                <template slot-scope="scope">
-                    <div>{{scope.row.standedOut  }}</div>
-                </template>
-            </el-table-column>
-            <el-table-column prop="adjustOut" label="调整计划外配额" width="130px">
-                <template slot-scope="scope">
-                    <div>{{scope.row.adjustOut  }}</div>
-                </template>
-            </el-table-column>
-            <el-table-column prop="totalOut" label="计划外配额合计" width="130px">
+            <el-table-column prop="totalOut" label="计划外配额合计" width="110px">
               <template slot-scope="scope">
                     <div>{{scope.row.totalOut  }}</div>
               </template>
             </el-table-column>
-            <el-table-column prop="accumulativeTotal_out" label="计划外累计执行数量" width="130px">
-              <template slot-scope="scope">
-                    <div>{{scope.row.accumulativeTotal_out  }}</div>
-              </template>
-            </el-table-column>
-            <el-table-column prop="accumulativeAmount_out" label="计划外累计执行金额" width="130px">
+            <el-table-column prop="accumulativeAmount_out" label="计划外执行金额" width="110px">
               <template slot-scope="scope">
                     <div>{{scope.row.accumulativeAmount_out  }}</div>
               </template>
             </el-table-column>
-            <el-table-column prop="residueOut" label="计划外配额剩余" width="130px">
+            <el-table-column prop="residueOut" label="计划外配额剩余" width="110px">
               <template slot-scope="scope">
                     <div>{{scope.row.residueOut  }}</div>
               </template>
             </el-table-column>
-
-
-
-
-
-
-            <el-table-column prop="limitExcess" label="超额上限(万元)" width="130px">
-              <template slot-scope="scope">
-                    <div>{{scope.row.limitExcess  }}</div>
-              </template>
-            </el-table-column>
-            <el-table-column prop="remark" label="备注" width="130px"></el-table-column>
+            <el-table-column prop="remark" label="备注" min-width="120px"></el-table-column>
         </el-table>
         <!-- <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="pageParams.pageIndex" :page-sizes="[10, 20, 50, 100]" :page-size="pageParams.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="pageParams.total" prev-text="上一页" next-text="下一页">
         </el-pagination> -->

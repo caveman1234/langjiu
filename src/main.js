@@ -9,6 +9,7 @@ import store from './store/root.index.js';
 Vue.use(ElementUI);
 Vue.use(plugin);
 /* eslint-disable no-new */
+
 let rootApp = new Vue({
     el: '#app',
     router,

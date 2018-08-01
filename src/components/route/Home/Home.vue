@@ -98,7 +98,7 @@
                     </div>
                 </div>
                 <div class="appDownload">
-                    <!-- <div class="appDownloadTitle">
+                    <div class="appDownloadTitle">
                         <img style="width:16px;color:red;" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/PjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+PHN2ZyB0PSIxNTMyNjgxOTYwNjUxIiBjbGFzcz0iaWNvbiIgc3R5bGU9IiIgdmlld0JveD0iMCAwIDEwMjggMTAyNCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHAtaWQ9IjI5MzMiIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMjAwLjc4MTI1IiBoZWlnaHQ9IjIwMCI+PGRlZnM+PHN0eWxlIHR5cGU9InRleHQvY3NzIj48L3N0eWxlPjwvZGVmcz48cGF0aCBkPSJNOTY2Ljc5OSA4NDUuMjE5cTUuNzYgMjMuMDQwLTIuNCA0My42OHQtMjUuNDQgMzYuNDgtNDIuMjQgMjQuOTYtNTMuNzYgOS4xMnEtMTgxLjQ0IDAuOTYtMzI0LjQ4IDAuOTZoLTMyNi40cS0zNC41NiAwLTYwLjk2LTEyLjQ4dC00Mi4yNC0zMC43Mi0yMS4xMi0zOS44NCAxLjQ0LTM4Ljg4cTUuNzYtMTMuNDQgMTEuNTItMjcuODQgNC44LTEyLjQ4IDExLjUyLTI4LjMydDE0LjQtMzIuMTZsMzYuNDgtODguMzJoMTA5LjQ0bC00MS4yOCAxMjAuOTZoNjE4LjI0bC00MS4yOC0xMjAuOTZoMTA0LjY0cTIwLjE2IDQ4Ljk2IDM2LjQ4IDg4LjMyIDYuNzIgMTcuMjggMTMuNDQgMzMuNnQxMiAyOS4yOCA4LjY0IDIyLjA4MCAzLjM2IDEwLjA4MHpNNDgzLjkxOCA2NjcuNjE5cS0xOC4yNC0yMS4xMi00MS43Ni01Mi44dC00OC40OC02NS4yOC00OS40NC02Ni4yNC00My42OC01Ni42NHEtMjIuMDgwLTI1LjkyLTE3LjI4LTQyLjcydDMyLjY0LTE2LjhxMTUuMzYgMC45NiA0MS4yOC0wLjQ4dDQzLjItMS40NHExOS4yIDAgMjQtMTEuNTJ0NC44LTMwLjcycTAtMjEuMTItMC40OC00Ni41NnQtMC40OC01Mi4zMi0wLjQ4LTUyLjgtMC40OC00OHEwLTkuNiAxLjQ0LTIwLjE2dDYuNzItMTkuMiAxNS4zNi0xNC40IDI3LjM2LTUuNzZxMjAuMTYgMCAzNi45Ni0wLjQ4dDM4Ljg4LTAuNDhxMzEuNjggMCA0Mi43MiAxNC44OHQxMiA0Ny41MnYzNy40NHEwIDIyLjA4MCAwLjQ4IDQ3LjA0MHQwLjQ4IDQ5LjkydjQ1LjEycTAgMjcuODQgNS43NiA0NC42NHQyNS45MiAxNS44NHExNC40IDAgMzUuMDQwIDAuOTZ0MzYgMC45NnEyNS45MiAwIDMzLjEyIDEzLjkydC0xMC4wODAgMzZxLTE4LjI0IDIzLjA0MC00Mi4yNCA1NS42OHQtNDkuNDQgNjcuNjgtNDkuOTIgNjguMTYtNDMuNjggNTcuMTJxLTE3LjI4IDIyLjA4MC0zMy4xMiAyMi41NnQtMzMuMTItMjAuNjR6IiBwLWlkPSIyOTM0IiBmaWxsPSIjZDQyMzdhIj48L3BhdGg+PC9zdmc+" alt="">
                         APP下载
                         <div class="appDownloadContent">
@@ -111,7 +111,7 @@
                                 :margin="0"
                             />
                         </div>
-                    </div> -->
+                    </div>
                     
                 </div>
             </div>
