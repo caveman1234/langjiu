@@ -21,6 +21,24 @@
             class="goBuyGoods">去结算
             <i>{{selectedCount}}</i>
         </div>
+         <el-dialog 
+            title="待办事项提醒"  
+            :visible.sync="dialogVisible1" 
+            width="500px"
+            :show-close="false"
+            :close-on-press-escape="false"
+            :close-on-click-modal="false">
+            <div class="msgDialogContent">
+                <h3 style="margin-bottom:15px;">为提高对您的服务质量，下订单前麻烦您请先填报以下调查表！</h3>
+                <div v-for="(item,i) in needForceInquiryArr" :key="i">
+                    <span>调查表名称：</span>
+                    <span>{{item.title}}</span>
+                </div>
+            </div>
+            <span slot="footer" class="dialog-footer">
+                <el-button type="primary" @click="goFillInquiry" size="mini">去填写</el-button>
+            </span>
+        </el-dialog>
     </div>
 </template>
 <script>
@@ -33,7 +51,9 @@ export default {
     data() {
         return {
             leftItems: leftItems,/* 左边列表 */
-            goodsData: []/* 商品列表 */
+            goodsData: [],/* 商品列表 */
+            dialogVisible1: false,
+            needForceInquiryArr:[]
         }
     },
     computed: {
@@ -74,10 +94,36 @@ export default {
                 /* 编辑态 */
                 this.$router.push({ name: 'GenerateBillsEdit', params: { selectedData } });
             }
+        },
+        goFillInquiry() {
+            //去填写调查表
+            this.$router.push({name:"Inquiry"});
+        },
+        fetchInquiry() {
+            let paramsWrap = {
+                params: {
+                    customerId: this.$store.state.customerId,
+                    title: "测试1"
+                }
+            }
+            let url = "/ocm-web//api/noticeQuestionary/zdpageQuery";
+            return this.$http.get(url, paramsWrap)
+                .then(res => {
+                    let needForceInquiry = res.data.content.some(v => {
+                        return  v.fillState === 0 && v.endDate > (new Date().getTime());
+                    });
+                    this.needForceInquiryArr = res.data.content;
+                    if(!needForceInquiry){
+                        this.dialogVisible1 = true;
+                    }
+                    return needForceInquiry;
+                })
         }
     },
     mounted() {
         let _this = this;
+        //获取必须填写的调查表
+        _this.fetchInquiry();
         /* 导航 */
         _this.$store.commit('changeCurrentNav', { hash: '/GoodsCenter' });
 
@@ -115,6 +161,7 @@ export default {
                         _this.$store.commit('prodGroupId', _this.leftItems[0].prodGroupId);
                     });
             });
+
     },
     computed: {
         selectedCount() {
