@@ -103,7 +103,7 @@ export default {
             let paramsWrap = {
                 params: {
                     customerId: this.$store.state.customerId,
-                    title: "测试1"
+                    title: "测试1测试1测试1测试1测试1"
                 }
             }
             let url = "/ocm-web//api/noticeQuestionary/zdpageQuery";
@@ -113,7 +113,7 @@ export default {
                         return  v.fillState === 0 && v.endDate > (new Date().getTime());
                     });
                     this.needForceInquiryArr = res.data.content;
-                    if(!needForceInquiry){
+                    if(needForceInquiry){
                         this.dialogVisible1 = true;
                     }
                     return needForceInquiry;
