@@ -51,7 +51,7 @@ export default {
     data() {
         return {
             leftItems: [],/* 左边列表 */
-            goodsData: [],/* 商品列表 */
+            goodsData: [],/* 商品列表--- */
             dialogVisible1: false,
             needForceInquiryArr:[]
         }
