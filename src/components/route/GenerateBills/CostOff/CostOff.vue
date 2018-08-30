@@ -198,6 +198,7 @@ export default {
                     productGroupId: this.$store.state.prodGroupId
                 }
             };
+            debugger
             return this.$http.get('/ocm-web/api/b2b/query-balance/getChargeReserve', paramsWrap)
                 .then(res => {
                     this.searchData = res.data.map(v => {

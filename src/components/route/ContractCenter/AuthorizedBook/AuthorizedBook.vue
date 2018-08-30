@@ -56,7 +56,7 @@ export default {
             },
             //搜索固定字段，搜索全部未作废数据
             extralParams: {
-                
+
             }
 
         }
@@ -124,5 +124,5 @@ export default {
 }
 </script>
 <style lang="scss">
-@import './AuthorizedBook.scss';
+@import "./AuthorizedBook.scss";
 </style>

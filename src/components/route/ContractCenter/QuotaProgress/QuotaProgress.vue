@@ -18,12 +18,12 @@
                     </div>
                 </template>
             </el-table-column>
-            <el-table-column prop="startDate" label="生效日期" width="90px">
+            <el-table-column prop="startDate" label="生效日期" width="94px">
                 <template slot-scope="scope">
                     <div>{{scope.row.startDate | formatDate }}</div>
                 </template>
             </el-table-column>
-            <el-table-column prop="endDate" label="失效日期" width="90px">
+            <el-table-column prop="endDate" label="失效日期" width="94px">
                 <template slot-scope="scope">
                     <div>{{scope.row.endDate | formatDate }}</div>
                 </template>
@@ -101,7 +101,9 @@ export default {
   },
   methods: {
     receiveData(data) {
-      this.tableData = data;
+      this.tableData = data.filter(v => {
+        return v.isEnable === 1;
+      });
       this.pageParams.pageSize = data.size;//每页数量
       this.pageParams.total = data.totalElements;//总页数
       this.pageParams.pageIndex = data.number + 1;//当前页
@@ -141,7 +143,7 @@ export default {
           }
         });
     },
-    fetchRangeCombo(){
+    fetchRangeCombo() {
       let url = "/ocm-web/api/base/basecust/get-quota-ranges";
       this.$http.get(url)
         .then(res => {
