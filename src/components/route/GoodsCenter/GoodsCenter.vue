@@ -50,7 +50,7 @@ export default {
     components: { GoodsItem },
     data() {
         return {
-            leftItems: leftItems,/* 左边列表 */
+            leftItems: [],/* 左边列表 */
             goodsData: [],/* 商品列表 */
             dialogVisible1: false,
             needForceInquiryArr:[]
@@ -103,7 +103,7 @@ export default {
             let paramsWrap = {
                 params: {
                     customerId: this.$store.state.customerId,
-                    title: "测试1测试1测试1测试1测试1"
+                    title: "调查反馈表"
                 }
             }
             let url = "/ocm-web//api/noticeQuestionary/zdpageQuery";
