@@ -72,7 +72,7 @@
                 </el-table-column>
                 <el-table-column prop="" label="操作">
                     <template slot-scope="scope">
-                        <div class="handle" v-if="scope.row.isGift === 0">
+                        <div class="handle" v-if="scope.row.isGift === 0 || scope.row.isGift === null">
                             <i @click="delOneRow(scope.row)" class="el-icon-delete"></i>
                         </div>
                     </template>
