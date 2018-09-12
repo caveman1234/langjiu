@@ -274,12 +274,6 @@ export default {
                 // }
             ],
             bankDataSource2: [
-                // {
-                //     name: "中国农业银行",
-                //     label: 'abc',
-                //     disabled: true,
-                //     imgUrl: require('../../../../commonComp/BankList/bankImg/bank_nong.png')
-                // },
                 {
                     name: "中国民生银行",
                     label: 'cmbc',
@@ -291,7 +285,13 @@ export default {
                     label: 'ccb',
                     disabled: false,
                     imgUrl: require('../../../../commonComp/BankList/bankImg/bank_jian.png')
-                }
+                },
+                {
+                    name: "中国农业银行",
+                    label: 'abc',
+                    disabled: false,
+                    imgUrl: require('../../../../commonComp/BankList/bankImg/bank_nong.png')
+                },
             ],
             //融资银行弹窗
             dialogVisible2: false
@@ -383,7 +383,6 @@ export default {
         },
         //去融资 建设银行
         goFinancingJian(item) {
-            //待开发
             let _this = this;
             let params = {
                 orderid: item.id
@@ -554,6 +553,24 @@ export default {
         },
         //民生在线支付
         payOnlineCmbc() { },
+        //农业银行在线融资
+        goFinancingAbc(item) {
+            let _this = this;
+            let params = {
+                orderid: item.id,//订单id
+                // clientId: _this.$store.state.customerId//客户id
+            };
+            let url = '/ocm-web/api/abc/OrderDetails';
+            _this.$http.post(url, params)
+                .then(res => {
+                    if (res.headers["x-ocm-code"] == '1') {
+                        //改变状态
+                        item.financingStatus = '0';
+                        _this.$Notify({ title: '已经将融资申请提交银行！', type: 'success' });
+                    }
+
+                })
+        },
         //融资弹窗确定按钮
         receiveSelectedBank2(selectedBank) {
             let _this = this;
@@ -566,6 +583,9 @@ export default {
                 case 'cmbc':
                     _this.goFinancingMin(_this.goFinancingItem);
                     break;
+                //农业银行
+                case 'abc':
+                    _this.goFinancingAbc(_this.goFinancingItem)
             }
         }
     },
