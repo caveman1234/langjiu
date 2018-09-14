@@ -75,7 +75,7 @@ export default {
             searchName: '',/* 搜索条件名字 */
             searchData: [],/* 搜索的数据 */
             selectedData: [],/* 选中的数据 */
-            prodGroupId: "",
+            prodGroupId: "",//下拉框选中的产品线id
             productGroupDataSource: []
         }
     },
