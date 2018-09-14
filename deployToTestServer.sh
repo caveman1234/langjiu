@@ -3,9 +3,9 @@
 tarName=dist.tar.gz
 testServerDir=/crm/busi-tomcat/webapps/terminal
 # 郎酒测试服务器
-targetServer=192.168.100.58
+# targetServer=192.168.100.58
 # 自己到服务器
-# targetServer=111.231.219.176
+targetServer=111.231.219.176
 # git pull
 npm run build
 tar -czf $tarName dist
@@ -19,9 +19,9 @@ tar -xzf dist.tar.gz
 cp -rf ./dist/* .
 rm -rf ./dist
 rm -rf dist.tar.gz
-exit 0
 eeooff
 echo "前端代码部署测试完毕"
+
 
 
 
