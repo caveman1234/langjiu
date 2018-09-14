@@ -8,11 +8,9 @@ targetServer=192.168.100.58
 # targetServer=111.231.219.176
 # git pull
 npm run build
-
 tar -czf $tarName dist
-
 scp -P 22 $tarName root@${targetServer}:${testServerDir} 
-rm -rf ${targetServer}
+rm -rf ${tarName}
 ssh -p 22 root@${targetServer} > /dev/null 2>&1 << eeooff
 # ssh -p 22 root@${targetServer} 2>&1 << eeooff
 cd /crm/busi-tomcat/webapps/terminal
@@ -23,6 +21,7 @@ rm -rf ./dist
 rm -rf dist.tar.gz
 exit 0
 eeooff
+echo "前端代码部署测试完毕"
 
 
 
