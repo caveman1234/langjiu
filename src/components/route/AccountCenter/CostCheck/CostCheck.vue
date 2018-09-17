@@ -14,8 +14,9 @@
                 <el-table-column prop="dbilldate" label="日期"></el-table-column>
                 <el-table-column prop="sybName" label="产品线名称"></el-table-column>
                 <el-table-column prop="ctype" label="费用类型"></el-table-column>
-                <el-table-column prop="billcode" width="150px" label="单据号"></el-table-column>
-                <el-table-column prop="memo" width="200px" label="摘要"></el-table-column>
+                <el-table-column prop="billcode" width="140px" label="单据号"></el-table-column>
+                <el-table-column prop="pronumber" label="方案号"></el-table-column>
+                <el-table-column prop="memo" width="180px" label="摘要"></el-table-column>
                 <el-table-column prop="income" label="收入">
                     <template slot-scope="scope">
                         <div>
@@ -37,6 +38,7 @@
                         </div>
                     </template>
                 </el-table-column>
+                
             </el-table>
             <!-- <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="pageParams.pageIndex" :page-sizes="[10, 20, 50, 100]" :page-size="pageParams.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="pageParams.total" prev-text="上一页" next-text="下一页">
                     </el-pagination> -->
