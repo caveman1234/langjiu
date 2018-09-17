@@ -155,7 +155,7 @@ export default {
         /* 件数变化 */
         baleQuantityChange(row) {
             this.$nextTick(() => {
-                row.baleQuantity = Math.floor(row.baleQuantity);
+                row.baleQuantity = Math.floor(row.baleQuantity || 1);
                 row.baseQuantity = (row.baleQuantity) * row.packageNum;
 
                 row.paymentTotalMoney = row.baseQuantity * row.basicPrice;
