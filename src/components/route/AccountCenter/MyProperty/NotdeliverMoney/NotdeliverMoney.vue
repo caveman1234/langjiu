@@ -20,7 +20,7 @@
             <el-table-column prop="unSendQuantity"
                 label="未发货数量" width="90px"> </el-table-column>
             <el-table-column prop="unSendAmount"
-                label="未发货金额" min-width="120px">
+                label="未发货金额(仅现金)" min-width="120px">
                 <template slot-scope="scope">
                     <div>
                         <div>{{scope.row.unSendAmount|formatPrice}}</div>

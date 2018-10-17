@@ -229,6 +229,7 @@ export default {
                 //++
                 itemList: itemList
             };
+            debugger
             return this.$http.post('/ocm-web/api/b2b/purchase-orders/calculateFee', paramsWrap)
                 .then(res => {
                     if (res.headers["x-ocm-code"] == '1') {
