@@ -12,7 +12,7 @@ module.exports = {
         proxyTable: {
             '/ocm-web': {
                 // target: 'http://192.168.100.58', //测试
-                // target: 'http://182.150.55.64:8013', //测试在线
+                target: 'http://182.150.55.64:8013', //测试在线
                 // target: 'http://10.18.2.180:8082/', //王宇飞
                 // target: 'http://10.18.0.203:8080', //朱瑾
                 // target: 'http://10.18.3.240:8080',//王德鹏
@@ -21,7 +21,7 @@ module.exports = {
                 // target: 'http://10.18.1.239', //代凯
                 // target: 'http://10.18.0.210:8080',//尚玉杰
                 // target: 'http://10.18.3.87:8080', //孔庆鹏
-                target: 'http://c.langjiu.cn', //正式
+                // target: 'http://c.langjiu.cn', //正式
                 changeOrigin: true,
                 pathRewrite: {
                     '^/ocm-web': '/ocm-web'
