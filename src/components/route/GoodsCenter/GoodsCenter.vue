@@ -21,9 +21,9 @@
             class="goBuyGoods">去结算
             <i>{{selectedCount}}</i>
         </div>
-         <el-dialog 
-            title="待办事项提醒"  
-            :visible.sync="dialogVisible1" 
+         <el-dialog
+            title="待办事项提醒"
+            :visible.sync="dialogVisible1"
             width="500px"
             :show-close="false"
             :close-on-press-escape="false"
